@@ -7,11 +7,6 @@
 
 
 
-# TODO
-- Logboek aanvullen: http://masterproef.tiwi.ugent.be/logboek/
-- E-mailrapportering niet echt nodig aangezien we een wekenlijkse meeting hebben.
-- GitHub repo (private), met wekenlijkse eindcommit.
-
 # Purpose
 - Investigate how on a macroscopic level a reaction emerges as a response to the decision.
 - Parallel collective decisions that need to be related to each other in a particular time frame. 
