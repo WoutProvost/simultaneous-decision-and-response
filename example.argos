@@ -1,0 +1,140 @@
+<?xml version="1.0" ?>
+
+<argos-configuration>
+	<!-- Interal parameters of ARGoS itself -->
+	<framework>
+		<!--
+			- threads: the number of slave threads to parallelize the computation.
+			- method: the task assignment method for the threads.
+				- balance_quantity: divides the number tasks evenly among the threads.
+					Best used for homogeneous swarms.
+				- balance_length: a thread fetches a new task every time it is idle.
+					Best used for heterogeneous swarms.
+		-->
+		<system threads="0"
+				method="balance_quantity" />
+
+		<!--
+			- length: the time limit of the experiment in seconds.
+				Zero means no time limit.
+			- ticks_per_second: how many times per second the simulation step is executed.
+			- random_seed: the seed for the random number generator.
+				Zero means that the internal clock time is used.
+				Setting a specific value is necessary to obtain the same results across repetitions.
+		-->
+		<experiment length="0"
+					ticks_per_second="10"
+					random_seed="12345" />
+
+		<!--
+			- file: the file in which RAM and CPU usage data is written.
+			- format:
+				- human_readable: meant as easy-to-read.
+				- table: meant as easy-to-parse.
+			- trunate:
+				- true: the file is overwritten every time the simulation is rerun.
+				- false: the data will be appended to the file.
+		-->
+		<profiling file=""
+				   format=""
+				   truncate_file="" />
+	</framework>
+
+	<!-- Robot controllers to use -->
+	<controllers>
+		<!--
+			Each controller is identified by a user-defined tag and some attributes.
+			- id: a unique identifier for this controller.
+			- library: the path to the compiled library that contains the code.
+		-->
+		<my_controller id=""
+					   library="">
+			<!--
+				Actuators modify the sate of the robot or of the environment.
+				For a list of the possible actuators, type at the command prompt:
+				$ launch_argos -q actuators
+			-->
+			<actuators>
+			</actuators>
+
+			<!--
+				Sensors read states of other robots or of the environment.
+				For a list of the possible sensors, type at the command prompt:
+          		$ argos3 -q sensors
+			-->
+			<sensors>
+			</sensors>
+
+			<!-- User-defined XML tags to configure the controller -->
+			<params />
+		</my_controller>
+	</controllers>
+
+	<!--
+		Entities to add to the arena at the beginning of the experiment.
+		For a list of the possible entities, type at the command prompt:
+    	$ argos3 -q entities
+		To get help about a specific entity, type at the command prompt:
+		$ argos3 -q entity_name
+		- size: the size of the arena in 3 dimensions around the origin.
+	-->
+	<arena size="2, 2, 1" center="" positional_grid_size="">
+		<!--
+		It is also possible to distribute objects automatically using the distribute tag.
+		-->
+		<distribute>
+			<!--
+				How positions are generated for each entity to distribute.
+				- method:
+					- uniform: uses a uniform distribution. Additional attributes 'min' and 'max'.
+					- gaussian: uses a gaussian distribution. Additional attributes 'mean' and 'std_dev'.
+					- constant: uses a constant value. Additional attribute 'values' as a x,y,z triplet.
+					- grid: places robots on a grid. Additional attributes 'center', 'distances' and 'layout'.
+			-->
+			<position method="" />
+
+			<!--
+				How orientations are generated for each entity to distribute.
+				Same attributes as position.
+			-->
+			<orientation method="" />
+
+			<!--
+				The type of entity to distribute.
+				- quantity: how many robots to use.
+				- max_trials: the maximum number of placing attempts before throwing an error.
+				The 'id' specified for the entity type is used as a prefix for the added entities.
+				The 'base_num' attribute sets the base number for this id and defaults to zero.
+			-->
+			<entity quantity="" max_trials="">
+			</entity>
+		</distribute>
+	</arena>
+
+	<!--
+		Which physics engines to use and how they connect to each other.
+		For a list of the possible engines, type at the command prompt:
+		$ argos3 -q physics_engines
+	-->
+	<physics_engines>
+	</physics_engines>
+
+	<!--
+		Media to use for communication.
+		For a list of the possible media, type at the command prompt:
+		$ argos3 -q media
+	-->
+	<media>
+	</media>
+
+	<!--
+		Visualization set up, i.e. the windows that shows when running the experiment.
+		For a list of the possible visualizations, type at the command prompt:
+		$ argos3 -q visualizations
+	-->
+	<visualization>
+	</visualization>
+
+	<!-- Loop functions, which are a set of hook functions that are executed during the main loop -->
+	<loop_functions library="/path/to/libmy_loop_functions.so" label="my_loop_functions" />
+</argos-configuration>
