@@ -1,11 +1,45 @@
+# Donderdag 27-02-2020
+
+
+
+
+
+
+
+# Useful
+- Gripper bots and movable objects: gripping.argos
+- Custom labels drawing: id.argos
+- Custom trajectory drawing: trajectory.argos
+- Floor textures: foraging.argos
+- Communication: synchronization.argos
+
+# TODO
+- Gripping bots should have proximity sensors as well.
+- Gripping bots should have a speed variable as well.
+- Communicate with LEDs?
+- Do the gripping bots know the location of the gates or is this discovered by the swarm?
+- Represent fire with light source, or with a changing floor texture depending on the temperature (sensed by the bots)?
+- Distribute fire using random seed?
+- The fire should spread?
+- Once the bots have exited the gate, should they go to a predetermined location or just as far away from the fire as possible?
+
+
+
+- Heatmap + ground sensors (bottom sensors with gradient)
+- Geen meeting volgende week
+
+
+
+
+
+
+
+
 # Vrijdag 7-02-2020
 - Bedenk een scenario dat je kan uitwerken (evacuatie bij brand en 2 poorten en 2 soorten robots, temperatuursensors en grippers)
 - Experimenteer met ARGoS
 - Doe verder onderzoek naar artikels
-
-
-
-
+cd /mnt/c/Users/Wout/Documents/GitHub/swarm-robotics-thesis/code/build/
 
 # Purpose
 - Investigate how on a macroscopic level a reaction emerges as a response to the decision.
@@ -68,13 +102,15 @@
 - file:///C:/Users/Wout/Downloads/PAPER_BIOROB_Pisa_2006.pdf
 
 
-# Information about ARGoS
+# Information about Autonomous Robots Go Swarming (ARGoS)
 Multi-robot systems promise to provide efficient solutions for an ever increasing variety of different applications. It can simulate large-scale swarms of robots of any kind efficiently. You can customize ARGoS easily by adding new plug-ins. Three main requirements. Accuracy: Close similarity of a simulation with respect to reality. Flexibility: The ability to support any kind of robot, and any use case. Efficiency: The ability to optimize the exploitation of computational resources (CPU, memory) so as to achieve the shortest simulation run-time possible. ARGoS allows the user to add functionality in the form of new sensors, actuators, robot components, visualizations, and even new physics engines and new communication means. In ARGoS, physics engines are just a plug-in. The user can choose which physics engine to employ for a simulation.  A medium is a plug-in that implements suitable algorithms to simulate robot communication means. The main simulation loop is distributed across multiple threads. Two types of threads exist: master and slave. The master thread assigns tasks to the slaves. A tasks consists in the update of a single plug-in. The user can set the number of threads as part of the experiment configuration. An important aspect is that parallelism is embedded in the ARGoS core, but it is completely transparent for the plug-in developer. https://www.argos-sim.info/concepts.php
 
 To use ARGoS, you must run the command argos3. This command expects you to provide two kinds of input: An XML configuration file, typically with extension .argos AND user code compiled into one or more libraries. The configuration file contains all the information to set up the arena, the robots, the physics engines, the controllers, etc. User code includes robot controllers and, optionally, hook functions to be executed in various parts of ARGoS to interact with the running experiment.
 https://www.argos-sim.info/user_manual.php
 
-Explain file structure and maybe add documentation in code.
+Explain file structure and maybe add documentation in code. Use image from user manual.
+argos3 -h
+argos3 -q plugin_name
 
 # 1. A review of swarm robotics tasks
 

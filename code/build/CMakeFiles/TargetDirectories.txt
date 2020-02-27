@@ -1,0 +1,12 @@
+/mnt/c/Users/Wout/Documents/GitHub/swarm-robotics-thesis/code/build/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/Wout/Documents/GitHub/swarm-robotics-thesis/code/build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/Wout/Documents/GitHub/swarm-robotics-thesis/code/build/controllers/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/Wout/Documents/GitHub/swarm-robotics-thesis/code/build/controllers/CMakeFiles/edit_cache.dir
+/mnt/c/Users/Wout/Documents/GitHub/swarm-robotics-thesis/code/build/controllers/footbot_diffusion/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/Wout/Documents/GitHub/swarm-robotics-thesis/code/build/controllers/footbot_diffusion/CMakeFiles/footbot_diffusion.dir
+/mnt/c/Users/Wout/Documents/GitHub/swarm-robotics-thesis/code/build/controllers/footbot_diffusion/CMakeFiles/edit_cache.dir
+/mnt/c/Users/Wout/Documents/GitHub/swarm-robotics-thesis/code/build/controllers/footbot_diffusion/CMakeFiles/footbot_diffusion_autogen.dir
+/mnt/c/Users/Wout/Documents/GitHub/swarm-robotics-thesis/code/build/controllers/footbot_gripping/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/Wout/Documents/GitHub/swarm-robotics-thesis/code/build/controllers/footbot_gripping/CMakeFiles/footbot_gripping.dir
+/mnt/c/Users/Wout/Documents/GitHub/swarm-robotics-thesis/code/build/controllers/footbot_gripping/CMakeFiles/edit_cache.dir
+/mnt/c/Users/Wout/Documents/GitHub/swarm-robotics-thesis/code/build/controllers/footbot_gripping/CMakeFiles/footbot_gripping_autogen.dir

@@ -52,7 +52,7 @@
 			<!--
 				Actuators modify the sate of the robot or of the environment.
 				For a list of the possible actuators, type at the command prompt:
-				$ launch_argos -q actuators
+				$ argos3 -q actuators
 			-->
 			<actuators>
 			</actuators>
@@ -60,7 +60,7 @@
 			<!--
 				Sensors read states of other robots or of the environment.
 				For a list of the possible sensors, type at the command prompt:
-          		$ argos3 -q sensors
+		  		$ argos3 -q sensors
 			-->
 			<sensors>
 			</sensors>
@@ -72,13 +72,15 @@
 
 	<!--
 		Entities to add to the arena at the beginning of the experiment.
+		Position coordinates are in the X,Y,Z order.
+		Orientation angles are in the Z,Y,X order and uses degrees!
 		For a list of the possible entities, type at the command prompt:
-    	$ argos3 -q entities
+		$ argos3 -q entities
 		To get help about a specific entity, type at the command prompt:
 		$ argos3 -q entity_name
 		- size: the size of the arena in 3 dimensions around the origin.
 	-->
-	<arena size="2, 2, 1" center="" positional_grid_size="">
+	<arena size="2,2,1" center="" positional_grid_size="">
 		<!--
 		It is also possible to distribute objects automatically using the distribute tag.
 		-->
@@ -121,6 +123,7 @@
 
 	<!--
 		Media to use for communication.
+		To detect walls, add the 'leds' tag to the entities in the arena section.
 		For a list of the possible media, type at the command prompt:
 		$ argos3 -q media
 	-->
@@ -129,6 +132,7 @@
 
 	<!--
 		Visualization set up, i.e. the windows that shows when running the experiment.
+		Here you also set up the different camera positions.
 		For a list of the possible visualizations, type at the command prompt:
 		$ argos3 -q visualizations
 	-->

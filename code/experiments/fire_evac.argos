@@ -1,0 +1,119 @@
+<?xml version="1.0" ?>
+
+<argos-configuration>
+	<framework>
+		<experiment length="0" ticks_per_second="10" random_seed="12345" />
+		<system threads="0" method="balance_quality" />
+	</framework>
+
+	<controllers>
+		<footbot_diffusion_controller id="fdc" library="../build/controllers/footbot_diffusion/libfootbot_diffusion">
+			<actuators>
+				<differential_steering implementation="default" />
+			</actuators>
+			<sensors>
+				<footbot_proximity implementation="default" show_rays="true" />
+			</sensors>
+			<params alpha="7.5" delta="0.1" velocity="50" />
+		</footbot_diffusion_controller>
+
+		<footbot_gripping_controller id="fgc" library="../build/controllers/footbot_gripping/libfootbot_gripping">
+			<actuators>
+				<differential_steering implementation="default" />
+				<footbot_gripper implementation="default" />
+			</actuators>
+			<sensors />
+			<params />
+		</footbot_gripping_controller>
+	</controllers>
+
+	<arena size="20,20,1" center="0,0,0.5"> <!-- positional_grid_size -->
+		<!-- To set a custom floor texture, or dynamic floor colors -->
+		<!--<floor id="floor" source="" path="" />-->
+
+		<!-- Light for light sensors -->
+		<!--<light id="light" />-->
+
+		<!-- Configure a prototype entity -->
+		<!--<prototype></prototype>-->
+
+		<box id="bound_north" size="20,0.1,0.5" movable="false" mass="0.0">
+			<body position="0,10,0" orientation="0,0,0" />
+		</box>
+		<box id="bound_south" size="20,0.1,0.5" movable="false" mass="0.0">
+			<body position="0,-10,0" orientation="0,0,0" />
+		</box>
+		<box id="bound_east" size="0.1,20,0.5" movable="false" mass="0.0">
+			<body position="10,0,0" orientation="0,0,0" />
+		</box>
+		<box id="bound_west" size="0.1,20,0.5" movable="false" mass="0.0">
+			<body position="-10,0,0" orientation="0,0,0" />
+		</box>
+		<box id="wall_north_left" size="5,0.1,0.5" movable="false" mass="0.0">
+			<body position="-5.5,8,0" orientation="0,0,0" />
+		</box>
+		<box id="wall_north_mid" size="5,0.1,0.5" movable="false" mass="0.0">
+			<body position="0,8,0" orientation="0,0,0" />
+		</box>
+		<box id="wall_north_right" size="5,0.1,0.5" movable="false" mass="0.0">
+			<body position="5.5,8,0" orientation="0,0,0" />
+		</box>
+		<box id="wall_south_left" size="5,0.1,0.5" movable="false" mass="0.0">
+			<body position="-5.5,-8,0" orientation="0,0,0" />
+		</box>
+		<box id="wall_south_mid" size="5,0.1,0.5" movable="false" mass="0.0">
+			<body position="0,-8,0" orientation="0,0,0" />
+		</box>
+		<box id="wall_south_right" size="5,0.1,0.5" movable="false" mass="0.0">
+			<body position="5.5,-8,0" orientation="0,0,0" />
+		</box>
+		<box id="wall_east" size="0.1,16,0.5" movable="false" mass="0.0">
+			<body position="8,0,0" orientation="0,0,0" />
+		</box>
+		<box id="wall_west" size="0.1,16,0.5" movable="false" mass="0.0">
+			<body position="-8,0,0" orientation="0,0,0" />
+		</box>
+
+		<distribute>
+			<position method="uniform" min="-8,-8,0" max="8,8,0" />
+			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
+			<entity quantity="50" max_trials="100">
+				<foot-bot id="fdc">
+					<controller config="fdc" />
+				</foot-bot>
+			</entity>
+		</distribute>
+
+		<distribute>
+			<position method="uniform" min="-8,-8,0" max="8,8,0" />
+			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
+			<entity quantity="50" max_trials="100">
+				<foot-bot id="fgc">
+					<controller config="fgc" />
+				</foot-bot>
+			</entity>
+		</distribute>
+	</arena>
+
+	<physics_engines>
+		<dynamics2d id="dyn2d" iterations="10" elevation="0.0">
+			<friction box_linear_friction="1.49" box_angular_friction="1.49" cylinder_linear_friction="1.49" cylinder_angular_friction="1.49" />
+		</dynamics2d>
+	</physics_engines>
+
+	<media />
+	
+	<visualization>
+		<qt-opengl autoplay="false">
+			<camera>
+				<placement idx="0" position="0,0,16" look_at="0,0,0" up="0,1,0" lens_focal_length="20" />
+				<placement idx="1" position="0,0,16" look_at="0,0,0" up="1,0,0" lens_focal_length="20" />
+				<placement idx="2" position="0,0,16" look_at="0,0,0" up="0,-1,0" lens_focal_length="20" />
+				<placement idx="3" position="0,0,16" look_at="0,0,0" up="-1,0,0" lens_focal_length="20" />
+			</camera>
+		</qt-opengl>
+	</visualization>
+
+	<!--<loop_functions />-->
+
+</argos-configuration>
