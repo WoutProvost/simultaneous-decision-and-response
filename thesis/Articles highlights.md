@@ -1,4 +1,5 @@
 # Donderdag 27-02-2020
+- Heatmap + ground sensors (bottom sensors with gradient)
 
 
 
@@ -22,11 +23,6 @@
 - Distribute fire using random seed?
 - The fire should spread?
 - Once the bots have exited the gate, should they go to a predetermined location or just as far away from the fire as possible?
-
-
-
-- Heatmap + ground sensors (bottom sensors with gradient)
-- Geen meeting volgende week
 
 
 

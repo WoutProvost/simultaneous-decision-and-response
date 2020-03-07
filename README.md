@@ -26,10 +26,9 @@ mkdir build
 cd build
 cmake ..
 make
-cd ..
 ```
 
 ## Execution:
 ```bash
-argos3 -c experiments/fire_evac.argos
+argos3 -c ../experiments/fire_evac.argos
 ```
