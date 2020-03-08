@@ -15,7 +15,7 @@ source ~/.bashrc
 ```bash
 git clone https://github.com/WoutProvost/swarm-robotics-thesis
 cd swarm-robotics-thesis
-sudo dpkg -i argos3_simulator-*.deb
+sudo dpkg -i download/argos3_simulator-*.deb
 sudo apt --fix-broken install
 ```
 
