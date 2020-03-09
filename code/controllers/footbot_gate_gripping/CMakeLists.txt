@@ -1,0 +1,6 @@
+add_library(footbot_gate_gripping MODULE footbot_gate_gripping.h footbot_gate_gripping.cpp)
+target_link_libraries(footbot_gate_gripping
+  footbot_base
+  argos3core_simulator
+  argos3plugin_simulator_footbot
+  argos3plugin_simulator_genericrobot)

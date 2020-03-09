@@ -7,26 +7,27 @@
 	</framework>
 
 	<controllers>
-		<!-- TODO -->
-		<!--<footbot_diffusion_controller id="fdc" library="../build/controllers/footbot_diffusion/libfootbot_diffusion">
+		<!-- Gate gripping robots -->
+		<footbot_gate_gripping_controller id="fb_gg" library="../build/controllers/footbot_gate_gripping/libfootbot_gate_gripping">
 			<actuators>
 				<differential_steering implementation="default" />
 			</actuators>
 			<sensors>
 				<footbot_proximity implementation="default" show_rays="true" />
 			</sensors>
-			<params alpha="7.5" delta="0.1" velocity="50" />
-		</footbot_diffusion_controller>-->
+			<params velocity="5" max_angle_between_heading_and_obstacle="7.5" max_obstacle_proximity="0.1" />
+		</footbot_gate_gripping_controller>
 
-		<!-- TODO -->
-		<!--<footbot_gripping_controller id="fgc" library="../build/controllers/footbot_gripping/libfootbot_gripping">
+		<!-- Temperature sensing robots -->
+		<footbot_temperature_sensing_controller id="fb_ts" library="../build/controllers/footbot_temperature_sensing/libfootbot_temperature_sensing">
 			<actuators>
 				<differential_steering implementation="default" />
-				<footbot_gripper implementation="default" />
 			</actuators>
-			<sensors />
-			<params />
-		</footbot_gripping_controller>-->
+			<sensors>
+				<footbot_proximity implementation="default" show_rays="true" />
+			</sensors>
+			<params velocity="5" max_angle_between_heading_and_obstacle="7.5" max_obstacle_proximity="0.1" />
+		</footbot_temperature_sensing_controller>
 	</controllers>
 
 	<arena size="15,15,1" center="0,0,0.5">
@@ -78,29 +79,27 @@
 		<!-- Fire -->
 		<!--<light id="fire" position="0.4,2.3,0.25" orientation="0,0,0" color="yellow" intensity="1.0" medium="leds" />-->
 
-		<!-- TODO -->
-		<!-- Temperature sensing robots -->
-		<!--<distribute>
-			<position method="uniform" min="-8,-8,0" max="8,8,0" />
+		<!-- Gate gripping robots -->
+		<distribute>
+			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
 			<entity quantity="100" max_trials="100">
-				<foot-bot id="fdc">
-					<controller config="fdc" />
+				<foot-bot id="fb_gg">
+					<controller config="fb_gg" />
 				</foot-bot>
 			</entity>
-		</distribute>-->
+		</distribute>
 
-		<!-- TODO -->
-		<!-- Grippers robbots -->
-		<!--<distribute>
-			<position method="uniform" min="-8,-8,0" max="8,8,0" />
+		<!-- Temperature sensing robots -->
+		<distribute>
+			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
 			<entity quantity="100" max_trials="100">
-				<foot-bot id="fgc">
-					<controller config="fgc" />
+				<foot-bot id="fb_ts">
+					<controller config="fb_ts" />
 				</foot-bot>
 			</entity>
-		</distribute>-->
+		</distribute>
 	</arena>
 
 	<physics_engines>

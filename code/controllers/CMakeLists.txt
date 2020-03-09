@@ -1,4 +1,5 @@
 include_directories(${CMAKE_SOURCE_DIR}/controllers)
 
-add_subdirectory(footbot_diffusion)
-add_subdirectory(footbot_gripping)
+add_subdirectory(footbot_base)
+add_subdirectory(footbot_gate_gripping)
+add_subdirectory(footbot_temperature_sensing)

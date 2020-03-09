@@ -19,7 +19,7 @@
 			- length: the time limit of the experiment in seconds.
 				Zero means no time limit.
 			- ticks_per_second: how many times per second the simulation step is executed.
-				See also CCI_Controller::Step().
+				See also CCI_Controller::ControlStep().
 			- random_seed: the seed for the random number generator.
 				Zero means that the internal clock time is used.
 				Setting a specific value is necessary to obtain the same results across repetitions.

@@ -1,0 +1,6 @@
+add_library(footbot_temperature_sensing MODULE footbot_temperature_sensing.h footbot_temperature_sensing.cpp)
+target_link_libraries(footbot_temperature_sensing
+  footbot_base
+  argos3core_simulator
+  argos3plugin_simulator_footbot
+  argos3plugin_simulator_genericrobot)
