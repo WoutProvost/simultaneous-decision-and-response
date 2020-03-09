@@ -1,42 +1,3 @@
-# Donderdag 27-02-2020
-- Heatmap + ground sensors (bottom sensors with gradient)
-
-
-
-
-
-
-
-# Useful
-- Gripper bots and movable objects: gripping.argos
-- Custom labels drawing: id.argos
-- Custom trajectory drawing: trajectory.argos
-- Floor textures: foraging.argos
-- Communication: synchronization.argos
-
-# TODO
-- Gripping bots should have proximity sensors as well.
-- Gripping bots should have a speed variable as well.
-- Communicate with LEDs?
-- Do the gripping bots know the location of the gates or is this discovered by the swarm?
-- Represent fire with light source, or with a changing floor texture depending on the temperature (sensed by the bots)?
-- Distribute fire using random seed?
-- The fire should spread?
-- Once the bots have exited the gate, should they go to a predetermined location or just as far away from the fire as possible?
-
-
-
-
-
-
-
-
-# Vrijdag 7-02-2020
-- Bedenk een scenario dat je kan uitwerken (evacuatie bij brand en 2 poorten en 2 soorten robots, temperatuursensors en grippers)
-- Experimenteer met ARGoS
-- Doe verder onderzoek naar artikels
-cd /mnt/c/Users/Wout/Documents/GitHub/swarm-robotics-thesis/code/build/
-
 # Purpose
 - Investigate how on a macroscopic level a reaction emerges as a response to the decision.
 - Parallel collective decisions that need to be related to each other in a particular time frame. 
@@ -66,25 +27,20 @@ cd /mnt/c/Users/Wout/Documents/GitHub/swarm-robotics-thesis/code/build/
 - 'Symmetry-breaking problems, in which the available options are of the same quality and hence, it is not important for which of the options the system decides but that it collectively agrees on one'. So each option is of equal quality.
 - Parallelizing the collective response with the collective decision is of a high benefit due to the time constraint.
 
-# Questions
+# Questions and answers
 - Simulation using 'sensors' or learning approach using reward systems. See ARGoS.
 - What will these sensors sense and or transmit, in other words in what way will the agents detect or announce their presence to the other agents.
 - What global goal or task will the simulation use, perhaps the task mentioned on Plato? Foraging with some kind of energy sources? Migrating the nest to a side of the arena?
-- How many agents N (scale from lowerbound to upperbound for analysis). 50 to 100 and scale environment, arena size should pack 500 and use 100.
+- How many agents N (scale from lowerbound to upperbound for analysis). 50 to 100 and scale environment => arena size should pack 500 and use 100.
 - Communication/voting mechanism? Is this even needed and/or scalable?
 - What metrics will be used for analysis and how will the analysis be executed (i.e. what parameters shall be tracked). Last article is a very good example. Degree of coherence, how quick it converges to the decision, how many times it picks the correct decision and response.
 - p.4 Rate equation.
 - accuracy vs. cohesion
 - Case Study I-A, I-B and II are great implementation examples of macroscopic parameterisation and analysis
-- How many iterations for analysis, at least 30.
-- When do we consider the cohesion a success (100%, 90%, ...), i.e. the quorum and what is the maximum execution time. Significant majority, starting from 80%.
+- How many iterations for analysis => at least 30.
+- When do we consider the cohesion a success (100%, 90%, ...), i.e. the quorum and what is the maximum execution time => Significant majority, starting from 80%.
 - What parameters do we use to track the emergence of a collective response.
 - See **IMPORTANT** tag.
-- Search for additional articles on the given concepts.
-
-
-
-
 
 # Other articles to read
 - https://www.sciencedirect.com/science/article/pii/B0080430767031107
@@ -96,7 +52,6 @@ cd /mnt/c/Users/Wout/Documents/GitHub/swarm-robotics-thesis/code/build/
 - https://lib.ugent.be/fulltxt/RUG01/002/495/054/RUG01-002495054_2018_0001_AC.pdf
 - file:///C:/Users/Wout/Downloads/PAPER_2012_IntJournalRoboticsResearch.pdf
 - file:///C:/Users/Wout/Downloads/PAPER_BIOROB_Pisa_2006.pdf
-
 
 # Information about Autonomous Robots Go Swarming (ARGoS)
 Multi-robot systems promise to provide efficient solutions for an ever increasing variety of different applications. It can simulate large-scale swarms of robots of any kind efficiently. You can customize ARGoS easily by adding new plug-ins. Three main requirements. Accuracy: Close similarity of a simulation with respect to reality. Flexibility: The ability to support any kind of robot, and any use case. Efficiency: The ability to optimize the exploitation of computational resources (CPU, memory) so as to achieve the shortest simulation run-time possible. ARGoS allows the user to add functionality in the form of new sensors, actuators, robot components, visualizations, and even new physics engines and new communication means. In ARGoS, physics engines are just a plug-in. The user can choose which physics engine to employ for a simulation.  A medium is a plug-in that implements suitable algorithms to simulate robot communication means. The main simulation loop is distributed across multiple threads. Two types of threads exist: master and slave. The master thread assigns tasks to the slaves. A tasks consists in the update of a single plug-in. The user can set the number of threads as part of the experiment configuration. An important aspect is that parallelism is embedded in the ARGoS core, but it is completely transparent for the plug-in developer. https://www.argos-sim.info/concepts.php
