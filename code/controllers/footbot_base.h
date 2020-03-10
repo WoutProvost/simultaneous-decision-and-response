@@ -3,31 +3,36 @@
 
 #include <argos3/core/control_interface/ci_controller.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_differential_steering_actuator.h>
+#include <argos3/plugins/robots/generic/control_interface/ci_leds_actuator.h>
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_proximity_sensor.h>
 
 using namespace argos;
+using std::string;
 
 class CFootBotBase : public CCI_Controller {
 
 	private:
 		// Actuators
-		CCI_DifferentialSteeringActuator* m_pcDifferentialSteeringActuator;
+		CCI_DifferentialSteeringActuator *differentialSteeringActuator;
+		CCI_LEDsActuator *ledsActuator;
 
 		// Sensors
-		CCI_FootBotProximitySensor* m_pcProximitySensor;
+		CCI_FootBotProximitySensor *footBotProximitySensor;
 
 		// Params
-		Real m_fVelocity;
-		CDegrees m_cMaxAngleBetweenHeadingAndObstacle;
-		Real m_fMaxObstacleProximity;
+		Real velocity;
+		CDegrees maxAngleBetweenHeadingAndObstacle;
+		Real maxObstacleProximity;
+		string ledsColorString;
 
 		// Other attributes
-		CRange<CRadians> m_cGoStraightAngleRange;
+		CRange<CRadians> doNotTurnAngleRange;
+		CColor ledsColor;
 
 	public:
 		CFootBotBase();
 
-		virtual void Init(TConfigurationNode& t_node);
+		virtual void Init(TConfigurationNode &t_node);
 		virtual void ControlStep();
 
 };

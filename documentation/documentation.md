@@ -98,6 +98,9 @@ This sensor accesses the foot-bot turret encoder.
 
 ## Footbot proximity
 This sensor accesses the foot-bot proximity sensor.
+The sensors all return a value between 0 and 1, where 0 means nothing within range and 1 means an external object is touching the sensor.
+With the show_rays option, you can see whether or not a target was partially occluded by another object in the simulation (cyan=unobstructed, purple=obstructed).
+It is possible to add uniform noise to the blobs, thus matching the characteristics of a real robot better.
 
 ## Footbot base ground (rot_z_only)
 This sensor accesses the foot-bot base ground sensor.
@@ -110,6 +113,7 @@ This sensor accesses a set of light sensors.
 The sensors all return a value between 0 and 1, where 0 means nothing within range and 1 means the perceived light saturates the sensor.
 With the show_rays option, you can see whether or not a target was partially occluded by another object in the simulation (cyan=unobstructed, purple=obstructed).
 It is possible to add uniform noise to the sensor, thus matching the characteristics of a real robot better.
+For larger swarms it's good practice to selectively toggle the sensor on or off to prevent a performance impact.
 
 ## Epuck proximity
 This sensor accesses a set of proximity sensors.

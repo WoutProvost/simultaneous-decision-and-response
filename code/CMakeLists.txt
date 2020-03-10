@@ -1,43 +1,38 @@
-cmake_minimum_required(VERSION 2.8.12)
-project(fire_evac)
+cmake_minimum_required(VERSION 3.10)
+project(fire_evacuation
+	VERSION 1.0.0
+	DESCRIPTION "Swarm robotics and collective decision making in a fire evacution scenario"
+	#HOMEPAGE_URL "https://github.com/WoutProvost/swarm-robotics-thesis"
+	LANGUAGES CXX)
 
-# MacOSX
-if(APPLE)
-  option(ASAN "Use Clang Address Sanitizer in Debug builds")
-  if(ASAN)
-    # Add address sanitizer support for CLang
-    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -fsanitize=address -fno-optimize-sibling-calls -fno-omit-frame-pointer")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address -fno-optimize-sibling-calls -fno-omit-frame-pointer")
-    set(CMAKE_MODULE_LINKER_FLAGS_DEBUG "${CMAKE_MODULE_LINKER_FLAGS_DEBUG} -fsanitize=address")
-    set(CMAKE_SHARED_LINKER_FLAGS_DEBUG "${CMAKE_MODULE_LINKER_FLAGS_DEBUG} -fsanitize=address")
-    set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_MODULE_LINKER_FLAGS_DEBUG} -fsanitize=address")
-  endif(ASAN)
-endif(APPLE)
-set(CMAKE_MACOSX_RPATH 0)
-
-# Find the ARGoS package, make sure to save the ARGoS prefix
+# Find the PkgConfig package, for the pkg_check_modules method
 find_package(PkgConfig)
+
+# Find the ARGoS package
 pkg_check_modules(ARGOS REQUIRED argos3_simulator)
+
+# Set the ARGoS prefix
 set(ARGOS_PREFIX ${ARGOS_PREFIX} CACHE INTERNAL "")
+
+# Add a path to the list of directories for packages that should be checked first before the default packages, for the find_package and include methods
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ARGOS_PREFIX}/share/argos3/cmake)
 
-# Check whether all the necessary libs have been installed to compile the code that depends on Qt and OpenGL
-include(ARGoSCheckQTOpenGL)
-
-# Find Lua
+# Find the Lua package
 find_package(Lua53 REQUIRED)
 
-# Set ARGoS include dir
-include_directories(${CMAKE_SOURCE_DIR} ${ARGOS_INCLUDE_DIRS} ${LUA_INCLUDE_DIR})
+# Check whether all the necessary libraries have been installed to compile the code that depends on Qt and OpenGL
+include(ARGoSCheckQTOpenGL)
 
-# Set ARGoS link dir
+# Add these directories to those the compiler uses to search for include files
+include_directories(${CMAKE_SOURCE_DIR} ${ARGOS_INCLUDE_DIRS} ${LUA_INCLUDE_DIR})
+include_directories(controllers)
+include_directories(loop_functions)
+include_directories(user_functions)
+
+# Add these directories to those the linker uses to search for libraries
 link_directories(${ARGOS_LIBRARY_DIRS})
 
-# Descend into the controllers directory
+# Descend into these subdirectories
 add_subdirectory(controllers)
-
-# Descend into the loop_functions directory
 add_subdirectory(loop_functions)
-
-# Descend into the user_functions directory
 add_subdirectory(user_functions)

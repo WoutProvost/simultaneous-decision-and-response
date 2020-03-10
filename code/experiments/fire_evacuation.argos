@@ -8,25 +8,28 @@
 
 	<controllers>
 		<!-- Gate gripping robots -->
-		<footbot_gate_gripping_controller id="fb_gg" library="../build/controllers/footbot_gate_gripping/libfootbot_gate_gripping">
+		<footbot_gate_gripping_controller id="fb_gg" library="../build/controllers/libfootbot_gate_gripping">
 			<actuators>
 				<differential_steering implementation="default" />
+				<leds implementation="default" medium="leds" />
+				<footbot_gripper implementation="default" />
 			</actuators>
 			<sensors>
 				<footbot_proximity implementation="default" show_rays="true" />
 			</sensors>
-			<params velocity="5" max_angle_between_heading_and_obstacle="7.5" max_obstacle_proximity="0.1" />
+			<params velocity="5" max_angle_between_heading_and_obstacle="7.5" max_obstacle_proximity="0.1" leds_color="black" />
 		</footbot_gate_gripping_controller>
 
 		<!-- Temperature sensing robots -->
-		<footbot_temperature_sensing_controller id="fb_ts" library="../build/controllers/footbot_temperature_sensing/libfootbot_temperature_sensing">
+		<footbot_temperature_sensing_controller id="fb_ts" library="../build/controllers/libfootbot_temperature_sensing">
 			<actuators>
 				<differential_steering implementation="default" />
+				<leds implementation="default" medium="leds" />
 			</actuators>
 			<sensors>
 				<footbot_proximity implementation="default" show_rays="true" />
 			</sensors>
-			<params velocity="5" max_angle_between_heading_and_obstacle="7.5" max_obstacle_proximity="0.1" />
+			<params velocity="5" max_angle_between_heading_and_obstacle="7.5" max_obstacle_proximity="0.1" leds_color="white" />
 		</footbot_temperature_sensing_controller>
 	</controllers>
 
@@ -83,7 +86,7 @@
 		<distribute>
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
-			<entity quantity="100" max_trials="100">
+			<entity quantity="50" max_trials="100">
 				<foot-bot id="fb_gg">
 					<controller config="fb_gg" />
 				</foot-bot>
@@ -94,7 +97,7 @@
 		<distribute>
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
-			<entity quantity="100" max_trials="100">
+			<entity quantity="50" max_trials="100">
 				<foot-bot id="fb_ts">
 					<controller config="fb_ts" />
 				</foot-bot>
@@ -108,7 +111,9 @@
 		</dynamics2d>
 	</physics_engines>
 
-	<media />
+	<media>
+		<led id="leds" />
+	</media>
 	
 	<visualization>
 		<qt-opengl autoplay="false">

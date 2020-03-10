@@ -20,5 +20,5 @@ make
 
 ## Execution:
 ```bash
-argos3 -c ../experiments/fire_evac.argos
+argos3 -c ../experiments/fire_evacuation.argos
 ```

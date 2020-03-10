@@ -1,5 +1,0 @@
-add_library(footbot_base SHARED footbot_base.h footbot_base.cpp)
-target_link_libraries(footbot_base
-  argos3core_simulator
-  argos3plugin_simulator_footbot
-  argos3plugin_simulator_genericrobot)

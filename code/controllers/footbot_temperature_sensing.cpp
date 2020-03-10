@@ -1,8 +1,9 @@
 #include "footbot_temperature_sensing.h"
 
-CFootBotTemperatureSensing::CFootBotTemperatureSensing() {}
+CFootBotTemperatureSensing::CFootBotTemperatureSensing() {
+}
 
-void CFootBotTemperatureSensing::Init(TConfigurationNode& t_node) {
+void CFootBotTemperatureSensing::Init(TConfigurationNode &t_node) {
     // Call base class method
     CFootBotBase::Init(t_node);
 }

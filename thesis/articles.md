@@ -26,6 +26,7 @@
 - Which task fits best this clause: 'Agents that move in a 2D environment to explore and discover options'
 - 'Symmetry-breaking problems, in which the available options are of the same quality and hence, it is not important for which of the options the system decides but that it collectively agrees on one'. So each option is of equal quality.
 - Parallelizing the collective response with the collective decision is of a high benefit due to the time constraint.
+- Bij schrijven van thesis, bekijk de .h files in de argos repository om meer informatie te krijgen over de actuators en sensoren (https://github.com/ilpincy/argos3/tree/master/src/plugins/robots/foot-bot/control_interface).
 
 # Questions and answers
 - Simulation using 'sensors' or learning approach using reward systems. See ARGoS.
