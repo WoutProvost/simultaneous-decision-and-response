@@ -8,26 +8,30 @@
 
 	<controllers>
 		<!-- Gate gripping robots -->
-		<footbot_gate_gripping_controller id="fb_gg" library="../build/controllers/libfootbot_gate_gripping">
+		<footbot_gate_gripping_controller id="footbot_gate_gripping_controller" library="../build/controllers/libfootbot_gate_gripping">
 			<actuators>
 				<differential_steering implementation="default" />
-				<leds implementation="default" medium="leds" />
+				<leds implementation="default" medium="led_medium" />
+				<range_and_bearing implementation="default" />
 				<footbot_gripper implementation="default" />
 			</actuators>
 			<sensors>
 				<footbot_proximity implementation="default" show_rays="true" />
+				<range_and_bearing implementation="medium" medium="range_and_bearing_medium" show_rays="true" />
 			</sensors>
 			<params velocity="5" max_angle_between_heading_and_obstacle="7.5" max_obstacle_proximity="0.1" leds_color="black" />
 		</footbot_gate_gripping_controller>
 
 		<!-- Temperature sensing robots -->
-		<footbot_temperature_sensing_controller id="fb_ts" library="../build/controllers/libfootbot_temperature_sensing">
+		<footbot_temperature_sensing_controller id="footbot_temperature_sensing_controller" library="../build/controllers/libfootbot_temperature_sensing">
 			<actuators>
 				<differential_steering implementation="default" />
-				<leds implementation="default" medium="leds" />
+				<leds implementation="default" medium="led_medium" />
+				<range_and_bearing implementation="default" />
 			</actuators>
 			<sensors>
 				<footbot_proximity implementation="default" show_rays="true" />
+				<range_and_bearing implementation="medium" medium="range_and_bearing_medium" show_rays="true" />
 			</sensors>
 			<params velocity="5" max_angle_between_heading_and_obstacle="7.5" max_obstacle_proximity="0.1" leds_color="white" />
 		</footbot_temperature_sensing_controller>
@@ -80,15 +84,18 @@
 
 		<!-- TODO -->
 		<!-- Fire -->
-		<!--<light id="fire" position="0.4,2.3,0.25" orientation="0,0,0" color="yellow" intensity="1.0" medium="leds" />-->
+		<!--<light id="fire_light" position="0.4,2.3,0.25" orientation="0,0,0" color="yellow" intensity="1.0" medium="led_medium" />-->
 
 		<!-- Gate gripping robots -->
 		<distribute>
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
 			<entity quantity="50" max_trials="100">
-				<foot-bot id="fb_gg">
-					<controller config="fb_gg" />
+				<foot-bot id="fb_gg_" rab_range="3" rab_data_size="10">
+					<controller config="footbot_gate_gripping_controller" />
+					<dynamics2d>
+						<differential_steering max_force="15" max_torque="150" />
+					</dynamics2d>
 				</foot-bot>
 			</entity>
 		</distribute>
@@ -98,21 +105,25 @@
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
 			<entity quantity="50" max_trials="100">
-				<foot-bot id="fb_ts">
-					<controller config="fb_ts" />
+				<foot-bot id="fb_ts_" rab_range="3" rab_data_size="10">
+					<controller config="footbot_temperature_sensing_controller" />
+					<dynamics2d>
+						<differential_steering max_force="15" max_torque="150" />
+					</dynamics2d>
 				</foot-bot>
 			</entity>
 		</distribute>
 	</arena>
 
 	<physics_engines>
-		<dynamics2d id="dyn2d" iterations="10" elevation="0.0">
+		<dynamics2d id="dynamics2d_physics_engine" iterations="10" elevation="0.0">
 			<friction box_linear_friction="1.49" box_angular_friction="1.49" cylinder_linear_friction="1.49" cylinder_angular_friction="1.49" />
 		</dynamics2d>
 	</physics_engines>
 
 	<media>
-		<led id="leds" />
+		<led id="led_medium" />
+		<range_and_bearing id="range_and_bearing_medium" check_occlusions="true" />
 	</media>
 	
 	<visualization>

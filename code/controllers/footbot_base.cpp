@@ -5,7 +5,9 @@
 CFootBotBase::CFootBotBase() :
 	differentialSteeringActuator(NULL),
 	ledsActuator(NULL),
+	rangeAndBearingActuator(NULL),
 	footBotProximitySensor(NULL),
+	rangeAndBearingSensor(NULL),
 	velocity(2.5f),
 	maxAngleBetweenHeadingAndObstacle(10.0f),
 	maxObstacleProximity(0.5f),
@@ -18,7 +20,9 @@ void CFootBotBase::Init(TConfigurationNode &t_node) {
 	// Get actuators and sensors
 	differentialSteeringActuator = GetActuator<CCI_DifferentialSteeringActuator>("differential_steering");
 	ledsActuator = GetActuator<CCI_LEDsActuator>("leds");
+	rangeAndBearingActuator = GetActuator<CCI_RangeAndBearingActuator>("range_and_bearing");
 	footBotProximitySensor = GetSensor<CCI_FootBotProximitySensor>("footbot_proximity");
+	rangeAndBearingSensor = GetSensor<CCI_RangeAndBearingSensor>("range_and_bearing");
 
 	// Parse the configuration file for params
 	GetNodeAttributeOrDefault(t_node, "velocity", velocity, velocity);
