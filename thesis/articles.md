@@ -27,7 +27,7 @@
 - Which task fits best this clause: 'Agents that move in a 2D environment to explore and discover options'
 - 'Symmetry-breaking problems, in which the available options are of the same quality and hence, it is not important for which of the options the system decides but that it collectively agrees on one'. So each option is of equal quality.
 - Parallelizing the collective response with the collective decision is of a high benefit due to the time constraint.
-- Bij schrijven van thesis, bekijk de .h files in de argos repository om meer informatie te krijgen over de actuators en sensoren (https://github.com/ilpincy/argos3/tree/master/src/plugins/robots/foot-bot/control_interface).
+- Bij schrijven van thesis, bekijk de .h files in de argos repository, de documentatie op de argos website, de command help en de eigen documentatie (want paar dingen aan toegevoegd daar) in de markdown file om meer informatie te krijgen over de actuators, de sensoren, de media en de bots (https://github.com/ilpincy/argos3/tree/master/src/plugins/robots/foot-bot/control_interface). Media en bots bekijken is dus ook belangrijk.
 - Vermeld allerlei settings en weggelaten default values vanuit de configuration file.
 
 # Questions and answers

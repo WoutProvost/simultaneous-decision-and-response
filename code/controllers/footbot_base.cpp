@@ -8,6 +8,7 @@ CFootBotBase::CFootBotBase() :
 	rangeAndBearingActuator(NULL),
 	footBotProximitySensor(NULL),
 	rangeAndBearingSensor(NULL),
+    coloredBlobOmnidirectionalCameraSensor(NULL),
 	velocity(2.5f),
 	maxAngleBetweenHeadingAndObstacle(10.0f),
 	maxObstacleProximity(0.5f),
@@ -23,6 +24,7 @@ void CFootBotBase::Init(TConfigurationNode &t_node) {
 	rangeAndBearingActuator = GetActuator<CCI_RangeAndBearingActuator>("range_and_bearing");
 	footBotProximitySensor = GetSensor<CCI_FootBotProximitySensor>("footbot_proximity");
 	rangeAndBearingSensor = GetSensor<CCI_RangeAndBearingSensor>("range_and_bearing");
+    coloredBlobOmnidirectionalCameraSensor = GetSensor<CCI_ColoredBlobOmnidirectionalCameraSensor>("colored_blob_omnidirectional_camera");
 
 	// Parse the configuration file for params
 	GetNodeAttributeOrDefault(t_node, "velocity", velocity, velocity);

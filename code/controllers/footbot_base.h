@@ -7,6 +7,7 @@
 #include <argos3/plugins/robots/generic/control_interface/ci_range_and_bearing_actuator.h>
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_proximity_sensor.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_range_and_bearing_sensor.h>
+#include <argos3/plugins/robots/generic/control_interface/ci_colored_blob_omnidirectional_camera_sensor.h>
 
 using namespace argos;
 using std::string;
@@ -22,6 +23,7 @@ class CFootBotBase : public CCI_Controller {
 		// Sensors
 		CCI_FootBotProximitySensor *footBotProximitySensor;
 		CCI_RangeAndBearingSensor *rangeAndBearingSensor;
+		CCI_ColoredBlobOmnidirectionalCameraSensor *coloredBlobOmnidirectionalCameraSensor;
 
 		// Params
 		Real velocity;

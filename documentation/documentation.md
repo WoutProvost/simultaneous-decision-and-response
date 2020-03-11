@@ -37,9 +37,13 @@ Allows robots to perform situated communication, i.e., a form of wireless commun
 
 ## LED
 This medium is required to manage the LED entities, thus allowing the associated camera sensors to work properly.
+The color of the light is perceived by cameras.
+The intensity of the light is perceived by light sensors.
 
 ## Directional LED
 This medium is required to manage the directional LED entities, thus allowing the associated camera sensors to work properly.
+The color of the light is perceived by cameras.
+The intensity of the light is perceived by light sensors.
 
 ## Tag
 This medium is required to manage the tag/qrcodes entities, so that the associated camera sensors can find them.

@@ -18,6 +18,7 @@
 			<sensors>
 				<footbot_proximity implementation="default" show_rays="true" />
 				<range_and_bearing implementation="medium" medium="range_and_bearing_medium" show_rays="true" />
+				<colored_blob_omnidirectional_camera implementation="rot_z_only" medium="led_medium" show_rays="true" />
 			</sensors>
 			<params velocity="5" max_angle_between_heading_and_obstacle="7.5" max_obstacle_proximity="0.1" leds_color="black" />
 		</footbot_gate_gripping_controller>
@@ -32,6 +33,7 @@
 			<sensors>
 				<footbot_proximity implementation="default" show_rays="true" />
 				<range_and_bearing implementation="medium" medium="range_and_bearing_medium" show_rays="true" />
+				<colored_blob_omnidirectional_camera implementation="rot_z_only" medium="led_medium" show_rays="true" />
 				<footbot_light implementation="rot_z_only" show_rays="true" />
 			</sensors>
 			<params velocity="5" max_angle_between_heading_and_obstacle="7.5" max_obstacle_proximity="0.1" leds_color="white" />
