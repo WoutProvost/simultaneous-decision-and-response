@@ -32,6 +32,7 @@
 			<sensors>
 				<footbot_proximity implementation="default" show_rays="true" />
 				<range_and_bearing implementation="medium" medium="range_and_bearing_medium" show_rays="true" />
+				<footbot_light implementation="rot_z_only" show_rays="true" />
 			</sensors>
 			<params velocity="5" max_angle_between_heading_and_obstacle="7.5" max_obstacle_proximity="0.1" leds_color="white" />
 		</footbot_temperature_sensing_controller>
@@ -78,14 +79,6 @@
 			</entity>
 		</distribute>
 
-		<!-- TODO -->
-		<!-- Floor -->
-		<!--<floor id="floor" source="loop_functions" pixels_per_meter="100" />-->
-
-		<!-- TODO -->
-		<!-- Fire -->
-		<!--<light id="fire_light" position="0.4,2.3,0.25" orientation="0,0,0" color="yellow" intensity="1.0" medium="led_medium" />-->
-
 		<!-- Gate gripping robots -->
 		<distribute>
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
@@ -113,6 +106,19 @@
 				</foot-bot>
 			</entity>
 		</distribute>
+
+		<!-- Fire -->
+		<distribute>
+			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
+			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
+			<entity quantity="1" max_trials="100">
+				<light id="fire_light" color="yellow" intensity="1.0" medium="led_medium" />
+			</entity>
+		</distribute>
+
+		<!-- TODO -->
+		<!-- Floor -->
+		<!--<floor id="floor" source="loop_functions" pixels_per_meter="100" />-->
 	</arena>
 
 	<physics_engines>
@@ -129,7 +135,7 @@
 	<visualization>
 		<qt-opengl autoplay="false">
 			<camera>
-				<placement idx="0" position="0,0,12.25" look_at="0,0,0" up="0,1,0" lens_focal_length="20" frame_diagonal="35" />
+				<placement idx="0" position="0,0,1" look_at="-0.989633,-0.119329,0.920085" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
 				<placement idx="1" position="0,5,0.5" look_at="0,6,0.25" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
 				<placement idx="2" position="0,-5,0.5" look_at="0,-6,0.25" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
 				<placement idx="3" position="0,0,12.25" look_at="0,0,0" up="0,1,0" lens_focal_length="20" frame_diagonal="35" />

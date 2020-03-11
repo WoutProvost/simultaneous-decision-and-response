@@ -9,6 +9,7 @@
 - agents can communicate with their immediate neighbours and take individual decisions
 - the decision and response fases overlap and thus run parallel to each other
 - quality of each option is equal? Since which option is chosen is not important
+- A robot colony is in some kind of nest with 2 or more exits, each blocked by a gate. There are 2 kinds of robots: sensors and grippers. The sensors detect temperature (light intensity) and the grippers have the means of opening the gates. There is a fire hazard in the nest, so the swarm must evacuate. Depending on the position of the fire, the swarm decides on one of the exits. In some scenarios the fire might spread dynamically, so that the swarm might need to change its decision.
 
 # Minimum requirements
 - individual detection mechanism
@@ -27,6 +28,7 @@
 - 'Symmetry-breaking problems, in which the available options are of the same quality and hence, it is not important for which of the options the system decides but that it collectively agrees on one'. So each option is of equal quality.
 - Parallelizing the collective response with the collective decision is of a high benefit due to the time constraint.
 - Bij schrijven van thesis, bekijk de .h files in de argos repository om meer informatie te krijgen over de actuators en sensoren (https://github.com/ilpincy/argos3/tree/master/src/plugins/robots/foot-bot/control_interface).
+- Vermeld allerlei settings en weggelaten default values vanuit de configuration file.
 
 # Questions and answers
 - Simulation using 'sensors' or learning approach using reward systems. See ARGoS.

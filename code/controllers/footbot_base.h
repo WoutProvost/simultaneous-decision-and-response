@@ -38,6 +38,7 @@ class CFootBotBase : public CCI_Controller {
 
 		virtual void Init(TConfigurationNode &t_node);
 		virtual void ControlStep();
+		virtual void Reset();
 
 };
 

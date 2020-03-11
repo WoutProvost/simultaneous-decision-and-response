@@ -67,5 +67,10 @@ void CFootBotBase::ControlStep() {
 	}
 }
 
+void CFootBotBase::Reset() {
+	// Reset all the LEDs in the ring with the same color and intensity from the initial state
+	ledsActuator->SetAllColors(ledsColor);
+}
+
 // Macro that binds this class to an XML tag
 REGISTER_CONTROLLER(CFootBotBase, "footbot_base_controller")

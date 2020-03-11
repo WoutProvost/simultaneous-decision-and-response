@@ -1,23 +1,81 @@
 # Questions and ideas
-- Do sensors need noise and/or packet drop?
-- Use default range and bearing settings?
+- Do sensors need noise and the RaB sensor packet drop?
 - Show a (live) graphical view of the collective decision and collective response (example: linux system monitor). Log the data from this graph.
 
-# Actuators and sensors
-CDynamics2DFootBotModel: https://www.argos-sim.info/api/a00521_source.php
-CCI_Controller: https://www.argos-sim.info/api/a02036.php
-CCI_DifferentialSteeringActuator: https://www.argos-sim.info/api/a02816.php
-CCI_LEDsActuator: https://www.argos-sim.info/api/a02840.php
-CCI_RangeAndBearingActuator: https://www.argos-sim.info/api/a02896.php
-CCI_FootBotProximitySensor: https://www.argos-sim.info/api/a02656.php
-CCI_FootBotGripperActuator: https://www.argos-sim.info/api/a02636.php
-CCI_RangeAndBearingSensor: https://www.argos-sim.info/api/a02900.php
+# Settings
+## Important settings
+- Robot RaB range
+- Fire light intensity
+- RaB medium check occlusions
+The rest of the settings are default.
+## Random number generator
+- **Seed:** 12345
+## Arena
+- **Size:** 15x15x1
+## Gate gripping footbots:
+- **Show proximity sensor rays:** true
+- **Show range and bearing sensor rays:** true
+- **Velocity:** 5
+- **Max angle between heading and obstacle:** 7.5
+- **Max obstacle proximity:** 0.1
+- **Leds color:** black
+- **RaB range:** 3
+- **RaB data size:** 10
+- **Max force:** 15
+- **Max torque:** 150
+## Temperature sensing footbots:
+- **Show proximity sensor rays:** true
+- **Show range and bearing sensor rays:** true
+- **Show light sensor rays:** true
+- **Velocity:** 5
+- **Max angle between heading and obstacle:** 7.5
+- **Max obstacle proximity:** 0.1
+- **Leds color:** white
+- **RaB range:** 3
+- **RaB data size:** 10
+- **Max force:** 15
+- **Max torque:** 150
+## Movable gates:
+- **Radius:** 0.1
+- **Height:** 0.2
+- **Mass:** 0.1
+## Fire light
+- **Color:** yellow
+- **Intensity:** 1.0
+## Physics engine
+- **Box linear friction:** 1.49
+- **Box angular friction:** 1.49
+- **Cylinder linear friction:** 1.49
+- **Cylinder angular friction:** 1.49
+## RaB medium
+- **Check occlusions:** true
+
+# Documentation
+- CDynamics2DFootBotModel: https://www.argos-sim.info/api/a00521_source.php
+- CCI_Controller: https://www.argos-sim.info/api/a02036.php
+- CCI_DifferentialSteeringActuator: https://www.argos-sim.info/api/a02816.php
+- CCI_LEDsActuator: https://www.argos-sim.info/api/a02840.php
+- CCI_RangeAndBearingActuator: https://www.argos-sim.info/api/a02896.php
+- CCI_FootBotProximitySensor: https://www.argos-sim.info/api/a02656.php
+- CCI_FootBotGripperActuator: https://www.argos-sim.info/api/a02636.php
+- CCI_RangeAndBearingSensor: https://www.argos-sim.info/api/a02900.php
+
+# Performance notes
+- For larger swarms, turning the light sensor of when you don't need it.
+- For less than 100 robots, thread management is not beneficial.
+- For swarms larger than 50 robots and/or large arenas, multiple physics engines should be used.
+- Use the same number of threads as there are physics engines and take into account the amount of CPU cores.
 
 footbot_flocking
 footbot_foraging
 footbot_synchronization
 footbot_manualcontrol
 footbot_nn
+
+The color of the light is perceived by cameras.
+The intensity of the light is perceived by light sensors.
+Vuur maar doen opkomen na een tijd? Niet echt nodig door de random seed. By dynamisch natuurlijk wel nodig.
+Verander kleur van light met de temperatuur?
 
 # Subklassen
 - Temperatuursensors: vuur detecteren

@@ -1,11 +1,15 @@
 #include "footbot_temperature_sensing.h"
 
-CFootBotTemperatureSensing::CFootBotTemperatureSensing() {
+CFootBotTemperatureSensing::CFootBotTemperatureSensing() :
+    footBotLightSensor(NULL) {
 }
 
 void CFootBotTemperatureSensing::Init(TConfigurationNode &t_node) {
     // Call base class method
     CFootBotBase::Init(t_node);
+
+    // Get actuators and sensors
+    footBotLightSensor = GetSensor<CCI_FootBotLightSensor>("footbot_light");
 }
 
 void CFootBotTemperatureSensing::ControlStep() {
