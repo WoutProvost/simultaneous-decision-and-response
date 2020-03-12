@@ -13,7 +13,7 @@ class FootBotGateGrippingController : public FootBotBaseController {
 	public:
 		FootBotGateGrippingController();
 
-		virtual void Init(TConfigurationNode &t_node);
+		virtual void Init(TConfigurationNode &configurationNode);
 		virtual void ControlStep();
 
 };

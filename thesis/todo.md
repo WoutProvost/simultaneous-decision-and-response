@@ -3,6 +3,7 @@ footbot_flocking.cpp 153: enkel een bepaalde kleur detecteren, moet niet met lig
 Use state machine.
 Update diffusion en wheel code met die van in foraging.
 Verander kleur van light met de temperatuur? Intensiteit light vergroot met tijd?
+Nu kunnen alle sensors vanop elke afstand het vuur detecteren.
 
 - Grippers: objecten zoeken en vastnemen
 - Sensors: uitgang zoeken
@@ -12,8 +13,9 @@ Verander kleur van light met de temperatuur? Intensiteit light vergroot met tijd
 # TODO
 - Example loop functions bekijken
 - Zie dat de camera van de sensor bots, het vuur negeert.
-- Movable gates enkel movable door grippers, nu kunnen de andere bots de gates ook pushen (force/torque/friction van sensors verlagen?) (wat met de proximity sensors van de grippers, diffusion uitzetten?)
+- Movable gates enkel movable door grippers, nu kunnen de andere bots de gates ook pushen (force/torque/friction van sensors verlagen, of mass van objects verhogen en enkel de gripper genoeg force/torque geven) (wat met de proximity sensors van de grippers, diffusion uitzetten, of logica met als de afstand tot het licht boven de gate gelijk is aan de max proximitysensor rijkwijdte, dan niet uitwijken, op voorwaarde dat die gate werd beslist in de swarm)
 - Gates vervangen door gound blobs die alleen door de grippers opgepakt kunnen worden?
+- Solid gates disappear when gripped, because they manouvering of the bots doesn't have much to do with the thesis novelty
 - Custom ending with loop function (all robots or large enough percentage are safe), or use predetermined time length?
 - Heatmap + ground sensors (bottom sensors with gradient)
 - Based on what data does each individual robot decide, proximity to exit?
@@ -36,6 +38,34 @@ Verander kleur van light met de temperatuur? Intensiteit light vergroot met tijd
 
 
 
+
+
+
+
+/*
+// Degrees start from north heading and go counter-clockwise
+
+// Verkrijg float uit configuration file en maak er graden van
+CDegrees degrees = CDegrees(Real value);
+// Converteer graden naar radialen
+CRadians radians = ToRadians(degrees);
+// Maak een range van de radialen
+CRange<CRadians> range = doNotTurnAngleRange(-radians, radians);
+
+// Verkrijg readings van de sensor
+vector<SReading> readings = GetReadings();
+// Elke reading bevat een length en een angle
+SReading reading = SReading(Real value, CRadians angle);
+CVector2 vector = CVector2(Real length, CRadians angle);
+
+
+
+// Vector addition (magnitude, degrees)
+(0.5, 7.5) + (0.8, 22.5) = (1.2895, 16.74)
+
+// Vector division by scalar
+(1.2895, 16.74) / 2 = (0.64475, 16.74)
+*/
 
 
 

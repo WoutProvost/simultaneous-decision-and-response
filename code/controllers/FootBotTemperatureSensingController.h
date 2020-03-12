@@ -13,7 +13,7 @@ class FootBotTemperatureSensingController : public FootBotBaseController {
 	public:
 		FootBotTemperatureSensingController();
 
-		virtual void Init(TConfigurationNode &t_node);
+		virtual void Init(TConfigurationNode &configurationNode);
 		virtual void ControlStep();
 
 };
