@@ -1,7 +1,5 @@
 #include "FootBotBaseController.h"
 
-using std::string;
-
 FootBotBaseController::FootBotBaseController() :
 	velocity(2.5f),
 	ledsColor(0, 0, 0, 255) {
@@ -18,7 +16,7 @@ void FootBotBaseController::Init(TConfigurationNode &configurationNode) {
 
 	// Parse the configuration file for params
 	GetNodeAttributeOrDefault(configurationNode, "velocity", velocity, velocity);
-	string ledsColorString;
+	std::string ledsColorString;
 	GetNodeAttributeOrDefault(configurationNode, "leds_color", ledsColorString, ledsColorString);
 	ledsColor.Set(ledsColorString);
 	collisionAvoidanceParams = CollisionAvoidanceParams();
@@ -26,6 +24,9 @@ void FootBotBaseController::Init(TConfigurationNode &configurationNode) {
 
 	// Lit up all the LEDs in the ring with the same color and intensity
 	ledsActuator->SetAllColors(ledsColor);
+
+	// Enable the colored blob omnidirectional camera sensor
+	// coloredBlobOmnidirectionalCameraSensor->Enable();
 }
 
 void FootBotBaseController::ControlStep() {

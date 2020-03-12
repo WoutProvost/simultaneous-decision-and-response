@@ -1,9 +1,13 @@
 footbot_foraging.cpp: CalculateVectorToLight & SetWheelSpeedsFromVector
-footbot_flocking.cpp 153: enkel een bepaalde kleur detecteren, moet niet met light sensor of camera, maar met colored blob camera
-Use state machine.
-Update diffusion en wheel code met die van in foraging.
-Verander kleur van light met de temperatuur? Intensiteit light vergroot met tijd?
-Nu kunnen alle sensors vanop elke afstand het vuur detecteren.
+- Use state machine.
+- Update diffusion en wheel code met die van in foraging.
+- Op basis van de intensiteit dat een temperatuur sensor bot op een bepaalde plaats ondervindt, kan je die vloertegel zo instellen op de heatmap.
+- Intensiteit licht vergroot met tijd?
+- Probleem met een licht, is dat je geen andere blobs meer kan gebruiken voor andere doelen. Mss zelf een entiteit en sensor ontwikkelen?
+- Alternatief is om af te gaan van de heatmap, en zo ground sensors te gebruiken als temperatuursensors.
+- Aan de hand van de ground sensoren (2 vanvoor en 2 vanachter) kan je bepalen naar waar een robot verder kan rijden. Niet naar een warmere tegel. En als alle 4 op dezelfde tegel, neem dan random richting en kijk of er naar een plek die kouder is kan gegaan worden. Zijn er geen andere tegels die kouder zijn (bv bij begin als een robot op een rode tegel spawnt, maar kan vermeden worden door met een loop functie pas het vuur te starten op een plaats waar geen robot is) dan zit de robot vast.
+- Als je argos random seed neemt, gebruikt die dan de seed van in de configuration file?
+- Een fireDetected variabele moet in de Reset functie gereset worden!
 
 - Grippers: objecten zoeken en vastnemen
 - Sensors: uitgang zoeken
@@ -11,7 +15,6 @@ Nu kunnen alle sensors vanop elke afstand het vuur detecteren.
 - A and B choice can be differentiated by different colored lights
 
 # TODO
-- Example loop functions bekijken
 - Zie dat de camera van de sensor bots, het vuur negeert.
 - Movable gates enkel movable door grippers, nu kunnen de andere bots de gates ook pushen (force/torque/friction van sensors verlagen, of mass van objects verhogen en enkel de gripper genoeg force/torque geven) (wat met de proximity sensors van de grippers, diffusion uitzetten, of logica met als de afstand tot het licht boven de gate gelijk is aan de max proximitysensor rijkwijdte, dan niet uitwijken, op voorwaarde dat die gate werd beslist in de swarm)
 - Gates vervangen door gound blobs die alleen door de grippers opgepakt kunnen worden?
@@ -42,33 +45,6 @@ Nu kunnen alle sensors vanop elke afstand het vuur detecteren.
 
 
 
-/*
-// Degrees start from north heading and go counter-clockwise
-
-// Verkrijg float uit configuration file en maak er graden van
-CDegrees degrees = CDegrees(Real value);
-// Converteer graden naar radialen
-CRadians radians = ToRadians(degrees);
-// Maak een range van de radialen
-CRange<CRadians> range = doNotTurnAngleRange(-radians, radians);
-
-// Verkrijg readings van de sensor
-vector<SReading> readings = GetReadings();
-// Elke reading bevat een length en een angle
-SReading reading = SReading(Real value, CRadians angle);
-CVector2 vector = CVector2(Real length, CRadians angle);
-
-
-
-// Vector addition (magnitude, degrees)
-(0.5, 7.5) + (0.8, 22.5) = (1.2895, 16.74)
-
-// Vector division by scalar
-(1.2895, 16.74) / 2 = (0.64475, 16.74)
-*/
-
-
-
 # Questions and ideas
 - Do sensors need noise and the RaB sensor packet drop?
 - Show a (live) graphical view of the collective decision and collective response (example: linux system monitor). Log the data from this graph.
@@ -85,11 +61,8 @@ The rest of the settings are default.
 ## Arena
 - **Size:** 15x15x1
 ## Gate gripping footbots:
-- **Show proximity sensor rays:** true
-- **Show range and bearing sensor rays:** true
-- **Show colored blob omnidirectional camera sensor rays:** true
 - **Velocity:** 5
-- **Max angle between heading and obstacle:** 7.5
+- **Max angle between heading and obstacle:** 5
 - **Max obstacle proximity:** 0.1
 - **Leds color:** black
 - **RaB range:** 3
@@ -97,11 +70,8 @@ The rest of the settings are default.
 - **Max force:** 15
 - **Max torque:** 150
 ## Temperature sensing footbots:
-- **Show proximity sensor rays:** true
-- **Show range and bearing sensor rays:** true
-- **Show light sensor rays:** true
 - **Velocity:** 5
-- **Max angle between heading and obstacle:** 7.5
+- **Max angle between heading and obstacle:** 5
 - **Max obstacle proximity:** 0.1
 - **Leds color:** white
 - **RaB range:** 3

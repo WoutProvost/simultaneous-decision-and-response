@@ -14,7 +14,7 @@ using namespace argos;
 
 class FootBotBaseController : public CCI_Controller {
 
-	private:
+	protected:
 		// Actuators
 		CCI_DifferentialSteeringActuator *differentialSteeringActuator;
 		CCI_LEDsActuator *ledsActuator;
