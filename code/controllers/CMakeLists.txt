@@ -1,9 +1,9 @@
 # Add these libraries to be built
 # SHARED = linked dynamically into other targets and loaded at runtime
 # MODULE = not linked into other targets and loaded dynamically at runtime
-add_library(footbot_base SHARED footbot_base.h footbot_base.cpp)
-add_library(footbot_gate_gripping MODULE footbot_gate_gripping.h footbot_gate_gripping.cpp)
-add_library(footbot_temperature_sensing MODULE footbot_temperature_sensing.h footbot_temperature_sensing.cpp)
+add_library(footbot_base SHARED FootBotBaseController.h FootBotBaseController.cpp)
+add_library(footbot_gate_gripping MODULE FootBotGateGrippingController.h FootBotGateGrippingController.cpp)
+add_library(footbot_temperature_sensing MODULE FootBotTemperatureSensingController.h FootBotTemperatureSensingController.cpp)
 
 # Define which other libraries these libraries depend on
 target_link_libraries(footbot_base

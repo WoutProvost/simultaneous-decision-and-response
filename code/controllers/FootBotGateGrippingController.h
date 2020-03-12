@@ -1,17 +1,17 @@
-#ifndef FOOTBOT_GATE_GRIPPING_H
-#define FOOTBOT_GATE_GRIPPING_H
+#ifndef FOOT_BOT_GATE_GRIPPING_CONTROLLER_H
+#define FOOT_BOT_GATE_GRIPPING_CONTROLLER_H
 
-#include "footbot_base.h"
+#include "FootBotBaseController.h"
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_gripper_actuator.h>
 
-class CFootBotGateGripping : public CFootBotBase {
+class FootBotGateGrippingController : public FootBotBaseController {
 
 	private:
 		// Actuators
 		CCI_FootBotGripperActuator *footBotGripperActuator;
 
 	public:
-		CFootBotGateGripping();
+		FootBotGateGrippingController();
 
 		virtual void Init(TConfigurationNode &t_node);
 		virtual void ControlStep();

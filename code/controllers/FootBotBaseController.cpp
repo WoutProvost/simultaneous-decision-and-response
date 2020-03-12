@@ -1,8 +1,6 @@
-#include "footbot_base.h"
-#include <argos3/core/utility/configuration/argos_configuration.h>
-#include <argos3/core/utility/math/vector2.h>
+#include "FootBotBaseController.h"
 
-CFootBotBase::CFootBotBase() :
+FootBotBaseController::FootBotBaseController() :
 	differentialSteeringActuator(NULL),
 	ledsActuator(NULL),
 	rangeAndBearingActuator(NULL),
@@ -17,7 +15,7 @@ CFootBotBase::CFootBotBase() :
 	ledsColor(0, 0, 0, 255) {
 }
 
-void CFootBotBase::Init(TConfigurationNode &t_node) {
+void FootBotBaseController::Init(TConfigurationNode &t_node) {
 	// Get actuators and sensors
 	differentialSteeringActuator = GetActuator<CCI_DifferentialSteeringActuator>("differential_steering");
 	ledsActuator = GetActuator<CCI_LEDsActuator>("leds");
@@ -40,7 +38,7 @@ void CFootBotBase::Init(TConfigurationNode &t_node) {
 	ledsActuator->SetAllColors(ledsColor);
 }
 
-void CFootBotBase::ControlStep() {
+void FootBotBaseController::ControlStep() {
 	// Get readings from the proximity sensor
 	const CCI_FootBotProximitySensor::TReadings &readings = footBotProximitySensor->GetReadings();
 
@@ -69,10 +67,10 @@ void CFootBotBase::ControlStep() {
 	}
 }
 
-void CFootBotBase::Reset() {
+void FootBotBaseController::Reset() {
 	// Reset all the LEDs in the ring with the same color and intensity from the initial state
 	ledsActuator->SetAllColors(ledsColor);
 }
 
 // Macro that binds this class to an XML tag
-REGISTER_CONTROLLER(CFootBotBase, "footbot_base_controller")
+REGISTER_CONTROLLER(FootBotBaseController, "footbot_base_controller")

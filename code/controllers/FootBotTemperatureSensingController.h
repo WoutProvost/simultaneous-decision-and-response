@@ -1,17 +1,17 @@
-#ifndef FOOTBOT_TEMPERATURE_SENSING_H
-#define FOOTBOT_TEMPERATURE_SENSING_H
+#ifndef FOOT_BOT_TEMPERATURE_SENSING_CONTROLLER_H
+#define FOOT_BOT_TEMPERATURE_SENSING_CONTROLLER_H
 
-#include "footbot_base.h"
+#include "FootBotBaseController.h"
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_light_sensor.h>
 
-class CFootBotTemperatureSensing : public CFootBotBase {
+class FootBotTemperatureSensingController : public FootBotBaseController {
 
 	private:
 		// Sensors
 		CCI_FootBotLightSensor *footBotLightSensor;
 
 	public:
-		CFootBotTemperatureSensing();
+		FootBotTemperatureSensingController();
 
 		virtual void Init(TConfigurationNode &t_node);
 		virtual void ControlStep();
