@@ -9,6 +9,7 @@ using namespace argos;
 class CollisionAvoidanceParams {
 
 	public:
+		// Params
 		CDegrees maxAngleBetweenHeadingAndObstacle;
 		Real maxObstacleProximity;
 

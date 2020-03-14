@@ -1,3 +1,8 @@
+- Heatmap params?
+- Extra debug model: vuurcirkel met eventuele wijzigbare radius of gebaseerd op echt vuur van een heatmap afbeelding
+heatmap init
+
+
 footbot_foraging.cpp: CalculateVectorToLight & SetWheelSpeedsFromVector
 - Use state machine.
 - Update diffusion en wheel code met die van in foraging.

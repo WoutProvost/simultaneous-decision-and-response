@@ -1,8 +1,5 @@
 #include "FootBotGateGrippingController.h"
 
-FootBotGateGrippingController::FootBotGateGrippingController() {
-}
-
 void FootBotGateGrippingController::Init(TConfigurationNode &configurationNode) {
 	// Call base class method
 	FootBotBaseController::Init(configurationNode);

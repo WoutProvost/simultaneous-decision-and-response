@@ -1,6 +1,7 @@
 #include "CollisionAvoidanceParams.h"
 
 CollisionAvoidanceParams::CollisionAvoidanceParams() :
+	// Initialize attributes and set default values
 	maxAngleBetweenHeadingAndObstacle(10.0f),
 	maxObstacleProximity(0.5f) {
 }

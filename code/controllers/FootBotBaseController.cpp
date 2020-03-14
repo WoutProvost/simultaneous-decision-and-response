@@ -1,8 +1,10 @@
 #include "FootBotBaseController.h"
 
 FootBotBaseController::FootBotBaseController() :
+	// Initialize attributes and set default values
 	velocity(2.5f),
-	ledsColor(0, 0, 0, 255) {
+	ledsColor("black"),
+	color(0, 0, 0, 255) {
 }
 
 void FootBotBaseController::Init(TConfigurationNode &configurationNode) {
@@ -13,17 +15,20 @@ void FootBotBaseController::Init(TConfigurationNode &configurationNode) {
 	footBotProximitySensor = GetSensor<CCI_FootBotProximitySensor>("footbot_proximity");
 	rangeAndBearingSensor = GetSensor<CCI_RangeAndBearingSensor>("range_and_bearing");
 	coloredBlobOmnidirectionalCameraSensor = GetSensor<CCI_ColoredBlobOmnidirectionalCameraSensor>("colored_blob_omnidirectional_camera");
+	footBotLightSensor = GetSensor<CCI_FootBotLightSensor>("footbot_light");
 
 	// Parse the configuration file for params
 	GetNodeAttributeOrDefault(configurationNode, "velocity", velocity, velocity);
-	std::string ledsColorString;
-	GetNodeAttributeOrDefault(configurationNode, "leds_color", ledsColorString, ledsColorString);
-	ledsColor.Set(ledsColorString);
+	GetNodeAttributeOrDefault(configurationNode, "leds_color", ledsColor, ledsColor);
 	collisionAvoidanceParams = CollisionAvoidanceParams();
-	collisionAvoidanceParams.setParams(GetNode(configurationNode, "collision_avoidance"));
+	try {
+		collisionAvoidanceParams.setParams(GetNode(configurationNode, "collision_avoidance"));
+	} catch(CARGoSException &ex) {
+	}
 
 	// Lit up all the LEDs in the ring with the same color and intensity
-	ledsActuator->SetAllColors(ledsColor);
+	color.Set(ledsColor);
+	ledsActuator->SetAllColors(color);
 
 	// Enable the colored blob omnidirectional camera sensor
 	// coloredBlobOmnidirectionalCameraSensor->Enable();
@@ -58,11 +63,35 @@ void FootBotBaseController::ControlStep() {
 			differentialSteeringActuator->SetLinearVelocity(0.0f, velocity);
 		}
 	}
+
+	// const CCI_ColoredBlobOmnidirectionalCameraSensor::SReadings &readings = coloredBlobOmnidirectionalCameraSensor->GetReadings();
+	// for(size_t blob = 0, size = readings.BlobList.size(); blob < size; blob++) {
+	// 	if(readings.BlobList[blob]->Color != CColor::WHITE && readings.BlobList[blob]->Color != CColor::BLACK && readings.BlobList[blob]->Color != CColor::RED) {
+	// 		RLOG << "Blob detected: " << readings.BlobList[blob]->Color << std::endl;
+	// 	}
+	// }
+
+	// if(!fireDetected) {
+	// 	const CCI_FootBotLightSensor::TReadings &readings = footBotLightSensor->GetReadings();
+	// 	CVector2 accumulator;
+	// 	for(size_t reading = 0, size = readings.size(); reading < size; reading++) {
+	// 		accumulator += CVector2(readings[reading].Value, readings[reading].Angle);
+	// 	}
+	// 	if(accumulator.Length() != 0.0f) {
+	// 		differentialSteeringActuator->SetLinearVelocity(0.0f, 0.0f);
+	// 		color.Set("red");
+	// 		ledsActuator->SetAllColors(color);
+	// 		fireDetected = true;
+	// 		RLOG << "Fire detected: " << accumulator.Length() << std::endl;
+	// 	}
+	// } else {
+	// 	differentialSteeringActuator->SetLinearVelocity(0.0f, 0.0f);
+	// }
 }
 
 void FootBotBaseController::Reset() {
-	// Reset all the LEDs in the ring with the same color and intensity from the initial state
-	ledsActuator->SetAllColors(ledsColor);
+	// Reset all the LEDs in the ring to their initial state
+	ledsActuator->SetAllColors(color);
 }
 
 // Macro that binds this class to an XML tag
