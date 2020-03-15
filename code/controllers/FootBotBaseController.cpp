@@ -20,7 +20,6 @@ void FootBotBaseController::Init(TConfigurationNode &configurationNode) {
 	// Parse the configuration file for params
 	GetNodeAttributeOrDefault(configurationNode, "velocity", velocity, velocity);
 	GetNodeAttributeOrDefault(configurationNode, "leds_color", ledsColor, ledsColor);
-	collisionAvoidanceParams = CollisionAvoidanceParams();
 	try {
 		collisionAvoidanceParams.setParams(GetNode(configurationNode, "collision_avoidance"));
 	} catch(CARGoSException &ex) {

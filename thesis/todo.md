@@ -1,14 +1,11 @@
-- Heatmap params?
-- Extra debug model: vuurcirkel met eventuele wijzigbare radius of gebaseerd op echt vuur van een heatmap afbeelding
-
+- Update diffusion and wheel code with the one from the foraging example.
 - See footbot_foraging.cpp for CalculateVectorToLight and SetWheelSpeedsFromVector methods.
 - Use a state machine.
-- Update diffusion and wheel code with the one from the foraging example.
-- Fire modes with attribute: single spreading fire in circle, single spreading fire according to model, multiple fires popping up at random time intervals
-- Temperature should increase after a given time interval and with a given amount, configurable in the configuration file. Redrawing the floor is very resource intensive so this shouldn't happen too often. Or increase every timestep, but only redraw after a certain time interval.
-- These attributes should go in a new <fire> node.
-- Depending on the readings of the ground sensors of the temperature sensing robots (2 in front, 2 in back) you can determine to where the robot should move. It shouldn't move to a tile that's warmer. If the robot happens to have it's 4 sensors on the same tile, or all sensors return the same temperature, try to move in a random direction and see if eventually the robot ends up on a cooler tile. If there are no cooler tiles around the robot the robot is stuck. This last scenario could happen when in the beginning the robot spawns on a hot tile, but this can be circumvented with a loop function by spawning the fire after a certain amount of time and on a tile that is not occupied by a robot.
 - Don't forget to reset any variables in the appropriate Reset functions.
+
+- Fire modes with attribute: single spreading fire in circle, single spreading fire according to model, multiple fires popping up at random time intervals
+- Redrawing the floor is very resource intensive so this shouldn't happen too often.
+- Depending on the readings of the ground sensors of the temperature sensing robots (2 in front, 2 in back) you can determine to where the robot should move. It shouldn't move to a tile that's warmer. If the robot happens to have it's 4 sensors on the same tile, or all sensors return the same temperature, try to move in a random direction and see if eventually the robot ends up on a cooler tile. If there are no cooler tiles around the robot the robot is stuck. This last scenario could happen when in the beginning the robot spawns on a hot tile, but this can be circumvented with a loop function by spawning the fire after a certain amount of time and on a tile that is not occupied by a robot.
 
 - Gripper robots: search for gates and grip them
 - Sensor robots: search for an exit

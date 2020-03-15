@@ -1,28 +1,27 @@
 #ifndef FIRE_EVACUATION_LOOP_FUNCTIONS_H
 #define FIRE_EVACUATION_LOOP_FUNCTIONS_H
 
+#include "HeatMapParams.h"
+#include "FireParams.h"
 #include <argos3/core/simulator/loop_functions.h>
 #include <argos3/core/simulator/entity/floor_entity.h>
 
 using namespace argos;
 using std::vector;
-using std::string;
 
 class FireEvacuationLoopFunctions : public CLoopFunctions {
 
 	private:
 		// Params
-		int tilesPerMeter;
-		int maxTemperature;
-		string debugMode;
-		bool showTemperature;
+		HeatMapParams heatMapParams;
+		FireParams fireParams;
 		
 		// General variables and constants
 		CSpace *space;
 		const CVector3 *arenaSize;
+		CRandom::CRNG *random;
 		CFloorEntity *floorEntity;
 		vector<vector<int>> heatMap;
-		CRandom::CRNG *random;
 
 		// Methods
 		void initHeatMap();

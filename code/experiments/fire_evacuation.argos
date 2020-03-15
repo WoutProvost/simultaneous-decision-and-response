@@ -154,6 +154,7 @@
 
 	<loop_functions library="../build/loop_functions/libfire_evacuation_loop_functions" label="fire_evacuation_loop_functions">
 		<heatmap tiles_per_meter="10" max_temperature="255" debug_mode="none" show_temperature="true" />
+		<fire mode="circle" is_dynamic="false" dynamic_interval_ticks="50" dynamic_temperature_increase="20" />
 	</loop_functions>
 
 </argos-configuration>
