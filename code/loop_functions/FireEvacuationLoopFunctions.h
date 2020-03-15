@@ -22,6 +22,9 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 		// CFloorEntity *floorEntity;
 		vector<vector<int>> heatMap;
 
+		// Methods
+		void initHeatMap();
+
 	public:
 		FireEvacuationLoopFunctions();
 

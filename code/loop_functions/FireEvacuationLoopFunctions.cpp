@@ -36,23 +36,8 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	int resolutionY = arenaSize->GetY()*tilesPerMeter;
 	heatMap = vector<vector<int>>(resolutionX, vector<int>(resolutionY, -1));
 
-	// Initialize the heatmap to debug the resolution
-	if(debugMode == "resolution") {
-		for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
-			for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
-				heatMap[x][y] = maxTemperature * ((x+y)%2);
-			}
-		}
-	}
-	// Initialize the heatmap to debug the gradient
-	else if(debugMode == "gradient") {
-		Real spacing = maxTemperature / (arenaSize->GetX()*tilesPerMeter);
-		for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
-			for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
-				heatMap[x][y] = spacing * x;
-			}
-		}
-	}
+	// Initialize the heatmap with predetermined temperatures
+	initHeatMap();
 
 	// When the heatmap gets updated, this should be called
 	// floorEntity->SetChanged();
@@ -60,11 +45,7 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 
 void FireEvacuationLoopFunctions::Reset() {
 	// Reset the heatmap to its initial state
-	for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
-		for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
-			heatMap[x][y] = -1;
-		}
-	}
+	initHeatMap();
 }
 
 CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloor) {
@@ -91,6 +72,34 @@ CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloo
 		}
 		
 		return CColor(red, green, 0, 255);
+	}
+}
+
+void FireEvacuationLoopFunctions::initHeatMap() {
+	// Initialize the heatmap to debug the resolution
+	if(debugMode == "resolution") {
+		for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
+			for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
+				heatMap[x][y] = maxTemperature * ((x+y)%2);
+			}
+		}
+	}
+	// Initialize the heatmap to debug the gradient
+	else if(debugMode == "gradient") {
+		Real spacing = maxTemperature / (arenaSize->GetX()*tilesPerMeter - 1);
+		for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
+			for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
+				heatMap[x][y] = spacing * x;
+			}
+		}
+	}
+	// Initialize the heatmap to have no temperature
+	else {
+		for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
+			for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
+				heatMap[x][y] = -1;
+			}
+		}
 	}
 }
 
