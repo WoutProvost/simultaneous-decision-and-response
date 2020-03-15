@@ -11,8 +11,9 @@ FireEvacuationLoopFunctions::FireEvacuationLoopFunctions() :
 	showTemperature(false),
 	space(&GetSpace()),
 	arenaSize(&space->GetArenaSize()),
-	// floorEntity(&space->GetFloorEntity()),
-	heatMap(vector<vector<int>>(arenaSize->GetX()*tilesPerMeter, vector<int>(arenaSize->GetY()*tilesPerMeter))) {
+	// floorEntity(&space->GetFloorEntity()), // Gives error
+	heatMap(vector<vector<int>>(arenaSize->GetX()*tilesPerMeter, vector<int>(arenaSize->GetY()*tilesPerMeter))),
+	random(CRandom::CreateRNG("argos")) {
 }
 
 void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
@@ -31,21 +32,55 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 		maxTemperature = MAX_POSSIBLE_TEMPERATURE;
 	}
 
+	// Initialize the floor entity
+	floorEntity = &space->GetFloorEntity();
+
 	// Set the size of the heatmap depending on the size of the arena and the resolution depending on the tiles per meter
 	int resolutionX = arenaSize->GetX()*tilesPerMeter;
 	int resolutionY = arenaSize->GetY()*tilesPerMeter;
 	heatMap = vector<vector<int>>(resolutionX, vector<int>(resolutionY));
 
-	// Initialize the heatmap with predetermined temperatures
-	initHeatMap();
-
-	// When the heatmap gets updated, this should be called
-	// floorEntity->SetChanged();
+	// While debugging, initialize the heatmap with predetermined temperatures
+	if(debugMode != "none") {
+		initHeatMap();
+	}
+	// Otherwise create a fire at a random position
+	else {
+		// int fireX = random->Uniform(CRange<int>(-resolutionX/2, resolutionX/2));
+		// int fireY = random->Uniform(CRange<int>(-resolutionY/2, resolutionY/2));
+		// heatMap[fireX][fireY] = 1;
+	}
 }
 
 void FireEvacuationLoopFunctions::Reset() {
 	// Reset the heatmap to its initial state
 	initHeatMap();
+}
+
+void FireEvacuationLoopFunctions::PreStep() {
+	// bool redraw = false;
+
+	// // Increase the temperature of the fire
+	// for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
+	// 	for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
+	// 		if(heatMap[x][y] != 0 && heatMap[x][y] != MAX_POSSIBLE_TEMPERATURE) {
+	// 			if(heatMap[x][y] + 5 < MAX_POSSIBLE_TEMPERATURE) {
+	// 				heatMap[x][y] += 5;
+	// 			} else {
+	// 				heatMap[x][y] = MAX_POSSIBLE_TEMPERATURE;
+	// 			}
+	// 			redraw = true;
+	// 		}
+	// 	}
+	// }
+
+	// // Spread the fire
+	// // TODO
+
+	// // Redraw the floor texture
+	// if(showTemperature && redraw) {
+	// 	floorEntity->SetChanged();
+	// }
 }
 
 CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloor) {
@@ -54,12 +89,15 @@ CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloo
 	int indexY = (positionOnFloor.GetY() + arenaSize->GetY()/2) * tilesPerMeter;
 	int temperature = MAX_POSSIBLE_TEMPERATURE / maxTemperature * heatMap[indexX][indexY];
 
-	// If the temperature shouldn't be shown return white, otherwise return a grayscale color depending on the temperature		
+	// If the temperature shouldn't be shown return no temperature, otherwise return a grayscale color depending on the temperature
 	if(!showTemperature) {
-		temperature = 255;
+		temperature = 0;
 	}
+
+	// Invert the temperature to make white = no temperature and black = max temperature
+	temperature = MAX_POSSIBLE_TEMPERATURE - temperature;
 	
-	return CColor(temperature, temperature, temperature, 255);
+	return CColor(temperature, temperature, temperature);
 }
 
 void FireEvacuationLoopFunctions::initHeatMap() {
