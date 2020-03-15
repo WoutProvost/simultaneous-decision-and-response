@@ -11,6 +11,12 @@ void FootBotTemperatureSensingController::Init(TConfigurationNode &configuration
 void FootBotTemperatureSensingController::ControlStep() {
 	// Call base class method
 	FootBotBaseController::ControlStep();
+
+	// Get readings from the ground sensor
+	const CCI_FootBotMotorGroundSensor::TReadings &readings = footBotMotorGroundSensor->GetReadings();
+
+	// Temperature = value * maxTemperature
+	// RLOG << "Temperature = " << readings[0].Value * 255 << std::endl;
 }
 
 // Macro that binds this class to an XML tag

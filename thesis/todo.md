@@ -1,6 +1,5 @@
 - Heatmap params?
 - Extra debug model: vuurcirkel met eventuele wijzigbare radius of gebaseerd op echt vuur van een heatmap afbeelding
-- Check of de ground sensor ook met groen, geel en rood kan werken of enkel met wit, grijs en zwart.
 
 - See footbot_foraging.cpp for CalculateVectorToLight and SetWheelSpeedsFromVector methods.
 - Use a state machine.

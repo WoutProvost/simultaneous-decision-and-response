@@ -1,7 +1,7 @@
 #include "FireEvacuationLoopFunctions.h"
 
-// All possible colors between 2 colors of a gradient (both included) sit in the range [0:510]
-#define MAX_POSSIBLE_TEMPERATURE		510
+// All possible colors of a grayscale gradient sit in the range [0:255]
+#define MAX_POSSIBLE_TEMPERATURE		255
 
 FireEvacuationLoopFunctions::FireEvacuationLoopFunctions() :
 	// Initialize attributes and set default values
@@ -12,7 +12,7 @@ FireEvacuationLoopFunctions::FireEvacuationLoopFunctions() :
 	space(&GetSpace()),
 	arenaSize(&space->GetArenaSize()),
 	// floorEntity(&space->GetFloorEntity()),
-	heatMap(vector<vector<int>>(arenaSize->GetX()*tilesPerMeter, vector<int>(arenaSize->GetY()*tilesPerMeter, -1))) {
+	heatMap(vector<vector<int>>(arenaSize->GetX()*tilesPerMeter, vector<int>(arenaSize->GetY()*tilesPerMeter))) {
 }
 
 void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
@@ -31,10 +31,10 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 		maxTemperature = MAX_POSSIBLE_TEMPERATURE;
 	}
 
-	// Set the size of the heatmap depending on the size of the arena and the resolution depending on the tiles per meter and initialize the heatmap to -1
+	// Set the size of the heatmap depending on the size of the arena and the resolution depending on the tiles per meter
 	int resolutionX = arenaSize->GetX()*tilesPerMeter;
 	int resolutionY = arenaSize->GetY()*tilesPerMeter;
-	heatMap = vector<vector<int>>(resolutionX, vector<int>(resolutionY, -1));
+	heatMap = vector<vector<int>>(resolutionX, vector<int>(resolutionY));
 
 	// Initialize the heatmap with predetermined temperatures
 	initHeatMap();
@@ -54,25 +54,12 @@ CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloo
 	int indexY = (positionOnFloor.GetY() + arenaSize->GetY()/2) * tilesPerMeter;
 	int temperature = MAX_POSSIBLE_TEMPERATURE / maxTemperature * heatMap[indexX][indexY];
 
-	// If the temperature shouldn't be shown or is unknown, return the default floor color
-	if(!showTemperature || heatMap[indexX][indexY] < 0) {
-		return CColor(209, 209, 209, 255);
+	// If the temperature shouldn't be shown return white, otherwise return a grayscale color depending on the temperature		
+	if(!showTemperature) {
+		temperature = 255;
 	}
-	// Otherwise, return a color depending on the temperature
-	else {
-		// Calculate the red and green components of the color
-		int red = 0;
-		int green = 0;
-		if(temperature < 256) {
-			green = 255;
-			red = temperature;
-		} else {
-			red = 255;
-			green = 255 - (temperature - 255);
-		}
-		
-		return CColor(red, green, 0, 255);
-	}
+	
+	return CColor(temperature, temperature, temperature, 255);
 }
 
 void FireEvacuationLoopFunctions::initHeatMap() {
@@ -97,7 +84,7 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 	else {
 		for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
 			for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
-				heatMap[x][y] = -1;
+				heatMap[x][y] = 0;
 			}
 		}
 	}

@@ -95,7 +95,7 @@
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
 			<entity quantity="100" max_trials="100">
-				<foot-bot id="fb_gg_" rab_range="3" rab_data_size="10">
+				<foot-bot id="fb_gg_" rab_range="3" rab_data_size="10" omnidirectional_camera_aperture="70">
 					<controller config="footbot_gate_gripping_controller" />
 					<dynamics2d>
 						<differential_steering max_force="15" max_torque="150" />
@@ -109,7 +109,7 @@
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
 			<entity quantity="100" max_trials="100">
-				<foot-bot id="fb_ts_" rab_range="3" rab_data_size="10">
+				<foot-bot id="fb_ts_" rab_range="3" rab_data_size="10" omnidirectional_camera_aperture="70">
 					<controller config="footbot_temperature_sensing_controller" />
 					<dynamics2d>
 						<differential_steering max_force="15" max_torque="150" />
@@ -153,7 +153,7 @@
 	</visualization>
 
 	<loop_functions library="../build/loop_functions/libfire_evacuation_loop_functions" label="fire_evacuation_loop_functions">
-		<heatmap tiles_per_meter="10" max_temperature="510" debug_mode="gradient" show_temperature="true" />
+		<heatmap tiles_per_meter="10" max_temperature="255" debug_mode="gradient" show_temperature="true" />
 	</loop_functions>
 
 </argos-configuration>
