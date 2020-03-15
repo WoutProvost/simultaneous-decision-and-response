@@ -8,6 +8,7 @@ FireEvacuationLoopFunctions::FireEvacuationLoopFunctions() :
 	tilesPerMeter(10),
 	maxTemperature(MAX_POSSIBLE_TEMPERATURE),
 	debugMode("none"),
+	showTemperature(false),
 	space(&GetSpace()),
 	arenaSize(&space->GetArenaSize()) {
 	// floorEntity(&space->GetFloorEntity()) {
@@ -20,6 +21,7 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 		GetNodeAttributeOrDefault(heatMapNode, "tiles_per_meter", tilesPerMeter, tilesPerMeter);
 		GetNodeAttributeOrDefault(heatMapNode, "max_temperature", maxTemperature, maxTemperature);
 		GetNodeAttributeOrDefault(heatMapNode, "debug_mode", debugMode, debugMode);
+		GetNodeAttributeOrDefault(heatMapNode, "show_temperature", showTemperature, showTemperature);
 	} catch(CARGoSException &ex) {
 	}
 
@@ -70,8 +72,8 @@ CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloo
 	int indexY = (positionOnFloor.GetY() + arenaSize->GetY()/2) * tilesPerMeter;
 	int temperature = MAX_POSSIBLE_TEMPERATURE / maxTemperature * heatMap[indexX][indexY];
 
-	// If the temperature is unknown, return the default floor color
-	if(heatMap[indexX][indexY] < 0) {
+	// If the temperature shouldn't be shown or is unknown, return the default floor color
+	if(!showTemperature || heatMap[indexX][indexY] < 0) {
 		return CColor(209, 209, 209, 255);
 	}
 	// Otherwise, return a color depending on the temperature

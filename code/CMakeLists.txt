@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(fire_evacuation
 	VERSION 1.0.0
 	DESCRIPTION "Swarm robotics and collective decision making in a fire evacution scenario"
-	#HOMEPAGE_URL "https://github.com/WoutProvost/swarm-robotics-thesis"
+	# HOMEPAGE_URL "https://github.com/WoutProvost/swarm-robotics-thesis"
 	LANGUAGES CXX)
 
 # Find the PkgConfig package, for the pkg_check_modules method

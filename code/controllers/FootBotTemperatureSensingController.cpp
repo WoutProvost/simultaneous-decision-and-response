@@ -3,6 +3,9 @@
 void FootBotTemperatureSensingController::Init(TConfigurationNode &configurationNode) {
 	// Call base class method
 	FootBotBaseController::Init(configurationNode);
+
+	// Get actuators and sensors
+	footBotMotorGroundSensor = GetSensor<CCI_FootBotMotorGroundSensor>("footbot_motor_ground");
 }
 
 void FootBotTemperatureSensingController::ControlStep() {

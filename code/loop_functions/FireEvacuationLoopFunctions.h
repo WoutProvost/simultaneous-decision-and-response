@@ -14,6 +14,7 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 		int tilesPerMeter;
 		int maxTemperature;
 		string debugMode;
+		bool showTemperature;
 		
 		// General variables and constants
 		CSpace *space;

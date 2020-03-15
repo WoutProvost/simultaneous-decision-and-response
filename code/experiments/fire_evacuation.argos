@@ -38,6 +38,7 @@
 				<range_and_bearing implementation="medium" medium="range_and_bearing_medium" show_rays="false" />
 				<colored_blob_omnidirectional_camera implementation="rot_z_only" medium="led_medium" show_rays="false" />
 				<footbot_light implementation="rot_z_only" show_rays="false" />
+				<footbot_motor_ground implementation="rot_z_only" />
 			</sensors>
 			<params velocity="5.0" leds_color="white">
 				<collision_avoidance max_angle_between_heading_and_obstacle="5" max_obstacle_proximity="0.1" />
@@ -152,7 +153,7 @@
 	</visualization>
 
 	<loop_functions library="../build/loop_functions/libfire_evacuation_loop_functions" label="fire_evacuation_loop_functions">
-		<heatmap tiles_per_meter="10" max_temperature="510" debug_mode="gradient" />
+		<heatmap tiles_per_meter="10" max_temperature="510" debug_mode="gradient" show_temperature="false" />
 	</loop_functions>
 
 </argos-configuration>
