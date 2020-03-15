@@ -94,7 +94,7 @@
 		<distribute>
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
-			<entity quantity="50" max_trials="100">
+			<entity quantity="100" max_trials="100">
 				<foot-bot id="fb_gg_" rab_range="3" rab_data_size="10">
 					<controller config="footbot_gate_gripping_controller" />
 					<dynamics2d>
@@ -108,7 +108,7 @@
 		<distribute>
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
-			<entity quantity="50" max_trials="100">
+			<entity quantity="100" max_trials="100">
 				<foot-bot id="fb_ts_" rab_range="3" rab_data_size="10">
 					<controller config="footbot_temperature_sensing_controller" />
 					<dynamics2d>
@@ -133,13 +133,13 @@
 	<visualization>
 		<qt-opengl autoplay="false">
 			<camera>
-				<placement idx="0" position="0,0,1" look_at="0.956134,-0.195404,0.78177" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
-				<placement idx="1" position="3.71521,-0.759274,1.12409" look_at="4.60742,-0.950927,0.715139" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
-				<placement idx="2" position="7.03503,-1.53142,0.978467" look_at="6.16756,-1.44159,0.489155" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
-				<placement idx="3" position="0,5,0.5" look_at="0,6,0.25" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
-				<placement idx="4" position="0,8.20123,1.09469" look_at="0,7.26571,0.742411" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
-				<placement idx="5" position="0,-5,0.5" look_at="0,-6,0.25" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
-				<placement idx="6" position="0,-8.20123,1.09469" look_at="0,-7.26571,0.742411" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
+				<placement idx="0" position="0,0,1" look_at="7.5,0,0" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
+				<placement idx="1" position="0,0,1" look_at="-7.5,0,0" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
+				<placement idx="2" position="0,5,0.5" look_at="0,6,0.25" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
+				<placement idx="3" position="0,8.20123,1.09469" look_at="0,7.26571,0.742411" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
+				<placement idx="4" position="0,-5,0.5" look_at="0,-6,0.25" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
+				<placement idx="5" position="0,-8.20123,1.09469" look_at="0,-7.26571,0.742411" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
+				<placement idx="6" position="0,0,12.25" look_at="0,0,0" up="0,1,0" lens_focal_length="20" frame_diagonal="35" />
 				<placement idx="7" position="0,0,12.25" look_at="0,0,0" up="0,1,0" lens_focal_length="20" frame_diagonal="35" />
 				<placement idx="8" position="0,0,12.25" look_at="0,0,0" up="0,1,0" lens_focal_length="20" frame_diagonal="35" />
 				<placement idx="9" position="0,0,12.25" look_at="0,0,0" up="0,1,0" lens_focal_length="20" frame_diagonal="35" />
@@ -153,7 +153,7 @@
 	</visualization>
 
 	<loop_functions library="../build/loop_functions/libfire_evacuation_loop_functions" label="fire_evacuation_loop_functions">
-		<heatmap tiles_per_meter="10" max_temperature="510" debug_mode="gradient" show_temperature="false" />
+		<heatmap tiles_per_meter="10" max_temperature="510" debug_mode="gradient" show_temperature="true" />
 	</loop_functions>
 
 </argos-configuration>

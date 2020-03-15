@@ -10,8 +10,9 @@ FireEvacuationLoopFunctions::FireEvacuationLoopFunctions() :
 	debugMode("none"),
 	showTemperature(false),
 	space(&GetSpace()),
-	arenaSize(&space->GetArenaSize()) {
-	// floorEntity(&space->GetFloorEntity()) {
+	arenaSize(&space->GetArenaSize()),
+	// floorEntity(&space->GetFloorEntity()),
+	heatMap(vector<vector<int>>(arenaSize->GetX()*tilesPerMeter, vector<int>(arenaSize->GetY()*tilesPerMeter, -1))) {
 }
 
 void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {

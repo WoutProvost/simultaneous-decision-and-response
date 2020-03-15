@@ -1,10 +1,8 @@
 - Heatmap params?
 - Extra debug model: vuurcirkel met eventuele wijzigbare radius of gebaseerd op echt vuur van een heatmap afbeelding
-- heatmap init
 - Check of de ground sensor ook met groen, geel en rood kan werken of enkel met wit, grijs en zwart.
-- Kijk of all sensors (en documentatie hieronder en in .conf file) nog nodig zijn.
 
-See footbot_foraging.cpp for CalculateVectorToLight and SetWheelSpeedsFromVector methods.
+- See footbot_foraging.cpp for CalculateVectorToLight and SetWheelSpeedsFromVector methods.
 - Use a state machine.
 - Update diffusion and wheel code with the one from the foraging example.
 - Temperature should increase with time?
