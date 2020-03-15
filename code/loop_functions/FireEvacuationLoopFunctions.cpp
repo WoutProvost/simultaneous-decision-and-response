@@ -102,6 +102,23 @@ CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloo
 	temperature = MAX_POSSIBLE_TEMPERATURE - temperature;
 	
 	return CColor(temperature, temperature, temperature);
+
+	// Calculate the red, green and blue components of the color	
+	// int red = 0;
+	// int green = 0;
+	// int blue = 0;
+	// if(temperature == 0) {
+	// 	red = 209;
+	// 	green = 209;
+	// 	blue = 209;
+	// } else if(temperature < 128) {
+	// 	green = 255;
+	// 	red = temperature*2;
+	// } else {
+	// 	red = 255;
+	// 	green = 255 - (temperature*2 - 255);
+	// }
+	// return CColor(red, green, blue);
 }
 
 void FireEvacuationLoopFunctions::initHeatMap() {
