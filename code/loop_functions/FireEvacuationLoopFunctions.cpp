@@ -27,32 +27,40 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	floorEntity = &space->GetFloorEntity();
 
 	// Set the size of the heatmap depending on the size of the arena and the resolution depending on the tiles per meter
-	int resolutionX = arenaSize->GetX() * heatMapParams.tilesPerMeter;
-	int resolutionY = arenaSize->GetY() * heatMapParams.tilesPerMeter;
+	Real resolutionX = arenaSize->GetX() * heatMapParams.tilesPerMeter;
+	Real resolutionY = arenaSize->GetY() * heatMapParams.tilesPerMeter;
 	heatMap = vector<vector<int>>(resolutionX, vector<int>(resolutionY));
 
 	// While debugging, initialize the heatmap with predetermined temperatures
 	if(heatMapParams.debugMode != "none") {
 		initHeatMap();
 	}
-	// Otherwise create a fire at a random position
+	// Otherwise create a fire according to the fire mode and according to wether it is dynamic
 	else {
-		// int centerX = random->Uniform(CRange<int>(-resolutionX/2, resolutionX/2));
-		// int centerY = random->Uniform(CRange<int>(-resolutionY/2, resolutionY/2));
+		// Create a circular fire at a random position
+		if(fireParams.mode == "circle") {
+			int centerX = random->Uniform(CRange<int>(-resolutionX/2, resolutionX/2));
+			int centerY = random->Uniform(CRange<int>(-resolutionY/2, resolutionY/2));
 
-		// // Linear gradient
-		// int radiusInmeters = 3;
-		// int radius = radiusInmeters * heatMapParams.tilesPerMeter;
-		// Real spacing = heatMapParams.maxTemperature / radius;
-		// for(int r = 0; r <= radius; r++) {
-		// 	for(int angle = 0; angle < 360; angle++) {
-		// 		Real x = centerX + r * cos(angle);
-		// 		Real y = centerY + r * sin(angle);
-		// 		if(x >= 0 && x < heatMap.size() && y >= 0 && y < heatMap[x].size()) {
-		// 			heatMap[x][y] = heatMapParams.maxTemperature - spacing * r;
-		// 		}
-		// 	}
-		// }
+			// Create a linear gradient when the fire is static
+			if(!fireParams.isDynamic) {
+				Real radius = fireParams.circleRadiusInmeters * heatMapParams.tilesPerMeter;
+				Real spacing = heatMapParams.maxTemperature / radius;
+				for(int r = 0; r <= radius; r++) {
+					for(Real angle = 0; angle < 360; angle++) {
+						Real x = centerX + r * cos(angle);
+						Real y = centerY + r * sin(angle);
+						if(x >= 0 && x < heatMap.size() && y >= 0 && y < heatMap[x].size()) {
+							heatMap[x][y] = heatMapParams.maxTemperature - spacing * r;
+						}
+					}
+				}
+			}
+			// Otherwise create a single tile where the fire should start to spread from
+			else {
+				heatMap[centerX][centerY] = heatMapParams.maxTemperature;
+			}
+		}
 	}
 }
 
@@ -89,36 +97,39 @@ void FireEvacuationLoopFunctions::PreStep() {
 
 CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloor) {
 	// Get the heatmap indices and temperature that belong to this floor position
-	int indexX = (positionOnFloor.GetX() + arenaSize->GetX()/2) * heatMapParams.tilesPerMeter;
-	int indexY = (positionOnFloor.GetY() + arenaSize->GetY()/2) * heatMapParams.tilesPerMeter;
+	Real indexX = (positionOnFloor.GetX() + arenaSize->GetX()/2) * heatMapParams.tilesPerMeter;
+	Real indexY = (positionOnFloor.GetY() + arenaSize->GetY()/2) * heatMapParams.tilesPerMeter;
 	int temperature = MAX_POSSIBLE_TEMPERATURE / heatMapParams.maxTemperature * heatMap[indexX][indexY];
 
-	// If the temperature shouldn't be shown return no temperature, otherwise return a grayscale color depending on the temperature
-	if(!heatMapParams.showTemperature) {
-		temperature = 0;
+	// While debugging, calculate the red, green and blue components of the color
+	if(heatMapParams.debugUseColors) {
+		int red = 0;
+		int green = 0;
+		int blue = 0;
+		if(!heatMapParams.showTemperature || (heatMapParams.debugMode == "none" && temperature == 0)) {
+			red = 209;
+			green = 209;
+			blue = 209;
+		} else {
+			if(temperature < 128) {
+				green = 255;
+				red = temperature*2;
+			} else {
+				red = 255;
+				green = 255 - (temperature*2 - 255);
+			}
+		}
+		return CColor(red, green, blue);
 	}
-
-	// Invert the temperature to make white = no temperature and black = max temperature
-	temperature = MAX_POSSIBLE_TEMPERATURE - temperature;
-	
-	return CColor(temperature, temperature, temperature);
-
-	// Calculate the red, green and blue components of the color	
-	// int red = 0;
-	// int green = 0;
-	// int blue = 0;
-	// if(temperature == 0) {
-	// 	red = 209;
-	// 	green = 209;
-	// 	blue = 209;
-	// } else if(temperature < 128) {
-	// 	green = 255;
-	// 	red = temperature*2;
-	// } else {
-	// 	red = 255;
-	// 	green = 255 - (temperature*2 - 255);
-	// }
-	// return CColor(red, green, blue);
+	// Otherwise invert the temperature to make white = no temperature and black = max temperature and return a grayscale color depending on the temperature
+	else {
+		if(!heatMapParams.showTemperature) {
+			temperature = 209;
+		} else {
+			temperature = MAX_POSSIBLE_TEMPERATURE - temperature;
+		}
+		return CColor(temperature, temperature, temperature);
+	}
 }
 
 void FireEvacuationLoopFunctions::initHeatMap() {
