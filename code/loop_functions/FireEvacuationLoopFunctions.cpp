@@ -36,8 +36,8 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	floorEntity = &space->GetFloorEntity();
 
 	// Set the size of the heatmap depending on the size of the arena and the resolution depending on the tiles per meter
-	int resolutionX = arenaSize->GetX()*tilesPerMeter;
-	int resolutionY = arenaSize->GetY()*tilesPerMeter;
+	int resolutionX = arenaSize->GetX() * tilesPerMeter;
+	int resolutionY = arenaSize->GetY() * tilesPerMeter;
 	heatMap = vector<vector<int>>(resolutionX, vector<int>(resolutionY));
 
 	// While debugging, initialize the heatmap with predetermined temperatures
@@ -63,11 +63,11 @@ void FireEvacuationLoopFunctions::PreStep() {
 	// // Increase the temperature of the fire
 	// for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
 	// 	for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
-	// 		if(heatMap[x][y] != 0 && heatMap[x][y] != MAX_POSSIBLE_TEMPERATURE) {
-	// 			if(heatMap[x][y] + 5 < MAX_POSSIBLE_TEMPERATURE) {
+	// 		if(heatMap[x][y] != 0 && heatMap[x][y] != maxTemperature) {
+	// 			if(heatMap[x][y] + 5 < maxTemperature) {
 	// 				heatMap[x][y] += 5;
 	// 			} else {
-	// 				heatMap[x][y] = MAX_POSSIBLE_TEMPERATURE;
+	// 				heatMap[x][y] = maxTemperature;
 	// 			}
 	// 			redraw = true;
 	// 		}
