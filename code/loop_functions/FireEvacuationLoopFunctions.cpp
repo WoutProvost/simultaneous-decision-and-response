@@ -31,37 +31,8 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	Real resolutionY = arenaSize->GetY() * heatMapParams.tilesPerMeter;
 	heatMap = vector<vector<int>>(resolutionX, vector<int>(resolutionY));
 
-	// While debugging, initialize the heatmap with predetermined temperatures
-	if(heatMapParams.debugMode != "none") {
-		initHeatMap();
-	}
-	// Otherwise create a fire according to the fire mode and according to wether it is dynamic
-	else {
-		// Create a circular fire at a random position
-		if(fireParams.mode == "circle") {
-			int centerX = random->Uniform(CRange<int>(-resolutionX/2, resolutionX/2));
-			int centerY = random->Uniform(CRange<int>(-resolutionY/2, resolutionY/2));
-
-			// Create a linear gradient when the fire is static
-			if(!fireParams.isDynamic) {
-				Real radius = fireParams.circleRadiusInmeters * heatMapParams.tilesPerMeter;
-				Real spacing = heatMapParams.maxTemperature / radius;
-				for(int r = 0; r <= radius; r++) {
-					for(Real angle = 0; angle < 360; angle++) {
-						Real x = centerX + r * cos(angle);
-						Real y = centerY + r * sin(angle);
-						if(x >= 0 && x < heatMap.size() && y >= 0 && y < heatMap[x].size()) {
-							heatMap[x][y] = heatMapParams.maxTemperature - spacing * r;
-						}
-					}
-				}
-			}
-			// Otherwise create a single tile where the fire should start to spread from
-			else {
-				heatMap[centerX][centerY] = heatMapParams.maxTemperature;
-			}
-		}
-	}
+	// Initialize the heatmap with temperatures
+	initHeatMap();
 }
 
 void FireEvacuationLoopFunctions::Reset() {
@@ -70,28 +41,46 @@ void FireEvacuationLoopFunctions::Reset() {
 }
 
 void FireEvacuationLoopFunctions::PreStep() {
-	// bool redraw = false;
-
 	// // Increase the temperature of the fire
-	// for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
-	// 	for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
-	// 		if(heatMap[x][y] != 0 && heatMap[x][y] != heatMapParams.maxTemperature) {
-	// 			if(heatMap[x][y] + 5 < heatMapParams.maxTemperature) {
-	// 				heatMap[x][y] += 5;
-	// 			} else {
-	// 				heatMap[x][y] = heatMapParams.maxTemperature;
+	// if(fireParams.isDynamic && fireParams.mode == "circle") {
+	// 	bool redraw = false;
+	// 	static int ticks = 0;
+	// 	static Real radius = 0;
+	// 	int centerX = 4;
+	// 	int centerY = 64;
+	// 	ticks++;
+
+	// 	if(ticks == fireParams.dynamicIntervalTicks) {
+	// 		ticks = 0;
+
+	// 		if(radius != fireParams.circleRadiusInmeters * heatMapParams.tilesPerMeter + 1) {	
+	// 			radius++;
+	// 		}
+
+	// 		for(Real r = 0; r <= radius; r += 0.1) {
+	// 			for(Real angle = 0; angle < 360; angle += 0.1) {
+	// 				Real x = centerX + r * cos(angle);
+	// 				Real y = centerY + r * sin(angle);
+
+	//				// Spread the fire and increase the temperature
+	// 				if(x >= 0 && x < heatMap.size() && y >= 0 && y < heatMap[x].size()) {
+	// 					if(heatMap[x][y] != heatMapParams.maxTemperature) {
+	// 						if(heatMap[x][y] + fireParams.dynamicTemperatureIncrease < heatMapParams.maxTemperature) {
+	// 							heatMap[x][y] += fireParams.dynamicTemperatureIncrease;
+	// 						} else {
+	// 							heatMap[x][y] = heatMapParams.maxTemperature;
+	// 						}
+	// 						redraw = true;
+	// 					}
+	// 				}
 	// 			}
-	// 			redraw = true;
+	// 		}
+
+	// 		// Redraw the floor texture
+	// 		if(heatMapParams.showTemperature && redraw) {
+	// 			floorEntity->SetChanged();
 	// 		}
 	// 	}
-	// }
-
-	// // Spread the fire
-	// // TODO
-
-	// // Redraw the floor texture
-	// if(heatMapParams.showTemperature && redraw) {
-	// 	floorEntity->SetChanged();
 	// }
 }
 
@@ -133,28 +122,60 @@ CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloo
 }
 
 void FireEvacuationLoopFunctions::initHeatMap() {
-	// Initialize the heatmap to debug the resolution
-	if(heatMapParams.debugMode == "resolution") {
-		for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
-			for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
-				heatMap[x][y] = heatMapParams.maxTemperature * ((x+y)%2);
+	// While debugging, initialize the heatmap with predetermined temperatures
+	if(heatMapParams.debugMode != "none") {
+		// Initialize the heatmap to debug the resolution
+		if(heatMapParams.debugMode == "resolution") {
+			for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
+				for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
+					heatMap[x][y] = heatMapParams.maxTemperature * ((x+y)%2);
+				}
+			}
+		}
+		// Initialize the heatmap to debug the gradient
+		else if(heatMapParams.debugMode == "gradient") {
+			Real spacing = heatMapParams.maxTemperature / (arenaSize->GetX()*heatMapParams.tilesPerMeter - 1);
+			for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
+				for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
+					heatMap[x][y] = spacing * x;
+				}
+			}
+		}
+		// Initialize the heatmap to have no temperature
+		else {
+			for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
+				for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
+					heatMap[x][y] = 0;
+				}
 			}
 		}
 	}
-	// Initialize the heatmap to debug the gradient
-	else if(heatMapParams.debugMode == "gradient") {
-		Real spacing = heatMapParams.maxTemperature / (arenaSize->GetX()*heatMapParams.tilesPerMeter - 1);
-		for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
-			for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
-				heatMap[x][y] = spacing * x;
-			}
-		}
-	}
-	// Initialize the heatmap to have no temperature
+	// Otherwise create a fire according to the fire mode and according to wether it is dynamic
 	else {
-		for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
-			for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
-				heatMap[x][y] = 0;
+		// Create a circular fire at a random position
+		if(fireParams.mode == "circle") {
+			Real resolutionX = arenaSize->GetX() * heatMapParams.tilesPerMeter;
+			Real resolutionY = arenaSize->GetY() * heatMapParams.tilesPerMeter;
+			int centerX = random->Uniform(CRange<int>(-resolutionX/2, resolutionX/2));
+			int centerY = random->Uniform(CRange<int>(-resolutionY/2, resolutionY/2));
+
+			// Create a linear gradient when the fire is static
+			if(!fireParams.isDynamic) {
+				Real radius = fireParams.circleRadiusInmeters * heatMapParams.tilesPerMeter;
+				Real spacing = heatMapParams.maxTemperature / radius;
+				for(Real r = 0; r <= radius; r += 0.1) {
+					for(Real angle = 0; angle < 360; angle += 0.1) {
+						Real x = centerX + r * cos(angle);
+						Real y = centerY + r * sin(angle);
+						if(x >= 0 && x < heatMap.size() && y >= 0 && y < heatMap[x].size()) {
+							heatMap[x][y] = heatMapParams.maxTemperature - spacing * r;
+						}
+					}
+				}
+			}
+			// Otherwise create a single tile where the fire should start to spread from
+			else {
+				heatMap[centerX][centerY] = heatMapParams.maxTemperature;
 			}
 		}
 	}

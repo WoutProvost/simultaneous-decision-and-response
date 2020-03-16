@@ -5,7 +5,7 @@ FireParams::FireParams() :
 	mode("circle"),
 	isDynamic(false),
 	dynamicIntervalTicks(50),
-	dynamicTemperatureIncrease(20),
+	dynamicTemperatureIncrease(5),
 	circleRadiusInmeters(3.0) {
 }
 
