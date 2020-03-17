@@ -4,7 +4,8 @@ FootBotBaseController::FootBotBaseController() :
 	// Initialize attributes and set default values
 	ledsColor("black"),
 	color(0, 0, 0, 255),
-	turnMode(TurnMode::NONE) {
+	turnMode(TurnMode::NONE),
+	behaviorState(BehaviorState::ROAMING) {
 }
 
 void FootBotBaseController::Init(TConfigurationNode &configurationNode) {
@@ -37,7 +38,12 @@ void FootBotBaseController::Init(TConfigurationNode &configurationNode) {
 }
 
 void FootBotBaseController::ControlStep() {
-	roam();
+	switch(behaviorState) {
+		case BehaviorState::ROAMING: {
+			roam();
+			break;
+		}
+	}	
 
 	// const CCI_ColoredBlobOmnidirectionalCameraSensor::SReadings &readings = coloredBlobOmnidirectionalCameraSensor->GetReadings();
 	// for(size_t blob = 0, size = readings.BlobList.size(); blob < size; blob++) {
@@ -70,6 +76,9 @@ void FootBotBaseController::Reset() {
 
 	// Reset the turn mode to its initial state
 	turnMode = TurnMode::NONE;
+
+	// Reset the behavior state to its initial state
+	behaviorState = BehaviorState::ROAMING;
 }
 
 void FootBotBaseController::roam() {

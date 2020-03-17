@@ -4,6 +4,7 @@
 #include "params/MovementParams.h"
 #include "params/CollisionAvoidanceParams.h"
 #include "enums/TurnMode.h"
+#include "enums/BehaviorState.h"
 #include <argos3/core/control_interface/ci_controller.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_differential_steering_actuator.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_leds_actuator.h>
@@ -45,6 +46,7 @@ class FootBotBaseController : public CCI_Controller {
 		// General variables and constants
 		CColor color;
 		TurnMode turnMode;
+		BehaviorState behaviorState;
 
 	public:
 		FootBotBaseController();

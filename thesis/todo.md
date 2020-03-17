@@ -1,4 +1,3 @@
-- Use a state machine
 - Don't forget to reset any variables in the appropriate Reset functions
 
 - Each fire mode should have its own configuration node, so it's easier to have its own attributes.
