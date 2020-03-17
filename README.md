@@ -12,6 +12,7 @@ sudo apt --fix-broken install
 ## Compilation:
 ```bash
 cd code
+mkdir frames
 mkdir build
 cd build
 cmake ..
