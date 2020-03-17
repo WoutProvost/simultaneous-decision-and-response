@@ -45,10 +45,11 @@ void FireEvacuationLoopFunctions::PreStep() {
 	// 	int centerY = 64;
 	// 	ticks++;
 
+	// 	// Redrawing the floor is very resource intensive so this shouldn't happen too often
 	// 	if(ticks == fireParams.dynamicIntervalTicks) {
 	// 		ticks = 0;
 
-	// 		if(radius != fireParams.circleRadiusInmeters * heatMapParams.tilesPerMeter + 1) {	
+	// 		if(radius != fireParams.circleRadius * heatMapParams.tilesPerMeter + 1) {	
 	// 			radius++;
 	// 		}
 
@@ -57,7 +58,7 @@ void FireEvacuationLoopFunctions::PreStep() {
 	// 				Real x = centerX + r * cos(angle);
 	// 				Real y = centerY + r * sin(angle);
 
-	//				// Spread the fire and increase the temperature
+	// 				// Spread the fire and increase the temperature
 	// 				if(x >= 0 && x < heatMap.size() && y >= 0 && y < heatMap[x].size()) {
 	// 					if(heatMap[x][y] != heatMapParams.maxTemperature) {
 	// 						if(heatMap[x][y] + fireParams.dynamicTemperatureIncrease < heatMapParams.maxTemperature) {
@@ -156,7 +157,7 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 
 			// Create a linear gradient when the fire is static
 			if(!fireParams.isDynamic) {
-				Real radius = fireParams.circleRadiusInmeters * heatMapParams.tilesPerMeter;
+				Real radius = fireParams.circleRadius * heatMapParams.tilesPerMeter;
 				Real spacing = heatMapParams.maxTemperature / radius;
 				for(Real r = 0; r <= radius; r += 0.1) {
 					for(Real angle = 0; angle < 360; angle += 0.1) {

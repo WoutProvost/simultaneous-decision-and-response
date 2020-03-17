@@ -1,22 +1,12 @@
-- Don't forget to reset any variables in the appropriate Reset functions
-
-- Each fire mode should have its own configuration node, so it's easier to have its own attributes.
-- Fire modes with attribute: single spreading fire in circle, single spreading fire according to model, multiple fires popping up at random time intervals
-- Redrawing the floor is very resource intensive so this shouldn't happen too often.
 - Depending on the readings of the ground sensors of the temperature sensing robots (2 in front, 2 in back) you can determine to where the robot should move. It shouldn't move to a tile that's warmer. If the robot happens to have it's 4 sensors on the same tile, or all sensors return the same temperature, try to move in a random direction and see if eventually the robot ends up on a cooler tile. If there are no cooler tiles around the robot the robot is stuck. This last scenario could happen when in the beginning the robot spawns on a hot tile, but this can be circumvented with a loop function by spawning the fire after a certain amount of time and on a tile that is not occupied by a robot. Or maybe the sensing robot should be allowed to drive over 'hot' spots, since it is only doing some sensing.
 
-- Gripper robots: search for gates and grip them
-- Sensor robots: search for an exit
-- A and B choice can be differentiated by different colored lights to navigate to.
-
-# TODO
 - Movable gates enkel movable door grippers, nu kunnen de andere bots de gates ook pushen (force/torque/friction van sensors verlagen, of mass van objects verhogen en enkel de gripper genoeg force/torque geven) (wat met de proximity sensors van de grippers, diffusion uitzetten, of logica met als de afstand tot het licht boven de gate gelijk is aan de max proximitysensor rijkwijdte, dan niet uitwijken, op voorwaarde dat die gate werd beslist in de swarm)
 - Gates vervangen door gound blobs die alleen door de grippers opgepakt kunnen worden?
-- Solid gates disappear when gripped, because they manouvering of the bots doesn't have much to do with the thesis novelty
+- Solid gates disappear when gripped, because the manouvering of the bots doesn't have much to do with the thesis novelty
+
 - Custom ending with loop function (all robots or large enough percentage are safe), or use predetermined time length?
-- Based on what data does each individual robot decide, proximity to exit?
 - Once the bots have exited the gate they should go as fare away as possible from the fire
-- Dynamic example: the fire should spread according to random seed in configuration file, wether to spread is toggleable by configuration file
+- If we implement addition fire modes, each fire mode should have its own configuration node, so it's easier to have its own attributes
 
 
 
@@ -37,17 +27,25 @@
 
 
 
+# TODO
+- Gates: only removable by the gripper robots
+- Gripper robots: search for gates and remove the gates and exit the arena
+- Sensor robots: search for an exit and exit the arena
 
 # Questions and ideas
+- Redrawing the floor is very resource intensive so only do this after a few ticks
+- Additional fire modes: single spreading fire according to real life model or random seed, multiple spreading fires popping up at random time intervals
+- Based on what data does each individual robot make its individual decision. Proximity to one of the exits? Is this proximity even possible to implement?
+- A and B choice can be differentiated in the analysis by different colored lights to navigate to or by the direction of the vector to the light
 - Do sensors need noise and the RaB sensor packet drop?
-- Show a (live) graphical view of the collective decision and collective response (example: linux system monitor). Log the data from this graph.
+- Show a (live) graphical view of the collective decision and collective response (example: linux system monitor). Log the data from this graph
 
 # Important configuration settings
 - Robot velocity
-- Robot RaB range
+- Robot RaB range & data size
 - RaB medium check occlusions
-- Heatmap tiles per meter
-- Heatmpa max temperature
+- Heatmap tiles per meter & max temperature
+- Fire interval ticks & temperature increase & circle radius
 
 # Documentation
 - CDynamics2DFootBotModel: https://www.argos-sim.info/api/a00521_source.php
@@ -58,8 +56,9 @@
 - CCI_FootBotGripperActuator: https://www.argos-sim.info/api/a02636.php
 - CCI_FootBotProximitySensor: https://www.argos-sim.info/api/a02656.php
 - CCI_RangeAndBearingSensor: https://www.argos-sim.info/api/a02900.php
-- CCI_FootBotLightSensor: https://www.argos-sim.info/api/a02640.php
 - CCI_ColoredBlobOmnidirectionalCameraSensor: https://www.argos-sim.info/api/a02792.php
+- CCI_FootBotLightSensor: https://www.argos-sim.info/api/a02640.php
+- CCI_FootBotMotorGroundSensor: https://www.argos-sim.info/api/a02648.php
 
 # Performance notes
 - For larger swarms, turning the light sensor of when you don't need it.

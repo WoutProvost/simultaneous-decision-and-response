@@ -14,7 +14,7 @@ class FireParams {
         bool isDynamic;
 		int dynamicIntervalTicks;
 		int dynamicTemperatureIncrease;
-		Real circleRadiusInmeters;
+		Real circleRadius;
 
 		FireParams();
 
