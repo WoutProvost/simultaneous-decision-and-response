@@ -25,9 +25,18 @@
 
 
 
-
+# Done
+- Movable gates
+- 100 gripper robots (black leds) & 100 sensor robots (white leds)
+- Base class controller with collision avoidance and roaming movement (mostly taken from foraging example)
+- 2 subclasses for the 2 types of robots
+- Fire not implemented as light, because this would conflict with lights used for navigation, heatmap with ground sensors used instead
+- Sensor robots can only sense grayscale, but the colord heatmap works for debugging purposes
+- Heatmap tiles_per_meter, max_temperature, gradient and resolution debug modes (show pictures or demonstrate)
+- Static fire circle mode with circle_radius (show pictures or demonstrate)
 
 # TODO
+- Dynamic fire circle: dynamic_interval_ticks, dynamic_temperature_increase
 - Gates: only removable by the gripper robots
 - Gripper robots: search for gates and remove the gates and exit the arena
 - Sensor robots: search for an exit and exit the arena
