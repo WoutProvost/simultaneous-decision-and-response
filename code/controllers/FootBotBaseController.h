@@ -1,7 +1,9 @@
 #ifndef FOOT_BOT_BASE_CONTROLLER_H
 #define FOOT_BOT_BASE_CONTROLLER_H
 
-#include "CollisionAvoidanceParams.h"
+#include "params/MovementParams.h"
+#include "params/CollisionAvoidanceParams.h"
+#include "enums/TurnMode.h"
 #include <argos3/core/control_interface/ci_controller.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_differential_steering_actuator.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_leds_actuator.h>
@@ -16,6 +18,13 @@ using std::string;
 
 class FootBotBaseController : public CCI_Controller {
 
+	private:
+		// Methods
+		void roam();
+		CVector2 getVectorToLight();
+		CVector2 getCollisionAvoidanceVector();
+		void setWheelVelocitiesFromVector(const CVector2 &heading);
+
 	protected:
 		// Actuators
 		CCI_DifferentialSteeringActuator *differentialSteeringActuator;
@@ -29,12 +38,13 @@ class FootBotBaseController : public CCI_Controller {
 		CCI_FootBotLightSensor *footBotLightSensor;
 
 		// Params
-		Real velocity;
 		string ledsColor;
+		MovementParams movementParams;
 		CollisionAvoidanceParams collisionAvoidanceParams;
 
 		// General variables and constants
 		CColor color;
+		TurnMode turnMode;
 
 	public:
 		FootBotBaseController();

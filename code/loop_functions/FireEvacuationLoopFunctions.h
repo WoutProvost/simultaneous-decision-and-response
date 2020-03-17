@@ -1,8 +1,8 @@
 #ifndef FIRE_EVACUATION_LOOP_FUNCTIONS_H
 #define FIRE_EVACUATION_LOOP_FUNCTIONS_H
 
-#include "HeatMapParams.h"
-#include "FireParams.h"
+#include "params/HeatMapParams.h"
+#include "params/FireParams.h"
 #include <argos3/core/simulator/loop_functions.h>
 #include <argos3/core/simulator/entity/floor_entity.h>
 

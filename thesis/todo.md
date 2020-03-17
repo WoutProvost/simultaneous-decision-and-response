@@ -1,7 +1,5 @@
-- Update diffusion and wheel code with the one from the foraging example.
-- See footbot_foraging.cpp for CalculateVectorToLight and SetWheelSpeedsFromVector methods.
-- Use a state machine.
-- Don't forget to reset any variables in the appropriate Reset functions.
+- Use a state machine
+- Don't forget to reset any variables in the appropriate Reset functions
 
 - Each fire mode should have its own configuration node, so it's easier to have its own attributes.
 - Fire modes with attribute: single spreading fire in circle, single spreading fire according to model, multiple fires popping up at random time intervals

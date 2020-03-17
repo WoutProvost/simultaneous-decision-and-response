@@ -21,7 +21,8 @@
 				<colored_blob_omnidirectional_camera implementation="rot_z_only" medium="led_medium" show_rays="false" />
 				<footbot_light implementation="rot_z_only" show_rays="false" />
 			</sensors>
-			<params velocity="5.0" leds_color="black">
+			<params leds_color="black">
+				<movement max_velocity="10.0" max_heading_angle_for_no_turn="10.0" min_heading_angle_for_hard_turn="90.0" />
 				<collision_avoidance max_angle_between_heading_and_obstacle="5" max_obstacle_proximity="0.1" />
 			</params>
 		</footbot_gate_gripping>
@@ -40,7 +41,8 @@
 				<footbot_light implementation="rot_z_only" show_rays="false" />
 				<footbot_motor_ground implementation="rot_z_only" />
 			</sensors>
-			<params velocity="5.0" leds_color="white">
+			<params leds_color="white">
+				<movement max_velocity="10.0" max_heading_angle_for_no_turn="10.0" min_heading_angle_for_hard_turn="90.0" />
 				<collision_avoidance max_angle_between_heading_and_obstacle="5" max_obstacle_proximity="0.1" />
 			</params>
 		</footbot_temperature_sensing>

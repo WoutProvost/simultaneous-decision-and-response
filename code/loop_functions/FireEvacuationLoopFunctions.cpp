@@ -18,11 +18,6 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	} catch(CARGoSException &ex) {
 	}
 
-	// The max temperature can't exceed the max possible temperature
-	if(heatMapParams.maxTemperature > MAX_POSSIBLE_TEMPERATURE) {
-		heatMapParams.maxTemperature = MAX_POSSIBLE_TEMPERATURE;
-	}
-
 	// Initialize the floor entity
 	floorEntity = &space->GetFloorEntity();
 

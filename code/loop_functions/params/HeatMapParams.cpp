@@ -16,4 +16,9 @@ void HeatMapParams::setParams(TConfigurationNode &configurationNode) {
     GetNodeAttributeOrDefault(configurationNode, "show_temperature", showTemperature, showTemperature);
     GetNodeAttributeOrDefault(configurationNode, "debug_mode", debugMode, debugMode);
     GetNodeAttributeOrDefault(configurationNode, "debug_use_colors", debugUseColors, debugUseColors);
+
+	// The max temperature can't exceed the max possible temperature
+	if(maxTemperature > MAX_POSSIBLE_TEMPERATURE) {
+		maxTemperature = MAX_POSSIBLE_TEMPERATURE;
+	}
 }
