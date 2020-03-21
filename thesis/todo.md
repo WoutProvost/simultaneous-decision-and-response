@@ -1,3 +1,6 @@
+https://www.qt.io/
+https://www.qcustomplot.com/
+
 - Depending on the readings of the ground sensors of the temperature sensing robots (2 in front, 2 in back) you can determine to where the robot should move. It shouldn't move to a tile that's warmer. If the robot happens to have it's 4 sensors on the same tile, or all sensors return the same temperature, try to move in a random direction and see if eventually the robot ends up on a cooler tile. If there are no cooler tiles around the robot the robot is stuck. This last scenario could happen when in the beginning the robot spawns on a hot tile, but this can be circumvented with a loop function by spawning the fire after a certain amount of time and on a tile that is not occupied by a robot. Or maybe the sensing robot should be allowed to drive over 'hot' spots, since it is only doing some sensing.
 
 - Movable gates enkel movable door grippers, nu kunnen de andere bots de gates ook pushen (force/torque/friction van sensors verlagen, of mass van objects verhogen en enkel de gripper genoeg force/torque geven) (wat met de proximity sensors van de grippers, diffusion uitzetten, of logica met als de afstand tot het licht boven de gate gelijk is aan de max proximitysensor rijkwijdte, dan niet uitwijken, op voorwaarde dat die gate werd beslist in de swarm)
