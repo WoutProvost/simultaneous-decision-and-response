@@ -4,6 +4,8 @@
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow) {
+
+	// Configure initial UI according to the generated UI header file
 	ui->setupUi(this);
 
 	// Initialize plot
