@@ -1,3 +1,6 @@
+cmake_minimum_required(VERSION 3.10.0)
+project(plot LANGUAGES CXX)
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 find_package(Qt5 COMPONENTS Widgets PrintSupport REQUIRED)
 
@@ -5,13 +8,12 @@ set(project_ui
 	mainwindow.ui)
 
 set(project_headers
-	PlotApplication.h
 	MainWindow.h
 	lib/qcustomplot.h
 	lib/axistag.h)
 
 set(project_sources
-	PlotApplication.cpp
+	Application.cpp
 	MainWindow.cpp
 	lib/qcustomplot.cpp
 	lib/axistag.cpp)
