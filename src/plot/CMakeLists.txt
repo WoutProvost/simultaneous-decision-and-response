@@ -1,29 +1,26 @@
-cmake_minimum_required(VERSION 3.10)
-project(plot LANGUAGES CXX)
+# Find the Qt5 package with required components
+find_package(Qt5 REQUIRED COMPONENTS Widgets PrintSupport)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-find_package(Qt5 COMPONENTS Widgets PrintSupport REQUIRED)
+# Automatically parse .ui files and generate .h files from them
+set(CMAKE_AUTOUIC ON)
 
-set(project_headers
-	MainWindow.h
-	lib/qcustomplot.h
-	lib/axistag.h)
+# Add these libraries to be built
+add_library(main_window SHARED MainWindow.h MainWindow.cpp)
+add_library(qcustomplot SHARED lib/qcustomplot.h lib/qcustomplot.cpp)
+add_library(axistag SHARED lib/axistag.h lib/axistag.cpp)
 
-set(project_sources
-	Application.cpp
-	MainWindow.cpp
-	lib/qcustomplot.cpp
-	lib/axistag.cpp)
-
-qt5_wrap_ui(project_wrapped mainwindow.ui)
-qt5_wrap_cpp(project_moc ${project_headers})
-
-add_executable(${PROJECT_NAME}
-	${project_headers}
-	${project_sources}
-	${project_wrapped}
-	${project_moc})
-
-target_link_libraries(${PROJECT_NAME}
+# Define the dependencies of these libraries
+target_link_libraries(qcustomplot
 	Qt5::Widgets
 	Qt5::PrintSupport)
+target_link_libraries(axistag
+	qcustomplot)
+target_link_libraries(main_window
+	axistag)
+
+# Add these executables to be built
+add_executable(plot Application.cpp)
+
+# Define the dependencies of these executables
+target_link_libraries(plot
+	main_window)
