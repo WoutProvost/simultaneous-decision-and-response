@@ -1,5 +1,8 @@
-# Dinsdag 17-03-2020
+# Dinsdag 24-03-2020
 - 
+
+# Dinsdag 17-03-2020
+- No meeting
 
 # Donderdag 12-03-2020
 - No meeting
