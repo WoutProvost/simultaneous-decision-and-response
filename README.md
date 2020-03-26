@@ -23,7 +23,7 @@ make
 argos3 -c ../experiments/fire_evacuation.argos
 ```
 
-## Configuration
+## Configuration:
 Controller **general** params:
 * `leds_color`:
   * The gate gripping footbot defaults to `black`.
@@ -60,3 +60,8 @@ Loop functions **fire** params:
 * `is_dynamic`: Defaults to `false`.
 * `dynamic_interval_ticks`: Defaults to `50`.
 * `dynamic_temperature_increase`: Defaults to `5`.
+
+Loop functions **plot** params:
+* `log_data`: Defaults to `false`.
+* `show_in_realtime`: Defaults to `false`.
+* `realtime_initial_x_axis_max_value`: Defaults to `60`.

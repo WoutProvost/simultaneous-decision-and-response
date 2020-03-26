@@ -28,8 +28,8 @@ void MainWindow::initPlot() {
 	ui->customPlot->plotLayout()->addElement(0, 0, new QCPTextElement(ui->customPlot, "Experiment " + QString::number(1) + " (100 bots)", QFont("sans", 12, QFont::Bold)));
 
 	// Legend
-    ui->customPlot->legend->setVisible(true);
-    ui->customPlot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignLeft|Qt::AlignTop);
+	ui->customPlot->legend->setVisible(true);
+	ui->customPlot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignLeft|Qt::AlignTop);
 
 	// Top and right borders
 	ui->customPlot->xAxis2->setVisible(true);
@@ -65,10 +65,10 @@ void MainWindow::initPlot() {
 	ui->customPlot->yAxis->setTicker(yAxisTicker);
 
 	// Graphs
-    for(int graph = 0, size = 2; graph < size; graph++) {
+	for(int graph = 0, size = 2; graph < size; graph++) {
 		ui->customPlot->addGraph();
-        ui->customPlot->graph(graph)->setName("Decision " + QString(QChar(graph + 'A')));
-        ui->customPlot->graph(graph)->setPen(QPen(static_cast<Qt::GlobalColor>(Qt::red + graph)));
+		ui->customPlot->graph(graph)->setName("Choice " + QString(QChar(graph + 'A')));
+		ui->customPlot->graph(graph)->setPen(QPen(static_cast<Qt::GlobalColor>(Qt::red + graph)));
 	}
 
 	// Tags
@@ -99,13 +99,13 @@ void MainWindow::initPlot() {
 void MainWindow::updatePlot() {
 	// Calculate X axis and Y axis values
 	double x = time.elapsed()/1000.0;
-    double y = 50.0;
+	double y = 50.0;
 
 	// Add at most a point every 2 ms
 	if(x - lastX > 0.002) {
 		// Update graphs
 		for(int graph = 0, size = ui->customPlot->graphCount(); graph < size; graph++) {
-            y = (graph == 0 ? 60.0 : 40.0);
+			y = (graph == 0 ? 60.0 : 40.0);
 			ui->customPlot->graph(graph)->addData(x, y);
 		}
 
