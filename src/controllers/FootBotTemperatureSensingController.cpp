@@ -1,5 +1,10 @@
 #include "FootBotTemperatureSensingController.h"
 
+FootBotTemperatureSensingController::FootBotTemperatureSensingController() :
+	// Call base class method and initialize attributes and set default values
+	FootBotBaseController::FootBotBaseController("white") {
+}
+
 void FootBotTemperatureSensingController::Init(TConfigurationNode &configurationNode) {
 	// Call base class method
 	FootBotBaseController::Init(configurationNode);

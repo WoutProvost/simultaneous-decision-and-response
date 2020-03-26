@@ -11,10 +11,10 @@ class FireParams {
 	public:
 		// Params
         string mode;
+		Real circleRadius;
         bool isDynamic;
 		int dynamicIntervalTicks;
 		int dynamicTemperatureIncrease;
-		Real circleRadius;
 
 		FireParams();
 

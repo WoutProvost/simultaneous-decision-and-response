@@ -23,7 +23,7 @@
 			</sensors>
 			<params leds_color="black">
 				<movement max_velocity="10.0" max_heading_angle_for_no_turn="10.0" min_heading_angle_for_hard_turn="90.0" />
-				<collision_avoidance max_angle_between_heading_and_obstacle="5" max_obstacle_proximity="0.1" />
+				<collision_avoidance max_angle_between_heading_and_obstacle="5.0" max_obstacle_proximity="0.1" />
 			</params>
 		</footbot_gate_gripping>
 
@@ -43,7 +43,7 @@
 			</sensors>
 			<params leds_color="white">
 				<movement max_velocity="10.0" max_heading_angle_for_no_turn="10.0" min_heading_angle_for_hard_turn="90.0" />
-				<collision_avoidance max_angle_between_heading_and_obstacle="5" max_obstacle_proximity="0.1" />
+				<collision_avoidance max_angle_between_heading_and_obstacle="5.0" max_obstacle_proximity="0.1" />
 			</params>
 		</footbot_temperature_sensing>
 	</controllers>
@@ -154,7 +154,7 @@
 
 	<loop_functions library="../build/src/loop_functions/libfire_evacuation_loop_functions" label="fire_evacuation_loop_functions">
 		<heatmap tiles_per_meter="10" max_temperature="255" show_temperature="true" debug_mode="none" debug_use_colors="true" />
-		<fire mode="circle" is_dynamic="false" dynamic_interval_ticks="50" dynamic_temperature_increase="5" circle_radius="3.0" />
+		<fire mode="circle" circle_radius="3.0" is_dynamic="false" dynamic_interval_ticks="50" dynamic_temperature_increase="5" />
 	</loop_functions>
 
 </argos-configuration>

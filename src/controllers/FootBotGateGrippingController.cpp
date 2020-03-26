@@ -1,5 +1,10 @@
 #include "FootBotGateGrippingController.h"
 
+FootBotGateGrippingController::FootBotGateGrippingController() :
+	// Call base class method and initialize attributes and set default values
+	FootBotBaseController::FootBotBaseController("black") {
+}
+
 void FootBotGateGrippingController::Init(TConfigurationNode &configurationNode) {
 	// Call base class method
 	FootBotBaseController::Init(configurationNode);

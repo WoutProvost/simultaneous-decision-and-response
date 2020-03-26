@@ -3,9 +3,17 @@
 FootBotBaseController::FootBotBaseController() :
 	// Initialize attributes and set default values
 	ledsColor("black"),
-	color(0, 0, 0, 255),
+	color(0, 0, 0),
 	turnMode(TurnMode::NONE),
 	behaviorState(BehaviorState::ROAMING) {
+}
+
+FootBotBaseController::FootBotBaseController(string ledsColor) :
+	// Call other constructor
+	FootBotBaseController() {
+
+	// Initialize attributes and set default values
+	this->ledsColor = ledsColor;
 }
 
 void FootBotBaseController::Init(TConfigurationNode &configurationNode) {

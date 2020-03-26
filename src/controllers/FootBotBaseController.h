@@ -50,6 +50,7 @@ class FootBotBaseController : public CCI_Controller {
 
 	public:
 		FootBotBaseController();
+		FootBotBaseController(string ledsColor);
 
 		virtual void Init(TConfigurationNode &configurationNode);
 		virtual void ControlStep();
