@@ -1,26 +1,26 @@
-# Dinsdag 24-03-2020
+# Tuesday 24-03-2020
 - 
 
-# Dinsdag 17-03-2020
+# Tuesday 17-03-2020
 - No meeting
 
-# Donderdag 12-03-2020
+# Thursday 12-03-2020
 - No meeting
 
-# Donderdag 5-03-2020
+# Thursday 5-03-2020
 - No meeting
 
-# Donderdag 27-02-2020
+# Thursday 27-02-2020
 - Implement the static scenario (see picture from whiteboard)
 - Heatmap + ground sensors (bottom sensors with gradient)
 
-# Donderdag 13-02-2020
+# Thursday 13-02-2020
 - No meeting
 
-# Donderdag 20-02-2020
+# Thursday 20-02-2020
 - No meeting
 
-# Vrijdag 7-02-2020
+# Friday 7-02-2020
 - Think of a scenario to implement
 - Experiment with ARGoS
 - Search for additional articles

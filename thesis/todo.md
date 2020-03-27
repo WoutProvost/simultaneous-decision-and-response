@@ -7,6 +7,7 @@
 - Custom ending with loop function (all robots or large enough percentage are safe), or use predetermined time length?
 - Once the bots have exited the gate they should go as fare away as possible from the fire
 - If we implement addition fire modes, each fire mode should have its own configuration node, so it's easier to have its own attributes
+- Perhaps only show the colorized heatmap right before the experiment ends
 
 
 
