@@ -41,6 +41,9 @@ void FootBotBaseController::Init(TConfigurationNode &configurationNode) {
 	color.Set(ledsColor);
 	ledsActuator->SetAllColors(color);
 
+	// Add this LED color to the colored blobs that should be ignored when reading from the colored blob omnidirectional camera sensor
+	ignoredColoredBlobs[color] = true;
+
 	// Enable the colored blob omnidirectional camera sensor
 	// coloredBlobOmnidirectionalCameraSensor->Enable();
 }
@@ -55,26 +58,12 @@ void FootBotBaseController::ControlStep() {
 
 	// const CCI_ColoredBlobOmnidirectionalCameraSensor::SReadings &readings = coloredBlobOmnidirectionalCameraSensor->GetReadings();
 	// for(size_t blob = 0, size = readings.BlobList.size(); blob < size; blob++) {
-	// 	if(readings.BlobList[blob]->Color != CColor::WHITE && readings.BlobList[blob]->Color != CColor::BLACK && readings.BlobList[blob]->Color != CColor::RED) {
-	// 		RLOG << "Blob detected: " << readings.BlobList[blob]->Color << std::endl;
+	// 	if(!ignoredColoredBlobs[readings.BlobList[blob]->Color]) {
+	// 		RLOG << "Blob: " << readings.BlobList[blob]->Color
+	// 			<< " " << ToDegrees(readings.BlobList[blob]->Angle).GetValue() << "°"
+	// 			<< " " << readings.BlobList[blob]->Distance/100 << "m"
+	// 			<< std::endl;
 	// 	}
-	// }
-
-	// if(!fireDetected) {
-	// 	const CCI_FootBotLightSensor::TReadings &readings = footBotLightSensor->GetReadings();
-	// 	CVector2 accumulator;
-	// 	for(size_t reading = 0, size = readings.size(); reading < size; reading++) {
-	// 		accumulator += CVector2(readings[reading].Value, readings[reading].Angle);
-	// 	}
-	// 	if(accumulator.Length() != 0.0f) {
-	// 		differentialSteeringActuator->SetLinearVelocity(0.0f, 0.0f);
-	// 		color.Set("red");
-	// 		ledsActuator->SetAllColors(color);
-	// 		fireDetected = true;
-	// 		RLOG << "Fire detected: " << accumulator.Length() << std::endl;
-	// 	}
-	// } else {
-	// 	differentialSteeringActuator->SetLinearVelocity(0.0f, 0.0f);
 	// }
 }
 
@@ -94,7 +83,7 @@ void FootBotBaseController::roam() {
 	CVector2 heading = getCollisionAvoidanceVector();
 
 	// Set the velocities of both the left and the right wheels according to the maximum velocity and to where the robot should go
-	setWheelVelocitiesFromVector(movementParams.maxVelocity * heading);	
+	setWheelVelocitiesFromVector(movementParams.maxVelocity * heading);
 }
 
 CVector2 FootBotBaseController::getVectorToLight() {
@@ -192,6 +181,9 @@ void FootBotBaseController::setWheelVelocitiesFromVector(const CVector2 &heading
 		differentialSteeringActuator->SetLinearVelocity(v2, v1);
 	}
 }
+
+// Static variable initialization
+map<uint32_t,bool> FootBotBaseController::ignoredColoredBlobs = map<uint32_t,bool>();
 
 // Macro that binds this class to an XML tag
 REGISTER_CONTROLLER(FootBotBaseController, "footbot_base")

@@ -90,41 +90,51 @@
 		</distribute>
 
 		<!-- North navigational light -->
-		<light id="light_north" position="0,7.4,0.9" orientation="0,0,0" color="red" intensity="1.0" medium="led_medium"/>
+		<light id="light_north" position="0,7.4,0" orientation="0,0,0" color="red" intensity="7.0" medium="led_medium"/>
 
 		<!-- South navigational light -->
-		<light id="light_south" position="0,-7.4,0.9" orientation="0,0,0" color="blue" intensity="1.0" medium="led_medium"/>
+		<light id="light_south" position="0,-7.4,0" orientation="0,0,0" color="blue" intensity="7.0" medium="led_medium"/>
 
 		<!-- Floor -->
 		<floor id="floor" source="loop_functions" pixels_per_meter="100" />
 
 		<!-- Gate gripping robots -->
-		<distribute>
+		<!-- Camera aperture: range on ground = h*tan(aperture) = 0.289m*tan(89.9deg) = 165.58m -->
+		<!-- <distribute>
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
 			<entity quantity="100" max_trials="100">
-				<foot-bot id="fb_gg_" rab_range="3" rab_data_size="10" omnidirectional_camera_aperture="70">
+				<foot-bot id="fb_gg_" rab_range="3" rab_data_size="10" omnidirectional_camera_aperture="89.9">
 					<controller config="footbot_gate_gripping_controller" />
 					<dynamics2d>
 						<differential_steering max_force="15" max_torque="150" />
 					</dynamics2d>
 				</foot-bot>
 			</entity>
-		</distribute>
+		</distribute> -->
 
 		<!-- Temperature sensing robots -->
-		<distribute>
+		<!-- Camera aperture: range on ground = h*tan(aperture) = 0.289m*tan(89.9deg) = 165.58m -->
+		<!-- <distribute>
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
 			<entity quantity="100" max_trials="100">
-				<foot-bot id="fb_ts_" rab_range="3" rab_data_size="10" omnidirectional_camera_aperture="70">
+				<foot-bot id="fb_ts_" rab_range="3" rab_data_size="10" omnidirectional_camera_aperture="89.9">
 					<controller config="footbot_temperature_sensing_controller" />
 					<dynamics2d>
 						<differential_steering max_force="15" max_torque="150" />
 					</dynamics2d>
 				</foot-bot>
 			</entity>
-		</distribute>
+		</distribute> -->
+
+		<foot-bot id="fb_ts_0" rab_range="3" rab_data_size="10" omnidirectional_camera_aperture="89.9">
+			<controller config="footbot_temperature_sensing_controller" />
+			<dynamics2d>
+				<differential_steering max_force="15" max_torque="150" />
+			</dynamics2d>
+			<body position="0,0,0" orientation="90,0,0" />
+		</foot-bot>
 	</arena>
 
 	<physics_engines>
@@ -159,7 +169,7 @@
 	</visualization>
 
 	<loop_functions library="../build/src/loop_functions/libfire_evacuation_loop_functions" label="fire_evacuation_loop_functions">
-		<heatmap tiles_per_meter="10" max_temperature="255" show_temperature="true" debug_mode="none" debug_use_colors="true" />
+		<heatmap tiles_per_meter="10" max_temperature="255" show_temperature="true" debug_mode="none" debug_use_colors="false" />
 		<fire mode="circle" circle_radius="3.0" is_dynamic="false" dynamic_interval_ticks="50" dynamic_temperature_increase="5" />
 		<plot log_data="false" show_in_realtime="true" realtime_initial_x_axis_max_value="60" />
 	</loop_functions>

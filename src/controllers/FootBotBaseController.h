@@ -15,11 +15,15 @@
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_light_sensor.h>
 
 using namespace argos;
+using std::map;
 using std::string;
 
 class FootBotBaseController : public CCI_Controller {
 
 	private:
+		// General variables and constants
+		static map<uint32_t,bool> ignoredColoredBlobs;
+
 		// Methods
 		void roam();
 		CVector2 getVectorToLight();
