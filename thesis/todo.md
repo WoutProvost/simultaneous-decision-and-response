@@ -1,62 +1,63 @@
-- Depending on the readings of the ground sensors of the temperature sensing robots (2 in front, 2 in back) you can determine to where the robot should move. It shouldn't move to a tile that's warmer. If the robot happens to have it's 4 sensors on the same tile, or all sensors return the same temperature, try to move in a random direction and see if eventually the robot ends up on a cooler tile. If there are no cooler tiles around the robot the robot is stuck. This last scenario could happen when in the beginning the robot spawns on a hot tile, but this can be circumvented with a loop function by spawning the fire after a certain amount of time and on a tile that is not occupied by a robot. Or maybe the sensing robot should be allowed to drive over 'hot' spots, since it is only doing some sensing.
+# Data to communicate
+- Temperature of tile
+- Which gate to use
 
-- Movable gates enkel movable door grippers, nu kunnen de andere bots de gates ook pushen (force/torque/friction van sensors verlagen, of mass van objects verhogen en enkel de gripper genoeg force/torque geven) (wat met de proximity sensors van de grippers, diffusion uitzetten, of logica met als de afstand tot het licht boven de gate gelijk is aan de max proximitysensor rijkwijdte, dan niet uitwijken, op voorwaarde dat die gate werd beslist in de swarm)
-- Gates vervangen door gound blobs die alleen door de grippers opgepakt kunnen worden?
-- Solid gates disappear when gripped, because the manouvering of the bots doesn't have much to do with the thesis novelty
+# Individual decision mechanism
+Start when the robot moves from a white tile to a grayer tile
+## Distance method
+- Compute the distance to each gate
+- Choose the gate that is the furthest away from the fire
+## Fire spreading method
+- Compute the vector to each neighbour to compute the fire spreading vector (i.e. the direction to where the fire gets hotter)
+- Compute the vector to each gate and compare them to the fire vector
+- Choose the gate that coincides the least with the fire vector (i.e. if the fire is spreading towards the blue gate then pick the red gate and vice versa)
+- See the flocking example (vector of motion => gradient vector of fire)
 
-- Custom ending with loop function (all robots or large enough percentage are safe), or use predetermined time length?
-- Once the bots have exited the gate they should go as fare away as possible from the fire
-- If we implement addition fire modes, each fire mode should have its own configuration node, so it's easier to have its own attributes
-- Perhaps only show the colorized heatmap right before the experiment ends
+# Changing decision mechanism
+Reason: bots with highest temperature are not always reliable
+Exchange data with neighbours
+Apply a threshold to know when to replace your own data with the neighbouring data and update your decision about the gate to use
+## Average method
+- Take the average of what the neighbours exchange with you
+## Fire spreading method
+- Using the neighbouring data (e.g. 0.1, 0.2, 0.1) you can get direction of the fire
 
+# Individual reaction mechanism
+- The grippers will hear the opinions being exchanged
+- Apply a threshold to know when to start acting
+- Avoid cases where grippers start taking decisions too early, but at the same time you don't want them to wait too long (speed vs accuracy trade off)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Done
-- Movable gates
-- 100 gripper robots (black leds) & 100 sensor robots (white leds)
-- Base class controller with collision avoidance and roaming movement (mostly taken from foraging example)
-- 2 subclasses for the 2 types of robots
-- Fire not implemented as light, because this would conflict with lights used for navigation, heatmap with ground sensors used instead
-- Sensor robots can only sense grayscale, but the colord heatmap works for debugging purposes
-- Heatmap tiles_per_meter, max_temperature, gradient and resolution debug modes (show pictures or demonstrate)
-- Static fire circle mode with circle_radius (show pictures or demonstrate)
-- Plot using https://www.qt.io/ and https://www.qcustomplot.com/
+# Voting and decision strategies
+- Majority rule, weighted voter model, quorum sensing, ... (see the articles)
+- Implement at least 2 voting mechanisms to compare
 
 # TODO
-- Dynamic fire circle: dynamic_interval_ticks, dynamic_temperature_increase
 - Gates: only removable by the gripper robots
 - Gripper robots: search for gates and remove the gates and exit the arena
 - Sensor robots: search for an exit and exit the arena
 - Plot: show live data of the collective decision and collective response, also log the data from this graph in a file
+- Dynamic fire circle: dynamic_interval_ticks, dynamic_temperature_increase
 
-# Questions and ideas
-- Redrawing the floor is very resource intensive so only do this after a few ticks
-- Additional fire modes: single spreading fire according to real life model or random seed, multiple spreading fires popping up at random time intervals
-- Based on what data does each individual robot make its individual decision. Proximity to one of the exits? Is this proximity even possible to implement?
-- A and B choice can be differentiated in the analysis by different colored lights to navigate to or by the direction of the vector to the light
-- Do sensors need noise and the RaB sensor packet drop?
+# Grippers
+- Movable gates enkel movable door grippers, nu kunnen de andere bots de gates ook pushen (force/torque/friction van sensors verlagen, of mass van objects verhogen en enkel de gripper genoeg force/torque geven) (wat met de proximity sensors van de grippers, diffusion uitzetten, of logica met als de afstand tot het licht boven de gate gelijk is aan de max proximitysensor rijkwijdte, dan niet uitwijken, op voorwaarde dat die gate werd beslist in de swarm)
+- Gates vervangen door gound blobs die alleen door de grippers opgepakt kunnen worden?
+- Solid gates disappear when gripped, because the manouvering of the bots doesn't have much to do with the thesis novelty
 
-# Important configuration settings
-- Robot velocity
-- Robot RaB range & data size
-- RaB medium check occlusions
-- Heatmap tiles per meter & max temperature
-- Fire interval ticks & temperature increase & circle radius
+# Ending
+- Custom ending with loop function (all robots or large enough percentage are safe), or use predetermined time length?
+- Once the bots have exited the gate they should go as fare away as possible from the fire
+- Perhaps only show the colorized heatmap right before the experiment ends
+- Additional fire modes: each mode should have its own configuration node, so it's easier to have its own attributes
+
+# Tweakable parameters than can have an influence on the result
+- max_velocity (important in the dynamic scenario due to how fast the fire spreads)
+- rab_range
+- rab_data_size
+- tiles_per_meter
+- max_temperature
+- sensor noise
+- sensor packet drop
+- amount of bots (and amount of each type)
 
 # Documentation
 - CDynamics2DFootBotModel: https://www.argos-sim.info/api/a00521_source.php
