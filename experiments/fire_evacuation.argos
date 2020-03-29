@@ -104,7 +104,7 @@
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
 			<entity quantity="100" max_trials="100">
-				<foot-bot id="fb_gg_" rab_range="3" rab_data_size="10" omnidirectional_camera_aperture="89.9">
+				<foot-bot id="fb_gg_" rab_range="1" rab_data_size="10" omnidirectional_camera_aperture="89.9">
 					<controller config="footbot_gate_gripping_controller" />
 					<dynamics2d>
 						<differential_steering max_force="15" max_torque="150" />
@@ -119,7 +119,7 @@
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
 			<entity quantity="100" max_trials="100">
-				<foot-bot id="fb_ts_" rab_range="3" rab_data_size="10" omnidirectional_camera_aperture="89.9">
+				<foot-bot id="fb_ts_" rab_range="1" rab_data_size="10" omnidirectional_camera_aperture="89.9">
 					<controller config="footbot_temperature_sensing_controller" />
 					<dynamics2d>
 						<differential_steering max_force="15" max_torque="150" />
@@ -128,7 +128,7 @@
 			</entity>
 		</distribute> -->
 
-		<foot-bot id="fb_ts_0" rab_range="3" rab_data_size="10" omnidirectional_camera_aperture="89.9">
+		<foot-bot id="fb_ts_0" rab_range="1" rab_data_size="10" omnidirectional_camera_aperture="89.9">
 			<controller config="footbot_temperature_sensing_controller" />
 			<dynamics2d>
 				<differential_steering max_force="15" max_torque="150" />
@@ -169,7 +169,7 @@
 	</visualization>
 
 	<loop_functions library="../build/src/loop_functions/libfire_evacuation_loop_functions" label="fire_evacuation_loop_functions">
-		<heatmap tiles_per_meter="10" max_temperature="255" show_temperature="true" debug_mode="none" debug_use_colors="false" />
+		<heatmap tiles_per_meter="5" max_temperature="255" show_temperature="true" debug_mode="none" debug_use_colors="false" />
 		<fire mode="circle" circle_radius="3.0" is_dynamic="false" dynamic_interval_ticks="50" dynamic_temperature_increase="5" />
 		<plot log_data="false" show_in_realtime="true" realtime_initial_x_axis_max_value="60" />
 	</loop_functions>
