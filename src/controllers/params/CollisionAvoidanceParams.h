@@ -13,8 +13,10 @@ class CollisionAvoidanceParams {
 		CDegrees maxAngleBetweenHeadingAndObstacle;
 		Real maxObstacleProximity;
 
+		// Constructors
 		CollisionAvoidanceParams();
 
+		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);
 
 };

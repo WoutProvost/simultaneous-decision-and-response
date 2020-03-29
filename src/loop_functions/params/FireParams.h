@@ -16,8 +16,10 @@ class FireParams {
 		int dynamicIntervalTicks;
 		int dynamicTemperatureIncrease;
 
+		// Constructors
 		FireParams();
 
+		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);
 
 };

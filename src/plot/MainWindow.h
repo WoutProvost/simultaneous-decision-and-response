@@ -22,10 +22,14 @@ private:
 	void initPlot();
 
 public:
+	// Constructors
 	explicit MainWindow(QWidget *parent = 0);
+
+	// Destructor
 	~MainWindow();
 
 private slots:
+	// Plot methods
 	void updatePlot();
 	void onXAxisRangeChanged(const QCPRange &range);
 

@@ -8,12 +8,13 @@ FootBotBaseController::FootBotBaseController() :
 	behaviorState(BehaviorState::ROAMING) {
 }
 
-FootBotBaseController::FootBotBaseController(string ledsColor) :
+FootBotBaseController::FootBotBaseController(string ledsColor, BehaviorState behaviorState) :
 	// Call other constructor
 	FootBotBaseController() {
 
 	// Initialize attributes and set default values
 	this->ledsColor = ledsColor;
+	this->behaviorState = behaviorState;
 }
 
 void FootBotBaseController::Init(TConfigurationNode &configurationNode) {
@@ -43,28 +44,16 @@ void FootBotBaseController::Init(TConfigurationNode &configurationNode) {
 
 	// Add this LED color to the colored blobs that should be ignored when reading from the colored blob omnidirectional camera sensor
 	ignoredColoredBlobs[color] = true;
-
-	// Enable the colored blob omnidirectional camera sensor
-	// coloredBlobOmnidirectionalCameraSensor->Enable();
 }
 
 void FootBotBaseController::ControlStep() {
+	// Execute correct behavior
 	switch(behaviorState) {
 		case BehaviorState::ROAMING: {
 			roam();
 			break;
 		}
-	}	
-
-	// const CCI_ColoredBlobOmnidirectionalCameraSensor::SReadings &readings = coloredBlobOmnidirectionalCameraSensor->GetReadings();
-	// for(size_t blob = 0, size = readings.BlobList.size(); blob < size; blob++) {
-	// 	if(!ignoredColoredBlobs[readings.BlobList[blob]->Color]) {
-	// 		RLOG << "Blob: " << readings.BlobList[blob]->Color
-	// 			<< " " << ToDegrees(readings.BlobList[blob]->Angle).GetValue() << "°"
-	// 			<< " " << readings.BlobList[blob]->Distance/100 << "m"
-	// 			<< std::endl;
-	// 	}
-	// }
+	}
 }
 
 void FootBotBaseController::Reset() {

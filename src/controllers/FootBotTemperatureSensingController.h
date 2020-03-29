@@ -10,11 +10,17 @@ class FootBotTemperatureSensingController : public FootBotBaseController {
 		// Sensors
 		CCI_FootBotMotorGroundSensor *footBotMotorGroundSensor;
 
+		// Methods
+		void sense();
+
 	public:
+		// Constructors
 		FootBotTemperatureSensingController();
 
+		// Simulator methods
 		virtual void Init(TConfigurationNode &configurationNode);
 		virtual void ControlStep();
+		virtual void Reset();
 
 };
 

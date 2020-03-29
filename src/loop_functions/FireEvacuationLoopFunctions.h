@@ -27,8 +27,10 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 		void initHeatMap();
 
 	public:
+		// Constructors
 		FireEvacuationLoopFunctions();
 
+		// Simulator methods
 		virtual void Init(TConfigurationNode &configurationNode);
 		virtual void Reset();
 		virtual void PreStep();

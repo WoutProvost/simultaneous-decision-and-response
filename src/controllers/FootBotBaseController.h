@@ -25,7 +25,6 @@ class FootBotBaseController : public CCI_Controller {
 		static map<uint32_t,bool> ignoredColoredBlobs;
 
 		// Methods
-		void roam();
 		CVector2 getVectorToLight();
 		CVector2 getCollisionAvoidanceVector();
 		void setWheelVelocitiesFromVector(const CVector2 &heading);
@@ -52,10 +51,15 @@ class FootBotBaseController : public CCI_Controller {
 		TurnMode turnMode;
 		BehaviorState behaviorState;
 
-	public:
-		FootBotBaseController();
-		FootBotBaseController(string ledsColor);
+		// Methods
+		void roam();
 
+	public:
+		// Constructors
+		FootBotBaseController();
+		FootBotBaseController(string ledsColor, BehaviorState behaviorState = BehaviorState::ROAMING);
+
+		// Simulator methods
 		virtual void Init(TConfigurationNode &configurationNode);
 		virtual void ControlStep();
 		virtual void Reset();

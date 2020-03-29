@@ -14,8 +14,10 @@ class MovementParams {
 		CDegrees maxHeadingAngleForNoTurn;
 		CDegrees minHeadingAngleForHardTurn;
 
+		// Constructors
 		MovementParams();
 
+		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);
 
 };

@@ -19,8 +19,10 @@ class HeatMapParams {
 		string debugMode;
 		bool debugUseColors;
 
+		// Constructors
 		HeatMapParams();
 
+		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);
 
 };

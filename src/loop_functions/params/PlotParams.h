@@ -13,8 +13,10 @@ class PlotParams {
 		bool showInRealtime;
 		int realtimeInitialXAxisMaxValue;
 
+		// Constructors
 		PlotParams();
 
+		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);
 
 };

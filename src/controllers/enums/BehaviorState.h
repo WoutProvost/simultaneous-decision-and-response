@@ -2,7 +2,8 @@
 #define BEHAVIOR_STATE_H
 
 enum class BehaviorState {
-	ROAMING
+	ROAMING,
+	SENSING
 };
 
 #endif

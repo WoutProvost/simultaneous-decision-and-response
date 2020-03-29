@@ -11,8 +11,10 @@ class FootBotGateGrippingController : public FootBotBaseController {
 		CCI_FootBotGripperActuator *footBotGripperActuator;
 
 	public:
+		// Constructors
 		FootBotGateGrippingController();
 
+		// Simulator methods
 		virtual void Init(TConfigurationNode &configurationNode);
 		virtual void ControlStep();
 
