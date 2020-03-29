@@ -53,8 +53,8 @@ void FireEvacuationLoopFunctions::PreStep() {
 	// 			radius++;
 	// 		}
 
-	// 		for(Real r = 0; r <= radius; r += 0.1) {
-	// 			for(Real angle = 0; angle < 360; angle += 0.1) {
+	// 		for(Real r = radius; r >= 0.0; r -= 0.1) {
+	// 			for(Real angle = 0.0; angle < 360.0; angle += 0.1) {
 	// 				Real x = centerX + r * cos(angle);
 	// 				Real y = centerY + r * sin(angle);
 
@@ -159,8 +159,8 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 			if(!fireParams.isDynamic) {
 				Real radius = fireParams.circleRadius * heatMapParams.tilesPerMeter;
 				Real spacing = heatMapParams.maxTemperature / radius;
-				for(Real r = 0; r <= radius; r += 0.1) {
-					for(Real angle = 0; angle < 360; angle += 0.1) {
+				for(Real r = radius; r >= 0.0; r -= 0.1) {
+					for(Real angle = 0.0; angle < 360.0; angle += 0.1) {
 						Real x = centerX + r * cos(angle);
 						Real y = centerY + r * sin(angle);
 						if(x >= 0 && x < heatMap.size() && y >= 0 && y < heatMap[x].size()) {

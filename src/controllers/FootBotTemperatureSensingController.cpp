@@ -52,13 +52,15 @@ void FootBotTemperatureSensingController::sense() {
 	roam();
 
 	// Get readings from the ground sensor
-	// const CCI_FootBotMotorGroundSensor::TReadings &readings = footBotMotorGroundSensor->GetReadings();
+	const CCI_FootBotMotorGroundSensor::TReadings &readings = footBotMotorGroundSensor->GetReadings();
 
-	// Print out the temperature from each reading
-	// for(size_t reading = 0, size = readings.size(); reading < size; reading++) {
-	// 	RLOG << readings[reading].Value * maxTemperature << "° ";
-	// }
-	// RLOG << std::endl;
+	// Print out the temperature of each reading
+	string log;
+	for(size_t reading = 0, size = readings.size(); reading < size; reading++) {
+		// log += std::to_string(static_cast<int>(maxTemperature - readings[reading].Value * maxTemperature)) + "° ";
+		log += std::to_string(static_cast<int>(255 - readings[reading].Value * 255)) + "° ";
+	}
+	RLOG << log << std::endl;
 }
 
 // Macro that binds this class to an XML tag

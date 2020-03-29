@@ -2,9 +2,9 @@
 
 MovementParams::MovementParams() :
 	// Initialize attributes and set default values	
-	maxVelocity(10.0f),
-	maxHeadingAngleForNoTurn(10.0f),
-	minHeadingAngleForHardTurn(90.0f) {
+	maxVelocity(10.0),
+	maxHeadingAngleForNoTurn(10.0),
+	minHeadingAngleForHardTurn(90.0) {
 }
 
 void MovementParams::setParams(TConfigurationNode &configurationNode) {

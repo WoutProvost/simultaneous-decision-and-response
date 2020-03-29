@@ -86,7 +86,7 @@ CVector2 FootBotBaseController::getVectorToLight() {
 	}
 
 	// Return the zero vector if no light was perceived
-	if(vectorToClosestLight.Length() == 0.0f) {
+	if(vectorToClosestLight.Length() == 0.0) {
 		return CVector2::ZERO;
 	}
 	// Otherwise return a unit vector to the light using vector normalization
@@ -162,7 +162,7 @@ void FootBotBaseController::setWheelVelocitiesFromVector(const CVector2 &heading
 	}
 
 	// Apply the calculated velocities to the appropriate wheels depending on the sign of the angle
-	if(angle.GetValue() > 0.0f) {
+	if(angle.GetValue() > 0.0) {
 		// Turn left
 		differentialSteeringActuator->SetLinearVelocity(v1, v2);
 	} else {

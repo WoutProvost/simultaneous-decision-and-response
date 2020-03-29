@@ -2,8 +2,8 @@
 
 CollisionAvoidanceParams::CollisionAvoidanceParams() :
 	// Initialize attributes and set default values
-	maxAngleBetweenHeadingAndObstacle(5.0f),
-	maxObstacleProximity(0.1f) {
+	maxAngleBetweenHeadingAndObstacle(5.0),
+	maxObstacleProximity(0.1) {
 }
 
 void CollisionAvoidanceParams::setParams(TConfigurationNode &configurationNode) {
