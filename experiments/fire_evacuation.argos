@@ -89,6 +89,12 @@
 			</entity>
 		</distribute>
 
+		<!-- North navigational light -->
+		<light id="light_north" position="0,7.4,0.9" orientation="0,0,0" color="red" intensity="1.0" medium="led_medium"/>
+
+		<!-- South navigational light -->
+		<light id="light_south" position="0,-7.4,0.9" orientation="0,0,0" color="blue" intensity="1.0" medium="led_medium"/>
+
 		<!-- Floor -->
 		<floor id="floor" source="loop_functions" pixels_per_meter="100" />
 
