@@ -1,49 +1,27 @@
-# Purpose
-- Investigate how on a macroscopic level a reaction emerges as a response to the decision.
-- Parallel collective decisions that need to be related to each other in a particular time frame. 
+- Werkplan
+- word of thanks: masterproefbeurs
+- ugent github repo link metion somewhere
 
-# Test environment
-- ARGoS simulator
+# Configuration
+- CMake
 - 2D
-- 2 or more options to discover and/or decide upon
 - agents can communicate with their immediate neighbours and take individual decisions
 - the decision and response fases overlap and thus run parallel to each other
-- quality of each option is equal? Since which option is chosen is not important
-- A robot colony is in some kind of nest with 2 or more exits, each blocked by a gate. There are 2 kinds of robots: sensors and grippers. The sensors detect temperature (light intensity) and the grippers have the means of opening the gates. There is a fire hazard in the nest, so the swarm must evacuate. Depending on the position of the fire, the swarm decides on one of the exits. In some scenarios the fire might spread dynamically, so that the swarm might need to change its decision.
+- .h files in argos repo
+- documentation on argos website
+- argos3 -h
+- own documentation
+- https://github.com/ilpincy/argos3/tree/master/src/plugins/robots/foot-bot/control_interface)
+- look at robots, media, sensors, actuators and entities
 
-# Minimum requirements
-- individual detection mechanism
-- decision detection mechanism
-- individual reaction mechanism
-- balance between time and accuracy of the reaction
-
-# Challenges
-- The detection (by the individual agents) of the decision that the system is adapting collectively ==> quorum?
-- The successful trigger and formulation of the proper collective response ==> depends on the task
-- Achieving the collective response under the time constraint ==> accuracy-time trade-off
-
-# Other notes
-- How a response can build up collectively as a reaction to a specific collective decision, and what parameters will be used to track the evolution of these fases.
-- Which task fits best this clause: 'Agents that move in a 2D environment to explore and discover options'
-- 'Symmetry-breaking problems, in which the available options are of the same quality and hence, it is not important for which of the options the system decides but that it collectively agrees on one'. So each option is of equal quality.
-- Parallelizing the collective response with the collective decision is of a high benefit due to the time constraint.
-- Bij schrijven van thesis, bekijk de .h files in de argos repository, de documentatie op de argos website, de command help en de eigen documentatie (want paar dingen aan toegevoegd daar) in de markdown file om meer informatie te krijgen over de actuators, de sensoren, de media en de bots (https://github.com/ilpincy/argos3/tree/master/src/plugins/robots/foot-bot/control_interface). Media en bots bekijken is dus ook belangrijk.
-- Vermeld allerlei settings en weggelaten default values vanuit de configuration file.
+# Analysis
+- Amount of agents: [50;100] scaling environment
+- Iterations: 30+
+- Cohesion threshold: 80+%
 
 # Questions and answers
-- Simulation using 'sensors' or learning approach using reward systems. See ARGoS.
-- What will these sensors sense and or transmit, in other words in what way will the agents detect or announce their presence to the other agents.
-- What global goal or task will the simulation use, perhaps the task mentioned on Plato? Foraging with some kind of energy sources? Migrating the nest to a side of the arena?
-- How many agents N (scale from lowerbound to upperbound for analysis). 50 to 100 and scale environment => arena size should pack 500 and use 100.
-- Communication/voting mechanism? Is this even needed and/or scalable?
 - What metrics will be used for analysis and how will the analysis be executed (i.e. what parameters shall be tracked). Last article is a very good example. Degree of coherence, how quick it converges to the decision, how many times it picks the correct decision and response.
-- p.4 Rate equation.
-- accuracy vs. cohesion
-- Case Study I-A, I-B and II are great implementation examples of macroscopic parameterisation and analysis
-- How many iterations for analysis => at least 30.
-- When do we consider the cohesion a success (100%, 90%, ...), i.e. the quorum and what is the maximum execution time => Significant majority, starting from 80%.
-- What parameters do we use to track the emergence of a collective response.
-- See **IMPORTANT** tag.
+- Case Study I-A, I-B and II are great implementation examples of macroscopic parameterisation and analysis.
 
 # Other articles to read
 - https://www.sciencedirect.com/science/article/pii/B0080430767031107
@@ -53,18 +31,9 @@
 - https://pdfs.semanticscholar.org/c418/df1e62079f84744ecc07169281f8fae30ab9.pdf?_ga=2.17994940.403303839.1581080667-1354700671.1581080667
 - https://lib.ugent.be/fulltxt/RUG01/002/495/017/RUG01-002495017_2018_0001_AC.pdf
 - https://lib.ugent.be/fulltxt/RUG01/002/495/054/RUG01-002495054_2018_0001_AC.pdf
+- https://lib.ugent.be/fulltxt/RUG01/002/300/970/RUG01-002300970_2016_0001_AC.pdf
 - file:///C:/Users/Wout/Downloads/PAPER_2012_IntJournalRoboticsResearch.pdf
 - file:///C:/Users/Wout/Downloads/PAPER_BIOROB_Pisa_2006.pdf
-
-# Information about Autonomous Robots Go Swarming (ARGoS)
-Multi-robot systems promise to provide efficient solutions for an ever increasing variety of different applications. It can simulate large-scale swarms of robots of any kind efficiently. You can customize ARGoS easily by adding new plug-ins. Three main requirements. Accuracy: Close similarity of a simulation with respect to reality. Flexibility: The ability to support any kind of robot, and any use case. Efficiency: The ability to optimize the exploitation of computational resources (CPU, memory) so as to achieve the shortest simulation run-time possible. ARGoS allows the user to add functionality in the form of new sensors, actuators, robot components, visualizations, and even new physics engines and new communication means. In ARGoS, physics engines are just a plug-in. The user can choose which physics engine to employ for a simulation.  A medium is a plug-in that implements suitable algorithms to simulate robot communication means. The main simulation loop is distributed across multiple threads. Two types of threads exist: master and slave. The master thread assigns tasks to the slaves. A tasks consists in the update of a single plug-in. The user can set the number of threads as part of the experiment configuration. An important aspect is that parallelism is embedded in the ARGoS core, but it is completely transparent for the plug-in developer. https://www.argos-sim.info/concepts.php
-
-To use ARGoS, you must run the command argos3. This command expects you to provide two kinds of input: An XML configuration file, typically with extension .argos AND user code compiled into one or more libraries. The configuration file contains all the information to set up the arena, the robots, the physics engines, the controllers, etc. User code includes robot controllers and, optionally, hook functions to be executed in various parts of ARGoS to interact with the running experiment.
-https://www.argos-sim.info/user_manual.php
-
-Explain file structure and maybe add documentation in code. Use image from user manual.
-argos3 -h
-argos3 -q plugin_name
 
 # 1. A review of swarm robotics tasks
 

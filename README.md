@@ -1,6 +1,8 @@
 # swarm-robotics-thesis
 Master's thesis on swarm robotics and collective decision making.
 
+Read-only link to the LaTeX project: https://www.overleaf.com/read/sncpkxbhbqts
+
 ## ARGoS installation:
 ```bash
 git clone https://github.com/WoutProvost/swarm-robotics-thesis
