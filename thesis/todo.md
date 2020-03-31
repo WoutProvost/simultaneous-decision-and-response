@@ -33,21 +33,36 @@ Apply a threshold to know when to replace your own data with the neighbouring da
 
 # TODO
 - Gates: only removable by the gripper robots
-- Gripper robots: search for gates and remove the gates and exit the arena
+- Gripper robots: remove the gates and exit the arena
 - Sensor robots: search for an exit and exit the arena
-- Plot: show live data of the collective decision and collective response, also log the data from this graph in a file
 - Dynamic fire circle: dynamic_interval_ticks, dynamic_temperature_increase
+- Colored heatmap: could work when subclassing the motor ground sensor
 
 # Grippers
 - Movable gates enkel movable door grippers, nu kunnen de andere bots de gates ook pushen (force/torque/friction van sensors verlagen, of mass van objects verhogen en enkel de gripper genoeg force/torque geven) (wat met de proximity sensors van de grippers, diffusion uitzetten, of logica met als de afstand tot het licht boven de gate gelijk is aan de max proximitysensor rijkwijdte, dan niet uitwijken, op voorwaarde dat die gate werd beslist in de swarm)
 - Gates vervangen door gound blobs die alleen door de grippers opgepakt kunnen worden?
 - Solid gates disappear when gripped, because the manouvering of the bots doesn't have much to do with the thesis novelty
+- The cylinders can be fitted with LEDs
+
+# Plot
+- Maybe separate both projects in their own 'src' folders.
+- The simulator should log the data in a new 'logs' folder so that the plot application can interpret it even after the experiment has stopped running.
+- Besides the file, perhaps use filestreams to transfer data between the applications.
+- Implement plot configuration params.
+- Finish mainwindow todos.
+- Only start the plot timer when the ARGoS simulation starts. Pauze it when the simulation pauzes, stop it when the simulation stops and reset it when the simulation resets.
+- Investigate the influence of the speed-up (with different values) feature.
 
 # Ending
 - Custom ending with loop function (all robots or large enough percentage are safe), or use predetermined time length?
 - Once the bots have exited the gate they should go as fare away as possible from the fire
 - Perhaps only show the colorized heatmap right before the experiment ends
 - Additional fire modes: each mode should have its own configuration node, so it's easier to have its own attributes
+
+# Analysis
+- Amount of agents: [50;100] scaling environment
+- Iterations: 30+
+- Cohesion threshold: 80+%
 
 # Tweakable parameters than can have an influence on the result
 - max_velocity (important in the dynamic scenario due to how fast the fire spreads)

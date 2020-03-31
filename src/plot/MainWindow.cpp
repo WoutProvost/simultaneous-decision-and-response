@@ -25,7 +25,7 @@ void MainWindow::initPlot() {
 
 	// Title
 	ui->customPlot->plotLayout()->insertRow(0);
-	ui->customPlot->plotLayout()->addElement(0, 0, new QCPTextElement(ui->customPlot, "Experiment " + QString::number(1) + " (100 bots)", QFont("sans", 12, QFont::Bold)));
+	ui->customPlot->plotLayout()->addElement(0, 0, new QCPTextElement(ui->customPlot, "Experiment 1/30: [100s, 100g]", QFont("sans", 12, QFont::Bold)));
 
 	// Legend
 	ui->customPlot->legend->setVisible(true);
@@ -43,7 +43,7 @@ void MainWindow::initPlot() {
 	ui->customPlot->axisRect()->setRangeZoom(ui->customPlot->xAxis->orientation());
 
 	// X axis
-	ui->customPlot->xAxis->setLabel("Time");
+	ui->customPlot->xAxis->setLabel("Time (mm:ss)");
 	ui->customPlot->xAxis->setLabelFont(QFont("sans", 10, QFont::Bold));
 	ui->customPlot->xAxis->setRange(0, 60);
 	ui->customPlot->xAxis->setTickLengthIn(0);
@@ -53,7 +53,7 @@ void MainWindow::initPlot() {
 	ui->customPlot->xAxis->setTicker(xAxisTicker);
 
 	// Y axis
-	ui->customPlot->yAxis->setLabel("Percentage");
+	ui->customPlot->yAxis->setLabel("Percentage (%)");
 	ui->customPlot->yAxis->setLabelFont(QFont("sans", 10, QFont::Bold));
 	ui->customPlot->yAxis->setRange(0, 100);
 	ui->customPlot->yAxis->setTickLengthIn(0);
@@ -65,10 +65,22 @@ void MainWindow::initPlot() {
 	ui->customPlot->yAxis->setTicker(yAxisTicker);
 
 	// Graphs
+	QVector<Qt::GlobalColor> graphColors = {
+		Qt::red, Qt::blue, Qt::green, Qt::yellow, Qt::cyan, Qt::magenta,
+		Qt::darkRed, Qt::darkBlue, Qt::darkGreen, Qt::darkYellow, Qt::darkCyan, Qt::darkMagenta
+	};
+	QVector<Qt::PenStyle> graphStyle = {
+		Qt::SolidLine,
+		Qt::DotLine
+	};
 	for(int graph = 0, size = 2; graph < size; graph++) {
+		QPen pen;
+		pen.setColor(graphColors[graph%graphColors.size()]);
+		pen.setStyle(graphStyle[graph/graphColors.size()%graphStyle.size()]);
+		pen.setWidthF(2);
 		ui->customPlot->addGraph();
-		ui->customPlot->graph(graph)->setName("Choice " + QString(QChar(graph + 'A')));
-		ui->customPlot->graph(graph)->setPen(QPen(static_cast<Qt::GlobalColor>(Qt::red + graph)));
+		ui->customPlot->graph(graph)->setName("Gate " + QString(QChar(graph + 'A')));
+		ui->customPlot->graph(graph)->setPen(pen);
 	}
 
 	// Tags

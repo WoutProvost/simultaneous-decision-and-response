@@ -1,23 +1,5 @@
-- Werkplan
 - word of thanks: masterproefbeurs
-- ugent github repo link metion somewhere
-
-# Configuration
-- CMake
-- 2D
-- agents can communicate with their immediate neighbours and take individual decisions
-- the decision and response fases overlap and thus run parallel to each other
-- .h files in argos repo
-- documentation on argos website
-- argos3 -h
-- own documentation
-- https://github.com/ilpincy/argos3/tree/master/src/plugins/robots/foot-bot/control_interface)
-- look at robots, media, sensors, actuators and entities
-
-# Analysis
-- Amount of agents: [50;100] scaling environment
-- Iterations: 30+
-- Cohesion threshold: 80+%
+- http://www.gnuplot.info/
 
 # Questions and answers
 - What metrics will be used for analysis and how will the analysis be executed (i.e. what parameters shall be tracked). Last article is a very good example. Degree of coherence, how quick it converges to the decision, how many times it picks the correct decision and response.
