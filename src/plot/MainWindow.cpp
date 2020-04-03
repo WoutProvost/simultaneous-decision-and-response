@@ -79,7 +79,7 @@ void MainWindow::initPlot() {
 		pen.setStyle(graphStyle[graph/graphColors.size()%graphStyle.size()]);
 		pen.setWidthF(2);
 		ui->customPlot->addGraph();
-		ui->customPlot->graph(graph)->setName("Gate " + QString(QChar(graph + 'A')));
+		ui->customPlot->graph(graph)->setName("Exit " + QString(QChar(graph + 'A')));
 		ui->customPlot->graph(graph)->setPen(pen);
 	}
 

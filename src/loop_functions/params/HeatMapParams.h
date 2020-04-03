@@ -7,6 +7,7 @@ using namespace argos;
 using std::string;
 
 // All possible colors of a grayscale gradient sit in the range [0:255]
+// The range and bearing sensor can only send data in chunks of 1 byte which holds values in the range [0:255]
 #define MAX_POSSIBLE_TEMPERATURE		255
 
 class HeatMapParams {

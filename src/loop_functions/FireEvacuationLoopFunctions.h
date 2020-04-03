@@ -12,10 +12,6 @@ using std::vector;
 class FireEvacuationLoopFunctions : public CLoopFunctions {
 
 	private:
-		// Params
-		HeatMapParams heatMapParams;
-		FireParams fireParams;
-		
 		// General variables and constants
 		CSpace *space;
 		const CVector3 *arenaSize;
@@ -27,6 +23,10 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 		void initHeatMap();
 
 	public:
+		// Params
+		HeatMapParams heatMapParams;
+		FireParams fireParams;
+		
 		// Constructors
 		FireEvacuationLoopFunctions();
 

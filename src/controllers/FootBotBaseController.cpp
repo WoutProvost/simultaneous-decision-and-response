@@ -5,7 +5,8 @@ FootBotBaseController::FootBotBaseController() :
 	ledsColor("black"),
 	color(0, 0, 0),
 	turnMode(TurnMode::NONE),
-	behaviorState(BehaviorState::ROAMING) {
+	behaviorState(BehaviorState::ROAMING),
+	coloredBlobOmnidirectionalCameraSensorEnabled(false) {
 }
 
 FootBotBaseController::FootBotBaseController(string ledsColor, BehaviorState behaviorState) :
@@ -49,9 +50,28 @@ void FootBotBaseController::Init(TConfigurationNode &configurationNode) {
 void FootBotBaseController::ControlStep() {
 	// Execute correct behavior
 	switch(behaviorState) {
+		case BehaviorState::IDLE: {
+			break;
+		}
 		case BehaviorState::ROAMING: {
 			roam();
 			break;
+		}
+	}
+
+	// Get readings from the range and bearing sensor
+	const CCI_RangeAndBearingSensor::TReadings &readings = rangeAndBearingSensor->GetReadings();
+
+	// Receive the temperature measured and exit prefered by the temperature sensing robots in the neighbourhood of this robot
+	for(size_t reading = 0, size = readings.size(); reading < size; reading++) {
+		UInt8 temperature = readings[reading].Data[RABIndex::TEMPERATURE];
+		if(temperature != 0) {
+			UInt8 red = readings[reading].Data[RABIndex::EXIT_COLOR_CHANNEL_RED];
+			UInt8 green = readings[reading].Data[RABIndex::EXIT_COLOR_CHANNEL_GREEN];
+			UInt8 blue = readings[reading].Data[RABIndex::EXIT_COLOR_CHANNEL_BLUE];
+			CColor exitColor = CColor(red, green, blue);
+			
+			RLOG << temperature << "°, " << exitColor << " exit" << std::endl;
 		}
 	}
 }
@@ -60,11 +80,18 @@ void FootBotBaseController::Reset() {
 	// Reset all the LEDs in the ring to their initial state
 	ledsActuator->SetAllColors(color);
 
+	// Clear all data that is still in the buffer
+	rangeAndBearingActuator->ClearData();
+
 	// Reset the turn mode to its initial state
 	turnMode = TurnMode::NONE;
 
 	// Reset the behavior state to its initial state
-	behaviorState = BehaviorState::ROAMING;
+	behaviorState = BehaviorState::IDLE;
+
+	// Disable the colored blob omnidirectional camera sensor
+	coloredBlobOmnidirectionalCameraSensor->Disable();
+	coloredBlobOmnidirectionalCameraSensorEnabled = false;
 }
 
 void FootBotBaseController::roam() {
@@ -171,8 +198,10 @@ void FootBotBaseController::setWheelVelocitiesFromVector(const CVector2 &heading
 	}
 }
 
-// Static variable initialization
+// Static variables and constants initialization
 map<uint32_t,bool> FootBotBaseController::ignoredColoredBlobs = map<uint32_t,bool>();
+// CSimulator &FootBotBaseController::simulator = CSimulator::GetInstance();
+// FireEvacuationLoopFunctions &FootBotBaseController::fireEvacuationLoopFunctions = dynamic_cast<FireEvacuationLoopFunctions&>(simulator.GetLoopFunctions());
 
 // Macro that binds this class to an XML tag
 REGISTER_CONTROLLER(FootBotBaseController, "footbot_base")

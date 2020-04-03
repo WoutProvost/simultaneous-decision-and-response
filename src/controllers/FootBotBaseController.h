@@ -5,6 +5,8 @@
 #include "params/CollisionAvoidanceParams.h"
 #include "enums/TurnMode.h"
 #include "enums/BehaviorState.h"
+#include "enums/RABIndex.h"
+// #include "../loop_functions/FireEvacuationLoopFunctions.h"
 #include <argos3/core/control_interface/ci_controller.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_differential_steering_actuator.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_leds_actuator.h>
@@ -21,9 +23,6 @@ using std::string;
 class FootBotBaseController : public CCI_Controller {
 
 	private:
-		// General variables and constants
-		static map<uint32_t,bool> ignoredColoredBlobs;
-
 		// Methods
 		CVector2 getVectorToLight();
 		CVector2 getCollisionAvoidanceVector();
@@ -46,10 +45,16 @@ class FootBotBaseController : public CCI_Controller {
 		MovementParams movementParams;
 		CollisionAvoidanceParams collisionAvoidanceParams;
 
+		// Static variables and constants
+		static map<uint32_t,bool> ignoredColoredBlobs;
+		// static CSimulator &simulator;
+		// static FireEvacuationLoopFunctions &fireEvacuationLoopFunctions;
+
 		// General variables and constants
 		CColor color;
 		TurnMode turnMode;
 		BehaviorState behaviorState;
+		bool coloredBlobOmnidirectionalCameraSensorEnabled;
 
 		// Methods
 		void roam();

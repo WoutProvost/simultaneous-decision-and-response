@@ -1,0 +1,12 @@
+#ifndef RAB_INDEX_H
+#define RAB_INDEX_H
+
+// Simple unscoped enum
+enum RABIndex {
+	TEMPERATURE,
+	EXIT_COLOR_CHANNEL_RED,
+	EXIT_COLOR_CHANNEL_GREEN,
+	EXIT_COLOR_CHANNEL_BLUE
+};
+
+#endif
