@@ -133,7 +133,7 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 			Real spacing = heatMapParams.maxTemperature / (arenaSize->GetX()*heatMapParams.tilesPerMeter - 1);
 			for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
 				for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
-					heatMap[x][y] = spacing * x;
+					heatMap[x][y] = round(spacing * x);
 				}
 			}
 		}
@@ -164,7 +164,7 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 						Real x = centerX + r * cos(angle);
 						Real y = centerY + r * sin(angle);
 						if(x >= 0 && x < heatMap.size() && y >= 0 && y < heatMap[x].size()) {
-							heatMap[x][y] = heatMapParams.maxTemperature - spacing * r;
+							heatMap[x][y] = round(heatMapParams.maxTemperature - spacing * r);
 						}
 					}
 				}
