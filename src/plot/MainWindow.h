@@ -17,13 +17,19 @@ private:
 	QTimer updatePlotTimer;
 	QTime time;
 	double lastX;
+	QFile file;
+	int maxGraphs;
+	int experiment;
+	int maxExperiments;
+	int gateGrippingRobots;
+	int temperatureSensingRobots;
 
 	// Methods
 	void initPlot();
 
 public:
 	// Constructors
-	explicit MainWindow(QWidget *parent = 0);
+	MainWindow(QString fileName, int maxGraphs, int experiment, int maxExperiments, int gateGrippingRobots, int temperatureSensingRobots);
 
 	// Destructor
 	~MainWindow();

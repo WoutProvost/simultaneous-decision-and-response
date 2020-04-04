@@ -19,7 +19,7 @@ target_link_libraries(main_window
 	axistag)
 
 # Add these executables to be built
-add_executable(plotapp Application.cpp)
+add_executable(plotapp Application.h Application.cpp)
 
 # Define the dependencies of these executables
 target_link_libraries(plotapp

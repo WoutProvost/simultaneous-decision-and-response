@@ -1,9 +1,16 @@
 #include "MainWindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
-	QMainWindow(parent),
-	ui(new Ui::MainWindow) {
+MainWindow::MainWindow(QString fileName, int maxGraphs, int experiment, int maxExperiments, int gateGrippingRobots, int temperatureSensingRobots) :
+	// Call base class method and initialize attributes and set default values
+	QMainWindow(),
+	ui(new Ui::MainWindow),
+	file(fileName),
+	maxGraphs(maxGraphs),
+	experiment(experiment),
+	maxExperiments(maxExperiments),
+	gateGrippingRobots(gateGrippingRobots),
+	temperatureSensingRobots(temperatureSensingRobots) {
 
 	// Configure initial UI according to the generated UI header file
 	ui->setupUi(this);
@@ -25,7 +32,14 @@ void MainWindow::initPlot() {
 
 	// Title
 	ui->customPlot->plotLayout()->insertRow(0);
-	ui->customPlot->plotLayout()->addElement(0, 0, new QCPTextElement(ui->customPlot, "Experiment 1/30: [100s, 100g]", QFont("sans", 12, QFont::Bold)));
+	ui->customPlot->plotLayout()->addElement(0, 0, new QCPTextElement(ui->customPlot,
+		"Experiment " + QString::number(experiment) +
+		"/" + QString::number(maxExperiments) +
+		": [" + QString::number(gateGrippingRobots) +
+		"g, " + QString::number(temperatureSensingRobots) +
+		"s]",
+		QFont("sans", 12, QFont::Bold))
+	);
 
 	// Legend
 	ui->customPlot->legend->setVisible(true);
@@ -73,7 +87,7 @@ void MainWindow::initPlot() {
 		Qt::SolidLine,
 		Qt::DotLine
 	};
-	for(int graph = 0, size = 2; graph < size; graph++) {
+	for(int graph = 0; graph < maxGraphs; graph++) {
 		QPen pen;
 		pen.setColor(graphColors[graph%graphColors.size()]);
 		pen.setStyle(graphStyle[graph/graphColors.size()%graphStyle.size()]);
@@ -103,8 +117,6 @@ void MainWindow::initPlot() {
 	updatePlotTimer.start(0);
 
 	// TODO
-	// - titel
-	// - aantal graphs
 	// - y value
 }
 
