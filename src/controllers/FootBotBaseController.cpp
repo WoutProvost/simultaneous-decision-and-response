@@ -87,7 +87,7 @@ void FootBotBaseController::Reset() {
 	turnMode = TurnMode::NONE;
 
 	// Reset the behavior state to its initial state
-	behaviorState = BehaviorState::IDLE;
+	behaviorState = BehaviorState::ROAMING;
 
 	// Disable the colored blob omnidirectional camera sensor
 	coloredBlobOmnidirectionalCameraSensor->Disable();
