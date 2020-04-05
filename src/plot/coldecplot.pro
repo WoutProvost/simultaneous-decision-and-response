@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
-TARGET = swarm-robotics-thesis
+TARGET = coldecplot
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -30,6 +30,7 @@ SOURCES += \
     lib/axistag.cpp
 
 HEADERS += \
+        Application.h \
         MainWindow.h \
     lib/qcustomplot.h \
     lib/axistag.h

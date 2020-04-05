@@ -157,7 +157,6 @@ void MainWindow::initPlot() {
 	// 	connect(&updatePlotTimer, SIGNAL(timeout()), this, SLOT(updatePlot()));
 	// 	updatePlotTimer.start(0);
 	}
-	// TODO errors on application close when pushing x in top right corner
 }
 
 void MainWindow::updatePlot(QTextStream &textStream) {
