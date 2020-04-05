@@ -32,7 +32,7 @@ void MainWindow::initPlot() {
 	setWindowTitle("Collective decision history");
 	QRect screenGeometry = QApplication::desktop()->screenGeometry();
 	setMinimumSize(400, 300);
-	setGeometry(screenGeometry.width() - width(), screenGeometry.height() - height(), 400, 300);
+	setGeometry(screenGeometry.width() - width(), screenGeometry.height() - height(), 570, 430);
 
 	// Title
 	ui->customPlot->plotLayout()->insertRow(0);
@@ -156,7 +156,7 @@ void MainWindow::initPlot() {
 	// 	connect(&updatePlotTimer, SIGNAL(timeout()), this, SLOT(updatePlot()));
 	// 	updatePlotTimer.start(0);
 	}
-	// TODO errors on application exit
+	// TODO errors on application close when pushing x in top right corner
 }
 
 void MainWindow::updatePlot(QTextStream &textStream) {

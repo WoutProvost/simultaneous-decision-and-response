@@ -93,7 +93,7 @@ void FootBotTemperatureSensingController::sense() {
 			}
 
 			// Send the temperature measured and exit prefered by this robot to other robots in its neighbourhood
-			// rangeAndBearingActuator->SetData(RABIndex::TEMPERATURE, maxTemperature * fireEvacuationLoopFunctions.heatMapParams.maxTemperature);
+			rangeAndBearingActuator->SetData(RABIndex::TEMPERATURE, maxTemperature * dynamic_cast<FireEvacuationLoopFunctions&>(simulator.GetLoopFunctions()).heatMapParams.maxTemperature);			
 			rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_RED, furthestExitColor.GetRed());
 			rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_GREEN, furthestExitColor.GetGreen());
 			rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_BLUE, furthestExitColor.GetBlue());

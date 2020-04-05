@@ -6,7 +6,7 @@
 #include "enums/TurnMode.h"
 #include "enums/BehaviorState.h"
 #include "enums/RABIndex.h"
-// #include "../loop_functions/FireEvacuationLoopFunctions.h"
+#include "../loop_functions/FireEvacuationLoopFunctions.h"
 #include <argos3/core/control_interface/ci_controller.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_differential_steering_actuator.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_leds_actuator.h>
@@ -47,8 +47,7 @@ class FootBotBaseController : public CCI_Controller {
 
 		// Static variables and constants
 		static map<uint32_t,bool> ignoredColoredBlobs;
-		// static CSimulator &simulator;
-		// static FireEvacuationLoopFunctions &fireEvacuationLoopFunctions;
+		static CSimulator &simulator;
 
 		// General variables and constants
 		CColor color;

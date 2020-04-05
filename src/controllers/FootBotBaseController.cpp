@@ -71,7 +71,7 @@ void FootBotBaseController::ControlStep() {
 			UInt8 blue = readings[reading].Data[RABIndex::EXIT_COLOR_CHANNEL_BLUE];
 			CColor exitColor = CColor(red, green, blue);
 			
-			RLOG << temperature << "°, " << exitColor << " exit" << std::endl;
+			// RLOG << temperature << "°, " << exitColor << " exit" << std::endl;
 		}
 	}
 }
@@ -200,8 +200,7 @@ void FootBotBaseController::setWheelVelocitiesFromVector(const CVector2 &heading
 
 // Static variables and constants initialization
 map<uint32_t,bool> FootBotBaseController::ignoredColoredBlobs = map<uint32_t,bool>();
-// CSimulator &FootBotBaseController::simulator = CSimulator::GetInstance();
-// FireEvacuationLoopFunctions &FootBotBaseController::fireEvacuationLoopFunctions = dynamic_cast<FireEvacuationLoopFunctions&>(simulator.GetLoopFunctions());
+CSimulator &FootBotBaseController::simulator = CSimulator::GetInstance();
 
 // Macro that binds this class to an XML tag
 REGISTER_CONTROLLER(FootBotBaseController, "footbot_base")
