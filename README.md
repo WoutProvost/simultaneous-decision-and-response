@@ -5,7 +5,7 @@ Read-only link to the LaTeX project: https://www.overleaf.com/read/sncpkxbhbqts
 
 ## ARGoS installation:
 ```bash
-git clone https://github.com/WoutProvost/swarm-robotics-thesis
+git clone https://github.ugent.be/wprovost/swarm-robotics-thesis
 cd swarm-robotics-thesis
 sudo dpkg -i download/argos3_simulator-*.deb
 sudo apt --fix-broken install
