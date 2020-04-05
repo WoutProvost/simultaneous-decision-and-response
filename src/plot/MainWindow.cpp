@@ -3,6 +3,7 @@
 #include "Application.h"
 
 using std::cout;
+using std::flush;
 
 MainWindow::MainWindow(QString fileName, int maxGraphs, int experiment, int maxExperiments, int gateGrippingRobots, int temperatureSensingRobots) :
 	// Call base class method and initialize attributes and set default values
