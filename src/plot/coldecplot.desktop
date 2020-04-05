@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Collective Decision Plot
+GenericName=Graph Plotter
+NoDisplay=true
+TryExec=/usr/local/bin/coldecplot
+Exec=/usr/local/bin/coldecplot %f
+Terminal=true
+Icon=qtiplot.png

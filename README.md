@@ -9,20 +9,34 @@ git clone https://github.com/WoutProvost/swarm-robotics-thesis
 cd swarm-robotics-thesis
 sudo dpkg -i download/argos3_simulator-*.deb
 sudo apt --fix-broken install
+sudo chmod o+w /usr/local/share/applications/argos3.desktop
+echo "Icon=gnome-robots.png" >> /usr/local/share/applications/argos3.desktop
+sudo chmod o-w /usr/local/share/applications/argos3.desktop
 ```
 
 ## Compilation:
 ```bash
 mkdir frames
+mkdir logs
 mkdir build
 cd build
 cmake ..
 make
 ```
 
+## Plot application installation
+```bash
+sudo cp src/plot/coldecplot /usr/local/bin
+sudo cp ../src/plot/autocomplete.sh /etc/bash_completion.d/coldecplot
+sudo cp ../src/plot/coldecplot.desktop /usr/local/share/applications
+sudo cp ../src/plot/coldecplot.1 /usr/local/share/man/man1
+sudo gzip /usr/local/share/man/man1/coldecplot.1
+```
+
 ## Execution:
 ```bash
 argos3 -c ../experiments/fire_evacuation.argos
+coldecplot -h
 ```
 
 ## Configuration:

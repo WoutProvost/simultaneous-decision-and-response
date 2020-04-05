@@ -19,8 +19,8 @@ target_link_libraries(main_window
 	axistag)
 
 # Add these executables to be built
-add_executable(plotapp Application.h Application.cpp)
+add_executable(coldecplot Application.h Application.cpp)
 
 # Define the dependencies of these executables
-target_link_libraries(plotapp
+target_link_libraries(coldecplot
 	main_window)

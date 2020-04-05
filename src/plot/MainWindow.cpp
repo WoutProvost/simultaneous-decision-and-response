@@ -1,5 +1,8 @@
 #include "MainWindow.h"
 #include "ui_mainwindow.h"
+#include "Application.h"
+
+using std::cout;
 
 MainWindow::MainWindow(QString fileName, int maxGraphs, int experiment, int maxExperiments, int gateGrippingRobots, int temperatureSensingRobots) :
 	// Call base class method and initialize attributes and set default values
@@ -10,7 +13,8 @@ MainWindow::MainWindow(QString fileName, int maxGraphs, int experiment, int maxE
 	experiment(experiment),
 	maxExperiments(maxExperiments),
 	gateGrippingRobots(gateGrippingRobots),
-	temperatureSensingRobots(temperatureSensingRobots) {
+	temperatureSensingRobots(temperatureSensingRobots),
+	useRealTimeData(file.fileName() == "-") {
 
 	// Configure initial UI according to the generated UI header file
 	ui->setupUi(this);
@@ -98,9 +102,10 @@ void MainWindow::initPlot() {
 	}
 
 	// Tags
-	for(int tag = 0, size = ui->customPlot->graphCount(); tag < size; tag++) {
+	for(int tag = 0; tag < maxGraphs; tag++) {
 		AxisTag *axisTag = new AxisTag(ui->customPlot->graph(tag)->valueAxis());
 		axisTag->setPen(ui->customPlot->graph(tag)->pen());
+		axisTag->setText(QString::number(0, 'f', 2) + " %");
 		tags.append(axisTag);
 	}
 	ui->customPlot->axisRect()->axis(QCPAxis::atRight)->setPadding(75);
@@ -108,40 +113,69 @@ void MainWindow::initPlot() {
 	// Prevent dragging and zooming X axis to negative time
 	connect(ui->customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(onXAxisRangeChanged(QCPRange)));
 
-	// Set current time and last know value on the X axis
-	time = QTime(QTime::currentTime());
-	lastX = 0;
+	// Use file for data input
+	if(!useRealTimeData) {
+		// Open the file and make sure it exists and is allowed to be opened
+		if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+			printError("Couldn't open file '" + file.fileName() + "'.");
+		}
 
-	// Start update timer
-	connect(&updatePlotTimer, SIGNAL(timeout()), this, SLOT(updatePlot()));
-	updatePlotTimer.start(0);
+		// Count the amount of lines
+		int lines = 0;
+		QTextStream textStream(&file);
+		while(!textStream.atEnd()) {
+			textStream.readLine();
+			lines++;
+		}
+		textStream.seek(0);
 
-	// TODO
-	// - y value
+		// Update the plot with the data included in the file and show a progress precentage in the console
+		int line = 0;
+		cout.setf(std::ios::fixed);
+		cout.precision(2);
+		while(!textStream.atEnd()) {
+			updatePlot(textStream);
+			line++;
+			cout << "\rPlotting data from file '" << file.fileName().toStdString() << "': " << float(line)/lines*100 << "%" << flush;
+		}
+		cout << "\r\e[K" << flush;
+
+		// Close the file
+		file.close();
+
+		// Set X axis range to show whole set of data
+		ui->customPlot->xAxis->setRange(0, ceil(float(lines)/1000));
+
+		// Redraw plot
+		ui->customPlot->replot();
+	}
+	// Use stdin for real time generated data input
+	else {
+	// 	QTextStream textStream(stdin);
+	// 	// Start update timer
+	// 	connect(&updatePlotTimer, SIGNAL(timeout()), this, SLOT(updatePlot()));
+	// 	updatePlotTimer.start(0);
+	}
+	// TODO errors on application exit
 }
 
-void MainWindow::updatePlot() {
-	// Calculate X axis and Y axis values
-	double x = time.elapsed()/1000.0;
-	double y = 50.0;
+void MainWindow::updatePlot(QTextStream &textStream) {
+	// Extract data and calculate X and Y axis values
+	char c;
+	double x;
+	QVector<double> y(maxGraphs, 0.0);
+	textStream >> x;
+	x /= 1000.0;
+	for(int graph = 0; graph < maxGraphs; graph++) {
+		textStream >> c >> y[graph];
+		y[graph] *= 100.0;
+	}
 
-	// Add at most a point every 2 ms
-	if(x - lastX > 0.002) {
-		// Update graphs
-		for(int graph = 0, size = ui->customPlot->graphCount(); graph < size; graph++) {
-			y = (graph == 0 ? 60.0 : 40.0);
-			ui->customPlot->graph(graph)->addData(x, y);
-		}
-
-		// Update tags
-		for(int tag = 0, size = ui->customPlot->graphCount(); tag < size; tag++) {
-			y = (tag == 0 ? 60.0 : 40.0);
-			tags[tag]->updatePosition(y);
-			tags[tag]->setText(QString::number(y) + " %");
-		}
-
-		// Update last know value on the X axis
-		lastX = x;
+	// Update graphs and tags
+	for(int graph = 0; graph < maxGraphs; graph++) {
+		ui->customPlot->graph(graph)->addData(x, y[graph]);
+		tags[graph]->updatePosition(y[graph]);
+		tags[graph]->setText(QString::number(y[graph], 'f', 2) + " %");
 	}
 
 	// Make the X axis range scroll to the right with the data, but only when the graph is touching the right border
@@ -150,7 +184,9 @@ void MainWindow::updatePlot() {
 	}
 
 	// Redraw plot
-	ui->customPlot->replot();
+	if(useRealTimeData) {
+		ui->customPlot->replot();
+	}
 }
 
 void MainWindow::onXAxisRangeChanged(const QCPRange &range) {

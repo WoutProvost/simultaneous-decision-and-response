@@ -1,0 +1,34 @@
+.\" Process this file with
+.\" groff -man -Tascii foo.1
+.\"
+.TH COLDECPLOT 1 "April 2020" Linux "User Commands"
+.SH NAME
+coldecplot \- a graph plotter
+.SH SYNOPSIS
+.P
+.B coldecplot [options] [file]
+.SH DESCRIPTION
+.P
+With no file, or when file is -, read standard input.
+.P
+Mandatory arguments to long options are mandatory for short options too.
+.TP
+.BR -h ", " --help
+display this help message
+.TP
+\fB\-a, \fB\-\-max\-graphs=\fINUM\fR
+the amount of graphs to plot
+.TP
+\fB\-e, \fB\-\-experiment=\fINUM\fR
+the current experiment number
+.TP
+\fB\-m, \fB\-\-max\-experiments=\fINUM\fR
+the total amount of experiments
+.TP
+\fB\-g, \fB\-\-gate\-gripping\-robots=\fINUM\fR
+the amount of gate gripping robots
+.TP
+\fB\-t, \fB\-\-temperature\-sensing\-robots=\fINUM\fR
+the amount of temperature sensing robots
+.SH AUTHOR
+Wout Provost

@@ -14,18 +14,18 @@ private:
 	// General variables and constants
 	Ui::MainWindow *ui;
 	QVector<AxisTag*> tags;
-	QTimer updatePlotTimer;
-	QTime time;
-	double lastX;
+	// QTimer updatePlotTimer;
 	QFile file;
 	int maxGraphs;
 	int experiment;
 	int maxExperiments;
 	int gateGrippingRobots;
 	int temperatureSensingRobots;
+	bool useRealTimeData;
 
 	// Methods
 	void initPlot();
+	void updatePlot(QTextStream &textStream);
 
 public:
 	// Constructors
@@ -36,7 +36,6 @@ public:
 
 private slots:
 	// Plot methods
-	void updatePlot();
 	void onXAxisRangeChanged(const QCPRange &range);
 
 };
