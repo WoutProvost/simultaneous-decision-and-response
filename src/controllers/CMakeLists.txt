@@ -8,9 +8,9 @@ add_library(collision_avoidance SHARED params/CollisionAvoidanceParams.h params/
 # Define the dependencies of these libraries
 target_link_libraries(footbot_base
 	movement
-	collision_avoidance
-	fire_evacuation_loop_functions)
+	collision_avoidance)
 target_link_libraries(footbot_gate_gripping
 	footbot_base)
 target_link_libraries(footbot_temperature_sensing
-	footbot_base)
+	footbot_base
+	fire_evacuation_loop_functions)

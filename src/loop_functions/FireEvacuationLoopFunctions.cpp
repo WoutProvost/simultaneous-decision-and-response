@@ -1,4 +1,6 @@
 #include "FireEvacuationLoopFunctions.h"
+#include <argos3/plugins/robots/foot-bot/simulator/footbot_entity.h>
+#include "../controllers/FootBotTemperatureSensingController.h"
 
 FireEvacuationLoopFunctions::FireEvacuationLoopFunctions() :
 	// Initialize attributes and set default values
@@ -92,13 +94,10 @@ void FireEvacuationLoopFunctions::PostStep() {
 	CSpace::TMapPerType &temperatureSensingFootBots = space->GetEntitiesByType("foot-bot");
 	for(CSpace::TMapPerType::iterator it = temperatureSensingFootBots.begin(); it != temperatureSensingFootBots.end(); it++) {
 		CFootBotEntity &footBotEntity = *any_cast<CFootBotEntity*>(it->second);
-		// FootBotTemperatureSensingController &footBotTemperatureSensingController = dynamic_cast<FootBotTemperatureSensingController&>(footBotEntity.GetControllableEntity().GetController());
-		// if(&footBotTemperatureSensingController != nullptr) {
-		// 	std::cout << "OK" << std::endl;
-		// } else {
-		// 	std::cout << "NOK" << std::endl;
-		// }
-		// std::cout << footBotTemperatureSensingController.getPreferredExitColor() << std::endl;
+		FootBotTemperatureSensingController *footBotTemperatureSensingController = dynamic_cast<FootBotTemperatureSensingController*>(&footBotEntity.GetControllableEntity().GetController());
+		if(footBotTemperatureSensingController != nullptr) {
+			// std::cout << footBotTemperatureSensingController->getPreferredExitColor() << std::endl;
+		}
 	}
 }
 

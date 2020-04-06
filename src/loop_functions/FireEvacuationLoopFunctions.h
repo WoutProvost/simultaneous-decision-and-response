@@ -1,12 +1,10 @@
 #ifndef FIRE_EVACUATION_LOOP_FUNCTIONS_H
 #define FIRE_EVACUATION_LOOP_FUNCTIONS_H
 
+#include <argos3/core/simulator/loop_functions.h>
 #include "params/HeatMapParams.h"
 #include "params/FireParams.h"
-#include <argos3/core/simulator/loop_functions.h>
 #include <argos3/core/simulator/entity/floor_entity.h>
-#include <argos3/plugins/robots/foot-bot/simulator/footbot_entity.h>
-// #include "../controllers/FootBotTemperatureSensingController.h"
 
 using namespace argos;
 using std::vector;

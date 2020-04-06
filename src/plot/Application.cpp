@@ -1,4 +1,7 @@
 #include "Application.h"
+#include <iostream>
+#include "MainWindow.h"
+#include <getopt.h>
 
 using std::cout;
 using std::cerr;

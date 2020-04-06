@@ -1,4 +1,6 @@
 #include "FootBotTemperatureSensingController.h"
+#include "enums/RABIndex.h"
+#include "../loop_functions/FireEvacuationLoopFunctions.h"
 
 FootBotTemperatureSensingController::FootBotTemperatureSensingController() :
 	// Call base class method and initialize attributes and set default values

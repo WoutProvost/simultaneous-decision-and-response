@@ -1,12 +1,6 @@
 #ifndef FOOT_BOT_BASE_CONTROLLER_H
 #define FOOT_BOT_BASE_CONTROLLER_H
 
-#include "params/MovementParams.h"
-#include "params/CollisionAvoidanceParams.h"
-#include "enums/TurnMode.h"
-#include "enums/BehaviorState.h"
-#include "enums/RABIndex.h"
-#include "../loop_functions/FireEvacuationLoopFunctions.h"
 #include <argos3/core/control_interface/ci_controller.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_differential_steering_actuator.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_leds_actuator.h>
@@ -15,6 +9,11 @@
 #include <argos3/plugins/robots/generic/control_interface/ci_range_and_bearing_sensor.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_colored_blob_omnidirectional_camera_sensor.h>
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_light_sensor.h>
+#include "params/MovementParams.h"
+#include "params/CollisionAvoidanceParams.h"
+#include <argos3/core/simulator/simulator.h>
+#include "enums/TurnMode.h"
+#include "enums/BehaviorState.h"
 
 using namespace argos;
 using std::map;

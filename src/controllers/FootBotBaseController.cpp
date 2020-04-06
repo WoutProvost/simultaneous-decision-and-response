@@ -1,4 +1,5 @@
 #include "FootBotBaseController.h"
+#include "enums/RABIndex.h"
 
 FootBotBaseController::FootBotBaseController() :
 	// Initialize attributes and set default values

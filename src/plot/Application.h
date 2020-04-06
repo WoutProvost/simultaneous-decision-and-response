@@ -1,9 +1,7 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
-#include "MainWindow.h"
-#include <iostream>
-#include <getopt.h>
+#include <QString>
 
 // Methods
 int main(int argc, char **argv);
