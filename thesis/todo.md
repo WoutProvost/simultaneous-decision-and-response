@@ -41,6 +41,33 @@ Apply a threshold to know when to replace your own data with the neighbouring da
 
 
 
+# Majority rule opinion formation model:
+- robots agree on a common decision by applying a local majority rule to small groups
+- use a latency period after each robot takes a decision, during which the robot cannot be influenced by other robots
+- if the duration of this period depends on the decision being taken (differential latency), then a global consensus is achieved on the decision associated with the lowest latency
+- 1. robots enter an observation state, where they exchange their current preferred action, after each action execution
+- 2. robots transmit their preference to neighboring robots for a time duration proportional to the perceived quality of the site associated to their current preference
+- 3. robots have the tendency to reach a specific goal and the tendency to follow the average behavior of its neighbors, change weight of both components dynamically based on the local consensus to converge to a collective decision even in precense of informed agents with conflicting goals
+
+# Consensus achievement:
+- the best choice may change over time or may not be evident to the robots due to their limited sensing capabilities
+- each robot is able to communicate its preferred choice
+- 1. the robots simply follow the robot closest to a target, resulting in a decision based on the spatial distribution of the swarm
+- 2. the robots vote, using a majority rule, to decide which target to follow
+- when two robots get close, they exchange their measured distances
+- each robot performs an average of its measured distance with the one received from the other robots
+- the robots are able to agree on a choice and discard the other one even when the measured distances are noisy
+- when a robot finds a new alternative, it evaluates its quality and sends recruiting messages to other robots to advertise it
+- the frequency of these messages is proportional to the perceived quality of the alternative
+- thanks to the different message frequencies associated with the different alternatives, over time all robots converge on the best alternative
+
+# Design pattern for best-of-n decision problem:
+- each option `i` is characterised by a quality `v_i`
+- population `A` of `N` agents where each agent `a_g` is either committed to one of the available options `i` and belongs to the sub-population `A_i` of `N_i` agents and thus fraction `W_i = N_i/N`
+- agents can obtain a noisy estimate `^v_i` of the quality associated to option `i`
+- a decision is taken as soon as the entire population, or a large fraction `W_q` (quorum) is committed to a single option
+- a probabilistic finite state machine (PFSM) to describe the behaviour of the individual agent that changes its commitment state in response to probabilistic events
+
 # TODO
 - Gates: only removable by the gripper robots
 - Gripper robots: remove the gates and exit the arena

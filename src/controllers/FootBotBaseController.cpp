@@ -3,7 +3,7 @@
 FootBotBaseController::FootBotBaseController() :
 	// Initialize attributes and set default values
 	ledsColor("black"),
-	color(0, 0, 0),
+	color(CColor::BLACK),
 	turnMode(TurnMode::NONE),
 	behaviorState(BehaviorState::ROAMING),
 	coloredBlobOmnidirectionalCameraSensorEnabled(false) {

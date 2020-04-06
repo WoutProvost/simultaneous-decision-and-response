@@ -2,7 +2,12 @@
 
 FootBotTemperatureSensingController::FootBotTemperatureSensingController() :
 	// Call base class method and initialize attributes and set default values
-	FootBotBaseController::FootBotBaseController("white", BehaviorState::SENSING) {
+	FootBotBaseController::FootBotBaseController("white", BehaviorState::SENSING),
+	preferredExitColor(CColor::BLACK) {
+}
+
+const CColor& FootBotTemperatureSensingController::getPreferredExitColor() const {
+	return preferredExitColor;
 }
 
 void FootBotTemperatureSensingController::Init(TConfigurationNode &configurationNode) {
@@ -80,7 +85,7 @@ void FootBotTemperatureSensingController::sense() {
 
 		// Choose the exit that is the furthest away from the fire, by measuring the distance to each of the available exits
 		if(readings.BlobList.size() != 0) {
-			CColor furthestExitColor;
+			CColor furthestExitColor = CColor::BLACK;
 			Real furthestExitDistance = -1.0;
 			for(size_t blob = 0, size = readings.BlobList.size(); blob < size; blob++) {
 				if(!ignoredColoredBlobs[readings.BlobList[blob]->Color]) {
@@ -93,7 +98,7 @@ void FootBotTemperatureSensingController::sense() {
 			}
 
 			// Send the temperature measured and exit prefered by this robot to other robots in its neighbourhood
-			rangeAndBearingActuator->SetData(RABIndex::TEMPERATURE, maxTemperature * dynamic_cast<FireEvacuationLoopFunctions&>(simulator.GetLoopFunctions()).heatMapParams.maxTemperature);			
+			rangeAndBearingActuator->SetData(RABIndex::TEMPERATURE, maxTemperature * dynamic_cast<FireEvacuationLoopFunctions&>(simulator.GetLoopFunctions()).getHeatMapParams().maxTemperature);			
 			rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_RED, furthestExitColor.GetRed());
 			rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_GREEN, furthestExitColor.GetGreen());
 			rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_BLUE, furthestExitColor.GetBlue());

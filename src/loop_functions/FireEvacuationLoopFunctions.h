@@ -5,6 +5,8 @@
 #include "params/FireParams.h"
 #include <argos3/core/simulator/loop_functions.h>
 #include <argos3/core/simulator/entity/floor_entity.h>
+#include <argos3/plugins/robots/foot-bot/simulator/footbot_entity.h>
+// #include "../controllers/FootBotTemperatureSensingController.h"
 
 using namespace argos;
 using std::vector;
@@ -12,6 +14,10 @@ using std::vector;
 class FireEvacuationLoopFunctions : public CLoopFunctions {
 
 	private:
+		// Params
+		HeatMapParams heatMapParams;
+		FireParams fireParams;
+
 		// General variables and constants
 		CSpace *space;
 		const CVector3 *arenaSize;
@@ -22,18 +28,19 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 		// Methods
 		void initHeatMap();
 
-	public:
-		// Params
-		HeatMapParams heatMapParams;
-		FireParams fireParams;
-		
+	public:		
 		// Constructors
 		FireEvacuationLoopFunctions();
+
+		// Getters
+		const HeatMapParams& getHeatMapParams() const;
+		const FireParams& getFireParams() const;
 
 		// Simulator methods
 		virtual void Init(TConfigurationNode &configurationNode);
 		virtual void Reset();
 		virtual void PreStep();
+		virtual void PostStep();
 		virtual CColor GetFloorColor(const CVector2 &positionOnFloor);
 
 };
