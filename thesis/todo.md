@@ -1,22 +1,22 @@
 # Data to communicate
 - Temperature of tile
-- Which gate to use
+- Which exit to use
 
 # Individual decision mechanism
 Start when the robot moves from a white tile to a grayer tile
 ## Distance method
-- Compute the distance to each gate
-- Choose the gate that is the furthest away from the fire
+- Compute the distance to each exit
+- Choose the exit that is the furthest away from the fire
 ## Fire spreading method
 - Compute the vector to each neighbour to compute the fire spreading vector (i.e. the direction to where the fire gets hotter)
-- Compute the vector to each gate and compare them to the fire vector
-- Choose the gate that coincides the least with the fire vector (i.e. if the fire is spreading towards the blue gate then pick the red gate and vice versa)
+- Compute the vector to each exit and compare them to the fire vector
+- Choose the exit that coincides the least with the fire vector (i.e. if the fire is spreading towards the blue exit then pick the red exit and vice versa)
 - See the flocking example (vector of motion => gradient vector of fire)
 
 # Changing decision mechanism
 Reason: bots with highest temperature are not always reliable
 Exchange data with neighbours
-Apply a threshold to know when to replace your own data with the neighbouring data and update your decision about the gate to use
+Apply a threshold to know when to replace your own data with the neighbouring data and update your decision about the exit to use
 ## Average method
 - Take the average of what the neighbours exchange with you
 ## Fire spreading method
@@ -30,6 +30,16 @@ Apply a threshold to know when to replace your own data with the neighbouring da
 # Voting and decision strategies
 - Majority rule, weighted voter model, quorum sensing, ... (see the articles)
 - Implement at least 2 voting mechanisms to compare
+- Determine which exit is closer to the center of mass of the swarm (only useful when the swarm is not uniformly divided)
+
+
+
+
+
+
+
+
+
 
 # TODO
 - Gates: only removable by the gripper robots
@@ -45,19 +55,13 @@ Apply a threshold to know when to replace your own data with the neighbouring da
 - The cylinders can be fitted with LEDs
 
 # Plot
-- Maybe separate both projects in their own 'src' folders.
-- The simulator should log the data in a new 'logs' folder so that the plot application can interpret it even after the experiment has stopped running.
-- Besides the file, perhaps use filestreams to transfer data between the applications.
 - Implement plot configuration params.
-- Finish mainwindow todos.
-- Only start the plot timer when the ARGoS simulation starts. Pauze it when the simulation pauzes, stop it when the simulation stops and reset it when the simulation resets.
-- Investigate the influence of the speed-up (with different values) feature.
 
 # Ending
 - Custom ending with loop function (all robots or large enough percentage are safe), or use predetermined time length?
 - Once the bots have exited the gate they should go as fare away as possible from the fire
 - Perhaps only show the colorized heatmap right before the experiment ends
-- Additional fire modes: each mode should have its own configuration node, so it's easier to have its own attributes
+- Additional fire modes: each mode should have its own configuration node, so it's easier to have its own attributes (multiple fires, dynamic fire, ...)
 
 # Analysis
 - Amount of agents: [50;100] scaling environment

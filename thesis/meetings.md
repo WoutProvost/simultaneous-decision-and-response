@@ -1,5 +1,7 @@
 # Tuesday 31-03-2020
-- 
+- Distance method: measure the distance of the fire to the exits
+- Fire spreading method: measure how fast the fire could reach the exits
+- Determine which exit is closer to the center of mass of the swarm (only useful when the swarm is not uniformly divided)
 
 # Tuesday 24-03-2020
 - Migrate git repository from GitHub to UGent GitHub Enterprise
