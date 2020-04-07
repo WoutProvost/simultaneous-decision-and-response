@@ -8,6 +8,7 @@
 
 using namespace argos;
 using std::vector;
+using std::map;
 
 class FireEvacuationLoopFunctions : public CLoopFunctions {
 
@@ -22,6 +23,10 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 		CRandom::CRNG *random;
 		CFloorEntity *floorEntity;
 		vector<vector<int>> heatMap;
+		int steps;
+		int temperatureSensingFootBots;
+		int gateGrippingFootBots;
+		map<uint32_t,int> exitLightColors;
 
 		// Methods
 		void initHeatMap();

@@ -1,12 +1,20 @@
 #include "FireEvacuationLoopFunctions.h"
+#include <argos3/plugins/simulator/entities/light_entity.h>
 #include <argos3/plugins/robots/foot-bot/simulator/footbot_entity.h>
 #include "../controllers/FootBotTemperatureSensingController.h"
+
+using std::endl;
+using std::hex;
+using std::dec;
 
 FireEvacuationLoopFunctions::FireEvacuationLoopFunctions() :
 	// Initialize attributes and set default values
 	space(&GetSpace()),
 	arenaSize(&space->GetArenaSize()),
-	random(CRandom::CreateRNG("argos")) {
+	random(CRandom::CreateRNG("argos")),
+	steps(0),
+	temperatureSensingFootBots(0),
+	gateGrippingFootBots(0) {
 }
 
 const HeatMapParams& FireEvacuationLoopFunctions::getHeatMapParams() const {
@@ -38,11 +46,57 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 
 	// Initialize the heatmap with temperatures
 	initHeatMap();
+
+	// Get the amount of temperature sensing robots and gate gripping robots
+	CSpace::TMapPerType &footBotEntities = space->GetEntitiesByType("foot-bot");
+	for(CSpace::TMapPerType::iterator it = footBotEntities.begin(), end = footBotEntities.end(); it != end; it++) {
+		CFootBotEntity &footBotEntity = *any_cast<CFootBotEntity*>(it->second);
+		if(dynamic_cast<FootBotTemperatureSensingController*>(&footBotEntity.GetControllableEntity().GetController()) != nullptr) {
+			temperatureSensingFootBots++;
+		} else {
+			gateGrippingFootBots++;
+		}
+	}
+
+	// Get the colors of the lights at the exits
+	string prefix("exit_light_");
+	CSpace::TMapPerType &lightEntities = space->GetEntitiesByType("light");
+	for(CSpace::TMapPerType::iterator it = lightEntities.begin(), end = lightEntities.end(); it != end; it++) {
+		CLightEntity &lightEntity = *any_cast<CLightEntity*>(it->second);
+		if(lightEntity.GetId().compare(0, prefix.length(), prefix) == 0) {
+			CColor color = lightEntity.GetColor();
+			exitLightColors[color] = 0;
+		}
+	}
+
+	// Add one extra color for an undecided preference
+	exitLightColors[CColor::BLACK] = 0;
+
+	// Log some of these settings
+	LOG << "# gate-gripping-robots;temperature-sensing-robots;graphs;graph-colors-in-hex" << endl;
+	LOG << gateGrippingFootBots << ";" << temperatureSensingFootBots << ";" << exitLightColors.size();
+	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
+		LOG << ";" << hex << it->first;
+	}
+	LOG << dec << endl;
+	LOG << "# timestep;data-percentages" << endl;
+
+	// string fileName("../logs/log.csv");
+	// std::ofstream logFile(fileName);
+	// if(logFile.is_open()) {
+	// 	logFile << "This is a line." << endl;
+	// 	logFile.close();
+	// } else {
+	// 	LOGERR << "Unable to open file '" << fileName << "'." << endl;
+	// }
 }
 
 void FireEvacuationLoopFunctions::Reset() {
 	// Reset the heatmap to its initial state
 	initHeatMap();
+	
+	// Reset the amount of time steps to its initial state
+	steps = 0;
 }
 
 void FireEvacuationLoopFunctions::PreStep() {
@@ -91,14 +145,28 @@ void FireEvacuationLoopFunctions::PreStep() {
 }
 
 void FireEvacuationLoopFunctions::PostStep() {
-	CSpace::TMapPerType &temperatureSensingFootBots = space->GetEntitiesByType("foot-bot");
-	for(CSpace::TMapPerType::iterator it = temperatureSensingFootBots.begin(); it != temperatureSensingFootBots.end(); it++) {
+	// Increase the step count
+	steps++;
+
+	// Gather the preference data
+	CSpace::TMapPerType &footBotEntities = space->GetEntitiesByType("foot-bot");
+	for(CSpace::TMapPerType::iterator it = footBotEntities.begin(), end = footBotEntities.end(); it != end; it++) {
 		CFootBotEntity &footBotEntity = *any_cast<CFootBotEntity*>(it->second);
 		FootBotTemperatureSensingController *footBotTemperatureSensingController = dynamic_cast<FootBotTemperatureSensingController*>(&footBotEntity.GetControllableEntity().GetController());
 		if(footBotTemperatureSensingController != nullptr) {
-			// std::cout << footBotTemperatureSensingController->getPreferredExitColor() << std::endl;
+			CColor color = footBotTemperatureSensingController->getPreferredExitLightColor();
+			exitLightColors[color]++;
 		}
 	}
+
+	// Log this data
+	LOG << steps;
+	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
+		LOG << ";" << float(it->second)/temperatureSensingFootBots;
+		// Clear the data for the next step
+		it->second = 0;
+	}
+	LOG << endl;
 }
 
 CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloor) {

@@ -4,8 +4,8 @@
 #include <getopt.h>
 
 using std::cout;
-using std::cerr;
 using std::endl;
+using std::cerr;
 
 // General variables and constants
 QString command;

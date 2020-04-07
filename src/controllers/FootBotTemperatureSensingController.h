@@ -11,7 +11,7 @@ class FootBotTemperatureSensingController : public FootBotBaseController {
 		CCI_FootBotMotorGroundSensor *footBotMotorGroundSensor;
 
 		// General variables and constants
-		CColor preferredExitColor;
+		CColor preferredExitLightColor;
 
 		// Methods
 		void sense();
@@ -21,7 +21,7 @@ class FootBotTemperatureSensingController : public FootBotBaseController {
 		FootBotTemperatureSensingController();
 
 		// Getters
-		const CColor& getPreferredExitColor() const;
+		const CColor& getPreferredExitLightColor() const;
 
 		// Simulator methods
 		virtual void Init(TConfigurationNode &configurationNode);

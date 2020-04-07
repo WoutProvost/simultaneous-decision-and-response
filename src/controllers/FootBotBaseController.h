@@ -16,8 +16,8 @@
 #include "enums/BehaviorState.h"
 
 using namespace argos;
-using std::map;
 using std::string;
+using std::map;
 
 class FootBotBaseController : public CCI_Controller {
 

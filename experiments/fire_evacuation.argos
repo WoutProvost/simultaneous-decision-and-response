@@ -89,11 +89,10 @@
 			</entity>
 		</distribute>
 
-		<!-- North navigational light -->
-		<light id="light_north" position="0,7.4,0.4" orientation="0,0,0" color="red" intensity="7.0" medium="led_medium"/>
-
-		<!-- South navigational light -->
-		<light id="light_south" position="0,-7.4,0.4" orientation="0,0,0" color="blue" intensity="7.0" medium="led_medium"/>
+		<!-- Exit lights -->
+		<!-- Use id prefix 'exit_light_' to configure a light as an exit -->
+		<light id="exit_light_north" position="0,7.4,0.4" orientation="0,0,0" color="red" intensity="7.0" medium="led_medium"/>
+		<light id="exit_light_south" position="0,-7.4,0.4" orientation="0,0,0" color="blue" intensity="7.0" medium="led_medium"/>
 
 		<!-- Floor -->
 		<floor id="floor" source="loop_functions" pixels_per_meter="100" />

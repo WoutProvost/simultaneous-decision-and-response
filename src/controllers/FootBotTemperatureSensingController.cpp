@@ -5,11 +5,11 @@
 FootBotTemperatureSensingController::FootBotTemperatureSensingController() :
 	// Call base class method and initialize attributes and set default values
 	FootBotBaseController::FootBotBaseController("white", BehaviorState::SENSING),
-	preferredExitColor(CColor::BLACK) {
+	preferredExitLightColor(CColor::BLACK) {
 }
 
-const CColor& FootBotTemperatureSensingController::getPreferredExitColor() const {
-	return preferredExitColor;
+const CColor& FootBotTemperatureSensingController::getPreferredExitLightColor() const {
+	return preferredExitLightColor;
 }
 
 void FootBotTemperatureSensingController::Init(TConfigurationNode &configurationNode) {
