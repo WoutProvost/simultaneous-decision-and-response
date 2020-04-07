@@ -63,7 +63,7 @@ void FootBotBaseController::ControlStep() {
 	// Get readings from the range and bearing sensor
 	const CCI_RangeAndBearingSensor::TReadings &readings = rangeAndBearingSensor->GetReadings();
 
-	// Receive the temperature measured and exit prefered by the temperature sensing robots in the neighbourhood of this robot
+	// Receive the temperature measured and exit preferred by the temperature sensing robots in the neighbourhood of this robot
 	for(size_t reading = 0, size = readings.size(); reading < size; reading++) {
 		UInt8 temperature = readings[reading].Data[RABIndex::TEMPERATURE];
 		if(temperature != 0) {

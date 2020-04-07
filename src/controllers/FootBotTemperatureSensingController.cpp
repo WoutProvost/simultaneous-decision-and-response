@@ -39,6 +39,9 @@ void FootBotTemperatureSensingController::Reset() {
 
 	// Reset the behavior state to its initial state
 	behaviorState = BehaviorState::SENSING;
+
+	// Reset the exit preferred to its initial state
+	preferredExitLightColor = CColor::BLACK;
 }
 
 void FootBotTemperatureSensingController::sense() {
@@ -99,7 +102,10 @@ void FootBotTemperatureSensingController::sense() {
 				}
 			}
 
-			// Send the temperature measured and exit prefered by this robot to other robots in its neighbourhood
+			// Adjust the exit preferred by this robot
+			preferredExitLightColor = furthestExitColor;
+
+			// Send the temperature measured and exit preferred by this robot to other robots in its neighbourhood
 			rangeAndBearingActuator->SetData(RABIndex::TEMPERATURE, maxTemperature * dynamic_cast<FireEvacuationLoopFunctions&>(simulator.GetLoopFunctions()).getHeatMapParams().maxTemperature);			
 			rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_RED, furthestExitColor.GetRed());
 			rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_GREEN, furthestExitColor.GetGreen());

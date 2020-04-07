@@ -73,13 +73,13 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	exitLightColors[CColor::BLACK] = 0;
 
 	// Log some of these settings
-	LOG << "# gate-gripping-robots;temperature-sensing-robots;graphs;graph-colors-in-hex" << endl;
-	LOG << gateGrippingFootBots << ";" << temperatureSensingFootBots << ";" << exitLightColors.size();
-	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
-		LOG << ";" << hex << it->first;
-	}
-	LOG << dec << endl;
-	LOG << "# timestep;data-percentages" << endl;
+	// LOG << "# gate-gripping-robots;temperature-sensing-robots;graphs;graph-colors-in-hex" << endl;
+	// LOG << gateGrippingFootBots << ";" << temperatureSensingFootBots << ";" << exitLightColors.size();
+	// for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
+	// 	LOG << ";" << hex << it->first;
+	// }
+	// LOG << dec << endl;
+	// LOG << "# timestep;data-percentages" << endl;
 
 	// string fileName("../logs/log.csv");
 	// std::ofstream logFile(fileName);
@@ -97,6 +97,11 @@ void FireEvacuationLoopFunctions::Reset() {
 	
 	// Reset the amount of time steps to its initial state
 	steps = 0;
+
+	// Reset the preference data to its initial state
+	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
+		it->second = 0;
+	}
 }
 
 void FireEvacuationLoopFunctions::PreStep() {
