@@ -10,7 +10,7 @@ using std::cerr;
 // General variables and constants
 QString command;
 QString fileName;
-int maxGraphs = 2;
+int maxGraphs = 3;
 int experiment = 1;
 int maxExperiments = 1;
 int gateGrippingRobots = 0;

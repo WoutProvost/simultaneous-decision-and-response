@@ -9,6 +9,7 @@
 using namespace argos;
 using std::vector;
 using std::map;
+using std::ofstream;
 
 class FireEvacuationLoopFunctions : public CLoopFunctions {
 
@@ -26,6 +27,8 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 		int temperatureSensingFootBots;
 		int gateGrippingFootBots;
 		map<uint32_t,int> exitLightColors;
+		string fileName;
+		ofstream logFile;
 
 		// Methods
 		void initHeatMap();
@@ -41,6 +44,7 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 		// Simulator methods
 		virtual void Init(TConfigurationNode &configurationNode);
 		virtual void Reset();
+		virtual void Destroy();
 		virtual void PreStep();
 		virtual void PostStep();
 		virtual CColor GetFloorColor(const CVector2 &positionOnFloor);

@@ -13,7 +13,9 @@ FireEvacuationLoopFunctions::FireEvacuationLoopFunctions() :
 	arenaSize(&space->GetArenaSize()),
 	random(CRandom::CreateRNG("argos")),
 	temperatureSensingFootBots(0),
-	gateGrippingFootBots(0) {
+	gateGrippingFootBots(0),
+	fileName("../logs/log.csv"),
+	logFile(fileName) {
 }
 
 const HeatMapParams& FireEvacuationLoopFunctions::getHeatMapParams() const {
@@ -71,23 +73,18 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	// Add one extra color for an undecided preference
 	exitLightColors[CColor::BLACK] = 0;
 
-	// Log some of these settings
-	// LOG << "# gate-gripping-robots;temperature-sensing-robots;graphs;graph-colors-in-hex" << endl;
-	// LOG << gateGrippingFootBots << ";" << temperatureSensingFootBots << ";" << exitLightColors.size();
-	// for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
-	// 	LOG << ";" << hex << it->first;
-	// }
-	// LOG << dec << endl;
-	// LOG << "# timestep;data-percentages" << endl;
-
-	// string fileName("../logs/log.csv");
-	// std::ofstream logFile(fileName);
-	// if(logFile.is_open()) {
-	// 	logFile << "This is a line." << endl;
-	// 	logFile.close();
-	// } else {
-	// 	LOGERR << "Unable to open file '" << fileName << "'." << endl;
-	// }
+	// Log some of these settings to a file
+	if(logFile.is_open()) {
+		logFile << "# gate-gripping-robots;temperature-sensing-robots;graphs;graph-colors-in-hex" << endl;
+		logFile << gateGrippingFootBots << ";" << temperatureSensingFootBots << ";" << exitLightColors.size();
+		for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
+			logFile << ";" << hex << it->first;
+		}
+		logFile << dec << endl;
+		logFile << "# timestep;data-percentages" << endl;
+	} else {
+		LOGERR << "Unable to open file '" << fileName << "'." << endl;
+	}
 }
 
 void FireEvacuationLoopFunctions::Reset() {
@@ -97,6 +94,13 @@ void FireEvacuationLoopFunctions::Reset() {
 	// Reset the preference data to its initial state
 	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
 		it->second = 0;
+	}
+}
+
+void FireEvacuationLoopFunctions::Destroy() {
+	// Close the log file
+	if(logFile.is_open()) {
+		logFile.close();
 	}
 }
 
@@ -157,14 +161,23 @@ void FireEvacuationLoopFunctions::PostStep() {
 		}
 	}
 
-	// Log this data
-	LOG << space->GetSimulationClock();
-	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
-		LOG << ";" << float(it->second)/temperatureSensingFootBots;
-		// Clear the data for the next step
-		it->second = 0;
+	// Log this data to a file
+	if(logFile.is_open()) {
+		logFile << space->GetSimulationClock();
+		for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
+			logFile << ";" << float(it->second)/temperatureSensingFootBots;
+			// Clear the data for the next step
+			it->second = 0;
+		}
+		logFile << endl;
 	}
-	LOG << endl;
+
+	// When the QtOpenGL visualization is used, stdout is redirected to a custom log window
+	// Therefore, when the QtOpenGL visualization is used and the output is also piped to somewhere else, duplicate the output to the original stdout so the pipe works
+	// std::ostream oldCout(LOG.GetStream().rdbuf());
+	// if(LOG.GetStream().rdbuf() != oldCout.rdbuf() && !isatty(fileno(stdout))) {
+	// 	oldCout << "DUPLICATE" << endl;
+	// }
 }
 
 CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloor) {
