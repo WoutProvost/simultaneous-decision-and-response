@@ -23,6 +23,7 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 		const CVector3 *arenaSize;
 		CRandom::CRNG *random;
 		CFloorEntity *floorEntity;
+		CPhysicsEngine *physicsEngine;
 		vector<vector<int>> heatMap;
 		int temperatureSensingFootBots;
 		int gateGrippingFootBots;
@@ -32,6 +33,7 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 
 		// Methods
 		void initHeatMap();
+		void initLogFile();
 
 	public:		
 		// Constructors

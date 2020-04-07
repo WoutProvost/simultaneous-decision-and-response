@@ -1,3 +1,6 @@
+# Tuesday 7-04-2020
+- 
+
 # Tuesday 31-03-2020
 - Distance method: measure the distance of the fire to the exits
 - Fire spreading method: measure how fast the fire could reach the exits

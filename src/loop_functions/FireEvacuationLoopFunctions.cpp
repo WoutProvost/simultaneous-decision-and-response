@@ -40,6 +40,9 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	// Initialize the floor entity
 	floorEntity = &space->GetFloorEntity();
 
+	// Initialize the physics engine
+	physicsEngine = CSimulator::GetInstance().GetPhysicsEngines()[0];
+
 	// Set the size of the heatmap depending on the size of the arena and the resolution depending on the tiles per meter
 	Real resolutionX = arenaSize->GetX() * heatMapParams.tilesPerMeter;
 	Real resolutionY = arenaSize->GetY() * heatMapParams.tilesPerMeter;
@@ -75,13 +78,7 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 
 	// Log some of these settings to a file
 	if(logFile.is_open()) {
-		logFile << "# gate-gripping-robots;temperature-sensing-robots;graphs;graph-colors-in-hex" << endl;
-		logFile << gateGrippingFootBots << ";" << temperatureSensingFootBots << ";" << exitLightColors.size();
-		for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
-			logFile << ";" << hex << it->first;
-		}
-		logFile << dec << endl;
-		logFile << "# timestep;data-percentages" << endl;
+		initLogFile();
 	} else {
 		LOGERR << "Unable to open file '" << fileName << "'." << endl;
 	}
@@ -94,6 +91,15 @@ void FireEvacuationLoopFunctions::Reset() {
 	// Reset the preference data to its initial state
 	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
 		it->second = 0;
+	}
+
+	// Close and reopen the logfile to erase everything and start from scratch
+	if(logFile.is_open()) {
+		logFile.close();
+	}
+	logFile.open(fileName);
+	if(logFile.is_open()) {
+		initLogFile();
 	}
 }
 
@@ -163,7 +169,7 @@ void FireEvacuationLoopFunctions::PostStep() {
 
 	// Log this data to a file
 	if(logFile.is_open()) {
-		logFile << space->GetSimulationClock();
+		logFile << space->GetSimulationClock()*1000*physicsEngine->GetSimulationClockTick();
 		for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
 			logFile << ";" << float(it->second)/temperatureSensingFootBots;
 			// Clear the data for the next step
@@ -275,6 +281,21 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 			}
 		}
 	}
+}
+
+void FireEvacuationLoopFunctions::initLogFile() {
+	logFile << "# gate-gripping-robots;temperature-sensing-robots;graphs;graph-colors-in-hex" << endl;
+	logFile << gateGrippingFootBots << ";" << temperatureSensingFootBots << ";" << exitLightColors.size();
+	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
+		logFile << ";" << hex << it->first;
+	}
+	logFile << dec << endl;
+	logFile << "# timestep;data-percentages" << endl;
+	logFile << 0;
+	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
+		logFile << ";" << 0;
+	}
+	logFile << endl;
 }
 
 // Macro that binds this class to an XML tag

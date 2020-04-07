@@ -1,3 +1,38 @@
+# Done
+- Currenlty using distance method
+- After detecting a fire, enable the camera sensor, after going back to white tile, disable it again, for performance reasons. Works great (demonstrate)
+- Enabling the sensor has a delay of 1 tick. Practically this isn't a problem, since the tiles are large enough and the robot velocity is small enough
+- Only use max temperature of the four ground sensors, since that's the most important one
+- Choose exit furthest away from the fire using the distance measured with the camera sensor (see below)
+- Data communicated (rab_data_size=4): temperature + RGB values (see below)
+- Robot keeps track of current preferred exit
+- Loop functions accumulate preference and log this data to a file + 1 extra choice added for an undecided preference
+- Loop functions count robot entities, so the data aggregation is dynamically adjusted based on the config file
+- Loop functions count light entities with certain prefix, so the available choices are dynamically adjusted based on the config file
+- Plotapp command + support reading files
+- Compiled some useful information from the articles regarding the decision and voting mechanisms
+
+# Questions (SEE BELOW!!)
+- The robots change their opinion based on the distances they've just measured, thus it only depends on their last position. Thus their opinion changes a lot due to their movement
+- The robots communicate their opinion they've just measured, which changes a lot as mentioned above
+- The robots only communicate when they are measuring, i.e. when they're not on a white tile
+- The temperature of a measurement = the quality of this measurement, but this isn't yet taken into account
+- The data is communicated, but isn't yet taken into account to change the opinion of the recipient
+- The grippers don't participate in the decision making, they can only listen to data traffic
+
+# Thesis feedback
+- Why ARGoS? Focus on both efficiency (fast performance with large swarms + multicore/multithreading support) and flexibility (highly customizable for specific experiments + modular). Other simulators sacrificy on or the other. Possible to partition the simulated space and use different physics engingines for those spaces. Loop functions to implement whatever you need for your use case. Robot controllers use a robot-specific API called the control interface. The same API is implemented on the robot, allowing seamless transition of code from simulation to reality.
+https://www.argos-sim.info/stuff/Pinciroli:SI2012.pdf
+
+
+
+
+
+
+
+
+
+
 # Data to communicate
 - Temperature of tile
 - Which exit to use
