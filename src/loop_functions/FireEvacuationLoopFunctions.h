@@ -23,7 +23,6 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 		CRandom::CRNG *random;
 		CFloorEntity *floorEntity;
 		vector<vector<int>> heatMap;
-		int steps;
 		int temperatureSensingFootBots;
 		int gateGrippingFootBots;
 		map<uint32_t,int> exitLightColors;

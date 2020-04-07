@@ -12,7 +12,6 @@ FireEvacuationLoopFunctions::FireEvacuationLoopFunctions() :
 	space(&GetSpace()),
 	arenaSize(&space->GetArenaSize()),
 	random(CRandom::CreateRNG("argos")),
-	steps(0),
 	temperatureSensingFootBots(0),
 	gateGrippingFootBots(0) {
 }
@@ -94,9 +93,6 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 void FireEvacuationLoopFunctions::Reset() {
 	// Reset the heatmap to its initial state
 	initHeatMap();
-	
-	// Reset the amount of time steps to its initial state
-	steps = 0;
 
 	// Reset the preference data to its initial state
 	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
@@ -150,9 +146,6 @@ void FireEvacuationLoopFunctions::PreStep() {
 }
 
 void FireEvacuationLoopFunctions::PostStep() {
-	// Increase the step count
-	steps++;
-
 	// Gather the preference data
 	CSpace::TMapPerType &footBotEntities = space->GetEntitiesByType("foot-bot");
 	for(CSpace::TMapPerType::iterator it = footBotEntities.begin(), end = footBotEntities.end(); it != end; it++) {
@@ -165,7 +158,7 @@ void FireEvacuationLoopFunctions::PostStep() {
 	}
 
 	// Log this data
-	LOG << steps;
+	LOG << space->GetSimulationClock();
 	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
 		LOG << ";" << float(it->second)/temperatureSensingFootBots;
 		// Clear the data for the next step
