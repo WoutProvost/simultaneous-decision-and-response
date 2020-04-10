@@ -1,5 +1,15 @@
+# Tuesday 14-04-2020
+- No meeting
+
 # Tuesday 7-04-2020
-- 
+- Determine when to start the collective response so that it is most efficient
+- Majority rule: the grippers use the data received from their sensing neighbours
+- When working with data from neighbours, use a quorum to determine what to do
+- Weighted balance between distance and temperature, since a fire that's not very hot but very close to one exit, might or might not be that bad
+- Sensor move randomly to detect fires and aggregate
+- Maybe use fire edge detection
+- Start building edge, but abandon when not enough robots participate (use probabilities)
+- Grippers also move to detect the edges being formed
 
 # Tuesday 31-03-2020
 - Distance method: measure the distance of the fire to the exits
