@@ -99,8 +99,13 @@ void MainWindow::initPlot() {
 		pen.setStyle(graphStyle[graph/graphColors.size()%graphStyle.size()]);
 		pen.setWidthF(2);
 		ui->customPlot->addGraph();
-		ui->customPlot->graph(graph)->setName("Exit " + QString(QChar(graph + 'A')));
+		ui->customPlot->graph(graph)->setName("Exit " + QString(QChar(graph + 'A' - 1))); // Subtract 1, so that the second graphs starts from A (see below)
 		ui->customPlot->graph(graph)->setPen(pen);
+	}
+
+	// Give the first graph a custom name
+	if(maxGraphs > 0) {
+		ui->customPlot->graph(0)->setName("Undecided");
 	}
 
 	// Tags
