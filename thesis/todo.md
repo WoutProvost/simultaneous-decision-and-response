@@ -2,7 +2,7 @@
 - The robots don't continuously change their opinion anymore, but only change it when they've found a better one
 - The robots don't communicate their last measured value anymore, but only communicate their best measurement (see above)
 - The robots don't communicate only when they are measuring anymore (i.e. when they're not on a white tile) , but once they've formulated an opinion, they communicate this continously
-- The robot's opinion is now based upon the distance weighted with the temperature, so that there is a quality associated with the measurement, which allows easy quality comparisons
+- The robot's opinion is now based upon the distance weighted with the temperature, so that there is a quality associated with the measurement, which allows for easy quality comparisons
 
 # TODO
 - The data is communicated, but isn't yet taken into account to change the opinion of the recipient.

@@ -17,6 +17,7 @@ class FootBotTemperatureSensingController : public FootBotBaseController {
 
 		// Methods
 		void sense();
+		void receiveOpinions();
 		void transmitOpinion();
 
 	public:

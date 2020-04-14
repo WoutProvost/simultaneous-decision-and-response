@@ -34,6 +34,9 @@ void FootBotTemperatureSensingController::ControlStep() {
 		}
 	}
 
+	// Receive opinions from other temperature sensing robots in this robot's neighbourhood
+	receiveOpinions();
+
 	// Transmit this robot's opinion to other robots in its neighbourhood
 	transmitOpinion();
 }
@@ -123,6 +126,27 @@ void FootBotTemperatureSensingController::sense() {
 					preferredExitTemperature = maxTemperature;
 				}
 			}
+		}
+	}
+}
+
+void FootBotTemperatureSensingController::receiveOpinions() {
+	// Get readings from the range and bearing sensor
+	const CCI_RangeAndBearingSensor::TReadings &readings = rangeAndBearingSensor->GetReadings();
+
+	// Receive opinions from other temperature sensing robots in this robot's neighbourhood
+	for(size_t reading = 0, size = readings.size(); reading < size; reading++) {
+		UInt8 temperature = readings[reading].Data[RABIndex::TEMPERATURE];
+		if(temperature != 0) {
+			UInt8 red = readings[reading].Data[RABIndex::EXIT_COLOR_CHANNEL_RED];
+			UInt8 green = readings[reading].Data[RABIndex::EXIT_COLOR_CHANNEL_GREEN];
+			UInt8 blue = readings[reading].Data[RABIndex::EXIT_COLOR_CHANNEL_BLUE];
+			CColor exitColor = CColor(red, green, blue);
+			UInt8 distance = readings[reading].Data[RABIndex::EXIT_DISTANCE];
+
+			// RLOG << exitColor << " exit (" << temperature << "°, " << distance << "m) => " << distance * temperature << std::endl;
+			
+			// TODO use received data to influence opinion of recipient
 		}
 	}
 }
