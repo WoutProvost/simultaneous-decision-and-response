@@ -11,11 +11,13 @@ class FootBotTemperatureSensingController : public FootBotBaseController {
 		CCI_FootBotMotorGroundSensor *footBotMotorGroundSensor;
 
 		// General variables and constants
+		int preferredExitTemperature;
 		CColor preferredExitLightColor;
 		Real preferredExitDistance;
 
 		// Methods
 		void sense();
+		void transmitOpinion();
 
 	public:
 		// Constructors

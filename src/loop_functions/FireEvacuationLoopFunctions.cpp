@@ -252,7 +252,7 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 			}
 		}
 	}
-	// Otherwise create a fire according to the fire mode and according to wether it is dynamic
+	// Otherwise create a fire according to the fire mode and according to whether it is dynamic
 	else {
 		// Create a circular fire at a random position
 		if(fireParams.mode == "circle") {

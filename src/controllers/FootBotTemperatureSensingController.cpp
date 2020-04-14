@@ -5,6 +5,7 @@
 FootBotTemperatureSensingController::FootBotTemperatureSensingController() :
 	// Call base class method and initialize attributes and set default values
 	FootBotBaseController::FootBotBaseController("white", BehaviorState::SENSING),
+	preferredExitTemperature(0),
 	preferredExitLightColor(CColor::BLACK),
 	preferredExitDistance(0.0) {
 }
@@ -32,6 +33,9 @@ void FootBotTemperatureSensingController::ControlStep() {
 			break;
 		}
 	}
+
+	// Transmit this robot's opinion to other robots in its neighbourhood
+	transmitOpinion();
 }
 
 void FootBotTemperatureSensingController::Reset() {
@@ -40,6 +44,9 @@ void FootBotTemperatureSensingController::Reset() {
 
 	// Reset the behavior state to its initial state
 	behaviorState = BehaviorState::SENSING;
+
+	// Reset the temperature to its initial state
+	preferredExitTemperature = 0;
 
 	// Reset the exit preferred to its initial state
 	preferredExitLightColor = CColor::BLACK;
@@ -55,7 +62,7 @@ void FootBotTemperatureSensingController::sense() {
 	// Get readings from the motor ground sensor
 	const CCI_FootBotMotorGroundSensor::TReadings &readings = footBotMotorGroundSensor->GetReadings();
 
-	// Determine wether a fire is present and what the temperature of that fire is
+	// Determine whether a fire is present and what the temperature of that fire is
 	bool fireDetected = false;
 	Real maxTemperature = -1.0;
 	for(size_t reading = 0, size = readings.size(); reading < size; reading++) {
@@ -67,7 +74,12 @@ void FootBotTemperatureSensingController::sense() {
 			maxTemperature = temperature;
 		}
 	}
-	
+
+	// Adjust the measured temperature to fit the original temperature value
+	if(fireDetected) {
+		maxTemperature *= dynamic_cast<FireEvacuationLoopFunctions&>(simulator.GetLoopFunctions()).getHeatMapParams().maxTemperature;
+	}
+
 	// Enable the resource-intensive colored blob omnidirectional camera sensor when a fire is detected and the sensor is not yet enabled
 	if(fireDetected && !coloredBlobOmnidirectionalCameraSensorEnabled) {
 		coloredBlobOmnidirectionalCameraSensor->Enable();
@@ -77,9 +89,6 @@ void FootBotTemperatureSensingController::sense() {
 	else if(!fireDetected && coloredBlobOmnidirectionalCameraSensorEnabled) {
 		coloredBlobOmnidirectionalCameraSensor->Disable();
 		coloredBlobOmnidirectionalCameraSensorEnabled = false;
-
-		// Clear all data that is still in the buffer
-		rangeAndBearingActuator->ClearData();
 	}
 
 	// Leaving the colored blob omnidirectional camera sensor on at all times results in a very big performace hit, especially with increasing numbers of robots
@@ -94,33 +103,38 @@ void FootBotTemperatureSensingController::sense() {
 
 		// Choose the exit that is the furthest away from the fire, by measuring the distance to each of the available exits
 		if(readings.BlobList.size() != 0) {
-			CColor furthestExitColor = CColor::BLACK;
+			CColor furthestExitLightColor = CColor::BLACK;
 			Real furthestExitDistance = -1.0;
 			for(size_t blob = 0, size = readings.BlobList.size(); blob < size; blob++) {
 				if(!ignoredColoredBlobs[readings.BlobList[blob]->Color]) {
 					Real distance = readings.BlobList[blob]->Distance/100;
 					if(distance > furthestExitDistance) {
-						furthestExitColor = readings.BlobList[blob]->Color;
+						furthestExitLightColor = readings.BlobList[blob]->Color;
 						furthestExitDistance = distance;
 					}
 				}
 			}
 
-			// Adjust the exit preferred by this robot
-			preferredExitLightColor = furthestExitColor;
-
-			// Adjust the distance to this exit
-			if(furthestExitDistance != -1.0) {
-				preferredExitDistance = furthestExitDistance;
+			// Determine whether to change this robot's opinion based on the distance to the furthest exit weighted by the measured temperature
+			if(furthestExitLightColor != CColor::BLACK) {
+				if(furthestExitDistance * maxTemperature > preferredExitDistance * preferredExitTemperature) {
+					preferredExitLightColor = furthestExitLightColor;
+					preferredExitDistance = furthestExitDistance;
+					preferredExitTemperature = maxTemperature;
+				}
 			}
-
-			// Send the temperature measured and exit preferred by this robot to other robots in its neighbourhood
-			rangeAndBearingActuator->SetData(RABIndex::TEMPERATURE, maxTemperature * dynamic_cast<FireEvacuationLoopFunctions&>(simulator.GetLoopFunctions()).getHeatMapParams().maxTemperature);			
-			rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_RED, furthestExitColor.GetRed());
-			rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_GREEN, furthestExitColor.GetGreen());
-			rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_BLUE, furthestExitColor.GetBlue());
-			rangeAndBearingActuator->SetData(RABIndex::EXIT_DISTANCE, round(furthestExitDistance));
 		}
+	}
+}
+
+void FootBotTemperatureSensingController::transmitOpinion()  {
+	// If the robot is not undecided, send its opinion to other robots in its neighbourhood
+	if(preferredExitLightColor != CColor::BLACK) {
+		rangeAndBearingActuator->SetData(RABIndex::TEMPERATURE, preferredExitTemperature);
+		rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_RED, preferredExitLightColor.GetRed());
+		rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_GREEN, preferredExitLightColor.GetGreen());
+		rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_BLUE, preferredExitLightColor.GetBlue());
+		rangeAndBearingActuator->SetData(RABIndex::EXIT_DISTANCE, preferredExitDistance);
 	}
 }
 

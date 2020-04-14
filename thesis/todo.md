@@ -1,8 +1,10 @@
+# Done
+- The robots don't continuously change their opinion anymore, but only change it when they've found a better one
+- The robots don't communicate their last measured value anymore, but only communicate their best measurement (see above)
+- The robots don't communicate only when they are measuring anymore (i.e. when they're not on a white tile) , but once they've formulated an opinion, they communicate this continously
+- The robot's opinion is now based upon the distance weighted with the temperature, so that there is a quality associated with the measurement, which allows easy quality comparisons
+
 # TODO
-- The robots change their opinion based on the distances they've just measured, thus it only depends on their last position. Thus their opinion changes a lot due to their movement.
-- The robots communicate their opinion they've just measured, which changes a lot as mentioned above.
-- The robots only communicate when they are measuring, i.e. when they're not on a white tile.
-- The temperature of a measurement = the quality of this measurement, but this isn't yet taken into account.
 - The data is communicated, but isn't yet taken into account to change the opinion of the recipient.
 - The grippers don't participate in the decision making, they can only listen to data traffic.
 

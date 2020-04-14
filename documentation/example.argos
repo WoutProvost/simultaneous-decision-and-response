@@ -166,7 +166,7 @@
 	<visualization>
 		<!--
 			An interactive graphical renderer based on QT and OpenGL.
-			- autoplay: wether to start the simulation at startup.
+			- autoplay: whether to start the simulation at startup.
 		-->
 		<qt-opengl autoplay="false">
 			<!--
@@ -196,7 +196,7 @@
 				- quality: the quality of the image ranging from 0 (max compression) to 100 (no compression).
 					For screenshots, it's best to use -1, which uses Qt's default quality.
 					For videos, it's best to use 100, to avoid artifacts due to compression.
-				- headless_grabbing: wether to grab frames when running ARGoS without visualizations.
+				- headless_grabbing: whether to grab frames when running ARGoS without visualizations.
 				- headless_frame_size: the size of the main QTWidget in ARGoS, not the size of the converted frames when running ARGoS without visualizations.
 				- headless_frame_rate: the frame skip rate (i.e. grab every nth frame) when running ARGoS without visualizations.
 			-->
