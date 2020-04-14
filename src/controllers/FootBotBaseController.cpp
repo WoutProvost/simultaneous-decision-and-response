@@ -71,8 +71,9 @@ void FootBotBaseController::ControlStep() {
 			UInt8 green = readings[reading].Data[RABIndex::EXIT_COLOR_CHANNEL_GREEN];
 			UInt8 blue = readings[reading].Data[RABIndex::EXIT_COLOR_CHANNEL_BLUE];
 			CColor exitColor = CColor(red, green, blue);
+			UInt8 distance = readings[reading].Data[RABIndex::EXIT_DISTANCE];
 			
-			// RLOG << temperature << "°, " << exitColor << " exit" << std::endl;
+			// RLOG << temperature << "°, " << exitColor << " exit (" << distance << "m)" << std::endl;
 		}
 	}
 }

@@ -19,9 +19,6 @@
 
 # 1. A review of swarm robotics tasks
 
-### **Commonly used tasks:**  (p.292)
-Aggregation, flocking, foraging, object clustering and sorting, navigation, path formation, deployment, collaborative manipulation and task allocation. For each task many different implementations, metrics and analytical methods exist.
-
 ### **Why we need/want swarm robotics:** (p.292)
 The tasks either cannot be accomplished by each individual robot alone, or are carried out more effectively by the robots as a group. Using a multitude of agents to solve a task in a distributed manner allows working with significantly less complex agents at the individual level.
 
@@ -37,10 +34,6 @@ It is often difficult to design the individual robot behavior so that the global
 ### **Implementation approaches**: (p.293)
 Simulation: virtual environment in which robot capabilities (sensors and actuators) and interactions are simulated by a computer program, allows assessing the performance of a robot swarm with repeated runs of an experiment and facilitates algorithm optimization with a trial-and-error approach.
 
-Modeling: utilizes mathematical formulas to link individual-level control parameters to swarm-level dynamics; with such formulas, the impact of algorithm parameters can be evaluated directly.
-
-Learning: adaptation of algorithm parameters based on previous experience, e.g. artificial evolution. Reinforcement learning is based on a model where robots, which can be in a given set of states and can execute a given set of actions, receive feedback on the results of their actions through a reward; the objective of robots is to choose a mapping between states and actions so as to maximize the reward. Using a local reinforcement paradigm, the reward is assigned only to robots which directly accomplish an objective, while with global reinforcement all the robots are rewarded for each accomplishment.
-
 ### **Aggregation**:
 The task of gathering a number of autonomous individuals in a common place. (p.294)
 
@@ -48,49 +41,9 @@ Artificial physics approach: is a field of research that models the behavior of 
 
 Probabilistic approach: the behavior of each robot is determined partially in a random manner, and partially based on its interactions with the surrounding environment. Switching between states using a finite state machine with at least two states (walk and wait). (p.294)
 
-Evolutionary approach: the aggregation dynamics is obtained using robot controllers whose parameters are selected through artificial evolution. Neural networks linking sensory inputs to actuator outputs are a common type of controllers evolved using these methods. Fitness value measuring the ability of a given generation of individuals to accomplish a task. (p.295)
-
-Free aggregation method: robots are given the task of aggregating without any preference for a specific aggregation site. Move randomly in the environment and stop at a given location based on the number of detected neighbors. A higher number of cockroaches corresponding to a higher probability of stopping. Resume random walking at any time, possibly leaving an aggregate. A lower number of cockroaches correspondig to a higher probability of walking. (p.295)
-
 Environment-mediated aggregation method: the location of a given robot in the environment influences the robot behavior, so that aggregation is achieved with higher probability in some defined “preferential” regions. It starts moving randomly until it collides with another honeybee; when a collision occurs, the honeybee stops, and remains stopped for a time duration. (p.296)
 
 What is an "aggregate"? A group of robots such that for any pair of robots in the group there is a path connecting them formed by robots within a maximum distance from each other; the value of the maximum distance is usually chosen based on the range of local communication and sensing of robots. In studies where robots are controlled by a finite state machine, aggregates can be identified by robots whose controller is in the “wait” state. (p.297)
-
-### **Flocking:**
-Form large groups of individuals moving together toward a common target location. A fundamental component is the ability to measure the distance and relative orientation of neighboring robots. (p.298)
-
-Three basic rules: collision avoidance, velocity matching and flock centering. (p.299)
-
-Direction by global target method: If the target is known by all robots in the swarm, local interactions between robots serve mainly the purpose of maintaining a compact formation while avoiding collisions. Individual robots calculate a “center of mass”, which represents the desired location to be reached in the short term. Using local interactions, informed robots can propagate the information on the target to the other robots and steer the swarm toward the target. (p.299)
-
-Emergent direction method: flocking can be obtained even in the absence of this information and with individual robots initially moving on random and uncorrelated directions. A swarm-level global direction of movement can emerge from local interactions. (p.299)
-
-A common and intuitive metric is given by the distance covered by the center of mass of the robot swarm, where the center of mass at a given time is calculated as the average of robot positions. If the flocking task is defined so that robots should move toward a global goal direction, performance metrics must incorporate this direction. For example, in various studies the accuracy value measures how the average direction of robots differs from the goal direction, and in the effective traveled distance projects the vector representing the displacement of the center of mass of the swarm on the vector indicating the goal direction. (p.300)
-
-### **Foraging:**
-Efficiently exploit food sources using local interactions between individuals. A specific area is designated as the “nest”, and the objective of the swarm is finding items scattered in the environment and bringing them to the nest. (p.300)
-
-A robot is either looking for items in the environment or carrying an item to bring to the nest. In order to achieve cooperation, there must be some form of communication between individuals, so that the actions executed by a robot are influenced by the activity of the rest of the swarm. (p.301)
-
-Shared memory method: all robots in a swarm are able to read and write information on a shared medium. With a shared memory, robots can communicate their recent experience (e.g. the path they followed to reach a given place) and thus help other robots to localize places of interest. Each robot contributes with its imperfect information to build a shared map of the arena. The trail information that is gradually built by foraging robots can be used not only to follow the same trails to reach the same locations, but also to avoid trails used to reach different target locations. (p.301)
-
-Communication through the environment method: produce chemical substances called pheromone and use them to mark the environment. Indirect communication, which uses the environment as a medium for sharing information. (p.301)
-
-Direct communication method: refers to a process where robots exchange information directly between each other, often (but not necessarily) explicitly transmitting data to signal a particular status. Information can be exchanged between nearby robots, which can then act upon received information modifying their behavior to improve the foraging performance. (p.301)
-
-Path formation refers to building one or more “preferential routes” in the foraging arena so that robots either searching for items or carrying an item can reach their current target in an
-optimized way. These routes are built incrementally by robots as they execute the foraging activity, and can disappear if the reason for which they were created no longer exists, such as when a source of items is depleted. Robots carrying an item drop “crumbs” on their return path to the nest, while robots searching for items are attracted by crumbs. (p.302)
-
-Cooperative transport focuses on cooperation mechanisms by which the process of moving an item to the nest is made more efficient with the contribution of multiple robots. Items are passed from one robot to another until they reach the nest. Sometimes robots are designated specific areas. (p.302)
-
-### **Object Clustering:**
-Objects scattered in the environment must be grouped together. There is not a predefined destination place for collected objects, the goal being to place the objects near each other. When dealing with different kinds of objects this task is often called "sorting". (p.303)
-
-Robots are assumed to be unable to sense the presence of distant objects, thus the typical behavior when searching for objects is to move randomly. (p.303)
-
-Increasing the number of robots employed for a given task can only lead to a sub-linear increase of global performance, due to the possibility of inter-robot interference. Thus, mechanisms of communication between robots are usually not considered in clustering studies. Most existing literature on clustering and sorting tasks makes use of simple robots with no localization capabilities, where clustering of objects emerges as a mere result of probabilistic interactions with the environment. (p.304)
-
-If robots are endowed with the capability to localize themselves in the environment, the clustering activity can be performed more efficiently, by moving encountered objects to a fixed location instead of relying on probabilistic approaches. While initially each robot may select an arbitrary location and begin clustering in that location, during task execution all robots must eventually converge to a single, shared cluster by either communicating its own cluster location or by measuring the size of different clusters. (p.305)
 
 ### **Navigation:**
 A robot with limited sensing and localization capabilities is able to reach a target in an unknown location with the help of other robots. The target location needs to be reached by a single robot. (p.306)
@@ -99,60 +52,24 @@ Each robot in a swarm has a limited knowledge of the local environment in which 
 
 Robots could form a grid of interconnected nodes which can guide an agent to an unknown target location, just like a standard routing protocol. This routing could happen statically or dynamically as the robot is moving towards the target. (p.306)
 
-### **Path Information:**
-Robots are able to build collectively a path between two locations in the environment, so that the time needed to reach one location from the other is minimized. (p.307)
-
-A stationary robot chain is formed when one target location is connected to the other through a sequence of robots, where each robot in the chain is within sensing or communication range of its two neighbors. A robot that is not part of the chain can move from one location to the other by simply following the sequence of stationary robots. (p.308)
-
-Path formation doesn't necessarily require the continuous presence of stationary robots “marking” the path. Another approach uses a positive feedback mechanism triggered by robots moving repeatedly between the two target locations, so that a robot following a path at a given time increases the likelihood that other robots will follow the same (or a similar) path in the future. (p.308)
-
-### **Deployment:**
-Robots must deploy themselves in an environment without central coordination. (p.309)
-
-Direct communication method: communication can take place using explicit messages, or implicitly, by sensing the nearby presence and relative position of other robots (p.309)
-
-Stigmergy communication method: gives robots moving in an area of the environment an indication of the actions done previously by other robots in the same area. An action done by a robot increases the probability that the same action is repeated by other robots.  Conversely, preventing different robots from repeating the same action, and specifically preventing the same areas of the environment from being explored multiple times. Using simulated pheromone traces: the presence and intensity of pheromone at a given location is used as an indication that the location has been visited before. In some studies, pheromone is assumed to evaporate over time. (p.309)
-
-In the dispersion task, swarm members must position themselves away from one another, with the objective of maximizing the area covered globally by the swarm. (p.309)
-
-If the total number of robots is not sufficiently high to cover the entire arena, this model can be complemented by a “guided growth” model, such as when one robot starts to move away from the swarm to explore uncovered areas of the arena and doing so “pulls” the entire swarm, because the other robots follow the exploring robot in order to keep connectivity with it and between each other. Each robot must stay within communication range of a minimum number of other robots. (p.310)
-
-Pattern formation is a variant of the deployment task where robots occupy relative positions such that when viewed globally their ensemble can be described by a specific pattern. (p.310)
-
 ### **Collaborative Manipulation:**
 In some instances, the task at hand cannot be executed by any single individual, but requires cooperation between multiple individuals. (p.311)
 
 Robots engaging in behaviors seemingly unrelated to the task at hand. For example, in a simple follow behavior in which a robot is attracted by other robots moving in front of it modifies the otherwise random distribution of robots in the arena so that robots are able to cooperatively push a box. In case of a stall where all robots are waiting for other robots, robots can abandon the object they found and restart searching for other objects with a potentially higher number of nearby robots. (p.311)
 
-Without a preferred direction, different robots may push the box from different angles, thus negatively interfering with each other. A group of robots must find a box located in the arena and push it at one edge of the arena. If there is a predefined goal location to which the box must be moved, and if robots are able to determine the direction toward the goal, this negative interference can be avoided. (p.311)
-
 When a robot encounters an object to be manipulated, it stops near the object and waits for other robots to arrive; if the number of robots required to execute the task arrive within a certain amount of time, then the task can be completed successfully, otherwise the robots near the object time out and restart moving in search of other objects to be manipulated. The rate of successful task execution thus depends on various factors such as robot and object density in the arena, number of required robots for a single manipulation, and the time robots wait before deciding to abandon an object. (p.312)
 
 ### **Task Allocation:**
-The ability to dynamically change the task executed by each robot based on local perception of the environment. Adapting the ratio of robots engaged in a given task (or not
-engaged in any task) based on the current demand for the task. (p.313)
+The ability to dynamically change the task executed by each robot based on local perception of the environment. Adapting the ratio of robots engaged in a given task (or not engaged in any task) based on the current demand for the task. (p.313)
 
-Threshold-based method:  robots observe a given quantity in the environment and change their activity when this quantity reaches a threshold value. Local quantities and/or variable thresholds are generally preferred over global ones to prevent a high number of robots
-switching activity at the same time when the threshold is crossed. (p.313)
+Threshold-based method:  robots observe a given quantity in the environment and change their activity when this quantity reaches a threshold value. Local quantities and/or variable thresholds are generally preferred over global ones to prevent a high number of robots switching activity at the same time when the threshold is crossed. (p.313)
 
 Probabilistic method: the decision of each robot to switch activities at any given time is taken randomly, with a probability value which is usually changed dynamically based on environment observations. The random component in the control algorithm of each robot prevents a large number of robots from switching activities at the same time. (p.313)
 
-In the foraging scenario, task allocation has been used mainly as a mechanism to determine when each robot should engage in the foraging activity and when it should rest. (p.313)
-
-In a foraging scenario, the stimulus is usually determined by the amount of food or energy in the nest: since the amount of food decreases with time if no robots bring new food to the nest, the corresponding increase of stimulus activates the foraging activity in resting robots, which will likely result in a future increase of food at the nest and a corresponding decrease of stimulus. (p.314)
-
 ### **Other tasks:**
-Odor Source Localizaition: finding the source of an odor in the environment. A robot detecting the odor signals this event, and other robots in its proximity in the downwind direction move toward the first robot. (p.315)
-
-Object Assembly: a swarm is tasked with building structures from objects located in the environment. Compared to the object clustering task, construction tasks focus on specific spatial relationships between adjacent objects, so that the assembled structure has a defined shape. (p.315)
-
-Self-assembly and Morphogenesis: physically connect to each other utilizing only local interactions. (p.315) Morphogenesis is an extension of the self-assembly concept that allows modular robotic structures to assume specific shapes: each robot joining the structure attaches to it at a position and orientation such that the desired shape is gradually built. (p.316)
-
-Coordinated Motion: In order to allow a modular robotic structure to move efficiently in the environment, part or all of its constituent robots must coordinate to move on a common direction. (p.316)
-
-Group Size Estimations: In different applications where multiple agents are grouped together, knowledge of the group size by each agent can be useful, for example to regulate the group size based on task-specific criteria. (p.316)
-
-Distributed Rendezvous: Agreeing on a single location at which all robots must converge. (p.316)
+- Odor Source Localizaition: finding the source of an odor in the environment. A robot detecting the odor signals this event, and other robots in its proximity in the downwind direction move toward the first robot. (p.315)
+- Self-assembly: physically connect to each other utilizing only local interactions. (p.315)
+- Distributed Rendezvous: Agreeing on a single location at which all robots must converge. (p.316)
 
 **IMPORTANT**
 Collective Decision-making: the swarm dynamics leads to a group of robots to converge to a unanimous decision; this happens when the different options available to each robot are associated to different rewards (even if robots cannot measure directly the reward associated to each option), but also in the case of options with the same utility.
@@ -161,8 +78,6 @@ Different implementations:
 - Global consensus on the fastest action is achieved with robots entering an observation state, where they exchange their current preferred action, after each action execution.
 - Robots that must agree on a site selection transmit their preference to neighboring robots for a time duration proportional to the perceived quality of the site associated to their current preference.
 - The behavior of each robot is a combination of the tendency to reach a specific goal (if the robot is informed about the goal) and the tendency to follow the average behavior of its neighbors. The relative weight given to these two components is changed dynamically based on the local consensus observed from neighboring robots, the swarm can converge to a collective decision even in the presence of informed agents with conflicting goals. (p.316)
-
-Human-swarm Interaction: Allow humans to interact locally with single or small groups of robots or with the environment. A human could take manual control of an agent to influce the behaviour of the swarm. (p.317)
 
 # 2. A Review of Probabilistic Macroscopic Models for Swarm Robotic Systems
 The collective behavior of swarms is statistically predictable and has often a simple probabilistic description. Collective (or macroscopic) behavior emerges from individual (or microscopic) decisions robots make. These decisions are based on purely local information that comes from other robots as well as the environment.
@@ -375,8 +290,7 @@ Require less manual intervention because of their robustness, scalability and fl
 **IMPORTANT**
 
 ### **What is collective decision-making?** (p.30)
-How groups reach decisions without centralised leadership. All individuals seek to agree
-on the same outcome. Within high-relatedness groups, group members’ behaviour is shaped as part of a group-level decision-making mechanism. Within unrelated groups, individuals’ behaviour should maximise their own expected fitness, within the context of the group.
+How groups reach decisions without centralised leadership. All individuals seek to agree on the same outcome. Within high-relatedness groups, group members’ behaviour is shaped as part of a group-level decision-making mechanism. Within unrelated groups, individuals’ behaviour should maximise their own expected fitness, within the context of the group.
 
 ### **Decision Accuracy:** (p.30)
 There is an inherent decision-making trade-off between true positive rate and false positive rate; a decision-maker cannot improve the rate at which they detect events of interest, without also increasing the rate at which they incorrectly detect those events when they have not happened. Yet in the group situation, a quorum decision rule, typical of social insect colonies, allows the group to simultaneously improve both rates. Group decisions are always more accurate than individual decisions. This has led to a speed-accuracy tradeoff.
@@ -425,13 +339,12 @@ The behaviour of individual agents is represented by the probabilistic finite st
 
 Spontaneous transitions model the discovery of option `i` with probability `P_γ(v_i)` and the abandonment of commitment to option `i` with probability `P_α(v_i)`. (p.3)
 
-Interactive transitions model the recruitment and cross-inhibition processes resulting from the interaction between agents belonging to different populations. The probability of any agent interacting with an agent committed to option `i` as `P_W_i = N_i/N`. Recruitment for option `i` is modelled by a transition from `W_U` to `W_i` with overall probability `P_W_i*P_ρ(v_i)`. Cross-inhibition of an agent committed to option i is instead modelled as the cumulative effect of the interaction with agents committed to a different option, with overall probability `SUM(j!=i){P_W_i*P_σ(v_j)}`. Zie tekening voor visuele representatie. (p.3)
+Interactive transitions model the recruitment and cross-inhibition processes resulting from the interaction between agents belonging to different populations. The probability of any agent interacting with an agent committed to option `i` as `P_W_i = N_i/N`. Recruitment for option `i` is modelled by a transition from `W_U` to `W_i` with overall probability `P_W_i*P_ρ(v_i)`. Cross-inhibition of an agent committed to option `i` is instead modelled as the cumulative effect of the interaction with agents committed to a different option, with overall probability `SUM(j!=i){P_W_i*P_σ(v_j)}`. Zie tekening voor visuele representatie. (p.3)
 
 ### **Micro-macro link:**
 In the homogeneous case, all agents compute their transition probabilities in the same way as a function of the estimated quality `^v_i`. `P_λ,g` represents the actual probability for the agent `a_g` to undergo one of the four transitions `λ`, thus `P_λ,g(^v_i) = λ_i*τ = f_λ(^v_i)*τ`. Hence, a principled choice of the individual transition probabilities can be made to obtain the desired macroscopic dynamics as defined in the last section of 'Macroscopic model'. (p.4)
 
-In the heterogeneous case, each agent computes its own transition probabilities differently
-from other agents. A simple response threshold scheme, so that agent `a_g` follows a transition with a fixed probability if the (estimated) option quality `^v_i` exceeds a given threshold `δ_g`. `P_λ,g` grows with amount `P_λ_u` and shrinks with amount `P_λ_d` which are tunable parameters. The threshold is drawn for each agent from a probability distribution `D_λ` through the cumulative distribution function `F_D_λ` (zie artikel voor formule). This leads to `P_λ_u = f_λ(v_M)*τ` and `P_λ_d = f_λ(v_m)*τ` for `v_M` being the upper bound of the distribution and `v_m` being the lower bound. Each agent re-samples the threshold from the distribution at every decision step. (p.4)
+In the heterogeneous case, each agent computes its own transition probabilities differently from other agents. A simple response threshold scheme, so that agent `a_g` follows a transition with a fixed probability if the (estimated) option quality `^v_i` exceeds a given threshold `δ_g`. `P_λ,g` grows with amount `P_λ_u` and shrinks with amount `P_λ_d` which are tunable parameters. The threshold is drawn for each agent from a probability distribution `D_λ` through the cumulative distribution function `F_D_λ` (zie artikel voor formule). This leads to `P_λ_u = f_λ(v_M)*τ` and `P_λ_d = f_λ(v_m)*τ` for `v_M` being the upper bound of the distribution and `v_m` being the lower bound. Each agent re-samples the threshold from the distribution at every decision step. (p.4)
 
 ### **Latent and interactive agents:**
 Agents might not be able to interact with neighbours every `τ` seconds. For instance, an agent might be busy estimating the quality of a discovered option, or spatial/topological factors might prevent frequent interactions. Agents unable to interact are latent, as opposed to interactive ones (zie opnieuw figuur voor transities tussen deze 2 soorten). An agent becomes latent with probability `P_L`, and returns interactive with probability `P_I`. A fraction of `n_I = P_I/(P_I + P_L)` agents can be found in the interactive state. A fraction of `n_L = P_L/(P_I + P_L)` agents can be found in the latent state. The activity switch is possible for both committed and uncommitted agents, leading to a PFSM description with `2(n + 1)` states (zie figuur). Recruitment and cross-inhibition are available only to interactive agents, while discovery and abandonment are available also to latent agents. Given the microscopic description, it is possible to derive the correspondence between micro and macro parameters by dividing the macroscopic transition rates by `n_I` or `n_L` (zie artikel voor welke formules dit geldt). (p.5)

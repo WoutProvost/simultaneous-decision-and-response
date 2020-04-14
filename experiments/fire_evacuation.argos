@@ -3,7 +3,7 @@
 <argos-configuration>
 	<framework>
 		<experiment length="0" ticks_per_second="10" random_seed="12345" />
-		<system threads="4" method="balance_length" />
+		<system threads="0" method="balance_length" />
 	</framework>
 
 	<controllers>
@@ -103,7 +103,7 @@
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
 			<entity quantity="100" max_trials="100">
-				<foot-bot id="fb_gg_" rab_range="1" rab_data_size="4" omnidirectional_camera_aperture="89.9">
+				<foot-bot id="fb_gg_" rab_range="1" rab_data_size="5" omnidirectional_camera_aperture="89.9">
 					<controller config="footbot_gate_gripping_controller" />
 					<dynamics2d>
 						<differential_steering max_force="15" max_torque="150" />
@@ -118,7 +118,7 @@
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
 			<entity quantity="100" max_trials="100">
-				<foot-bot id="fb_ts_" rab_range="1" rab_data_size="4" omnidirectional_camera_aperture="89.9">
+				<foot-bot id="fb_ts_" rab_range="1" rab_data_size="5" omnidirectional_camera_aperture="89.9">
 					<controller config="footbot_temperature_sensing_controller" />
 					<dynamics2d>
 						<differential_steering max_force="15" max_torque="150" />
@@ -127,7 +127,7 @@
 			</entity>
 		</distribute>
 
-		<!-- <foot-bot id="fb_ts_0" rab_range="6" rab_data_size="4" omnidirectional_camera_aperture="89.9">
+		<!-- <foot-bot id="fb_ts_0" rab_range="6" rab_data_size="5" omnidirectional_camera_aperture="89.9">
 			<controller config="footbot_temperature_sensing_controller" />
 			<dynamics2d>
 				<differential_steering max_force="15" max_torque="150" />
@@ -135,7 +135,7 @@
 			<body position="-3,-1.3,0" orientation="180,0,0" />
 		</foot-bot>
 		
-		<foot-bot id="fb_gg_0" rab_range="6" rab_data_size="4" omnidirectional_camera_aperture="89.9">
+		<foot-bot id="fb_gg_0" rab_range="6" rab_data_size="5" omnidirectional_camera_aperture="89.9">
 			<controller config="footbot_gate_gripping_controller" />
 			<dynamics2d>
 				<differential_steering max_force="15" max_torque="150" />

@@ -12,6 +12,7 @@ class FootBotTemperatureSensingController : public FootBotBaseController {
 
 		// General variables and constants
 		CColor preferredExitLightColor;
+		Real preferredExitDistance;
 
 		// Methods
 		void sense();

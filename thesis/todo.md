@@ -27,6 +27,7 @@
 # Data to communicate
 - Temperature of tile
 - Which exit to use
+- The distance to that exit
 
 # Individual decision mechanism
 Start when the robot moves from a white tile to a grayer tile

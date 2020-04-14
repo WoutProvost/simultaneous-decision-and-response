@@ -5,7 +5,8 @@
 FootBotTemperatureSensingController::FootBotTemperatureSensingController() :
 	// Call base class method and initialize attributes and set default values
 	FootBotBaseController::FootBotBaseController("white", BehaviorState::SENSING),
-	preferredExitLightColor(CColor::BLACK) {
+	preferredExitLightColor(CColor::BLACK),
+	preferredExitDistance(0.0) {
 }
 
 const CColor& FootBotTemperatureSensingController::getPreferredExitLightColor() const {
@@ -42,6 +43,9 @@ void FootBotTemperatureSensingController::Reset() {
 
 	// Reset the exit preferred to its initial state
 	preferredExitLightColor = CColor::BLACK;
+
+	// Reset the distance to this exit to its initial state
+	preferredExitDistance = 0.0;
 }
 
 void FootBotTemperatureSensingController::sense() {
@@ -105,11 +109,17 @@ void FootBotTemperatureSensingController::sense() {
 			// Adjust the exit preferred by this robot
 			preferredExitLightColor = furthestExitColor;
 
+			// Adjust the distance to this exit
+			if(furthestExitDistance != -1.0) {
+				preferredExitDistance = furthestExitDistance;
+			}
+
 			// Send the temperature measured and exit preferred by this robot to other robots in its neighbourhood
 			rangeAndBearingActuator->SetData(RABIndex::TEMPERATURE, maxTemperature * dynamic_cast<FireEvacuationLoopFunctions&>(simulator.GetLoopFunctions()).getHeatMapParams().maxTemperature);			
 			rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_RED, furthestExitColor.GetRed());
 			rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_GREEN, furthestExitColor.GetGreen());
 			rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_BLUE, furthestExitColor.GetBlue());
+			rangeAndBearingActuator->SetData(RABIndex::EXIT_DISTANCE, round(furthestExitDistance));
 		}
 	}
 }
