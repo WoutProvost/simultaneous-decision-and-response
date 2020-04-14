@@ -284,13 +284,13 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 }
 
 void FireEvacuationLoopFunctions::initLogFile() {
-	logFile << "# gate-gripping-robots;temperature-sensing-robots;graphs;graph-colors-in-hex" << endl;
-	logFile << gateGrippingFootBots << ";" << temperatureSensingFootBots << ";" << exitLightColors.size();
-	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
-		logFile << ";" << hex << it->first;
-	}
-	logFile << dec << endl;
-	logFile << "# timestep;data-percentages" << endl;
+	// logFile << "# gate-gripping-robots;temperature-sensing-robots;graphs;graph-colors-in-hex" << endl;
+	// logFile << gateGrippingFootBots << ";" << temperatureSensingFootBots << ";" << exitLightColors.size();
+	// for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
+	// 	logFile << ";" << hex << it->first;
+	// }
+	// logFile << dec << endl;
+	// logFile << "# timestep;data-percentages" << endl;
 	logFile << 0;
 	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
 		logFile << ";" << 0;
