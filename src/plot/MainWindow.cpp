@@ -143,7 +143,7 @@ void MainWindow::initPlot() {
 		while(!textStream.atEnd()) {
 			updatePlot(textStream);
 			line++;
-			cout << "\rPlotting data from file '" << file.fileName().toStdString() << "': " << float(line)/lines*100 << "%" << flush;
+			cout << "\rPlotting data from file '" << file.fileName().toStdString() << "': " << static_cast<double>(line)/lines*100 << "%" << flush;
 		}
 		cout << "\r\e[K" << flush;
 
@@ -151,7 +151,7 @@ void MainWindow::initPlot() {
 		file.close();
 
 		// Set X axis range to show whole set of data
-		ui->customPlot->xAxis->setRange(0, ceil(float(lines)/1000));
+		ui->customPlot->xAxis->setRange(0, ceil(static_cast<double>(lines)/1000));
 
 		// Redraw plot
 		ui->customPlot->replot();

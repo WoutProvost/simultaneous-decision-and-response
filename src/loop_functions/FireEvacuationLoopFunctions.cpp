@@ -6,6 +6,7 @@
 using std::endl;
 using std::hex;
 using std::dec;
+using std::next;
 
 FireEvacuationLoopFunctions::FireEvacuationLoopFunctions() :
 	// Initialize attributes and set default values
@@ -171,7 +172,7 @@ void FireEvacuationLoopFunctions::PostStep() {
 	if(logFile.is_open()) {
 		logFile << space->GetSimulationClock()*1000*physicsEngine->GetSimulationClockTick();
 		for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
-			logFile << ";" << float(it->second)/temperatureSensingFootBots;
+			logFile << ";" << static_cast<Real>(it->second)/temperatureSensingFootBots;
 			// Clear the data for the next step
 			it->second = 0;
 		}
@@ -291,8 +292,8 @@ void FireEvacuationLoopFunctions::initLogFile() {
 	// }
 	// logFile << dec << endl;
 	// logFile << "# timestep;data-percentages" << endl;
-	logFile << 0;
-	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
+	logFile << 0 << ";" << 1;
+	for(map<uint32_t,int>::iterator it = next(exitLightColors.begin(),1), end = exitLightColors.end(); it != end; it++) { // Start iterator 1 element further
 		logFile << ";" << 0;
 	}
 	logFile << endl;

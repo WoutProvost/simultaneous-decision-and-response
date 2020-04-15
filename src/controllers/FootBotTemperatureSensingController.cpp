@@ -2,6 +2,8 @@
 #include "enums/RABIndex.h"
 #include "../loop_functions/FireEvacuationLoopFunctions.h"
 
+using std::max_element;
+
 FootBotTemperatureSensingController::FootBotTemperatureSensingController() :
 	// Call base class method and initialize attributes and set default values
 	FootBotBaseController::FootBotBaseController("white", BehaviorState::SENSING),
@@ -135,8 +137,12 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 	const CCI_RangeAndBearingSensor::TReadings &readings = rangeAndBearingSensor->GetReadings();
 
 	// Receive opinions from other temperature sensing robots in this robot's neighbourhood
+	int totalVotes = 0;
 	map<uint32_t,int> exitVotes;
 	map<uint32_t,int> exitQualities;
+	map<uint32_t,CColor> exitColors;
+	map<uint32_t,int> exitDistances;
+	map<uint32_t,int> exitTemperatures;
 	for(size_t reading = 0, size = readings.size(); reading < size; reading++) {
 		UInt8 temperature = readings[reading].Data[RABIndex::TEMPERATURE];
 		if(temperature != 0) {
@@ -146,42 +152,59 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 			CColor exitColor = CColor(red, green, blue);
 			UInt8 distance = readings[reading].Data[RABIndex::EXIT_DISTANCE];
 
+			totalVotes++;
 			exitVotes[exitColor]++;
 			exitQualities[exitColor] += distance * temperature;
+			exitColors[exitColor] = exitColor;
+			exitDistances[exitColor] += distance;
+			exitTemperatures[exitColor] += temperature;
 		}
 	}
 
-	// Add this robot's opinion to the votes
-	exitVotes[preferredExitLightColor]++;
-	exitQualities[preferredExitLightColor] += preferredExitDistance * preferredExitTemperature;
-
-	// Plurality voting
-	// map<uint32_t,int>::iterator winningVote = std::max_element(exitVotes.begin(), exitVotes.end());
-	// map<uint32_t,int>::iterator it = exitVotes.begin();
-	// while(it != exitVotes.end() && it->second != winningVote->second) {
-	// 	it++;
-	// }
-	// if(it == exitVotes.end()) {
-	// }
-
-	// Majority voting
-
-
-	// Weighted voter model
-
-
-	// TODO robot zijn eigen mening wel meerekenen?
-	// Als je zijn mening meerekend, dan is de berekening de uiteindelijke waarde, zodat je geen if-statement meer mag gebruiken en de waarde direct moet aanpassen
-	// Als je ze niet meerekend, moet je wel een if-statement gebruiken om te vergelijken
-
-	// TODO qualities niet gewoon optellen
-
-	// TODO wat pas je juist aan, stel eigen mening en te gebruiken mening van buren is beiden dezelfde exit, maar andere temperatuur en distance ...
+	// If the neighbouring robots actually have opinions
+	if(exitVotes.size() != 0) {
+		// If the robot is not undecided, add this robot's opinion to the votes
+		if(preferredExitLightColor != CColor::BLACK) {
+			exitVotes[preferredExitLightColor]++;
+			exitQualities[preferredExitLightColor] += preferredExitDistance * preferredExitTemperature;
+			exitColors[preferredExitLightColor] = preferredExitLightColor;
+			exitDistances[preferredExitLightColor] += preferredExitDistance;
+			exitTemperatures[preferredExitLightColor] += preferredExitTemperature;
+		}
 			
-	// TODO use received data to influence opinion of recipient
-	// for(map<uint32_t,int>::iterator it = exitVotes.begin(), end = exitVotes.end(); it != end; it++) {
-	// 	RLOG << "votes " << it->second << ", quality " << exitQualities[it->first] << std::endl;
-	// }
+		// Use the combined data to potentially influence the opinion of recipient based upon the used voting model
+
+		// Plurality voting
+		// map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end());
+		// map<uint32_t,int>::iterator it = exitVotes.begin();
+		// while(it != exitVotes.end() && (it->second != winningVote->second || it->first == winningVote->first)) {
+		// 	it++;
+		// }
+		// if(it == exitVotes.end()) {
+		// 	if(preferredExitLightColor != exitColors[winningVote->first]
+		// 	|| static_cast<Real>(exitDistances[winningVote->first]) * exitTemperatures[winningVote->first] / exitVotes[winningVote->first] > preferredExitDistance * preferredExitTemperature) {
+		// 		preferredExitLightColor = exitColors[winningVote->first];
+		// 		preferredExitDistance = static_cast<Real>(exitDistances[winningVote->first]) / exitVotes[winningVote->first];
+		// 		preferredExitTemperature = static_cast<Real>(exitTemperatures[winningVote->first]) / exitVotes[winningVote->first];
+		// 		// RLOG << preferredExitLightColor << " exit (" << preferredExitTemperature << "°, " << preferredExitDistance << "m)" << std::endl;
+		// 	}
+		// }
+
+		// Majority voting
+		// map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end());
+		// if(winningVote->second/totalVotes >= 0.5) {
+		// 	if(preferredExitLightColor != exitColors[winningVote->first]
+		// 	|| static_cast<Real>(exitDistances[winningVote->first]) * exitTemperatures[winningVote->first] / exitVotes[winningVote->first] > preferredExitDistance * preferredExitTemperature) {
+		// 		preferredExitLightColor = exitColors[winningVote->first];
+		// 		preferredExitDistance = static_cast<Real>(exitDistances[winningVote->first]) / exitVotes[winningVote->first];
+		// 		preferredExitTemperature = static_cast<Real>(exitTemperatures[winningVote->first]) / exitVotes[winningVote->first];
+		// 		// RLOG << preferredExitLightColor << " exit (" << preferredExitTemperature << "°, " << preferredExitDistance << "m)" << std::endl;
+		// 	}
+		// }
+
+		// Weighted voter model
+		// TODO
+	}
 
 	// TODO als er maar één buur is en die buur heeft een betere optie, deze reading kan niet betrouwbaar zijn, maar zal deze robot direct overtuigen om zijn mening aan te passen
 	// Kan omzeild worden door minstens x aantal buren nodig te hebben vooraleer er van beslissing veranderd kan worden
