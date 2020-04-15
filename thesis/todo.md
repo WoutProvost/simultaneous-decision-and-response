@@ -1,9 +1,10 @@
 # Done
 - The robots don't continuously change their opinion anymore, but only change it when they've found a better one
 - The robots don't communicate their last measured value anymore, but only communicate their best measurement (see above)
-- The robots don't communicate only when they are measuring anymore (i.e. when they're not on a white tile) , but once they've formulated an opinion, they communicate this continously
+- The robots don't just communicate when they are measuring anymore (i.e. when they're not on a white tile), but once they've formulated an opinion, they communicate this continuously
 - The robot's opinion is now based upon the distance weighted with the temperature, so that there is a quality associated with the measurement, which allows for easy quality comparisons
-- The robot's opinion can now be influenced by the opinion of its neighbours using various voting models
+- The robot's opinion can now be influenced by the opinion of its neighbors using various voting models
+- The robot's current opinion is counted as a vote in the voting mechanism
 
 # TODO
 - Weighted voter model
