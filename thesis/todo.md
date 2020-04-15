@@ -5,6 +5,7 @@
 - The robot's opinion is now based upon the distance weighted with the temperature, so that there is a quality associated with the measurement, which allows for easy quality comparisons
 - The robot's opinion can now be influenced by the opinion of its neighbors using various voting models
 - The robot's current opinion is counted as a vote in the voting mechanism
+- One assumption is made when changing a robot's opinion based on the neighbouring opinions, if the voting model results in an exit that is the same as the exit the robot is currently preferring, then it will only update its distance and temperature if the neighbouring measurement quality is better than its own measurement quality
 
 # TODO
 - Weighted voter model

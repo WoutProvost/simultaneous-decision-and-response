@@ -22,6 +22,12 @@ void FootBotTemperatureSensingController::Init(TConfigurationNode &configuration
 
 	// Get actuators and sensors
 	footBotMotorGroundSensor = GetSensor<CCI_FootBotMotorGroundSensor>("footbot_motor_ground");
+
+	// Parse the configuration file for params
+	try {
+		votingStrategyParams.setParams(GetNode(configurationNode, "voting_strategy"));
+	} catch(CARGoSException &ex) {
+	}
 }
 
 void FootBotTemperatureSensingController::ControlStep() {
@@ -173,37 +179,38 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 		}
 			
 		// Use the combined data to potentially influence the opinion of recipient based upon the used voting model
-
 		// Plurality voting
-		// map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end());
-		// map<uint32_t,int>::iterator it = exitVotes.begin();
-		// while(it != exitVotes.end() && (it->second != winningVote->second || it->first == winningVote->first)) {
-		// 	it++;
-		// }
-		// if(it == exitVotes.end()) {
-		// 	if(preferredExitLightColor != exitColors[winningVote->first]
-		// 	|| static_cast<Real>(exitDistances[winningVote->first]) * exitTemperatures[winningVote->first] / exitVotes[winningVote->first] > preferredExitDistance * preferredExitTemperature) {
-		// 		preferredExitLightColor = exitColors[winningVote->first];
-		// 		preferredExitDistance = static_cast<Real>(exitDistances[winningVote->first]) / exitVotes[winningVote->first];
-		// 		preferredExitTemperature = static_cast<Real>(exitTemperatures[winningVote->first]) / exitVotes[winningVote->first];
-		// 		// RLOG << preferredExitLightColor << " exit (" << preferredExitTemperature << "°, " << preferredExitDistance << "m)" << std::endl;
-		// 	}
-		// }
-
+		if(votingStrategyParams.mode == "plurality") {
+			map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end());
+			map<uint32_t,int>::iterator it = exitVotes.begin();
+			while(it != exitVotes.end() && (it->second != winningVote->second || it->first == winningVote->first)) {
+				it++;
+			}
+			if(it == exitVotes.end()) {
+				if(preferredExitLightColor != exitColors[winningVote->first]
+				|| static_cast<Real>(exitDistances[winningVote->first]) * exitTemperatures[winningVote->first] / exitVotes[winningVote->first] > preferredExitDistance * preferredExitTemperature) {
+					preferredExitLightColor = exitColors[winningVote->first];
+					preferredExitDistance = static_cast<Real>(exitDistances[winningVote->first]) / exitVotes[winningVote->first];
+					preferredExitTemperature = static_cast<Real>(exitTemperatures[winningVote->first]) / exitVotes[winningVote->first];
+				}
+			}
+		}
 		// Majority voting
-		// map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end());
-		// if(winningVote->second/totalVotes >= 0.5) {
-		// 	if(preferredExitLightColor != exitColors[winningVote->first]
-		// 	|| static_cast<Real>(exitDistances[winningVote->first]) * exitTemperatures[winningVote->first] / exitVotes[winningVote->first] > preferredExitDistance * preferredExitTemperature) {
-		// 		preferredExitLightColor = exitColors[winningVote->first];
-		// 		preferredExitDistance = static_cast<Real>(exitDistances[winningVote->first]) / exitVotes[winningVote->first];
-		// 		preferredExitTemperature = static_cast<Real>(exitTemperatures[winningVote->first]) / exitVotes[winningVote->first];
-		// 		// RLOG << preferredExitLightColor << " exit (" << preferredExitTemperature << "°, " << preferredExitDistance << "m)" << std::endl;
-		// 	}
-		// }
-
+		else if(votingStrategyParams.mode == "majority") {
+			map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end());
+			if(winningVote->second/totalVotes >= 0.5) {
+				if(preferredExitLightColor != exitColors[winningVote->first]
+				|| static_cast<Real>(exitDistances[winningVote->first]) * exitTemperatures[winningVote->first] / exitVotes[winningVote->first] > preferredExitDistance * preferredExitTemperature) {
+					preferredExitLightColor = exitColors[winningVote->first];
+					preferredExitDistance = static_cast<Real>(exitDistances[winningVote->first]) / exitVotes[winningVote->first];
+					preferredExitTemperature = static_cast<Real>(exitTemperatures[winningVote->first]) / exitVotes[winningVote->first];
+				}
+			}
+		}
 		// Weighted voter model
-		// TODO
+		else if(votingStrategyParams.mode == "weighted") {
+			// TODO
+		}
 	}
 
 	// TODO als er maar één buur is en die buur heeft een betere optie, deze reading kan niet betrouwbaar zijn, maar zal deze robot direct overtuigen om zijn mening aan te passen
