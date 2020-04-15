@@ -135,6 +135,8 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 	const CCI_RangeAndBearingSensor::TReadings &readings = rangeAndBearingSensor->GetReadings();
 
 	// Receive opinions from other temperature sensing robots in this robot's neighbourhood
+	map<uint32_t,int> exitVotes;
+	map<uint32_t,int> exitQualities;
 	for(size_t reading = 0, size = readings.size(); reading < size; reading++) {
 		UInt8 temperature = readings[reading].Data[RABIndex::TEMPERATURE];
 		if(temperature != 0) {
@@ -144,11 +146,46 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 			CColor exitColor = CColor(red, green, blue);
 			UInt8 distance = readings[reading].Data[RABIndex::EXIT_DISTANCE];
 
-			// RLOG << exitColor << " exit (" << temperature << "°, " << distance << "m) => " << distance * temperature << std::endl;
-			
-			// TODO use received data to influence opinion of recipient
+			exitVotes[exitColor]++;
+			exitQualities[exitColor] += distance * temperature;
 		}
 	}
+
+	// Add this robot's opinion to the votes
+	exitVotes[preferredExitLightColor]++;
+	exitQualities[preferredExitLightColor] += preferredExitDistance * preferredExitTemperature;
+
+	// Plurality voting
+	// map<uint32_t,int>::iterator winningVote = std::max_element(exitVotes.begin(), exitVotes.end());
+	// map<uint32_t,int>::iterator it = exitVotes.begin();
+	// while(it != exitVotes.end() && it->second != winningVote->second) {
+	// 	it++;
+	// }
+	// if(it == exitVotes.end()) {
+	// }
+
+	// Majority voting
+
+
+	// Weighted voter model
+
+
+	// TODO robot zijn eigen mening wel meerekenen?
+	// Als je zijn mening meerekend, dan is de berekening de uiteindelijke waarde, zodat je geen if-statement meer mag gebruiken en de waarde direct moet aanpassen
+	// Als je ze niet meerekend, moet je wel een if-statement gebruiken om te vergelijken
+
+	// TODO qualities niet gewoon optellen
+
+	// TODO wat pas je juist aan, stel eigen mening en te gebruiken mening van buren is beiden dezelfde exit, maar andere temperatuur en distance ...
+			
+	// TODO use received data to influence opinion of recipient
+	// for(map<uint32_t,int>::iterator it = exitVotes.begin(), end = exitVotes.end(); it != end; it++) {
+	// 	RLOG << "votes " << it->second << ", quality " << exitQualities[it->first] << std::endl;
+	// }
+
+	// TODO als er maar één buur is en die buur heeft een betere optie, deze reading kan niet betrouwbaar zijn, maar zal deze robot direct overtuigen om zijn mening aan te passen
+	// Kan omzeild worden door minstens x aantal buren nodig te hebben vooraleer er van beslissing veranderd kan worden
+	// Deze x buren moeten dan niet dezelfde waarden doorgeven, want anders kan een enkele robot met een zeer goede mening de swarm niet beïnvloeden omdat hij de enigste is met die mening
 }
 
 void FootBotTemperatureSensingController::transmitOpinion()  {

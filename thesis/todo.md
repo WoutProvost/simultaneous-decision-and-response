@@ -43,10 +43,10 @@ Start when the robot moves from a white tile to a grayer tile
 - See the flocking example (vector of motion => gradient vector of fire)
 
 # Changing decision mechanism
-Reason: bots with highest temperature are not always reliable
+Reason: bots should be able to influence the opinion of other bots + bots with the highest temperature are not always reliable due to sensor noise
 Exchange data with neighbours
 Apply a threshold to know when to replace your own data with the neighbouring data and update your decision about the exit to use
-## Average method
+## Distance method
 - Take the average of what the neighbours exchange with you
 ## Fire spreading method
 - Using the neighbouring data (e.g. 0.1, 0.2, 0.1) you can get direction of the fire
