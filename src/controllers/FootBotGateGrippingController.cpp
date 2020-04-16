@@ -16,6 +16,13 @@ void FootBotGateGrippingController::Init(TConfigurationNode &configurationNode) 
 void FootBotGateGrippingController::ControlStep() {
 	// Call base class method
 	FootBotBaseController::ControlStep();
+
+	// Receive opinions from temperature sensing robots in this robot's neighbourhood
+	receiveOpinions();
+}
+
+void FootBotGateGrippingController::receiveOpinions() {
+	// TODO
 }
 
 // Macro that binds this class to an XML tag

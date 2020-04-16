@@ -10,6 +10,9 @@ class FootBotGateGrippingController : public FootBotBaseController {
 		// Actuators
 		CCI_FootBotGripperActuator *footBotGripperActuator;
 
+		// Methods
+		void receiveOpinions();
+
 	public:
 		// Constructors
 		FootBotGateGrippingController();
