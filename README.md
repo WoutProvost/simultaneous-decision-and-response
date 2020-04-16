@@ -54,6 +54,12 @@ Controller **collision avoidance** params:
 * `max_angle_between_heading_and_obstacle`: Defaults to `5.0`.
 * `max_obstacle_proximity`: Defaults to `0.1`.
 
+Temperature sensing controller **voting strategy** params:
+* `mode`:
+  * Mode `plurality` uses the exit with the most votes as long as there is no ex aequo.
+  * Mode `majority` uses the exit with more than 50% of the votes.
+  * Defaults to `none`.
+
 Loop functions **heatmap** params:
 * `tiles_per_meter`: Defaults to `10`.
 * `max_temperature`:
