@@ -115,7 +115,7 @@ void MainWindow::initPlot() {
 		axisTag->setText(QString::number(0, 'f', 2) + " %");
 		tags.append(axisTag);
 	}
-	ui->customPlot->axisRect()->axis(QCPAxis::atRight)->setPadding(75);
+	ui->customPlot->axisRect()->axis(QCPAxis::atRight)->setPadding(90);
 
 	// Prevent dragging and zooming X axis to negative time
 	connect(ui->customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(onXAxisRangeChanged(QCPRange)));
@@ -150,9 +150,6 @@ void MainWindow::initPlot() {
 		// Close the file
 		file.close();
 
-		// Set X axis range to show whole set of data
-		ui->customPlot->xAxis->setRange(0, ceil(static_cast<double>(lines)/1000));
-
 		// Redraw plot
 		ui->customPlot->replot();
 	}
@@ -184,13 +181,16 @@ void MainWindow::updatePlot(QTextStream &textStream) {
 		tags[graph]->setText(QString::number(y[graph], 'f', 2) + " %");
 	}
 
-	// Make the X axis range scroll to the right with the data, but only when the graph is touching the right border
-	if(fabs(ui->customPlot->xAxis->range().upper - x) < 0.01) {
-		ui->customPlot->xAxis->setRange(x, ui->customPlot->xAxis->range().size(), Qt::AlignRight);
-	}
+	if(!useRealTimeData) {
+		// Set X axis range to show whole set of data
+		ui->customPlot->xAxis->setRange(0, x);
+	} else {
+		// Make the X axis range scroll to the right with the data, but only when the graph is touching the right border
+		if(fabs(ui->customPlot->xAxis->range().upper - x) < 0.01) {
+			ui->customPlot->xAxis->setRange(x, ui->customPlot->xAxis->range().size(), Qt::AlignRight);
+		}
 
-	// Redraw plot
-	if(useRealTimeData) {
+		// Redraw plot
 		ui->customPlot->replot();
 	}
 }
