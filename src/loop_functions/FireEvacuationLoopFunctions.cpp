@@ -173,10 +173,13 @@ void FireEvacuationLoopFunctions::PostStep() {
 		logFile << space->GetSimulationClock()*1000*physicsEngine->GetSimulationClockTick();
 		for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
 			logFile << ";" << static_cast<Real>(it->second)/temperatureSensingFootBots;
-			// Clear the data for the next step
-			it->second = 0;
 		}
 		logFile << endl;
+	}
+
+	// Clear the data for the next step
+	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
+		it->second = 0;
 	}
 
 	// When the QtOpenGL visualization is used, stdout is redirected to a custom log window
