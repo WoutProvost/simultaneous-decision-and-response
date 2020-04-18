@@ -23,10 +23,6 @@ const HeatMapParams& FireEvacuationLoopFunctions::getHeatMapParams() const {
 	return heatMapParams;
 }
 
-const FireParams& FireEvacuationLoopFunctions::getFireParams() const {
-	return fireParams;
-}
-
 void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	// Parse the configuration file for params
 	try {
@@ -112,8 +108,9 @@ void FireEvacuationLoopFunctions::Destroy() {
 }
 
 void FireEvacuationLoopFunctions::PreStep() {
+	// TODO do this for each source
 	// // Increase the temperature of the fire
-	// if(fireParams.isDynamic && fireParams.mode == "circle") {
+	// if(fireParams.isDynamic) {
 	// 	bool redraw = false;
 	// 	static int ticks = 0;
 	// 	static Real radius = 0;
@@ -192,6 +189,7 @@ void FireEvacuationLoopFunctions::PostStep() {
 
 CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloor) {
 	// Get the heatmap indices and temperature that belong to this floor position
+	// For an arenaSize of 15 meters along one axis, the positionOnFloor sits in the range [-7.5:7.49] instead of [-7.5:7.5], so we won't have an off-by-one error in the array
 	Real indexX = (positionOnFloor.GetX() + arenaSize->GetX()/2) * heatMapParams.tilesPerMeter;
 	Real indexY = (positionOnFloor.GetY() + arenaSize->GetY()/2) * heatMapParams.tilesPerMeter;
 	int temperature = MAX_POSSIBLE_TEMPERATURE / heatMapParams.maxTemperature * heatMap[indexX][indexY];
@@ -256,17 +254,27 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 			}
 		}
 	}
-	// Otherwise create a fire according to the fire mode and according to whether it is dynamic
+	// Otherwise create a fire according to the fire parameters and according to whether it is dynamic
 	else {
+		// Initialize the heatmap to have no temperature
+		for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
+			for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
+				heatMap[x][y] = 0;
+			}
+		}
+
 		// Create a circular fire at a random position
-		if(fireParams.mode == "circle") {
+		for(int source = 0; source < fireParams.sources; source++) {
 			Real resolutionX = arenaSize->GetX() * heatMapParams.tilesPerMeter;
 			Real resolutionY = arenaSize->GetY() * heatMapParams.tilesPerMeter;
-			int centerX = random->Uniform(CRange<int>(-resolutionX/2, resolutionX/2));
-			int centerY = random->Uniform(CRange<int>(-resolutionY/2, resolutionY/2));
+			int centerX = random->Uniform(CRange<int>(0, resolutionX-1));
+			int centerY = random->Uniform(CRange<int>(0, resolutionY-1));
 
 			// Create a linear gradient when the fire is static
 			if(!fireParams.isDynamic) {
+				// Copy the heatmap, since the radius and angle loops can access an array element multiple times and thus increase the temperature too much
+				vector<vector<int>> oldHeatMap = heatMap;
+				
 				Real radius = fireParams.circleRadius * heatMapParams.tilesPerMeter;
 				Real spacing = heatMapParams.maxTemperature / radius;
 				for(Real r = radius; r >= 0.0; r -= 0.1) {
@@ -274,7 +282,14 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 						Real x = centerX + r * cos(angle);
 						Real y = centerY + r * sin(angle);
 						if(x >= 0 && x < heatMap.size() && y >= 0 && y < heatMap[x].size()) {
-							heatMap[x][y] = round(heatMapParams.maxTemperature - spacing * r);
+							if(heatMap[x][y] != heatMapParams.maxTemperature) {
+								int temperatureIncrease = round(heatMapParams.maxTemperature - spacing * r);
+								if(oldHeatMap[x][y] + temperatureIncrease < heatMapParams.maxTemperature) {
+									heatMap[x][y] = oldHeatMap[x][y] + temperatureIncrease;
+								} else {
+									heatMap[x][y] = heatMapParams.maxTemperature;
+								}
+							}
 						}
 					}
 				}
@@ -296,7 +311,7 @@ void FireEvacuationLoopFunctions::initLogFile() {
 	// logFile << dec << endl;
 	// logFile << "# timestep;data-percentages" << endl;
 	logFile << 0 << ";" << 1;
-	for(map<uint32_t,int>::iterator it = next(exitLightColors.begin(),1), end = exitLightColors.end(); it != end; it++) { // Start iterator 1 element further
+	for(map<uint32_t,int>::iterator it = next(exitLightColors.begin(),1), end = exitLightColors.end(); it != end; it++) { // Start the iterator 1 element further
 		logFile << ";" << 0;
 	}
 	logFile << endl;

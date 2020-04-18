@@ -2,7 +2,7 @@
 
 FireParams::FireParams() :
 	// Initialize attributes and set default values
-	mode("circle"),
+	sources(1),
 	circleRadius(3.0),
 	isDynamic(false),
 	dynamicIntervalTicks(50),
@@ -11,7 +11,7 @@ FireParams::FireParams() :
 
 void FireParams::setParams(TConfigurationNode &configurationNode) {
 	// Parse the configuration file for params
-	GetNodeAttributeOrDefault(configurationNode, "mode", mode, mode);
+	GetNodeAttributeOrDefault(configurationNode, "sources", sources, sources);
 	GetNodeAttributeOrDefault(configurationNode, "circle_radius", circleRadius, circleRadius);
 	GetNodeAttributeOrDefault(configurationNode, "is_dynamic", isDynamic, isDynamic);
 	GetNodeAttributeOrDefault(configurationNode, "dynamic_interval_ticks", dynamicIntervalTicks, dynamicIntervalTicks);

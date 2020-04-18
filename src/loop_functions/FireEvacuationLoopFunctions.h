@@ -41,7 +41,6 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 
 		// Getters
 		const HeatMapParams& getHeatMapParams() const;
-		const FireParams& getFireParams() const;
 
 		// Simulator methods
 		virtual void Init(TConfigurationNode &configurationNode);

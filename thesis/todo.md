@@ -7,6 +7,7 @@
 - The robot's current opinion is counted as a vote in the voting mechanism
 - One assumption is made when changing a robot's opinion based on the neighbouring opinions, if the voting model results in an exit that is the same as the exit the robot is currently preferring, then it will only update its distance and temperature if the neighbouring measurement quality is better than its own measurement quality
 - The grippers don't participate in the decision making, they only listen to the data traffic
+- Additional fire sources
 
 # TODO
 - Weighted voter model
@@ -94,10 +95,8 @@
 - Implement plot configuration params.
 
 # Ending
-- Custom ending with loop function (all robots or large enough percentage are safe), or use predetermined time length?
+- Custom ending with loop function: all robots or large enough percentage are safe
 - Once the bots have exited the gate they should go as fare away as possible from the fire
-- Perhaps only show the colorized heatmap right before the experiment ends
-- Additional fire modes: each mode should have its own configuration node, so it's easier to have its own attributes (multiple fires, dynamic fire, ...)
 
 # Analysis
 - Amount of agents: [50;100] scaling environment

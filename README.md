@@ -75,9 +75,7 @@ Loop functions **heatmap** params:
   * Defaults to `false`.
 
 Loop functions **fire** params:
-* `mode`:
-  * Currently only 1 mode is supported.
-  * Defaults to `circle`.
+* `sources`: Defaults to `1`.
 * `circle_radius`: Defaults to `3.0`.
 * `is_dynamic`: Defaults to `false`.
 * `dynamic_interval_ticks`: Defaults to `50`.

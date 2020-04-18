@@ -4,13 +4,12 @@
 #include <argos3/core/utility/configuration/argos_configuration.h>
 
 using namespace argos;
-using std::string;
 
 class FireParams {
 
 	public:
 		// Params
-		string mode;
+		int sources;
 		Real circleRadius;
 		bool isDynamic;
 		int dynamicIntervalTicks;
