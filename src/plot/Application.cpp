@@ -10,11 +10,8 @@ using std::cerr;
 // General variables and constants
 QString command;
 QString fileName;
-int maxGraphs = 3;
 int experiment = 1;
 int maxExperiments = 1;
-int gateGrippingRobots = 0;
-int temperatureSensingRobots = 0;
 
 int main(int argc, char **argv) {	
 	QApplication application(argc, argv);
@@ -23,7 +20,7 @@ int main(int argc, char **argv) {
 	parseOptions(argc, argv);
 
 	// Create and show main window
-	MainWindow mainWindow(fileName, maxGraphs, experiment, maxExperiments, gateGrippingRobots, temperatureSensingRobots);
+	MainWindow mainWindow(fileName, experiment, maxExperiments);
 	mainWindow.show();
 
 	return application.exec();
@@ -34,17 +31,14 @@ void parseOptions(int argc, char **argv) {
 
 	static struct option options[] = {
 		{"help", no_argument, NULL, 'h'},
-		{"max-graphs", required_argument, NULL, 'a'},
 		{"experiment", required_argument, NULL, 'e'},
 		{"max-experiments", required_argument, NULL, 'm'},
-		{"gate-gripping-robots", required_argument, NULL, 'g'},
-		{"temperature-sensing-robots", required_argument, NULL, 't'},
 		{0, 0, 0, 0}
 	};
 
 	// A leading ':' disables printing error messages and returns ':' instead of '?' to indicate a missing option argument
 	int option;
-	while((option = getopt_long(argc, argv, ":ha:e:m:g:t:", options, NULL)) != -1) {
+	while((option = getopt_long(argc, argv, ":he:m:", options, NULL)) != -1) {
 		switch(option) {
 			case 'h': {
 				cout << "Usage: " << argv[0] << " [options] [file]" << endl
@@ -52,19 +46,12 @@ void parseOptions(int argc, char **argv) {
 				<< "Options:" << endl
 				<< "  Mandatory arguments to long options are mandatory for short options too." << endl
 				<< "  -h,  --help                              display this help message" << endl
-				<< "  -a,  --max-graphs=NUM                    the amount of graphs to plot" << endl
 				<< "  -e,  --experiment=NUM                    the current experiment number" << endl
 				<< "  -m,  --max-experiments=NUM               the total amount of experiments" << endl
-				<< "  -g,  --gate-gripping-robots=NUM          the amount of gate gripping robots" << endl
-				<< "  -t,  --temperature-sensing-robots=NUM    the amount of temperature sensing robots" << endl
 				<< endl
 				<< "File:" << endl
 				<< "  With no file, or when file is -, read standard input." << endl;
 				exit(EXIT_SUCCESS);
-				break;
-			}
-			case 'a': {
-				maxGraphs = atoi(optarg);
 				break;
 			}
 			case 'e': {
@@ -73,14 +60,6 @@ void parseOptions(int argc, char **argv) {
 			}
 			case 'm': {
 				maxExperiments = atoi(optarg);
-				break;
-			}
-			case 'g': {
-				gateGrippingRobots = atoi(optarg);
-				break;
-			}
-			case 't': {
-				temperatureSensingRobots = atoi(optarg);
 				break;
 			}
 			case ':': {

@@ -16,20 +16,23 @@ private:
 	QVector<AxisTag*> tags;
 	// QTimer updatePlotTimer;
 	QFile file;
-	int maxGraphs;
 	int experiment;
 	int maxExperiments;
+	bool useRealTimeData;
+	int lines;
 	int gateGrippingRobots;
 	int temperatureSensingRobots;
-	bool useRealTimeData;
+	int maxGraphs;
+	QVector<QColor> graphColors;
 
 	// Methods
+	void readOptions();
 	void initPlot();
 	void updatePlot(QTextStream &textStream);
 
 public:
 	// Constructors
-	MainWindow(QString fileName, int maxGraphs, int experiment, int maxExperiments, int gateGrippingRobots, int temperatureSensingRobots);
+	MainWindow(QString fileName, int experiment, int maxExperiments);
 
 	// Destructor
 	~MainWindow();

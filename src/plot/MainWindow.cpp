@@ -6,20 +6,27 @@
 using std::cout;
 using std::flush;
 
-MainWindow::MainWindow(QString fileName, int maxGraphs, int experiment, int maxExperiments, int gateGrippingRobots, int temperatureSensingRobots) :
+MainWindow::MainWindow(QString fileName, int experiment, int maxExperiments) :
 	// Call base class method and initialize attributes and set default values
 	QMainWindow(),
 	ui(new Ui::MainWindow),
 	file(fileName),
-	maxGraphs(maxGraphs),
 	experiment(experiment),
 	maxExperiments(maxExperiments),
-	gateGrippingRobots(gateGrippingRobots),
-	temperatureSensingRobots(temperatureSensingRobots),
-	useRealTimeData(file.fileName() == "-") {
+	useRealTimeData(file.fileName() == "-"),
+	lines(0),
+	gateGrippingRobots(0),
+	temperatureSensingRobots(0),
+	maxGraphs(1),
+	graphColors(maxGraphs, Qt::black) {
 
 	// Configure initial UI according to the generated UI header file
 	ui->setupUi(this);
+
+	// Read options from log file
+	if(!useRealTimeData) {
+		readOptions();
+	}
 
 	// Initialize plot
 	initPlot();
@@ -27,6 +34,33 @@ MainWindow::MainWindow(QString fileName, int maxGraphs, int experiment, int maxE
 
 MainWindow::~MainWindow() {
 	delete ui;
+}
+
+void MainWindow::readOptions() {
+	// Open the file and make sure it exists and is allowed to be opened
+	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		printError("Couldn't open file '" + file.fileName() + "'.");
+	}
+
+	// Count the amount of lines and extract options
+	QTextStream textStream(&file);
+	while(!textStream.atEnd()) {
+		QString line = textStream.readLine().trimmed();
+		if(line.startsWith('!')) {
+			QTextStream options(&line);
+			char c;
+			options >> c >> gateGrippingRobots >> c >> temperatureSensingRobots >> c >> maxGraphs;
+			graphColors.fill(Qt::black, maxGraphs);
+			for(int graph = 0; graph < maxGraphs; graph++) {				
+				options >> c;				
+				graphColors[graph] = options.read(9);
+			}
+		}
+		lines++;
+	}
+
+	// Close the file
+	file.close();
 }
 
 void MainWindow::initPlot() {
@@ -85,19 +119,10 @@ void MainWindow::initPlot() {
 	ui->customPlot->yAxis->setTicker(yAxisTicker);
 
 	// Graphs
-	QVector<Qt::GlobalColor> graphColors = {
-		Qt::red, Qt::blue, Qt::green, Qt::yellow, Qt::cyan, Qt::magenta,
-		Qt::darkRed, Qt::darkBlue, Qt::darkGreen, Qt::darkYellow, Qt::darkCyan, Qt::darkMagenta
-	};
-	QVector<Qt::PenStyle> graphStyle = {
-		Qt::SolidLine,
-		Qt::DotLine
-	};
 	for(int graph = 0; graph < maxGraphs; graph++) {
 		QPen pen;
-		pen.setColor(graphColors[graph%graphColors.size()]);
-		pen.setStyle(graphStyle[graph/graphColors.size()%graphStyle.size()]);
-		pen.setWidthF(2);
+		pen.setColor(graphColors[graph]);
+		pen.setWidthF(2.0);
 		ui->customPlot->addGraph();
 		ui->customPlot->graph(graph)->setName("Exit " + QString(QChar(graph + 'A' - 1))); // Subtract 1, so that the second graphs starts from A (see below)
 		ui->customPlot->graph(graph)->setPen(pen);
@@ -127,25 +152,15 @@ void MainWindow::initPlot() {
 			printError("Couldn't open file '" + file.fileName() + "'.");
 		}
 
-		// Count the amount of data points
-		int dataPoints = 0;
-		QTextStream textStream(&file);
-		while(!textStream.atEnd()) {
-			QString line = textStream.readLine().trimmed();
-			if(!line.isEmpty() && !line.startsWith('#')) {
-				dataPoints++;
-			}
-		}
-		textStream.seek(0);
-
 		// Update the plot with the data included in the file and show a progress precentage in the console
 		int line = 0;
 		cout.setf(std::ios::fixed);
 		cout.precision(2);
+		QTextStream textStream(&file);
 		while(!textStream.atEnd()) {
 			updatePlot(textStream);
 			line++;
-			cout << "\rPlotting data from file '" << file.fileName().toStdString() << "': " << static_cast<double>(line)/dataPoints*100 << "%" << flush;
+			cout << "\rPlotting data from file '" << file.fileName().toStdString() << "': " << static_cast<double>(line)/lines*100 << "%" << flush;
 		}
 		cout << "\r\e[K" << flush;
 
@@ -166,7 +181,7 @@ void MainWindow::initPlot() {
 
 void MainWindow::updatePlot(QTextStream &textStream) {
 	QString line = textStream.readLine().trimmed();
-	if(!line.isEmpty() && !line.startsWith('#')) {		
+	if(!line.isEmpty() && !line.startsWith('#') && !line.startsWith('!')) {		
 		// Extract data and calculate X and Y axis values
 		QTextStream data(&line);
 		char c;
