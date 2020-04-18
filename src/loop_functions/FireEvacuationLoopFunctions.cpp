@@ -169,7 +169,7 @@ void FireEvacuationLoopFunctions::PostStep() {
 	if(logFile.is_open()) {
 		logFile << space->GetSimulationClock()*1000*physicsEngine->GetSimulationClockTick();
 		for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
-			logFile << ";" << static_cast<Real>(it->second)/temperatureSensingFootBots;
+			logFile << "," << static_cast<Real>(it->second)/temperatureSensingFootBots;
 		}
 		logFile << endl;
 	}
@@ -304,15 +304,15 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 
 void FireEvacuationLoopFunctions::initLogFile() {
 	// logFile << "# gate-gripping-robots;temperature-sensing-robots;graphs;graph-colors-in-hex" << endl;
-	// logFile << gateGrippingFootBots << ";" << temperatureSensingFootBots << ";" << exitLightColors.size();
+	// logFile << gateGrippingFootBots << "," << temperatureSensingFootBots << "," << exitLightColors.size();
 	// for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
-	// 	logFile << ";" << hex << it->first;
+	// 	logFile << "," << hex << it->first;
 	// }
 	// logFile << dec << endl;
 	// logFile << "# timestep;data-percentages" << endl;
-	logFile << 0 << ";" << 1;
+	logFile << 0 << "," << 1;
 	for(map<uint32_t,int>::iterator it = next(exitLightColors.begin(),1), end = exitLightColors.end(); it != end; it++) { // Start the iterator 1 element further
-		logFile << ";" << 0;
+		logFile << "," << 0;
 	}
 	logFile << endl;
 }
