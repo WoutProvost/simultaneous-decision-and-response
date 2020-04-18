@@ -127,12 +127,14 @@ void MainWindow::initPlot() {
 			printError("Couldn't open file '" + file.fileName() + "'.");
 		}
 
-		// Count the amount of lines
-		int lines = 0;
+		// Count the amount of data points
+		int dataPoints = 0;
 		QTextStream textStream(&file);
 		while(!textStream.atEnd()) {
-			textStream.readLine();
-			lines++;
+			QString line = textStream.readLine().trimmed();
+			if(!line.isEmpty() && !line.startsWith('#')) {
+				dataPoints++;
+			}
 		}
 		textStream.seek(0);
 
@@ -143,7 +145,7 @@ void MainWindow::initPlot() {
 		while(!textStream.atEnd()) {
 			updatePlot(textStream);
 			line++;
-			cout << "\rPlotting data from file '" << file.fileName().toStdString() << "': " << static_cast<double>(line)/lines*100 << "%" << flush;
+			cout << "\rPlotting data from file '" << file.fileName().toStdString() << "': " << static_cast<double>(line)/dataPoints*100 << "%" << flush;
 		}
 		cout << "\r\e[K" << flush;
 
@@ -163,35 +165,39 @@ void MainWindow::initPlot() {
 }
 
 void MainWindow::updatePlot(QTextStream &textStream) {
-	// Extract data and calculate X and Y axis values
-	char c;
-	double x;
-	QVector<double> y(maxGraphs, 0.0);
-	textStream >> x;
-	x /= 1000.0;
-	for(int graph = 0; graph < maxGraphs; graph++) {
-		textStream >> c >> y[graph];
-		y[graph] *= 100.0;
-	}
-
-	// Update graphs and tags
-	for(int graph = 0; graph < maxGraphs; graph++) {
-		ui->customPlot->graph(graph)->addData(x, y[graph]);
-		tags[graph]->updatePosition(y[graph]);
-		tags[graph]->setText(QString::number(y[graph], 'f', 2) + " %");
-	}
-
-	if(!useRealTimeData) {
-		// Set X axis range to show whole set of data
-		ui->customPlot->xAxis->setRange(0, x);
-	} else {
-		// Make the X axis range scroll to the right with the data, but only when the graph is touching the right border
-		if(fabs(ui->customPlot->xAxis->range().upper - x) < 0.01) {
-			ui->customPlot->xAxis->setRange(x, ui->customPlot->xAxis->range().size(), Qt::AlignRight);
+	QString line = textStream.readLine().trimmed();
+	if(!line.isEmpty() && !line.startsWith('#')) {		
+		// Extract data and calculate X and Y axis values
+		QTextStream data(&line);
+		char c;
+		double x;
+		QVector<double> y(maxGraphs, 0.0);
+		data >> x;
+		x /= 1000.0;
+		for(int graph = 0; graph < maxGraphs; graph++) {
+			data >> c >> y[graph];
+			y[graph] *= 100.0;
 		}
 
-		// Redraw plot
-		ui->customPlot->replot();
+		// Update graphs and tags
+		for(int graph = 0; graph < maxGraphs; graph++) {
+			ui->customPlot->graph(graph)->addData(x, y[graph]);
+			tags[graph]->updatePosition(y[graph]);
+			tags[graph]->setText(QString::number(y[graph], 'f', 2) + " %");
+		}
+
+		if(!useRealTimeData) {
+			// Set X axis range to show whole set of data
+			ui->customPlot->xAxis->setRange(0, x);
+		} else {
+			// Make the X axis range scroll to the right with the data, but only when the graph is touching the right border
+			if(fabs(ui->customPlot->xAxis->range().upper - x) < 0.01) {
+				ui->customPlot->xAxis->setRange(x, ui->customPlot->xAxis->range().size(), Qt::AlignRight);
+			}
+
+			// Redraw plot
+			ui->customPlot->replot();
+		}
 	}
 }
 
