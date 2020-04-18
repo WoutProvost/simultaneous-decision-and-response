@@ -33,6 +33,11 @@ sudo cp ../src/plot/coldecplot.1 /usr/local/share/man/man1
 sudo gzip /usr/local/share/man/man1/coldecplot.1
 ```
 
+## Seed generation application
+```bash
+./src/seed/seed 5 ../experiments/fire_evacuation.argos
+```
+
 ## Execution:
 ```bash
 argos3 -c ../experiments/fire_evacuation.argos
