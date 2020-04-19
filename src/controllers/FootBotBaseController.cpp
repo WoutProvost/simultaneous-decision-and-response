@@ -185,7 +185,6 @@ void FootBotBaseController::setWheelVelocitiesFromVector(const CVector2 &heading
 
 // Static variables and constants initialization
 map<uint32_t,bool> FootBotBaseController::ignoredColoredBlobs = map<uint32_t,bool>();
-CSimulator &FootBotBaseController::simulator = CSimulator::GetInstance();
 
 // Macro that binds this class to an XML tag
 REGISTER_CONTROLLER(FootBotBaseController, "footbot_base")

@@ -11,7 +11,6 @@
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_light_sensor.h>
 #include "params/MovementParams.h"
 #include "params/CollisionAvoidanceParams.h"
-#include <argos3/core/simulator/simulator.h>
 #include "enums/TurnMode.h"
 #include "enums/BehaviorState.h"
 
@@ -46,7 +45,6 @@ class FootBotBaseController : public CCI_Controller {
 
 		// Static variables and constants
 		static map<uint32_t,bool> ignoredColoredBlobs;
-		static CSimulator &simulator;
 
 		// General variables and constants
 		CColor color;

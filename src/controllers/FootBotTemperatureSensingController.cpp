@@ -1,6 +1,7 @@
 #include "FootBotTemperatureSensingController.h"
 #include "enums/RABIndex.h"
 #include "../loop_functions/FireEvacuationLoopFunctions.h"
+#include <argos3/core/simulator/simulator.h>
 
 using std::max_element;
 
@@ -88,7 +89,7 @@ void FootBotTemperatureSensingController::sense() {
 
 	// Adjust the measured temperature to fit the original temperature value
 	if(fireDetected) {
-		maxTemperature *= dynamic_cast<FireEvacuationLoopFunctions&>(simulator.GetLoopFunctions()).getHeatMapParams().maxTemperature;
+		maxTemperature *= dynamic_cast<FireEvacuationLoopFunctions&>(CSimulator::GetInstance().GetLoopFunctions()).getHeatMapParams().maxTemperature;
 	}
 
 	// Enable the resource-intensive colored blob omnidirectional camera sensor when a fire is detected and the sensor is not yet enabled
