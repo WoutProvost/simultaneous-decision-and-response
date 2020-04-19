@@ -37,7 +37,6 @@ sudo gzip /usr/local/share/man/man1/coldecplot.1
 ```bash
 sudo cp src/seed/coldecseed /usr/local/bin
 sudo cp ../src/seed/autocomplete.sh /etc/bash_completion.d/coldecseed
-sudo cp ../src/seed/coldecseed.desktop /usr/local/share/applications
 sudo cp ../src/seed/coldecseed.1 /usr/local/share/man/man1
 sudo gzip /usr/local/share/man/man1/coldecseed.1
 ```
