@@ -34,10 +34,10 @@ void parseOptions(int argc, char **argv) {
 
 	// A leading ':' disables printing error messages and returns ':' instead of '?' to indicate a missing option argument
 	int option;
-	while((option = getopt_long(argc, argv, ":he:m:", options, NULL)) != -1) {
+	while((option = getopt_long(argc, argv, ":h", options, NULL)) != -1) {
 		switch(option) {
 			case 'h': {
-				cout << "Usage: " << argv[0] << " [options] [file]" << endl
+				cout << "Usage: " << command.toStdString() << " [options] [file]" << endl
 				<< endl
 				<< "Options:" << endl
 				<< "  Mandatory arguments to long options are mandatory for short options too." << endl

@@ -1,2 +1,2 @@
 # Add these executables to be built
-add_executable(seed Seed.cpp)
+add_executable(coldecseed Application.h Application.cpp)

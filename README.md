@@ -33,15 +33,20 @@ sudo cp ../src/plot/coldecplot.1 /usr/local/share/man/man1
 sudo gzip /usr/local/share/man/man1/coldecplot.1
 ```
 
-## Seed generation application
+## Seed application installation
 ```bash
-./src/seed/seed 5 ../experiments/fire_evacuation.argos
+sudo cp src/seed/coldecseed /usr/local/bin
+sudo cp ../src/seed/autocomplete.sh /etc/bash_completion.d/coldecseed
+sudo cp ../src/seed/coldecseed.desktop /usr/local/share/applications
+sudo cp ../src/seed/coldecseed.1 /usr/local/share/man/man1
+sudo gzip /usr/local/share/man/man1/coldecseed.1
 ```
 
 ## Execution:
 ```bash
 argos3 -c ../experiments/fire_evacuation.argos
 coldecplot -h
+coldecseed -h
 ```
 
 ## Configuration:
