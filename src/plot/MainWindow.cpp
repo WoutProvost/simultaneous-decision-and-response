@@ -3,6 +3,7 @@
 #include "ui_mainwindow.h"
 #include "Application.h"
 
+using std::string;
 using std::cout;
 using std::flush;
 
@@ -61,7 +62,16 @@ void MainWindow::readOptions() {
 
 void MainWindow::initPlot() {
 	// Window
-	setWindowTitle("Collective decision history");
+	string fileName = file.fileName().toStdString();
+	size_t pos = fileName.find_last_of('/');
+	if(pos != string::npos) {
+		fileName.erase(0, pos + 1);
+	}
+	QString title(fileName.c_str());
+	if(useRealTimeData) {
+		title = "Real Time Data";
+	}
+	setWindowTitle(title + " - Collective Decision Plot");
 	QRect screenGeometry = QApplication::desktop()->screenGeometry();
 	setMinimumSize(400, 300);
 	setGeometry(screenGeometry.width() - width(), screenGeometry.height() - height(), 570, 430);
