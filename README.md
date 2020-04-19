@@ -87,6 +87,7 @@ Loop functions **fire** params:
 * `dynamic_temperature_increase`: Defaults to `5`.
 
 Loop functions **plot** params:
-* `log_data`: Defaults to `false`.
+* `log_data`: Defaults to `true`.
+* `log_file`: Defaults to `../logs/log.csv`.
 * `show_in_realtime`: Defaults to `false`.
 * `realtime_initial_x_axis_max_value`: Defaults to `60`.

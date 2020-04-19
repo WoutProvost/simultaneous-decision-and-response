@@ -34,9 +34,11 @@ int main(int argc, char *argv[]) {
 		}
 
 		string line;
-		regex reg("random_seed\\s*=\\s*[\"']\\s*\\d+\\s*[\"']");
+		regex randomSeedRegex("random_seed\\s*=\\s*[\"']\\s*\\d+\\s*[\"']");
+		regex logFileRegex("log_file\\s*=\\s*[\"']\\s*.+?\\s*[\"']");
 		while(getline(input, line)) {
-			line = regex_replace(line, reg, string("random_seed=\"") + to_string(rand()) + "\"");
+			line = regex_replace(line, randomSeedRegex, string("random_seed=\"") + to_string(rand()) + "\"");
+			line = regex_replace(line, logFileRegex, string("log_file=\"") + "../logs/log" + to_string(i+1) + ".csv" + "\"");
 			output << line << endl;
 		}
 		input.close();

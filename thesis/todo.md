@@ -91,9 +91,6 @@
 - Solid gates disappear when gripped, because the manouvering of the bots doesn't have much to do with the thesis novelty
 - The cylinders can be fitted with LEDs
 
-# Plot
-- Implement plot configuration params.
-
 # Ending
 - Custom ending with loop function: all robots or large enough percentage are safe
 - Once the bots have exited the gate they should go as fare away as possible from the fire
@@ -111,6 +108,7 @@
 - sensor noise
 - sensor packet drop
 - amount of bots (and amount of each type)
+- arena shape
 - fire mode (and mode parameters)
 - voting strategy mode (and mode parameters)
 

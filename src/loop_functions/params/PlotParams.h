@@ -4,12 +4,14 @@
 #include <argos3/core/utility/configuration/argos_configuration.h>
 
 using namespace argos;
+using std::string;
 
 class PlotParams {
 
 	public:
 		// Params
 		bool logData;
+		string logFile;
 		bool showInRealtime;
 		int realtimeInitialXAxisMaxValue;
 

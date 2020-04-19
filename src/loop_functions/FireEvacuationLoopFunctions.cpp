@@ -14,9 +14,7 @@ FireEvacuationLoopFunctions::FireEvacuationLoopFunctions() :
 	arenaSize(&space->GetArenaSize()),
 	random(CRandom::CreateRNG("argos")),
 	temperatureSensingFootBots(0),
-	gateGrippingFootBots(0),
-	fileName("../logs/log.csv"),
-	logFile(fileName) {
+	gateGrippingFootBots(0) {
 }
 
 const HeatMapParams& FireEvacuationLoopFunctions::getHeatMapParams() const {
@@ -31,6 +29,10 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	}
 	try {
 		fireParams.setParams(GetNode(configurationNode, "fire"));
+	} catch(CARGoSException &ex) {
+	}
+	try {
+		plotParams.setParams(GetNode(configurationNode, "plot"));
 	} catch(CARGoSException &ex) {
 	}
 
@@ -74,10 +76,13 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	exitLightColors[CColor::BLACK] = 0;
 
 	// Log some of these settings to a file
-	if(logFile.is_open()) {
-		initLogFile();
-	} else {
-		LOGERR << "Unable to open file '" << fileName << "'." << endl;
+	if(plotParams.logData) {
+		logFile.open(plotParams.logFile);
+		if(logFile.is_open()) {
+			initLogFile();
+		} else {
+			LOGERR << "Unable to open file '" << plotParams.logFile << "'." << endl;
+		}
 	}
 }
 
@@ -91,19 +96,23 @@ void FireEvacuationLoopFunctions::Reset() {
 	}
 
 	// Close and reopen the logfile to erase everything and start from scratch
-	if(logFile.is_open()) {
-		logFile.close();
-	}
-	logFile.open(fileName);
-	if(logFile.is_open()) {
-		initLogFile();
+	if(plotParams.logData) {
+		if(logFile.is_open()) {
+			logFile.close();
+		}
+		logFile.open(plotParams.logFile);
+		if(logFile.is_open()) {
+			initLogFile();
+		}
 	}
 }
 
 void FireEvacuationLoopFunctions::Destroy() {
 	// Close the log file
-	if(logFile.is_open()) {
-		logFile.close();
+	if(plotParams.logData) {
+		if(logFile.is_open()) {
+			logFile.close();
+		}
 	}
 }
 
@@ -166,12 +175,14 @@ void FireEvacuationLoopFunctions::PostStep() {
 	}
 
 	// Log this data to a file
-	if(logFile.is_open()) {
-		logFile << space->GetSimulationClock()*1000*physicsEngine->GetSimulationClockTick();
-		for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
-			logFile << "," << static_cast<Real>(it->second)/temperatureSensingFootBots;
+	if(plotParams.logData) {
+		if(logFile.is_open()) {
+			logFile << space->GetSimulationClock()*1000*physicsEngine->GetSimulationClockTick();
+			for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
+				logFile << "," << static_cast<Real>(it->second)/temperatureSensingFootBots;
+			}
+			logFile << endl;
 		}
-		logFile << endl;
 	}
 
 	// Clear the data for the next step
@@ -182,8 +193,10 @@ void FireEvacuationLoopFunctions::PostStep() {
 	// When the QtOpenGL visualization is used, stdout is redirected to a custom log window
 	// Therefore, when the QtOpenGL visualization is used and the output is also piped to somewhere else, duplicate the output to the original stdout so the pipe works
 	// std::ostream oldCout(LOG.GetStream().rdbuf());
-	// if(LOG.GetStream().rdbuf() != oldCout.rdbuf() && !isatty(fileno(stdout))) {
-	// 	oldCout << "DUPLICATE" << endl;
+	// if(plotParams.logData) {
+	// 	if(LOG.GetStream().rdbuf() != oldCout.rdbuf() && !isatty(fileno(stdout))) {
+	// 		oldCout << "DUPLICATE" << endl;
+	// 	}
 	// }
 }
 
