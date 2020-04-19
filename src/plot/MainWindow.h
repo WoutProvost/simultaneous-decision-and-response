@@ -16,12 +16,8 @@ private:
 	QVector<AxisTag*> tags;
 	// QTimer updatePlotTimer;
 	QFile file;
-	int experiment;
-	int maxExperiments;
 	bool useRealTimeData;
 	int lines;
-	int gateGrippingRobots;
-	int temperatureSensingRobots;
 	int maxGraphs;
 	QVector<QColor> graphColors;
 
@@ -32,7 +28,7 @@ private:
 
 public:
 	// Constructors
-	MainWindow(QString fileName, int experiment, int maxExperiments);
+	MainWindow(QString fileName);
 
 	// Destructor
 	~MainWindow();

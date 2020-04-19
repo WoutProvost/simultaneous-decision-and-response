@@ -6,17 +6,13 @@
 using std::cout;
 using std::flush;
 
-MainWindow::MainWindow(QString fileName, int experiment, int maxExperiments) :
+MainWindow::MainWindow(QString fileName) :
 	// Call base class method and initialize attributes and set default values
 	QMainWindow(),
 	ui(new Ui::MainWindow),
 	file(fileName),
-	experiment(experiment),
-	maxExperiments(maxExperiments),
 	useRealTimeData(file.fileName() == "-"),
 	lines(0),
-	gateGrippingRobots(0),
-	temperatureSensingRobots(0),
 	maxGraphs(1),
 	graphColors(maxGraphs, Qt::black) {
 
@@ -49,7 +45,7 @@ void MainWindow::readOptions() {
 		if(line.startsWith('!')) {
 			QTextStream options(&line);
 			char c;
-			options >> c >> gateGrippingRobots >> c >> temperatureSensingRobots >> c >> maxGraphs;
+			options >> c >> maxGraphs;
 			graphColors.fill(Qt::black, maxGraphs);
 			for(int graph = 0; graph < maxGraphs; graph++) {				
 				options >> c;				
@@ -72,14 +68,7 @@ void MainWindow::initPlot() {
 
 	// Title
 	ui->customPlot->plotLayout()->insertRow(0);
-	ui->customPlot->plotLayout()->addElement(0, 0, new QCPTextElement(ui->customPlot,
-		"Experiment " + QString::number(experiment) +
-		"/" + QString::number(maxExperiments) +
-		": [" + QString::number(gateGrippingRobots) +
-		"g, " + QString::number(temperatureSensingRobots) +
-		"s]",
-		QFont("sans", 12, QFont::Bold))
-	);
+	ui->customPlot->plotLayout()->addElement(0, 0, new QCPTextElement(ui->customPlot, "Collective decision history", QFont("sans", 12, QFont::Bold)));
 
 	// Legend
 	ui->customPlot->legend->setVisible(true);

@@ -10,8 +10,6 @@ using std::cerr;
 // General variables and constants
 QString command;
 QString fileName;
-int experiment = 1;
-int maxExperiments = 1;
 
 int main(int argc, char **argv) {	
 	QApplication application(argc, argv);
@@ -20,7 +18,7 @@ int main(int argc, char **argv) {
 	parseOptions(argc, argv);
 
 	// Create and show main window
-	MainWindow mainWindow(fileName, experiment, maxExperiments);
+	MainWindow mainWindow(fileName);
 	mainWindow.show();
 
 	return application.exec();
@@ -31,8 +29,6 @@ void parseOptions(int argc, char **argv) {
 
 	static struct option options[] = {
 		{"help", no_argument, NULL, 'h'},
-		{"experiment", required_argument, NULL, 'e'},
-		{"max-experiments", required_argument, NULL, 'm'},
 		{0, 0, 0, 0}
 	};
 
@@ -46,20 +42,10 @@ void parseOptions(int argc, char **argv) {
 				<< "Options:" << endl
 				<< "  Mandatory arguments to long options are mandatory for short options too." << endl
 				<< "  -h,  --help                              display this help message" << endl
-				<< "  -e,  --experiment=NUM                    the current experiment number" << endl
-				<< "  -m,  --max-experiments=NUM               the total amount of experiments" << endl
 				<< endl
 				<< "File:" << endl
 				<< "  With no file, or when file is -, read standard input." << endl;
 				exit(EXIT_SUCCESS);
-				break;
-			}
-			case 'e': {
-				experiment = atoi(optarg);
-				break;
-			}
-			case 'm': {
-				maxExperiments = atoi(optarg);
 				break;
 			}
 			case ':': {
