@@ -78,6 +78,9 @@ void MainWindow::initPlot() {
 	QRect screenGeometry = QApplication::desktop()->screenGeometry();
 	setMinimumSize(400, 300);
 	setGeometry(screenGeometry.width() - width(), screenGeometry.height() - height(), 570, 430);
+	if(realTime) {
+		setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+	}
 
 	// Title
 	ui->customPlot->plotLayout()->insertRow(0);
