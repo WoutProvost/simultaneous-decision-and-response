@@ -7,12 +7,12 @@ using std::string;
 using std::cout;
 using std::flush;
 
-MainWindow::MainWindow(QString fileName) :
+MainWindow::MainWindow(QString fileName, bool realTime) :
 	// Call base class method and initialize attributes and set default values
 	QMainWindow(),
 	ui(new Ui::MainWindow),
 	file(fileName),
-	useRealTimeData(file.fileName() == "-"),
+	realTime(realTime),
 	lines(0),
 	maxGraphs(1),
 	graphColors(maxGraphs, Qt::black) {
@@ -21,9 +21,7 @@ MainWindow::MainWindow(QString fileName) :
 	ui->setupUi(this);
 
 	// Read options from log file
-	if(!useRealTimeData) {
-		readOptions();
-	}
+	readOptions();
 
 	// Initialize plot
 	initPlot();
@@ -31,6 +29,9 @@ MainWindow::MainWindow(QString fileName) :
 
 MainWindow::~MainWindow() {
 	delete ui;
+
+	// Close the file
+	file.close();
 }
 
 void MainWindow::readOptions() {
@@ -68,7 +69,7 @@ void MainWindow::initPlot() {
 		fileName.erase(0, pos + 1);
 	}
 	QString title(fileName.c_str());
-	if(useRealTimeData) {
+	if(realTime) {
 		title = "Real Time Data";
 	}
 	setWindowTitle(title + " - Collective Decision Plot");
@@ -144,13 +145,13 @@ void MainWindow::initPlot() {
 	// Prevent dragging and zooming X axis to negative time
 	connect(ui->customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(onXAxisRangeChanged(QCPRange)));
 
-	// Use file for data input
-	if(!useRealTimeData) {
-		// Open the file and make sure it exists and is allowed to be opened
-		if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-			printError("Couldn't open file '" + file.fileName() + "'.");
-		}
+	// Open the file and make sure it exists and is allowed to be opened
+	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		printError("Couldn't open file '" + file.fileName() + "'.");
+	}
 
+	// Read all data from the file immediately
+	if(!realTime) {
 		// Update the plot with the data included in the file and show a progress precentage in the console
 		int line = 0;
 		cout.setf(std::ios::fixed);
@@ -163,13 +164,10 @@ void MainWindow::initPlot() {
 		}
 		cout << "\r\e[K" << flush;
 
-		// Close the file
-		file.close();
-
 		// Redraw plot
 		ui->customPlot->replot();
 	}
-	// Use stdin for real time generated data input
+	// Read data from the file in real time
 	else {
 	// 	QTextStream textStream(stdin);
 	// 	// Start update timer
@@ -200,7 +198,7 @@ void MainWindow::updatePlot(QTextStream &textStream) {
 			tags[graph]->setText(QString::number(y[graph], 'f', 2) + " %");
 		}
 
-		if(!useRealTimeData) {
+		if(!realTime) {
 			// Set X axis range to show whole set of data
 			ui->customPlot->xAxis->setRange(0, x);
 		} else {

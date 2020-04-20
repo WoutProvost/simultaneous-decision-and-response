@@ -10,6 +10,7 @@ using std::cerr;
 // General variables and constants
 QString command;
 QString fileName;
+bool realTime = false;
 
 int main(int argc, char **argv) {	
 	QApplication application(argc, argv);
@@ -18,7 +19,7 @@ int main(int argc, char **argv) {
 	parseOptions(argc, argv);
 
 	// Create and show main window
-	MainWindow mainWindow(fileName);
+	MainWindow mainWindow(fileName, realTime);
 	mainWindow.show();
 
 	return application.exec();
@@ -29,12 +30,13 @@ void parseOptions(int argc, char **argv) {
 
 	static struct option options[] = {
 		{"help", no_argument, NULL, 'h'},
+		{"help", no_argument, NULL, 'r'},
 		{0, 0, 0, 0}
 	};
 
 	// A leading ':' disables printing error messages and returns ':' instead of '?' to indicate a missing option argument
 	int option;
-	while((option = getopt_long(argc, argv, ":h", options, NULL)) != -1) {
+	while((option = getopt_long(argc, argv, ":hr", options, NULL)) != -1) {
 		switch(option) {
 			case 'h': {
 				cout << "Usage: " << command.toStdString() << " [options] [file]" << endl
@@ -42,11 +44,16 @@ void parseOptions(int argc, char **argv) {
 				<< "Options:" << endl
 				<< "  Mandatory arguments to long options are mandatory for short options too." << endl
 				<< "  -h,  --help                              display this help message" << endl
+				<< "  -r,  --realtime                          read the data in real time" << endl
 				<< endl
 				<< "File:" << endl
-				<< "  With no file, or when file is -, read standard input." << endl;
+				<< "  The source file used to generate the plot from." << endl;
 				exit(EXIT_SUCCESS);
 				break;
+			}
+			case 'r': {	
+				realTime = true;	
+				break;	
 			}
 			case ':': {
 				printError("Missing argument for option '" + QString(argv[optind-1]) + "'.");
@@ -63,7 +70,7 @@ void parseOptions(int argc, char **argv) {
 	if(optind < argc) {
 		fileName = argv[optind];
 	} else {
-		fileName = "-";
+		printError("Missing file operand.");
 	}
 }
 

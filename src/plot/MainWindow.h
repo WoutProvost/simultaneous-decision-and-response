@@ -10,32 +10,31 @@ namespace Ui {
 class MainWindow : public QMainWindow {
 	Q_OBJECT
 
-private:
-	// General variables and constants
-	Ui::MainWindow *ui;
-	QVector<AxisTag*> tags;
-	// QTimer updatePlotTimer;
-	QFile file;
-	bool useRealTimeData;
-	int lines;
-	int maxGraphs;
-	QVector<QColor> graphColors;
+	private:
+		// General variables and constants
+		Ui::MainWindow *ui;
+		QVector<AxisTag*> tags;
+		QFile file;
+		bool realTime;
+		int lines;
+		int maxGraphs;
+		QVector<QColor> graphColors;
 
-	// Methods
-	void readOptions();
-	void initPlot();
-	void updatePlot(QTextStream &textStream);
+		// Methods
+		void readOptions();
+		void initPlot();
+		void updatePlot(QTextStream &textStream);
 
-public:
-	// Constructors
-	MainWindow(QString fileName);
+	public:
+		// Constructors
+		MainWindow(QString fileName, bool realTime);
 
-	// Destructor
-	~MainWindow();
+		// Destructor
+		~MainWindow();
 
-private slots:
-	// Plot methods
-	void onXAxisRangeChanged(const QCPRange &range);
+	private slots:
+		// Plot methods
+		void onXAxisRangeChanged(const QCPRange &range);
 
 };
 
