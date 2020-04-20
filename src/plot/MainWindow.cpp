@@ -12,6 +12,7 @@ MainWindow::MainWindow(QString fileName, bool realTime) :
 	QMainWindow(),
 	ui(new Ui::MainWindow),
 	file(fileName),
+	textStream(&file),
 	realTime(realTime),
 	lines(0),
 	maxGraphs(1),
@@ -28,10 +29,11 @@ MainWindow::MainWindow(QString fileName, bool realTime) :
 }
 
 MainWindow::~MainWindow() {
-	delete ui;
-
 	// Close the file
 	file.close();
+
+	// Delete UI
+	delete ui;
 }
 
 void MainWindow::readOptions() {
@@ -41,9 +43,9 @@ void MainWindow::readOptions() {
 	}
 
 	// Count the amount of lines and extract options
-	QTextStream textStream(&file);
-	while(!textStream.atEnd()) {
-		QString line = textStream.readLine().trimmed();
+	QTextStream optionsTextStream(&file);
+	while(!optionsTextStream.atEnd()) {
+		QString line = optionsTextStream.readLine().trimmed();
 		if(line.startsWith('!')) {
 			QTextStream options(&line);
 			char c;
@@ -156,9 +158,8 @@ void MainWindow::initPlot() {
 		int line = 0;
 		cout.setf(std::ios::fixed);
 		cout.precision(2);
-		QTextStream textStream(&file);
 		while(!textStream.atEnd()) {
-			updatePlot(textStream);
+			updatePlot();
 			line++;
 			cout << "\rPlotting data from file '" << file.fileName().toStdString() << "': " << static_cast<double>(line)/lines*100 << "%" << flush;
 		}
@@ -169,14 +170,13 @@ void MainWindow::initPlot() {
 	}
 	// Read data from the file in real time
 	else {
-	// 	QTextStream textStream(stdin);
-	// 	// Start update timer
-	// 	connect(&updatePlotTimer, SIGNAL(timeout()), this, SLOT(updatePlot()));
-	// 	updatePlotTimer.start(0);
+		// Start update timer
+		connect(&updatePlotTimer, SIGNAL(timeout()), this, SLOT(updatePlot()));
+		updatePlotTimer.start(0);
 	}
 }
 
-void MainWindow::updatePlot(QTextStream &textStream) {
+void MainWindow::updatePlot() {
 	QString line = textStream.readLine().trimmed();
 	if(!line.isEmpty() && !line.startsWith('#') && !line.startsWith('!')) {		
 		// Extract data and calculate X and Y axis values
@@ -203,7 +203,7 @@ void MainWindow::updatePlot(QTextStream &textStream) {
 			ui->customPlot->xAxis->setRange(0, x);
 		} else {
 			// Make the X axis range scroll to the right with the data, but only when the graph is touching the right border
-			if(fabs(ui->customPlot->xAxis->range().upper - x) < 0.01) {
+			if(fabs(ui->customPlot->xAxis->range().upper - x) < 0.3) {
 				ui->customPlot->xAxis->setRange(x, ui->customPlot->xAxis->range().size(), Qt::AlignRight);
 			}
 

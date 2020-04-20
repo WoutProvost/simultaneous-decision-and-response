@@ -14,7 +14,9 @@ class MainWindow : public QMainWindow {
 		// General variables and constants
 		Ui::MainWindow *ui;
 		QVector<AxisTag*> tags;
+		QTimer updatePlotTimer;
 		QFile file;
+		QTextStream textStream;
 		bool realTime;
 		int lines;
 		int maxGraphs;
@@ -23,7 +25,6 @@ class MainWindow : public QMainWindow {
 		// Methods
 		void readOptions();
 		void initPlot();
-		void updatePlot(QTextStream &textStream);
 
 	public:
 		// Constructors
@@ -35,6 +36,7 @@ class MainWindow : public QMainWindow {
 	private slots:
 		// Plot methods
 		void onXAxisRangeChanged(const QCPRange &range);
+		void updatePlot();
 
 };
 
