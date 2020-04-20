@@ -55,13 +55,13 @@ void parseOptions(int argc, char **argv) {
 
 	static struct option options[] = {
 		{"help", no_argument, NULL, 'h'},
-		{"amount", required_argument, NULL, 'm'},
+		{"amount", required_argument, NULL, 'n'},
 		{0, 0, 0, 0}
 	};
 
 	// A leading ':' disables printing error messages and returns ':' instead of '?' to indicate a missing option argument
 	int option;
-	while((option = getopt_long(argc, argv, ":hm:", options, NULL)) != -1) {
+	while((option = getopt_long(argc, argv, ":hn:", options, NULL)) != -1) {
 		switch(option) {
 			case 'h': {
 				cout << "Usage: " << command << " [options] [file]" << endl
@@ -69,14 +69,14 @@ void parseOptions(int argc, char **argv) {
 				<< "Options:" << endl
 				<< "  Mandatory arguments to long options are mandatory for short options too." << endl
 				<< "  -h,  --help                              display this help message" << endl
-				<< "  -m,  --amount=NUM                        the amount of files to generate" << endl
+				<< "  -n,  --amount=NUM                        the amount of files to generate" << endl
 				<< endl
 				<< "File:" << endl
 				<< "  The source file used to generate one or more .argos files from." << endl;
 				exit(EXIT_SUCCESS);
 				break;
 			}
-			case 'm': {	
+			case 'n': {	
 				amount = atoi(optarg);	
 				break;	
 			}
