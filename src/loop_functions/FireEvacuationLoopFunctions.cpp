@@ -32,7 +32,7 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	} catch(CARGoSException &ex) {
 	}
 	try {
-		plotParams.setParams(GetNode(configurationNode, "plot"));
+		logParams.setParams(GetNode(configurationNode, "log"));
 	} catch(CARGoSException &ex) {
 	}
 
@@ -76,12 +76,12 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	exitLightColors[CColor::BLACK] = 0;
 
 	// Log some of these settings to a file
-	if(plotParams.logData) {
-		logFile.open(plotParams.logFile);
+	if(!logParams.disable) {
+		logFile.open(logParams.file);
 		if(logFile.is_open()) {
 			initLogFile();
 		} else {
-			LOGERR << "Unable to open file '" << plotParams.logFile << "'." << endl;
+			LOGERR << "Unable to open file '" << logParams.file << "'." << endl;
 		}
 	}
 }
@@ -96,11 +96,11 @@ void FireEvacuationLoopFunctions::Reset() {
 	}
 
 	// Close and reopen the logfile to erase everything and start from scratch
-	if(plotParams.logData) {
+	if(!logParams.disable) {
 		if(logFile.is_open()) {
 			logFile.close();
 		}
-		logFile.open(plotParams.logFile);
+		logFile.open(logParams.file);
 		if(logFile.is_open()) {
 			initLogFile();
 		}
@@ -109,7 +109,7 @@ void FireEvacuationLoopFunctions::Reset() {
 
 void FireEvacuationLoopFunctions::Destroy() {
 	// Close the log file
-	if(plotParams.logData) {
+	if(!logParams.disable) {
 		if(logFile.is_open()) {
 			logFile.close();
 		}
@@ -175,7 +175,7 @@ void FireEvacuationLoopFunctions::PostStep() {
 	}
 
 	// Log this data to a file
-	if(plotParams.logData) {
+	if(!logParams.disable) {
 		if(logFile.is_open()) {
 			logFile << space->GetSimulationClock()*1000*physicsEngine->GetSimulationClockTick();
 			for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {

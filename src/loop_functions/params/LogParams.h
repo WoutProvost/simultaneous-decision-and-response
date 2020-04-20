@@ -1,22 +1,20 @@
-#ifndef PLOT_PARAMS_H
-#define PLOT_PARAMS_H
+#ifndef LOG_PARAMS_H
+#define LOG_PARAMS_H
 
 #include <argos3/core/utility/configuration/argos_configuration.h>
 
 using namespace argos;
 using std::string;
 
-class PlotParams {
+class LogParams {
 
 	public:
 		// Params
-		bool logData;
-		string logFile;
-		bool showInRealtime;
-		int realtimeInitialXAxisMaxValue;
+		string file;
+		bool disable;
 
 		// Constructors
-		PlotParams();
+		LogParams();
 
 		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);

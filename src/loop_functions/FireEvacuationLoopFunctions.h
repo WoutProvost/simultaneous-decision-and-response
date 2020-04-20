@@ -4,7 +4,7 @@
 #include <argos3/core/simulator/loop_functions.h>
 #include "params/HeatMapParams.h"
 #include "params/FireParams.h"
-#include "params/PlotParams.h"
+#include "params/LogParams.h"
 #include <argos3/core/simulator/entity/floor_entity.h>
 
 using namespace argos;
@@ -18,7 +18,7 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 		// Params
 		HeatMapParams heatMapParams;
 		FireParams fireParams;
-		PlotParams plotParams;
+		LogParams logParams;
 
 		// General variables and constants
 		CSpace *space;
