@@ -5,7 +5,7 @@ int main(int argc, char *argv[]) {
 	parseOptions(argc, argv);
 
 	size_t pos = inputFileName.find(".argos");
-	if(pos == string::npos) {
+	if(pos != inputFileName.length() - 6) {
 		printError("File extension '.argos' needed.");
 	}
 	
@@ -22,12 +22,26 @@ int main(int argc, char *argv[]) {
 			printError("Error opening file '" + outputFileName + "'.");
 		}
 
+		string logFileName = inputFileName.substr(0, inputFileName.length() - 6);
+		size_t pos2 = logFileName.find_last_of('/');
+		if(pos2 != string::npos) {
+			logFileName = logFileName.erase(0, pos2 + 1);
+		}
+
 		string line;
-		regex randomSeedRegex("random_seed\\s*=\\s*[\"']\\s*\\d+\\s*[\"']");
-		regex logFileRegex("log_file\\s*=\\s*[\"']\\s*.+?\\s*[\"']");
+		smatch logFileMatch;
+		regex randomSeedRegex("random_seed\\s*=\\s*[\"']\\s*\\d*\\s*[\"']");
+		regex logFileRegex("log_file\\s*=\\s*[\"']\\s*(.*?)\\s*[\"']");
 		while(getline(input, line)) {
 			line = regex_replace(line, randomSeedRegex, string("random_seed=\"") + to_string(rand()) + "\"");
-			line = regex_replace(line, logFileRegex, string("log_file=\"") + "../logs/log" + to_string(i+1) + ".csv" + "\"");
+			if(regex_search(line, logFileMatch, logFileRegex)) {
+				string logFilePrefix;
+				size_t pos3 = logFileMatch.str(1).find_last_of('/');
+				if(pos3 != string::npos) {
+					logFilePrefix = logFileMatch.str(1).substr(0, pos3 + 1);
+				}
+				line = regex_replace(line, logFileRegex, string("log_file=\"") + logFilePrefix + logFileName + to_string(i+1) + ".csv" + "\"");
+			}
 			output << line << endl;
 		}
 		input.close();
