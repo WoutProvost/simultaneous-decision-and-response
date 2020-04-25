@@ -30,6 +30,37 @@
 
 
 
+
+
+# General
+- Gripper robots: remove the gates and exit the arena
+- Sensor robots: search for an exit and exit the arena
+- Dynamic: dynamic_interval_ticks, dynamic_temperature_increase, dynamic_spread_direction
+
+# Grippers
+- Movable gates enkel movable door grippers, nu kunnen de andere bots de gates ook pushen (force/torque/friction van sensors verlagen, of mass van objects verhogen en enkel de gripper genoeg force/torque geven) (wat met de proximity sensors van de grippers, diffusion uitzetten, of logica met als de afstand tot het licht boven de gate gelijk is aan de max proximitysensor rijkwijdte, dan niet uitwijken, op voorwaarde dat die gate werd beslist in de swarm)
+- Gates vervangen door gound blobs die alleen door de grippers opgepakt kunnen worden?
+- Solid gates disappear when gripped, because the manouvering of the bots doesn't have much to do with the thesis novelty
+- The cylinders can be fitted with LEDs
+
+# Ending
+- Custom ending with loop function: all robots or large enough percentage are safe
+- Once the bots have exited the gate they should go as fare away as possible from the fire
+
+# Analysis
+- Amount of agents: [50;100] scaling environment
+- Iterations: 30+
+- Cohesion threshold: 80+%
+
+
+
+
+
+
+
+
+
+
 # Data to communicate
 - Temperature of tile
 - Which exit to use
@@ -57,6 +88,18 @@
 - Weighted voter model
 - Configurable threshold other than 50%
 
+# Tweakable parameters than can have an influence on the result
+- max_velocity (important in the dynamic scenario due to how fast the fire spreads)
+- rab_range
+- tiles_per_meter
+- max_temperature
+- sensor noise
+- sensor packet drop
+- amount of bots (and amount of each type)
+- arena shape
+- fire mode (and mode parameters)
+- voting strategy mode (and mode parameters)
+
 
 
 
@@ -76,66 +119,3 @@
 - Choose the exit that coincides the least with the fire vector (i.e. if the fire is spreading towards the blue exit then pick the red exit and vice versa)
 - See the flocking example (vector of motion => gradient vector of fire)
 - Using the neighbouring data (e.g. 0.1, 0.2, 0.1) you can get direction of the fire
-
-
-
-
-
-
-
-
-
-
-# TODO
-- Gates: only removable by the gripper robots
-- Gripper robots: remove the gates and exit the arena
-- Sensor robots: search for an exit and exit the arena
-- Dynamic: dynamic_interval_ticks, dynamic_temperature_increase, dynamic_spread_direction
-- Colored heatmap: could work when subclassing the motor ground sensor
-
-# Grippers
-- Movable gates enkel movable door grippers, nu kunnen de andere bots de gates ook pushen (force/torque/friction van sensors verlagen, of mass van objects verhogen en enkel de gripper genoeg force/torque geven) (wat met de proximity sensors van de grippers, diffusion uitzetten, of logica met als de afstand tot het licht boven de gate gelijk is aan de max proximitysensor rijkwijdte, dan niet uitwijken, op voorwaarde dat die gate werd beslist in de swarm)
-- Gates vervangen door gound blobs die alleen door de grippers opgepakt kunnen worden?
-- Solid gates disappear when gripped, because the manouvering of the bots doesn't have much to do with the thesis novelty
-- The cylinders can be fitted with LEDs
-
-# Ending
-- Custom ending with loop function: all robots or large enough percentage are safe
-- Once the bots have exited the gate they should go as fare away as possible from the fire
-
-# Analysis
-- Amount of agents: [50;100] scaling environment
-- Iterations: 30+
-- Cohesion threshold: 80+%
-
-# Tweakable parameters than can have an influence on the result
-- max_velocity (important in the dynamic scenario due to how fast the fire spreads)
-- rab_range
-- tiles_per_meter
-- max_temperature
-- sensor noise
-- sensor packet drop
-- amount of bots (and amount of each type)
-- arena shape
-- fire mode (and mode parameters)
-- voting strategy mode (and mode parameters)
-
-# Documentation
-- CDynamics2DFootBotModel: https://www.argos-sim.info/api/a00521_source.php
-- CCI_Controller: https://www.argos-sim.info/api/a02036.php
-- CCI_DifferentialSteeringActuator: https://www.argos-sim.info/api/a02816.php
-- CCI_LEDsActuator: https://www.argos-sim.info/api/a02840.php
-- CCI_RangeAndBearingActuator: https://www.argos-sim.info/api/a02896.php
-- CCI_FootBotGripperActuator: https://www.argos-sim.info/api/a02636.php
-- CCI_FootBotProximitySensor: https://www.argos-sim.info/api/a02656.php
-- CCI_RangeAndBearingSensor: https://www.argos-sim.info/api/a02900.php
-- CCI_ColoredBlobOmnidirectionalCameraSensor: https://www.argos-sim.info/api/a02792.php
-- CCI_FootBotLightSensor: https://www.argos-sim.info/api/a02640.php
-- CCI_FootBotMotorGroundSensor: https://www.argos-sim.info/api/a02648.php
-
-# Performance notes
-- For larger swarms, turning the light sensor of when you don't need it.
-- For larger swarms, turning the camera sensor of when you don't need it.
-- For less than 100 robots, thread management is not beneficial.
-- For swarms larger than 50 robots and/or large arenas, multiple physics engines should be used.
-- Use the same number of threads as there are physics engines and take into account the amount of CPU cores.
