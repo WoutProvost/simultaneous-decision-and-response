@@ -155,7 +155,7 @@ void FireEvacuationLoopFunctions::PreStep() {
 	// 		}
 
 	// 		// Redraw the floor texture
-	// 		if(heatMapParams.showTemperature && redraw) {
+	// 		if(redraw) {
 	// 			floorEntity->SetChanged();
 	// 		}
 	// 	}
@@ -203,7 +203,7 @@ CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloo
 		int red = 0;
 		int green = 0;
 		int blue = 0;
-		if(!heatMapParams.showTemperature || (heatMapParams.debugMode == "none" && temperature == 0)) {
+		if(heatMapParams.debugMode == "none" && temperature == 0) {
 			red = 209;
 			green = 209;
 			blue = 209;
@@ -220,11 +220,7 @@ CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloo
 	}
 	// Otherwise invert the temperature to make white = no temperature and black = max temperature and return a grayscale color depending on the temperature
 	else {
-		if(!heatMapParams.showTemperature) {
-			temperature = 209;
-		} else {
-			temperature = MAX_POSSIBLE_TEMPERATURE - temperature;
-		}
+		temperature = MAX_POSSIBLE_TEMPERATURE - temperature;
 		return CColor(temperature, temperature, temperature);
 	}
 }

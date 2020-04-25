@@ -74,7 +74,6 @@ Loop functions **heatmap** params:
 * `max_temperature`:
   * Maximum of `255`, since the grayscale color range is [0, 255];
   * Defaults to `255`.
-* `show_temperature`: Defaults to `true`.
 * `debug_mode`:
   * Mode `gradient` is useful to show the whole temperature range in terms of steps.
   * Mode `resolution` is useful to show how large the tiles are compared to the robots.

@@ -16,7 +16,6 @@ class HeatMapParams {
 		// Params
 		int tilesPerMeter;
 		int maxTemperature;
-		bool showTemperature;
 		string debugMode;
 		bool debugUseColors;
 
