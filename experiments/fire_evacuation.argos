@@ -178,7 +178,7 @@
 
 	<loop_functions library="../build/src/loop_functions/libfire_evacuation_loop_functions" label="fire_evacuation_loop_functions">
 		<heatmap tiles_per_meter="5" max_temperature="255" show_temperature="true" debug_mode="none" debug_use_colors="false" />
-		<fire sources="1" circle_radius="3.0" is_dynamic="false" dynamic_interval_ticks="50" dynamic_temperature_increase="5" />
+		<fire sources="1" circle_radius="3.0" is_dynamic="false" dynamic_interval_ticks="50" dynamic_temperature_increase="5" dynamic_spread_direction="0.0" />
 		<log file="../logs/log.csv" disable="false" />
 	</loop_functions>
 

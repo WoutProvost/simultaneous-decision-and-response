@@ -6,7 +6,8 @@ FireParams::FireParams() :
 	circleRadius(3.0),
 	isDynamic(false),
 	dynamicIntervalTicks(50),
-	dynamicTemperatureIncrease(5) {
+	dynamicTemperatureIncrease(5),
+	dynamicSpreadDirection(0.0) {
 }
 
 void FireParams::setParams(TConfigurationNode &configurationNode) {
@@ -16,4 +17,5 @@ void FireParams::setParams(TConfigurationNode &configurationNode) {
 	GetNodeAttributeOrDefault(configurationNode, "is_dynamic", isDynamic, isDynamic);
 	GetNodeAttributeOrDefault(configurationNode, "dynamic_interval_ticks", dynamicIntervalTicks, dynamicIntervalTicks);
 	GetNodeAttributeOrDefault(configurationNode, "dynamic_temperature_increase", dynamicTemperatureIncrease, dynamicTemperatureIncrease);
+	GetNodeAttributeOrDefault(configurationNode, "dynamic_spread_direction", dynamicSpreadDirection, dynamicSpreadDirection);
 }

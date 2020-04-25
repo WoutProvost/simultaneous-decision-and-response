@@ -89,6 +89,7 @@ Loop functions **fire** params:
 * `is_dynamic`: Defaults to `false`.
 * `dynamic_interval_ticks`: Defaults to `50`.
 * `dynamic_temperature_increase`: Defaults to `5`.
+* `dynamic_spread_direction`: Defaults to `0.0`.
 
 Loop functions **log** params:
 * `file`: Defaults to `../logs/log.csv`.

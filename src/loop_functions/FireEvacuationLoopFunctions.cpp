@@ -117,7 +117,7 @@ void FireEvacuationLoopFunctions::Destroy() {
 }
 
 void FireEvacuationLoopFunctions::PreStep() {
-	// TODO do this for each source
+	// TODO do this for each source and use dynamic_spread_direction
 	// // Increase the temperature of the fire
 	// if(fireParams.isDynamic) {
 	// 	bool redraw = false;

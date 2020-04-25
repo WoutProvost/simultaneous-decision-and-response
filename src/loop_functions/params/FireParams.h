@@ -1,6 +1,7 @@
 #ifndef FIRE_PARAMS_H
 #define FIRE_PARAMS_H
 
+#include <argos3/core/utility/math/angles.h>
 #include <argos3/core/utility/configuration/argos_configuration.h>
 
 using namespace argos;
@@ -14,6 +15,7 @@ class FireParams {
 		bool isDynamic;
 		int dynamicIntervalTicks;
 		int dynamicTemperatureIncrease;
+		CDegrees dynamicSpreadDirection;
 
 		// Constructors
 		FireParams();
