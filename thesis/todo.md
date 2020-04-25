@@ -19,9 +19,14 @@
 
 # TODO
 - Weighted voter model
-- Configurable threshold other than 50%
-- Determine when to start the collective response using a quorum/threshold
-- Response speed vs accuracy trade-off
+- Determine when to start the collective response using a quorum/threshold (speed vs accuracy)
+
+# Questions
+- weighting calculation
+- time limit or large enough percentage has left nest
+- grippers:
+	- will hear the sensors' opinions being exchanged
+	- same voting strategy as with sensors to start acting or 80+% ?
 
 
 
@@ -33,8 +38,8 @@
 
 
 # General
-- Gripper robots: remove the gates and exit the arena
-- Sensor robots: search for an exit and exit the arena
+- Grippers: remove the gates and leave the nest (go as far away as possible)
+- Sensors: locate the correct exit and leave the nest (go as far away as possible)
 - Dynamic: dynamic_interval_ticks, dynamic_temperature_increase, dynamic_spread_direction
 
 # Grippers
@@ -43,14 +48,9 @@
 - Solid gates disappear when gripped, because the manouvering of the bots doesn't have much to do with the thesis novelty
 - The cylinders can be fitted with LEDs
 
-# Ending
-- Custom ending with loop function: all robots or large enough percentage are safe
-- Once the bots have exited the gate they should go as fare away as possible from the fire
-
 # Analysis
-- Amount of agents: [50;100] scaling environment
 - Iterations: 30+
-- Cohesion threshold: 80+%
+- See tweakable params below
 
 
 
@@ -69,24 +69,23 @@
 # Individual decision mechanism
 - Start when the robot moves from a white tile to a grayer tile
 - Compute the distance to each exit
-- Choose the exit that is the furthest away from the fire
+- Take the exit that is the furthest away from the fire
+- Determine whether to update its opinion with a quality comparison
 
 # Changing decision mechanism
 - Reason: bots should be able to influence the opinion of other bots + bots with the highest temperature are not always reliable due to sensor noise
 - Exchange data with neighbours
 - Apply a threshold (voting strategy) to know when to replace your own data with the neighbouring data and update your decision about the exit to use
-- Take the average of what the neighbours exchange with you
 
 # Individual reaction mechanism
 - The grippers will hear the opinions being exchanged
-- Apply a quorum/threshold to know when to start acting
+- Apply a configurable quorum/threshold to know when to start acting
 - Avoid cases where grippers start taking decisions too early, but at the same time you don't want them to wait too long (speed vs accuracy trade-off)
 
 # Voting and decision strategies
 - Plurality rule
 - Majority rule
 - Weighted voter model
-- Configurable threshold other than 50%
 
 # Tweakable parameters than can have an influence on the result
 - max_velocity (important in the dynamic scenario due to how fast the fire spreads)
