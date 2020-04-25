@@ -146,7 +146,6 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 	// Receive opinions from other temperature sensing robots in this robot's neighbourhood
 	int totalVotes = 0;
 	map<uint32_t,int> exitVotes;
-	map<uint32_t,int> exitQualities;
 	map<uint32_t,CColor> exitColors;
 	map<uint32_t,int> exitDistances;
 	map<uint32_t,int> exitTemperatures;
@@ -161,7 +160,6 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 
 			totalVotes++;
 			exitVotes[exitColor]++;
-			exitQualities[exitColor] += distance * temperature;
 			exitColors[exitColor] = exitColor;
 			exitDistances[exitColor] += distance;
 			exitTemperatures[exitColor] += temperature;
@@ -169,18 +167,17 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 	}
 
 	// If the neighbouring robots actually have opinions
+	// Use the combined data to potentially influence the opinion of the recipient based upon the used voting model
 	if(exitVotes.size() != 0) {
 		// If the robot is not undecided, add this robot's opinion to the votes
 		if(preferredExitLightColor != CColor::BLACK) {
 			exitVotes[preferredExitLightColor]++;
-			exitQualities[preferredExitLightColor] += preferredExitDistance * preferredExitTemperature;
 			exitColors[preferredExitLightColor] = preferredExitLightColor;
 			exitDistances[preferredExitLightColor] += preferredExitDistance;
 			exitTemperatures[preferredExitLightColor] += preferredExitTemperature;
 		}
-			
-		// Use the combined data to potentially influence the opinion of recipient based upon the used voting model
-		// Plurality voting
+
+		// Plurality voting (only use a stict winning vote, i.e. don't do anything when there's an ex aequo)
 		if(votingStrategyParams.mode == "plurality") {
 			map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end());
 			map<uint32_t,int>::iterator it = exitVotes.begin();
