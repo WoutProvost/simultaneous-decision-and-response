@@ -210,10 +210,6 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 			// TODO
 		}
 	}
-
-	// TODO als er maar één buur is en die buur heeft een betere optie, deze reading kan niet betrouwbaar zijn, maar zal deze robot direct overtuigen om zijn mening aan te passen
-	// Kan omzeild worden door minstens x aantal buren nodig te hebben vooraleer er van beslissing veranderd kan worden
-	// Deze x buren moeten dan niet dezelfde waarden doorgeven, want anders kan een enkele robot met een zeer goede mening de swarm niet beïnvloeden omdat hij de enigste is met die mening
 }
 
 void FootBotTemperatureSensingController::transmitOpinion()  {
