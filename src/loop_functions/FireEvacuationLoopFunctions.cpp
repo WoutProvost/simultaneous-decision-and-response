@@ -189,15 +189,6 @@ void FireEvacuationLoopFunctions::PostStep() {
 	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
 		it->second = 0;
 	}
-
-	// When the QtOpenGL visualization is used, stdout is redirected to a custom log window
-	// Therefore, when the QtOpenGL visualization is used and the output is also piped to somewhere else, duplicate the output to the original stdout so the pipe works
-	// std::ostream oldCout(LOG.GetStream().rdbuf());
-	// if(plotParams.logData) {
-	// 	if(LOG.GetStream().rdbuf() != oldCout.rdbuf() && !isatty(fileno(stdout))) {
-	// 		oldCout << "DUPLICATE" << endl;
-	// 	}
-	// }
 }
 
 CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloor) {
