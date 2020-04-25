@@ -2,12 +2,20 @@
 - The robots don't continuously change their opinion anymore, but only change it when they've found a better one
 - The robots don't communicate their last measured value anymore, but only communicate their best measurement (see above)
 - The robots don't just communicate when they are measuring anymore (i.e. when they're not on a white tile), but once they've formulated an opinion, they communicate this continuously
-- The robot's opinion is now based upon the distance weighted with the temperature, so that there is a quality associated with the measurement, which allows for easy quality comparisons, e.g. a fire that's not very hot but very close to one exit has less priority than a fire that's very hot and very close to that exit
+- The robot's opinion is now based upon the distance weighted with the temperature, so that there is a quality associated with the measurement, which allows for easy quality comparisons
 - The robot's opinion can now be influenced by the opinion of its neighbors using various voting models
 - The robot's current opinion is counted as a vote in the voting mechanism
+
+# Done 2
 - One assumption is made when changing a robot's opinion based on the neighbouring opinions, if the voting model results in an exit that is the same as the exit the robot is currently preferring, then it will only update its distance and temperature if the neighbouring measurement quality is better than its own measurement quality
 - The grippers don't participate in the decision making, they only listen to the data traffic
-- Additional fire sources
+- Measurement quality: a fire that's not very hot but very close to one exit has less priority than a fire that's very hot and very close to that exit
+- Multiple fires (fire sources params)
+- voting_strategy params
+- coldecplot takes colors from lights in configuration file for the graphs
+- coldecplot realtime visualisation (windows always on top when using realtime data)
+- coldecseed app to generate seeds and distinct logfiles in configuration file
+- Answer to question 'Why use ARGoS' from P. Simoens
 
 # TODO
 - Weighted voter model
@@ -82,7 +90,7 @@
 - Gates: only removable by the gripper robots
 - Gripper robots: remove the gates and exit the arena
 - Sensor robots: search for an exit and exit the arena
-- Dynamic fire circle: dynamic_interval_ticks, dynamic_temperature_increase
+- Dynamic: dynamic_interval_ticks, dynamic_temperature_increase, dynamic_spread_direction
 - Colored heatmap: could work when subclassing the motor ground sensor
 
 # Grippers
