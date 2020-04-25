@@ -177,7 +177,7 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 			exitTemperatures[preferredExitLightColor] += preferredExitTemperature;
 		}
 
-		// Plurality voting (only use a stict winning vote, i.e. don't do anything when there's an ex aequo)
+		// Plurality voting (only use a stict winning vote, i.e. don't do anything when there's an ex aequo for the winning vote)
 		if(votingStrategyParams.mode == "plurality") {
 			map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end());
 			map<uint32_t,int>::iterator it = exitVotes.begin();
