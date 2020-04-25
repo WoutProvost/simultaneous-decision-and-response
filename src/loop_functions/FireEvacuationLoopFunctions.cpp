@@ -117,49 +117,60 @@ void FireEvacuationLoopFunctions::Destroy() {
 }
 
 void FireEvacuationLoopFunctions::PreStep() {
-	// TODO do this for each source and use dynamic_spread_direction
-	// // Increase the temperature of the fire
-	// if(fireParams.isDynamic) {
-	// 	bool redraw = false;
-	// 	static int ticks = 0;
-	// 	static Real radius = 0;
-	// 	int centerX = 4;
-	// 	int centerY = 64;
-	// 	ticks++;
+	// Increase the temperature of the fire
+	// Redrawing the floor is very resource intensive so this shouldn't happen too often
+	// Even though this function is called PRE-step, the simulation clock is already incremented, so there's no problem with the modulo operator leading to an immediate redraw after initialization
+	if(fireParams.isDynamic && space->GetSimulationClock() % fireParams.dynamicIntervalTicks == 0) {
+		bool anyTileChanged = false;
 
-	// 	// Redrawing the floor is very resource intensive so this shouldn't happen too often
-	// 	if(ticks == fireParams.dynamicIntervalTicks) {
-	// 		ticks = 0;
+		// for(int source = 0; source < fireParams.sources; source++) {
+		// }
 
-	// 		if(radius != fireParams.circleRadius * heatMapParams.tilesPerMeter + 1) {	
-	// 			radius++;
-	// 		}
+		// Redraw the floor texture if necessary
+		if(anyTileChanged) {
+			floorEntity->SetChanged();
+		}
+	}
 
-	// 		for(Real r = radius; r >= 0.0; r -= 0.1) {
-	// 			for(Real angle = 0.0; angle < 360.0; angle += 0.1) {
-	// 				Real x = centerX + r * cos(angle);
-	// 				Real y = centerY + r * sin(angle);
+	// // dynamic_spread_direction?
+	// // Max fire size?
 
-	// 				// Spread the fire and increase the temperature
-	// 				if(x >= 0 && x < heatMap.size() && y >= 0 && y < heatMap[x].size()) {
-	// 					if(heatMap[x][y] != heatMapParams.maxTemperature) {
-	// 						if(heatMap[x][y] + fireParams.dynamicTemperatureIncrease < heatMapParams.maxTemperature) {
-	// 							heatMap[x][y] += fireParams.dynamicTemperatureIncrease;
-	// 						} else {
-	// 							heatMap[x][y] = heatMapParams.maxTemperature;
-	// 						}
-	// 						redraw = true;
-	// 					}
+	// static Real radius = 0;
+	// if(radius != fireParams.circleRadius * heatMapParams.tilesPerMeter + 1) {	
+	// 	radius++;
+	// }
+
+	// // Copy the heatmap, since the radius and angle loops can access an array element multiple times and thus increase the temperature too much
+	// vector<vector<int>> oldHeatMap = heatMap;
+
+	// for(Real r = radius; r >= 0.0; r -= 0.1) {
+	// 	for(Real angle = 0.0; angle < 360.0; angle += 0.1) {
+	// 		Real x = centerX + r * cos(angle);
+	// 		Real y = centerY + r * sin(angle);
+
+	// 		// Spread the fire and increase the temperature
+	// 		if(x >= 0 && x < heatMap.size() && y >= 0 && y < heatMap[x].size()) {
+	// 			if(heatMap[x][y] != heatMapParams.maxTemperature) {
+	// 				if(oldHeatMap[x][y] + fireParams.dynamicTemperatureIncrease < heatMapParams.maxTemperature) {
+	// 					heatMap[x][y] = oldHeatMap[x][y] + fireParams.dynamicTemperatureIncrease;
+	// 				} else {
+	// 					heatMap[x][y] = heatMapParams.maxTemperature;
 	// 				}
+	// 				anyTileChanged = true;
 	// 			}
-	// 		}
-
-	// 		// Redraw the floor texture
-	// 		if(redraw) {
-	// 			floorEntity->SetChanged();
 	// 		}
 	// 	}
 	// }
+
+
+
+	// 	Real resolutionX = arenaSize->GetX() * heatMapParams.tilesPerMeter;
+	// 	Real resolutionY = arenaSize->GetY() * heatMapParams.tilesPerMeter;
+	// 	int centerX = random->Uniform(CRange<int>(0, resolutionX-1));
+	// 	int centerY = random->Uniform(CRange<int>(0, resolutionY-1));
+	
+	// Real radius = fireParams.circleRadius * heatMapParams.tilesPerMeter;
+	// Real spacing = heatMapParams.maxTemperature / radius;
 }
 
 void FireEvacuationLoopFunctions::PostStep() {
