@@ -1,32 +1,8 @@
-# Done
-- The robots don't continuously change their opinion anymore, but only change it when they've found a better one
-- The robots don't communicate their last measured value anymore, but only communicate their best measurement (see above)
-- The robots don't just communicate when they are measuring anymore (i.e. when they're not on a white tile), but once they've formulated an opinion, they communicate this continuously
-- The robot's opinion is now based upon the distance weighted with the temperature, so that there is a quality associated with the measurement, which allows for easy quality comparisons
-- The robot's opinion can now be influenced by the opinion of its neighbors using various voting models
-- The robot's current opinion is counted as a vote in the voting mechanism
-
-# Done 2
-- One assumption is made when changing a robot's opinion based on the neighbouring opinions, if the voting model results in an exit that is the same as the exit the robot is currently preferring, then it will only update its distance and temperature if the neighbouring measurement quality is better than its own measurement quality
-- The grippers don't participate in the decision making, they only listen to the data traffic
-- Measurement quality: a fire that's not very hot but very close to one exit has less priority than a fire that's very hot and very close to that exit
-- Multiple fires (fire sources params)
-- voting_strategy params
-- coldecplot takes colors from lights in configuration file for the graphs
-- coldecplot realtime visualisation (windows always on top when using realtime data)
-- coldecseed app to generate seeds and distinct logfiles in configuration file
-- Answer to question 'Why use ARGoS' from P. Simoens
-
 # TODO
-- Weighted voter model
-- Determine when to start the collective response using a quorum/threshold (speed vs accuracy)
-
-# Questions
-- weighting calculation
-- time limit or large enough percentage has left nest
-- grippers:
-	- will hear the sensors' opinions being exchanged
-	- same voting strategy as with sensors to start acting or 80+% ?
+- Add random voting model that just takes the opinion of a random neighbour
+- Read additional article for the weighted voter model
+- Use two parameters for the gripper reaction mechanism: percentage and timesteps
+- The gripper starts acting when a percentage x holds for y amount of time
 
 
 
@@ -40,13 +16,20 @@
 # General
 - Grippers: remove the gates and leave the nest (go as far away as possible)
 - Sensors: locate the correct exit and leave the nest (go as far away as possible)
-- Dynamic: dynamic_interval_ticks, dynamic_temperature_increase, dynamic_spread_direction
 
 # Grippers
 - Movable gates enkel movable door grippers, nu kunnen de andere bots de gates ook pushen (force/torque/friction van sensors verlagen, of mass van objects verhogen en enkel de gripper genoeg force/torque geven) (wat met de proximity sensors van de grippers, diffusion uitzetten, of logica met als de afstand tot het licht boven de gate gelijk is aan de max proximitysensor rijkwijdte, dan niet uitwijken, op voorwaarde dat die gate werd beslist in de swarm)
 - Gates vervangen door gound blobs die alleen door de grippers opgepakt kunnen worden?
 - Solid gates disappear when gripped, because the manouvering of the bots doesn't have much to do with the thesis novelty
 - The cylinders can be fitted with LEDs
+
+# Ending
+- time limit or large enough percentage has left nest
+
+# Dynamic
+- dynamic_interval_ticks
+- dynamic_temperature_increase
+- dynamic_spread_direction
 
 # Analysis
 - Iterations: 30+
@@ -79,25 +62,26 @@
 
 # Individual reaction mechanism
 - The grippers will hear the opinions being exchanged
-- Apply a configurable quorum/threshold to know when to start acting
-- Avoid cases where grippers start taking decisions too early, but at the same time you don't want them to wait too long (speed vs accuracy trade-off)
+- Apply a configurable quorum/threshold and time limit to know when to start acting
 
 # Voting and decision strategies
 - Plurality rule
 - Majority rule
+- Random rule
 - Weighted voter model
 
-# Tweakable parameters than can have an influence on the result
+# Tweakable parameters than can have an influence on the result (! = important)
+- ! amount of bots (and amount of each type)
+- ! fire mode (and mode parameters)
+- ! voting strategy mode (and mode parameters)
+- ! gripper percentage and time
 - max_velocity (important in the dynamic scenario due to how fast the fire spreads)
 - rab_range
 - tiles_per_meter
 - max_temperature
 - sensor noise
 - sensor packet drop
-- amount of bots (and amount of each type)
 - arena shape
-- fire mode (and mode parameters)
-- voting strategy mode (and mode parameters)
 
 
 

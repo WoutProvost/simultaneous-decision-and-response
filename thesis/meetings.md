@@ -1,5 +1,11 @@
-# Tuesday 28-04-2020
+# Tuesday 5-05-2020
 - 
+
+# Tuesday 28-04-2020
+- Add random voting model that just takes the opinion of a random neighbour
+- Read additional article for the weighted voter model
+- Use two parameters for the gripper reaction mechanism: percentage and timesteps
+- The gripper starts acting when a percentage x holds for y amount of time
 
 # Tuesday 21-04-2020
 - No meeting
