@@ -6,16 +6,9 @@
 - Case Study I-A, I-B and II are great implementation examples of macroscopic parameterisation and analysis.
 
 # Other articles to read
-- https://www.sciencedirect.com/science/article/pii/B0080430767031107
-- https://code.ulb.ac.be/dbfiles/ValHamDor2015aaai.pdf
-- https://www.frontiersin.org/articles/10.3389/frobt.2019.00016/full
-- https://link.springer.com/article/10.1007/s11721-019-00169-8
-- https://pdfs.semanticscholar.org/c418/df1e62079f84744ecc07169281f8fae30ab9.pdf?_ga=2.17994940.403303839.1581080667-1354700671.1581080667
 - https://lib.ugent.be/fulltxt/RUG01/002/495/017/RUG01-002495017_2018_0001_AC.pdf
 - https://lib.ugent.be/fulltxt/RUG01/002/495/054/RUG01-002495054_2018_0001_AC.pdf
 - https://lib.ugent.be/fulltxt/RUG01/002/300/970/RUG01-002300970_2016_0001_AC.pdf
-- file:///C:/Users/Wout/Downloads/PAPER_2012_IntJournalRoboticsResearch.pdf
-- file:///C:/Users/Wout/Downloads/PAPER_BIOROB_Pisa_2006.pdf
 
 # 1. A review of swarm robotics tasks
 
