@@ -15,7 +15,7 @@ class FootBotGateGrippingController : public FootBotController {
 		ReactionStrategyParams reactionStrategyParams;
 
 		// General variables and constants
-		// ...
+		CColor actingExitLightColor;
 
 		// Methods
 		void receiveOpinions();
@@ -25,11 +25,12 @@ class FootBotGateGrippingController : public FootBotController {
 		FootBotGateGrippingController();
 
 		// Getters
-		// ...
+		const CColor& getActingExitLightColor() const;
 
 		// Simulator methods
 		virtual void Init(TConfigurationNode &configurationNode);
 		virtual void ControlStep();
+		virtual void Reset();
 
 };
 

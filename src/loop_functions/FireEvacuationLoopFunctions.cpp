@@ -70,13 +70,13 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 		if(lightEntity.GetId().compare(0, prefix.length(), prefix) == 0) {
 			CColor color = lightEntity.GetColor();
 			temperatureSensingPreferences[color] = 0;
-			gateGrippingPreferences[color] = 0;
+			gateGrippingActions[color] = 0;
 		}
 	}
 
 	// Add one extra color for an undecided preference
 	temperatureSensingPreferences[CColor::BLACK] = 0;
-	gateGrippingPreferences[CColor::BLACK] = 0;
+	gateGrippingActions[CColor::BLACK] = 0;
 
 	// Log some of these settings to a file
 	if(!logParams.disable) {
@@ -97,7 +97,7 @@ void FireEvacuationLoopFunctions::Reset() {
 	for(map<uint32_t,int>::iterator it = temperatureSensingPreferences.begin(), end = temperatureSensingPreferences.end(); it != end; it++) {
 		it->second = 0;
 	}
-	for(map<uint32_t,int>::iterator it = gateGrippingPreferences.begin(), end = gateGrippingPreferences.end(); it != end; it++) {
+	for(map<uint32_t,int>::iterator it = gateGrippingActions.begin(), end = gateGrippingActions.end(); it != end; it++) {
 		it->second = 0;
 	}
 
@@ -192,9 +192,8 @@ void FireEvacuationLoopFunctions::PostStep() {
 		}
 		FootBotGateGrippingController *footBotGateGrippingController = dynamic_cast<FootBotGateGrippingController*>(controller);
 		if(footBotGateGrippingController != nullptr) {
-			// CColor color = footBotGateGrippingController->getPreferredExitLightColor();
-			// gateGrippingPreferences[color]++;
-			// TODO
+			CColor color = footBotGateGrippingController->getActingExitLightColor();
+			gateGrippingActions[color]++;
 		}
 	}
 
@@ -205,7 +204,7 @@ void FireEvacuationLoopFunctions::PostStep() {
 			for(map<uint32_t,int>::iterator it = temperatureSensingPreferences.begin(), end = temperatureSensingPreferences.end(); it != end; it++) {
 				logFile << "," << static_cast<Real>(it->second)/temperatureSensingFootBots;
 			}
-			for(map<uint32_t,int>::iterator it = gateGrippingPreferences.begin(), end = gateGrippingPreferences.end(); it != end; it++) {
+			for(map<uint32_t,int>::iterator it = gateGrippingActions.begin(), end = gateGrippingActions.end(); it != end; it++) {
 				logFile << "," << static_cast<Real>(it->second)/gateGrippingFootBots;
 			}
 			logFile << endl;
@@ -216,7 +215,7 @@ void FireEvacuationLoopFunctions::PostStep() {
 	for(map<uint32_t,int>::iterator it = temperatureSensingPreferences.begin(), end = temperatureSensingPreferences.end(); it != end; it++) {
 		it->second = 0;
 	}
-	for(map<uint32_t,int>::iterator it = gateGrippingPreferences.begin(), end = gateGrippingPreferences.end(); it != end; it++) {
+	for(map<uint32_t,int>::iterator it = gateGrippingActions.begin(), end = gateGrippingActions.end(); it != end; it++) {
 		it->second = 0;
 	}
 }
@@ -346,7 +345,7 @@ void FireEvacuationLoopFunctions::initLogFile() {
 		logFile << "," << 0;
 	}
 	logFile << "," << 1;
-	for(map<uint32_t,int>::iterator it = next(gateGrippingPreferences.begin(),1), end = gateGrippingPreferences.end(); it != end; it++) { // Start the iterator 1 element further
+	for(map<uint32_t,int>::iterator it = next(gateGrippingActions.begin(),1), end = gateGrippingActions.end(); it != end; it++) { // Start the iterator 1 element further
 		logFile << "," << 0;
 	}
 	logFile << endl;

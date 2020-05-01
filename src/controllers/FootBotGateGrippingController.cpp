@@ -3,7 +3,12 @@
 
 FootBotGateGrippingController::FootBotGateGrippingController() :
 	// Call base class method and initialize attributes and set default values
-	FootBotController::FootBotController("black") {
+	FootBotController::FootBotController("black"),
+	actingExitLightColor(CColor::BLACK) {
+}
+
+const CColor& FootBotGateGrippingController::getActingExitLightColor() const {
+	return actingExitLightColor;
 }
 
 void FootBotGateGrippingController::Init(TConfigurationNode &configurationNode) {
@@ -26,6 +31,14 @@ void FootBotGateGrippingController::ControlStep() {
 
 	// Receive opinions from temperature sensing robots in this robot's neighbourhood
 	receiveOpinions();
+}
+
+void FootBotGateGrippingController::Reset() {
+	// Call base class method
+	FootBotController::Reset();
+
+	// Reset the exit acted upon to its initial state
+	actingExitLightColor = CColor::BLACK;
 }
 
 void FootBotGateGrippingController::receiveOpinions() {
