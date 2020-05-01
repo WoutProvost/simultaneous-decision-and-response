@@ -19150,7 +19150,7 @@ void QCPTextElement::draw(QCPPainter *painter)
 {
   painter->setFont(mainFont());
   painter->setPen(QPen(mainTextColor()));
-  painter->drawText(mRect, Qt::AlignCenter, mText, &mTextBoundingRect);
+  painter->drawText(mRect, mTextFlags, mText, &mTextBoundingRect);
 }
 
 /* inherits documentation from base class */
