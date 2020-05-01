@@ -75,6 +75,7 @@ void FootBotTemperatureSensingController::sense() {
 	const CCI_FootBotMotorGroundSensor::TReadings &readings = footBotMotorGroundSensor->GetReadings();
 
 	// Determine whether a fire is present and what the temperature of that fire is
+	// Only use the maximum temperature of the four ground sensors, since that's the most important one
 	bool fireDetected = false;
 	Real maxTemperature = -1.0;
 	for(size_t reading = 0, size = readings.size(); reading < size; reading++) {
@@ -168,6 +169,9 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 
 	// If the neighbouring robots actually have opinions
 	// Use the combined data to potentially influence the opinion of the recipient based upon the used voting model
+	// If the voting model results in an exit that is the same as the exit the robot is currently preferring,
+	// then it will only update its distance and temperature if the neighbouring measured quality is better than its own measured quality,
+	// since there's no real benefit of lowering its own quality
 	if(exitVotes.size() != 0) {
 		// If the robot is not undecided, add this robot's opinion to the votes
 		if(preferredExitLightColor != CColor::BLACK) {
@@ -204,6 +208,10 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 					preferredExitTemperature = static_cast<Real>(exitTemperatures[winningVote->first]) / exitVotes[winningVote->first];
 				}
 			}
+		}
+		// Random neighbour
+		else if(votingStrategyParams.mode == "random") {
+			// TODO
 		}
 		// Weighted voter model
 		else if(votingStrategyParams.mode == "weighted") {

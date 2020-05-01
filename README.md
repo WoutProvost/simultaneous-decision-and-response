@@ -67,6 +67,7 @@ Temperature sensing controller **voting strategy** params:
 * `mode`:
   * Mode `plurality` uses the exit with the most votes as long as there is no ex aequo.
   * Mode `majority` uses the exit with more than 50% of the votes.
+  * Mode `random` uses the exit of a random neighbour.
   * Defaults to `none`.
 
 Loop functions **heatmap** params:
