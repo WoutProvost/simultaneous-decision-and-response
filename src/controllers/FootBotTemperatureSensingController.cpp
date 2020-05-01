@@ -7,7 +7,7 @@ using std::max_element;
 
 FootBotTemperatureSensingController::FootBotTemperatureSensingController() :
 	// Call base class method and initialize attributes and set default values
-	FootBotBaseController::FootBotBaseController("white", BehaviorState::SENSING),
+	FootBotController::FootBotController("white", BehaviorState::SENSING),
 	preferredExitTemperature(0),
 	preferredExitLightColor(CColor::BLACK),
 	preferredExitDistance(0.0) {
@@ -19,7 +19,7 @@ const CColor& FootBotTemperatureSensingController::getPreferredExitLightColor() 
 
 void FootBotTemperatureSensingController::Init(TConfigurationNode &configurationNode) {
 	// Call base class method
-	FootBotBaseController::Init(configurationNode);
+	FootBotController::Init(configurationNode);
 
 	// Get actuators and sensors
 	footBotMotorGroundSensor = GetSensor<CCI_FootBotMotorGroundSensor>("footbot_motor_ground");
@@ -33,7 +33,7 @@ void FootBotTemperatureSensingController::Init(TConfigurationNode &configuration
 
 void FootBotTemperatureSensingController::ControlStep() {
 	// Call base class method
-	FootBotBaseController::ControlStep();
+	FootBotController::ControlStep();
 
 	// Execute correct behavior
 	switch(behaviorState) {
@@ -52,7 +52,7 @@ void FootBotTemperatureSensingController::ControlStep() {
 
 void FootBotTemperatureSensingController::Reset() {
 	// Call base class method
-	FootBotBaseController::Reset();
+	FootBotController::Reset();
 
 	// Reset the behavior state to its initial state
 	behaviorState = BehaviorState::SENSING;

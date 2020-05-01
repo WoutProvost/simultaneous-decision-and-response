@@ -2,12 +2,12 @@
 
 FootBotGateGrippingController::FootBotGateGrippingController() :
 	// Call base class method and initialize attributes and set default values
-	FootBotBaseController::FootBotBaseController("black") {
+	FootBotController::FootBotController("black") {
 }
 
 void FootBotGateGrippingController::Init(TConfigurationNode &configurationNode) {
 	// Call base class method
-	FootBotBaseController::Init(configurationNode);
+	FootBotController::Init(configurationNode);
 
 	// Get actuators and sensors
 	footBotGripperActuator = GetActuator<CCI_FootBotGripperActuator>("footbot_gripper");
@@ -15,7 +15,7 @@ void FootBotGateGrippingController::Init(TConfigurationNode &configurationNode) 
 
 void FootBotGateGrippingController::ControlStep() {
 	// Call base class method
-	FootBotBaseController::ControlStep();
+	FootBotController::ControlStep();
 
 	// Receive opinions from temperature sensing robots in this robot's neighbourhood
 	receiveOpinions();

@@ -1,7 +1,7 @@
-#include "FootBotBaseController.h"
+#include "FootBotController.h"
 #include "enums/RABIndex.h"
 
-FootBotBaseController::FootBotBaseController() :
+FootBotController::FootBotController() :
 	// Initialize attributes and set default values
 	ledsColor("black"),
 	color(CColor::BLACK),
@@ -10,16 +10,16 @@ FootBotBaseController::FootBotBaseController() :
 	coloredBlobOmnidirectionalCameraSensorEnabled(false) {
 }
 
-FootBotBaseController::FootBotBaseController(string ledsColor, BehaviorState behaviorState) :
+FootBotController::FootBotController(string ledsColor, BehaviorState behaviorState) :
 	// Call other constructor
-	FootBotBaseController() {
+	FootBotController() {
 
 	// Initialize attributes and set default values
 	this->ledsColor = ledsColor;
 	this->behaviorState = behaviorState;
 }
 
-void FootBotBaseController::Init(TConfigurationNode &configurationNode) {
+void FootBotController::Init(TConfigurationNode &configurationNode) {
 	// Get actuators and sensors
 	differentialSteeringActuator = GetActuator<CCI_DifferentialSteeringActuator>("differential_steering");
 	ledsActuator = GetActuator<CCI_LEDsActuator>("leds");
@@ -48,7 +48,7 @@ void FootBotBaseController::Init(TConfigurationNode &configurationNode) {
 	ignoredColoredBlobs[color] = true;
 }
 
-void FootBotBaseController::ControlStep() {
+void FootBotController::ControlStep() {
 	// Execute correct behavior
 	switch(behaviorState) {
 		case BehaviorState::IDLE: {
@@ -61,7 +61,7 @@ void FootBotBaseController::ControlStep() {
 	}
 }
 
-void FootBotBaseController::Reset() {
+void FootBotController::Reset() {
 	// Reset all the LEDs in the ring to their initial state
 	ledsActuator->SetAllColors(color);
 
@@ -79,7 +79,7 @@ void FootBotBaseController::Reset() {
 	coloredBlobOmnidirectionalCameraSensorEnabled = false;
 }
 
-void FootBotBaseController::roam() {
+void FootBotController::roam() {
 	// Get the vector that points directly away from a potential obstacle to perform collision avoidance
 	CVector2 heading = getCollisionAvoidanceVector();
 
@@ -87,7 +87,7 @@ void FootBotBaseController::roam() {
 	setWheelVelocitiesFromVector(movementParams.maxVelocity * heading);
 }
 
-CVector2 FootBotBaseController::getVectorToLight() {
+CVector2 FootBotController::getVectorToLight() {
 	// Get readings from the light sensor
 	const CCI_FootBotLightSensor::TReadings &readings = footBotLightSensor->GetReadings();
 
@@ -107,7 +107,7 @@ CVector2 FootBotBaseController::getVectorToLight() {
 	}
 }
 
-CVector2 FootBotBaseController::getCollisionAvoidanceVector() {
+CVector2 FootBotController::getCollisionAvoidanceVector() {
 	// Get readings from the proximity sensor
 	const CCI_FootBotProximitySensor::TReadings &readings = footBotProximitySensor->GetReadings();
 	
@@ -130,7 +130,7 @@ CVector2 FootBotBaseController::getCollisionAvoidanceVector() {
 	}
 }
 
-void FootBotBaseController::setWheelVelocitiesFromVector(const CVector2 &heading) {
+void FootBotController::setWheelVelocitiesFromVector(const CVector2 &heading) {
 	// Get the angle of the heading as a value in the range [-180:180]
 	CDegrees angle = ToDegrees(heading.Angle().SignedNormalize());
 
@@ -184,7 +184,7 @@ void FootBotBaseController::setWheelVelocitiesFromVector(const CVector2 &heading
 }
 
 // Static variables and constants initialization
-map<uint32_t,bool> FootBotBaseController::ignoredColoredBlobs = map<uint32_t,bool>();
+map<uint32_t,bool> FootBotController::ignoredColoredBlobs = map<uint32_t,bool>();
 
 // Macro that binds this class to an XML tag
-REGISTER_CONTROLLER(FootBotBaseController, "footbot_base")
+REGISTER_CONTROLLER(FootBotController, "footbot")

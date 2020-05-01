@@ -1,5 +1,5 @@
-#ifndef FOOT_BOT_BASE_CONTROLLER_H
-#define FOOT_BOT_BASE_CONTROLLER_H
+#ifndef FOOT_BOT_CONTROLLER_H
+#define FOOT_BOT_CONTROLLER_H
 
 #include <argos3/core/control_interface/ci_controller.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_differential_steering_actuator.h>
@@ -18,7 +18,7 @@ using namespace argos;
 using std::string;
 using std::map;
 
-class FootBotBaseController : public CCI_Controller {
+class FootBotController : public CCI_Controller {
 
 	private:
 		// Methods
@@ -57,8 +57,8 @@ class FootBotBaseController : public CCI_Controller {
 
 	public:
 		// Constructors
-		FootBotBaseController();
-		FootBotBaseController(string ledsColor, BehaviorState behaviorState = BehaviorState::ROAMING);
+		FootBotController();
+		FootBotController(string ledsColor, BehaviorState behaviorState = BehaviorState::ROAMING);
 
 		// Simulator methods
 		virtual void Init(TConfigurationNode &configurationNode);
