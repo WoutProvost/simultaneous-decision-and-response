@@ -15,8 +15,8 @@ MainWindow::MainWindow(QString fileName, bool realTime) :
 	textStream(&file),
 	realTime(realTime),
 	lines(0),
-	maxGraphs(1),
-	graphColors(maxGraphs, Qt::black) {
+	availableOptions(1),
+	graphColors(availableOptions, Qt::black) {
 
 	// Configure initial UI according to the generated UI header file
 	ui->setupUi(this);
@@ -49,11 +49,11 @@ void MainWindow::readOptions() {
 		if(line.startsWith('!')) {
 			QTextStream options(&line);
 			char c;
-			options >> c >> maxGraphs;
-			graphColors.fill(Qt::black, maxGraphs);
-			for(int graph = 0; graph < maxGraphs; graph++) {				
+			options >> c >> availableOptions;
+			graphColors.fill(Qt::black, availableOptions);
+			for(int color = 0; color < availableOptions; color++) {				
 				options >> c;				
-				graphColors[graph] = options.read(9);
+				graphColors[color] = options.read(9);
 			}
 		}
 		lines++;
@@ -76,7 +76,7 @@ void MainWindow::initPlot() {
 	}
 	setWindowTitle(title + " - Collective Decision Plot");
 	QRect screenGeometry = QApplication::desktop()->screenGeometry();
-	setMinimumSize(400, 300);
+	setMinimumSize(570, 430);
 	setGeometry(screenGeometry.width() - width(), screenGeometry.height() - height(), 570, 430);
 	if(realTime) {
 		setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
@@ -86,8 +86,18 @@ void MainWindow::initPlot() {
 	ui->customPlot->plotLayout()->insertRow(0);
 	ui->customPlot->plotLayout()->addElement(0, 0, new QCPTextElement(ui->customPlot, "Collective decision history", QFont("sans", 12, QFont::Bold)));
 
-	// Legend
+	// Legend	
 	ui->customPlot->legend->setVisible(true);
+	QCPTextElement *legendTitleColumn1 = new QCPTextElement(ui->customPlot, "Temperature sensors", QFont("sans", 10, QFont::Bold));
+	legendTitleColumn1->setLayer(ui->customPlot->legend->layer());
+	legendTitleColumn1->setTextFlags(legendTitleColumn1->textFlags() & ~Qt::AlignCenter | Qt::AlignLeft);
+	legendTitleColumn1->setMargins(QMargins(0, 0, 20, 0));
+	ui->customPlot->legend->addElement(0, 0, legendTitleColumn1);
+	QCPTextElement *legendTitleColumn2 = new QCPTextElement(ui->customPlot, "Gate grippers", QFont("sans", 10, QFont::Bold));
+	legendTitleColumn2->setLayer(ui->customPlot->legend->layer());
+	legendTitleColumn2->setTextFlags(legendTitleColumn2->textFlags() & ~Qt::AlignCenter | Qt::AlignLeft);
+	legendTitleColumn2->setMargins(QMargins(0, 0, 0, 0));
+	ui->customPlot->legend->addElement(0, 1, legendTitleColumn2);
 	ui->customPlot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignLeft|Qt::AlignTop);
 
 	// Top and right borders
@@ -123,8 +133,8 @@ void MainWindow::initPlot() {
 	}
 	ui->customPlot->yAxis->setTicker(yAxisTicker);
 
-	// Graphs
-	for(int graph = 0; graph < maxGraphs; graph++) {
+	// Graphs (temperature sensors)
+	for(int graph = 0; graph < availableOptions; graph++) {
 		QPen pen;
 		pen.setColor(graphColors[graph]);
 		pen.setWidthF(2.0);
@@ -133,13 +143,26 @@ void MainWindow::initPlot() {
 		ui->customPlot->graph(graph)->setPen(pen);
 	}
 
-	// Give the first graph a custom name
-	if(maxGraphs > 0) {
+	// Graphs (gate grippers)
+	for(int graph = 0; graph < availableOptions; graph++) {
+		QPen pen;
+		pen.setColor(graphColors[graph]);
+		pen.setWidthF(2.0);
+		pen.setStyle(Qt::DashLine);
+		ui->customPlot->addGraph();
+		ui->customPlot->graph(availableOptions + graph)->setName("Exit " + QString(QChar(graph + 'A' - 1))); // Subtract 1, so that the second graphs starts from A (see below)
+		ui->customPlot->graph(availableOptions + graph)->setPen(pen);
+		ui->customPlot->legend->addElement(graph + 1, 1, ui->customPlot->legend->element(availableOptions + 1, 0));
+	}
+
+	// Give the first graphs of each type a custom name
+	if(availableOptions > 0) {
 		ui->customPlot->graph(0)->setName("Undecided");
+		ui->customPlot->graph(availableOptions)->setName("Undecided");
 	}
 
 	// Tags
-	for(int tag = 0; tag < maxGraphs; tag++) {
+	for(int tag = 0; tag < availableOptions*2; tag++) {
 		AxisTag *axisTag = new AxisTag(ui->customPlot->graph(tag)->valueAxis());
 		axisTag->setPen(ui->customPlot->graph(tag)->pen());
 		axisTag->setText(QString::number(0, 'f', 2) + " %");
@@ -186,16 +209,16 @@ void MainWindow::updatePlot() {
 		QTextStream data(&line);
 		char c;
 		double x;
-		QVector<double> y(maxGraphs, 0.0);
+		QVector<double> y(availableOptions*2, 0.0);
 		data >> x;
 		x /= 1000.0;
-		for(int graph = 0; graph < maxGraphs; graph++) {
+		for(int graph = 0; graph < availableOptions*2; graph++) {
 			data >> c >> y[graph];
 			y[graph] *= 100.0;
 		}
 
 		// Update graphs and tags
-		for(int graph = 0; graph < maxGraphs; graph++) {
+		for(int graph = 0; graph < availableOptions*2; graph++) {
 			ui->customPlot->graph(graph)->addData(x, y[graph]);
 			tags[graph]->updatePosition(y[graph]);
 			tags[graph]->setText(QString::number(y[graph], 'f', 2) + " %");

@@ -30,7 +30,7 @@ sudo cp src/plot/coldecplot /usr/local/bin
 sudo cp ../src/plot/autocomplete.sh /etc/bash_completion.d/coldecplot
 sudo cp ../src/plot/coldecplot.desktop /usr/local/share/applications
 sudo cp ../src/plot/coldecplot.1 /usr/local/share/man/man1
-sudo gzip /usr/local/share/man/man1/coldecplot.1
+sudo gzip -f /usr/local/share/man/man1/coldecplot.1
 ```
 
 ## Seed application installation
@@ -38,7 +38,7 @@ sudo gzip /usr/local/share/man/man1/coldecplot.1
 sudo cp src/seed/coldecseed /usr/local/bin
 sudo cp ../src/seed/autocomplete.sh /etc/bash_completion.d/coldecseed
 sudo cp ../src/seed/coldecseed.1 /usr/local/share/man/man1
-sudo gzip /usr/local/share/man/man1/coldecseed.1
+sudo gzip -f /usr/local/share/man/man1/coldecseed.1
 ```
 
 ## Execution:
@@ -93,3 +93,18 @@ Loop functions **fire** params:
 Loop functions **log** params:
 * `file`: Defaults to `../logs/log.csv`.
 * `disable`: Defaults to `false`.
+
+## Plot application uninstallation:
+```bash
+sudo rm -rf /usr/local/bin/coldecplot
+sudo rm -rf /etc/bash_completion.d/coldecplot
+sudo rm -rf /usr/local/share/applications/coldecplot.desktop
+sudo rm -rf /usr/local/share/man/man1/coldecplot.1
+```
+
+## Seed application uninstallation:
+```bash
+sudo rm -rf /usr/local/bin/coldecseed
+sudo rm -rf /etc/bash_completion.d/coldecseed
+sudo rm -rf /usr/local/share/man/man1/coldecseed.1
+```

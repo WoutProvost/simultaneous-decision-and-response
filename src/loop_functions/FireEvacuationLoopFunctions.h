@@ -29,7 +29,8 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 		vector<vector<int>> heatMap;
 		int temperatureSensingFootBots;
 		int gateGrippingFootBots;
-		map<uint32_t,int> exitLightColors;
+		map<uint32_t,int> temperatureSensingPreferences;
+		map<uint32_t,int> gateGrippingPreferences;
 		ofstream logFile;
 
 		// Methods

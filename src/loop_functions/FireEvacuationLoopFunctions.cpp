@@ -2,6 +2,7 @@
 #include <argos3/plugins/simulator/entities/light_entity.h>
 #include <argos3/plugins/robots/foot-bot/simulator/footbot_entity.h>
 #include "../controllers/FootBotTemperatureSensingController.h"
+#include "../controllers/FootBotGateGrippingController.h"
 
 using std::endl;
 using std::hex;
@@ -68,12 +69,14 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 		CLightEntity &lightEntity = *any_cast<CLightEntity*>(it->second);
 		if(lightEntity.GetId().compare(0, prefix.length(), prefix) == 0) {
 			CColor color = lightEntity.GetColor();
-			exitLightColors[color] = 0;
+			temperatureSensingPreferences[color] = 0;
+			gateGrippingPreferences[color] = 0;
 		}
 	}
 
 	// Add one extra color for an undecided preference
-	exitLightColors[CColor::BLACK] = 0;
+	temperatureSensingPreferences[CColor::BLACK] = 0;
+	gateGrippingPreferences[CColor::BLACK] = 0;
 
 	// Log some of these settings to a file
 	if(!logParams.disable) {
@@ -91,7 +94,10 @@ void FireEvacuationLoopFunctions::Reset() {
 	initHeatMap();
 
 	// Reset the preference data to its initial state
-	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
+	for(map<uint32_t,int>::iterator it = temperatureSensingPreferences.begin(), end = temperatureSensingPreferences.end(); it != end; it++) {
+		it->second = 0;
+	}
+	for(map<uint32_t,int>::iterator it = gateGrippingPreferences.begin(), end = gateGrippingPreferences.end(); it != end; it++) {
 		it->second = 0;
 	}
 
@@ -178,10 +184,17 @@ void FireEvacuationLoopFunctions::PostStep() {
 	CSpace::TMapPerType &footBotEntities = space->GetEntitiesByType("foot-bot");
 	for(CSpace::TMapPerType::iterator it = footBotEntities.begin(), end = footBotEntities.end(); it != end; it++) {
 		CFootBotEntity &footBotEntity = *any_cast<CFootBotEntity*>(it->second);
-		FootBotTemperatureSensingController *footBotTemperatureSensingController = dynamic_cast<FootBotTemperatureSensingController*>(&footBotEntity.GetControllableEntity().GetController());
+		CCI_Controller *controller = &footBotEntity.GetControllableEntity().GetController();
+		FootBotTemperatureSensingController *footBotTemperatureSensingController = dynamic_cast<FootBotTemperatureSensingController*>(controller);
 		if(footBotTemperatureSensingController != nullptr) {
 			CColor color = footBotTemperatureSensingController->getPreferredExitLightColor();
-			exitLightColors[color]++;
+			temperatureSensingPreferences[color]++;
+		}
+		FootBotGateGrippingController *footBotGateGrippingController = dynamic_cast<FootBotGateGrippingController*>(controller);
+		if(footBotGateGrippingController != nullptr) {
+			// CColor color = footBotGateGrippingController->getPreferredExitLightColor();
+			// gateGrippingPreferences[color]++;
+			// TODO
 		}
 	}
 
@@ -189,15 +202,21 @@ void FireEvacuationLoopFunctions::PostStep() {
 	if(!logParams.disable) {
 		if(logFile.is_open()) {
 			logFile << space->GetSimulationClock()*1000*physicsEngine->GetSimulationClockTick();
-			for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
+			for(map<uint32_t,int>::iterator it = temperatureSensingPreferences.begin(), end = temperatureSensingPreferences.end(); it != end; it++) {
 				logFile << "," << static_cast<Real>(it->second)/temperatureSensingFootBots;
+			}
+			for(map<uint32_t,int>::iterator it = gateGrippingPreferences.begin(), end = gateGrippingPreferences.end(); it != end; it++) {
+				logFile << "," << static_cast<Real>(it->second)/gateGrippingFootBots;
 			}
 			logFile << endl;
 		}
 	}
 
 	// Clear the data for the next step
-	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
+	for(map<uint32_t,int>::iterator it = temperatureSensingPreferences.begin(), end = temperatureSensingPreferences.end(); it != end; it++) {
+		it->second = 0;
+	}
+	for(map<uint32_t,int>::iterator it = gateGrippingPreferences.begin(), end = gateGrippingPreferences.end(); it != end; it++) {
 		it->second = 0;
 	}
 }
@@ -314,15 +333,20 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 }
 
 void FireEvacuationLoopFunctions::initLogFile() {
-	logFile << "# graphs;graph-colors-in-hex" << endl;
-	logFile << "! " << exitLightColors.size();
-	for(map<uint32_t,int>::iterator it = exitLightColors.begin(), end = exitLightColors.end(); it != end; it++) {
+	logFile << "# available-options;graph-colors-in-hex" << endl;
+	logFile << "! " << temperatureSensingPreferences.size();
+	for(map<uint32_t,int>::iterator it = temperatureSensingPreferences.begin(), end = temperatureSensingPreferences.end(); it != end; it++) {
 		logFile << ",#" << hex << it->first;
 	}
 	logFile << dec << endl;
 	logFile << "# milliseconds;data-percentages" << endl;
-	logFile << 0 << "," << 1;
-	for(map<uint32_t,int>::iterator it = next(exitLightColors.begin(),1), end = exitLightColors.end(); it != end; it++) { // Start the iterator 1 element further
+	logFile << 0;
+	logFile << "," << 1;
+	for(map<uint32_t,int>::iterator it = next(temperatureSensingPreferences.begin(),1), end = temperatureSensingPreferences.end(); it != end; it++) { // Start the iterator 1 element further
+		logFile << "," << 0;
+	}
+	logFile << "," << 1;
+	for(map<uint32_t,int>::iterator it = next(gateGrippingPreferences.begin(),1), end = gateGrippingPreferences.end(); it != end; it++) { // Start the iterator 1 element further
 		logFile << "," << 0;
 	}
 	logFile << endl;

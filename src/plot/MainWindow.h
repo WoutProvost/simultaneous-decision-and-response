@@ -19,7 +19,7 @@ class MainWindow : public QMainWindow {
 		QTextStream textStream;
 		bool realTime;
 		int lines;
-		int maxGraphs;
+		int availableOptions;
 		QVector<QColor> graphColors;
 
 		// Methods
