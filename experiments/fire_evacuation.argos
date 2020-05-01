@@ -7,27 +7,6 @@
 	</framework>
 
 	<controllers>
-		<!-- Temperature sensing robots -->
-		<footbot_temperature_sensing id="footbot_temperature_sensing_controller" library="../build/src/controllers/libfootbot_temperature_sensing">
-			<actuators>
-				<differential_steering implementation="default" />
-				<leds implementation="default" medium="led_medium" />
-				<range_and_bearing implementation="default" />
-			</actuators>
-			<sensors>
-				<footbot_proximity implementation="default" show_rays="false" />
-				<range_and_bearing implementation="medium" medium="range_and_bearing_medium" show_rays="true" />
-				<colored_blob_omnidirectional_camera implementation="rot_z_only" medium="led_medium" show_rays="false" />
-				<footbot_light implementation="rot_z_only" show_rays="false" />
-				<footbot_motor_ground implementation="rot_z_only" />
-			</sensors>
-			<params leds_color="white">
-				<movement max_velocity="10.0" max_heading_angle_for_no_turn="10.0" min_heading_angle_for_hard_turn="90.0" />
-				<collision_avoidance max_angle_between_heading_and_obstacle="5.0" max_obstacle_proximity="0.1" />
-				<decision_strategy mode="majority" />
-			</params>
-		</footbot_temperature_sensing>
-
 		<!-- Gate gripping robots -->
 		<footbot_gate_gripping id="footbot_gate_gripping_controller" library="../build/src/controllers/libfootbot_gate_gripping">
 			<actuators>
@@ -48,6 +27,27 @@
 				<reaction_strategy min_agreement_percentage="0.8" min_duration_ticks="300" />
 			</params>
 		</footbot_gate_gripping>
+
+		<!-- Temperature sensing robots -->
+		<footbot_temperature_sensing id="footbot_temperature_sensing_controller" library="../build/src/controllers/libfootbot_temperature_sensing">
+			<actuators>
+				<differential_steering implementation="default" />
+				<leds implementation="default" medium="led_medium" />
+				<range_and_bearing implementation="default" />
+			</actuators>
+			<sensors>
+				<footbot_proximity implementation="default" show_rays="false" />
+				<range_and_bearing implementation="medium" medium="range_and_bearing_medium" show_rays="true" />
+				<colored_blob_omnidirectional_camera implementation="rot_z_only" medium="led_medium" show_rays="false" />
+				<footbot_light implementation="rot_z_only" show_rays="false" />
+				<footbot_motor_ground implementation="rot_z_only" />
+			</sensors>
+			<params leds_color="white">
+				<movement max_velocity="10.0" max_heading_angle_for_no_turn="10.0" min_heading_angle_for_hard_turn="90.0" />
+				<collision_avoidance max_angle_between_heading_and_obstacle="5.0" max_obstacle_proximity="0.1" />
+				<decision_strategy mode="majority" />
+			</params>
+		</footbot_temperature_sensing>
 	</controllers>
 
 	<arena size="15,15,1" center="0,0,0.5">
