@@ -16,6 +16,8 @@ class FootBotGateGrippingController : public FootBotController {
 
 		// General variables and constants
 		CColor actingExitLightColor;
+		CColor candidateExitLightColor;
+		int candidateExitTicks;
 
 		// Methods
 		void listenToDecisions();

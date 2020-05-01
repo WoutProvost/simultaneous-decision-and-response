@@ -20,7 +20,6 @@
 				<colored_blob_omnidirectional_camera implementation="rot_z_only" medium="led_medium" show_rays="false" />
 				<footbot_light implementation="rot_z_only" show_rays="false" />
 				<footbot_motor_ground implementation="rot_z_only" />
-				<reaction_strategy min_agreement_percentage="0.8" min_duration_ticks="300" />
 			</sensors>
 			<params leds_color="white">
 				<movement max_velocity="10.0" max_heading_angle_for_no_turn="10.0" min_heading_angle_for_hard_turn="90.0" />
@@ -46,6 +45,7 @@
 			<params leds_color="black">
 				<movement max_velocity="10.0" max_heading_angle_for_no_turn="10.0" min_heading_angle_for_hard_turn="90.0" />
 				<collision_avoidance max_angle_between_heading_and_obstacle="5.0" max_obstacle_proximity="0.1" />
+				<reaction_strategy min_agreement_percentage="0.8" min_duration_ticks="300" />
 			</params>
 		</footbot_gate_gripping>
 	</controllers>
