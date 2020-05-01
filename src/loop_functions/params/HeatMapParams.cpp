@@ -20,7 +20,7 @@ const string& HeatMapParams::getDebugMode() const {
 	return debugMode;
 }
 
-int HeatMapParams::getDebugUseColors() const {
+bool HeatMapParams::getDebugUseColors() const {
 	return debugUseColors;
 }
 

@@ -27,7 +27,7 @@ class HeatMapParams {
 		int getTilesPerMeter() const;
 		int getMaxTemperature() const;
 		const string& getDebugMode() const;
-		int getDebugUseColors() const;
+		bool getDebugUseColors() const;
 
 		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);
