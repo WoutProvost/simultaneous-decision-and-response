@@ -7,7 +7,7 @@ using std::max_element;
 
 FootBotTemperatureSensingController::FootBotTemperatureSensingController() :
 	// Call base class method and initialize attributes and set default values
-	FootBotController::FootBotController("white", BehaviorState::SENSING),
+	FootBotController::FootBotController("white"),
 	preferredExitTemperature(0),
 	preferredExitLightColor(CColor::BLACK),
 	preferredExitDistance(0.0) {
@@ -35,13 +35,8 @@ void FootBotTemperatureSensingController::ControlStep() {
 	// Call base class method
 	FootBotController::ControlStep();
 
-	// Execute correct behavior
-	switch(behaviorState) {
-		case BehaviorState::SENSING: {
-			sense();
-			break;
-		}
-	}
+	// Formulate opinion using temperature and distance measurements
+	sense();
 
 	// Receive opinions from other temperature sensing robots in this robot's neighbourhood
 	receiveOpinions();
@@ -54,9 +49,6 @@ void FootBotTemperatureSensingController::Reset() {
 	// Call base class method
 	FootBotController::Reset();
 
-	// Reset the behavior state to its initial state
-	behaviorState = BehaviorState::SENSING;
-
 	// Reset the temperature to its initial state
 	preferredExitTemperature = 0;
 
@@ -68,9 +60,6 @@ void FootBotTemperatureSensingController::Reset() {
 }
 
 void FootBotTemperatureSensingController::sense() {
-	// Continue to perform collision avoidance
-	roam();
-
 	// Get readings from the motor ground sensor
 	const CCI_FootBotMotorGroundSensor::TReadings &readings = footBotMotorGroundSensor->GetReadings();
 

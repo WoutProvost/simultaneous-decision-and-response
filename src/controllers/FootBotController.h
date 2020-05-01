@@ -58,7 +58,7 @@ class FootBotController : public CCI_Controller {
 	public:
 		// Constructors
 		FootBotController();
-		FootBotController(string ledsColor, BehaviorState behaviorState = BehaviorState::ROAMING);
+		FootBotController(string ledsColor);
 
 		// Simulator methods
 		virtual void Init(TConfigurationNode &configurationNode);

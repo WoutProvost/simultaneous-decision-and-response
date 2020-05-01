@@ -3,8 +3,7 @@
 
 enum class BehaviorState {
 	IDLE,
-	ROAMING,
-	SENSING
+	ROAMING
 };
 
 #endif

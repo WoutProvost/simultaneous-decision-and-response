@@ -10,13 +10,12 @@ FootBotController::FootBotController() :
 	coloredBlobOmnidirectionalCameraSensorEnabled(false) {
 }
 
-FootBotController::FootBotController(string ledsColor, BehaviorState behaviorState) :
+FootBotController::FootBotController(string ledsColor) :
 	// Call other constructor
 	FootBotController() {
 
 	// Initialize attributes and set default values
 	this->ledsColor = ledsColor;
-	this->behaviorState = behaviorState;
 }
 
 void FootBotController::Init(TConfigurationNode &configurationNode) {
