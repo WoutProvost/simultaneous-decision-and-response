@@ -150,6 +150,7 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 	map<uint32_t,CColor> exitColors;
 	map<uint32_t,int> exitDistances;
 	map<uint32_t,int> exitTemperatures;
+	CCI_RangeAndBearingSensor::TReadings validReadings;
 	for(size_t reading = 0, size = readings.size(); reading < size; reading++) {
 		UInt8 temperature = readings[reading].Data[RABIndex::TEMPERATURE];
 		if(temperature != 0) {
@@ -164,6 +165,7 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 			exitColors[exitColor] = exitColor;
 			exitDistances[exitColor] += distance;
 			exitTemperatures[exitColor] += temperature;
+			validReadings.emplace_back(readings[reading]);
 		}
 	}
 
@@ -211,7 +213,19 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 		}
 		// Random neighbour
 		else if(votingStrategyParams.mode == "random") {
-			// TODO
+			int randomNeighbour = rand() % validReadings.size();
+			UInt8 temperature = validReadings[randomNeighbour].Data[RABIndex::TEMPERATURE];
+			UInt8 red = validReadings[randomNeighbour].Data[RABIndex::EXIT_COLOR_CHANNEL_RED];
+			UInt8 green = validReadings[randomNeighbour].Data[RABIndex::EXIT_COLOR_CHANNEL_GREEN];
+			UInt8 blue = validReadings[randomNeighbour].Data[RABIndex::EXIT_COLOR_CHANNEL_BLUE];
+			CColor exitColor = CColor(red, green, blue);
+			UInt8 distance = validReadings[randomNeighbour].Data[RABIndex::EXIT_DISTANCE];
+			if(preferredExitLightColor != exitColor
+			|| distance * temperature > preferredExitDistance * preferredExitTemperature) {
+				preferredExitLightColor = exitColor;
+				preferredExitDistance = distance;
+				preferredExitTemperature = temperature;
+			}
 		}
 		// Weighted voter model
 		else if(votingStrategyParams.mode == "weighted") {

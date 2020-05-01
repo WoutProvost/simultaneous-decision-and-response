@@ -1,5 +1,7 @@
+# Done
+- Random voting model that just takes the opinion of a random neighbour (quality assumption still used)
+
 # TODO
-- Add random voting model that just takes the opinion of a random neighbour
 - Read additional article for the weighted voter model
 - Use two parameters for the gripper reaction mechanism: percentage and timesteps
 - The gripper starts acting when a percentage x holds for y amount of time
