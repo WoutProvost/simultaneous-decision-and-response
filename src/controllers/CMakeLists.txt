@@ -5,13 +5,15 @@ add_library(footbot_temperature_sensing MODULE FootBotTemperatureSensingControll
 add_library(movement SHARED params/MovementParams.h params/MovementParams.cpp)
 add_library(collision_avoidance SHARED params/CollisionAvoidanceParams.h params/CollisionAvoidanceParams.cpp)
 add_library(decision_strategy SHARED params/DecisionStrategyParams.h params/DecisionStrategyParams.cpp)
+add_library(reaction_strategy SHARED params/ReactionStrategyParams.h params/ReactionStrategyParams.cpp)
 
 # Define the dependencies of these libraries
 target_link_libraries(footbot
 	movement
 	collision_avoidance)
 target_link_libraries(footbot_gate_gripping
-	footbot)
+	footbot
+	reaction_strategy)
 target_link_libraries(footbot_temperature_sensing
 	footbot
 	decision_strategy

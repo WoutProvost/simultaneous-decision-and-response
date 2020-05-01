@@ -63,6 +63,10 @@ Controller **collision avoidance** params:
 * `max_angle_between_heading_and_obstacle`: Defaults to `5.0`.
 * `max_obstacle_proximity`: Defaults to `0.1`.
 
+Gate gripping controller **reaction strategy** params:
+* `min_agreement_percentage`: Defaults to `0.8`.
+* `min_duration_ticks`: Defaults to `300`.
+
 Temperature sensing controller **decision strategy** params:
 * `mode`:
   * Mode `plurality` uses the exit with the most votes as long as there is no ex aequo.

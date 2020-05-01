@@ -1,4 +1,5 @@
 #include "FootBotGateGrippingController.h"
+#include "enums/RABIndex.h"
 
 FootBotGateGrippingController::FootBotGateGrippingController() :
 	// Call base class method and initialize attributes and set default values
@@ -11,6 +12,12 @@ void FootBotGateGrippingController::Init(TConfigurationNode &configurationNode) 
 
 	// Get actuators and sensors
 	footBotGripperActuator = GetActuator<CCI_FootBotGripperActuator>("footbot_gripper");
+	
+	// Parse the configuration file for params
+	try {
+		reactionStrategyParams.setParams(GetNode(configurationNode, "reaction_strategy"));
+	} catch(CARGoSException &ex) {
+	}
 }
 
 void FootBotGateGrippingController::ControlStep() {
