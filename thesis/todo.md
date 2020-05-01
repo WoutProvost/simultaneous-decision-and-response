@@ -60,7 +60,7 @@
 # Changing decision mechanism
 - Reason: bots should be able to influence the opinion of other bots + bots with the highest temperature are not always reliable due to sensor noise
 - Exchange data with neighbours
-- Apply a threshold (voting strategy) to know when to replace your own data with the neighbouring data and update your decision about the exit to use
+- Use a decision strategy to know when to replace your own data with the neighbouring data and update your decision about the exit to use
 
 # Individual reaction mechanism
 - The grippers will hear the opinions being exchanged
@@ -75,8 +75,8 @@
 # Tweakable parameters than can have an influence on the result (! = important)
 - ! amount of bots (and amount of each type)
 - ! fire mode (and mode parameters)
-- ! voting strategy mode (and mode parameters)
-- ! gripper percentage and time
+- ! decision strategy mode
+- ! reaction strategy parameters
 - max_velocity (important in the dynamic scenario due to how fast the fire spreads)
 - rab_range
 - tiles_per_meter

@@ -3,7 +3,7 @@
 
 #include "FootBotController.h"
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_motor_ground_sensor.h>
-#include "params/VotingStrategyParams.h"
+#include "params/DecisionStrategyParams.h"
 
 class FootBotTemperatureSensingController : public FootBotController {
 
@@ -12,7 +12,7 @@ class FootBotTemperatureSensingController : public FootBotController {
 		CCI_FootBotMotorGroundSensor *footBotMotorGroundSensor;
 
 		// Params
-		VotingStrategyParams votingStrategyParams;
+		DecisionStrategyParams decisionStrategyParams;
 
 		// General variables and constants
 		int preferredExitTemperature;

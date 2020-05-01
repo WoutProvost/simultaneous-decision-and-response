@@ -26,7 +26,7 @@ void FootBotTemperatureSensingController::Init(TConfigurationNode &configuration
 
 	// Parse the configuration file for params
 	try {
-		votingStrategyParams.setParams(GetNode(configurationNode, "voting_strategy"));
+		decisionStrategyParams.setParams(GetNode(configurationNode, "decision_strategy"));
 	} catch(CARGoSException &ex) {
 	}
 }
@@ -184,7 +184,7 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 		}
 
 		// Plurality voting (only use a stict winning vote, i.e. don't do anything when there's an ex aequo for the winning vote)
-		if(votingStrategyParams.mode == "plurality") {
+		if(decisionStrategyParams.mode == "plurality") {
 			map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end());
 			map<uint32_t,int>::iterator it = exitVotes.begin();
 			while(it != exitVotes.end() && (it->second != winningVote->second || it->first == winningVote->first)) {
@@ -200,7 +200,7 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 			}
 		}
 		// Majority voting
-		else if(votingStrategyParams.mode == "majority") {
+		else if(decisionStrategyParams.mode == "majority") {
 			map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end());
 			if(winningVote->second/totalVotes > 0.5) {
 				if(preferredExitLightColor != exitColors[winningVote->first]
@@ -212,7 +212,7 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 			}
 		}
 		// Random neighbour
-		else if(votingStrategyParams.mode == "random") {
+		else if(decisionStrategyParams.mode == "random") {
 			int randomNeighbour = rand() % validReadings.size();
 			UInt8 temperature = validReadings[randomNeighbour].Data[RABIndex::TEMPERATURE];
 			UInt8 red = validReadings[randomNeighbour].Data[RABIndex::EXIT_COLOR_CHANNEL_RED];
@@ -228,7 +228,7 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 			}
 		}
 		// Weighted voter model
-		else if(votingStrategyParams.mode == "weighted") {
+		else if(decisionStrategyParams.mode == "weighted") {
 			// TODO
 		}
 	}
