@@ -8,13 +8,18 @@ using namespace argos;
 
 class CollisionAvoidanceParams {
 
-	public:
+	private:
 		// Params
 		CDegrees maxAngleBetweenHeadingAndObstacle;
 		Real maxObstacleProximity;
 
+	public:
 		// Constructors
 		CollisionAvoidanceParams();
+
+		// Getters
+		const CDegrees& getMaxAngleBetweenHeadingAndObstacle() const;
+		Real getMaxObstacleProximity() const;
 
 		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);

@@ -8,6 +8,22 @@ HeatMapParams::HeatMapParams() :
 	debugUseColors(false) {
 }
 
+int HeatMapParams::getTilesPerMeter() const {
+	return tilesPerMeter;
+}
+
+int HeatMapParams::getMaxTemperature() const {
+	return maxTemperature;
+}
+
+const string& HeatMapParams::getDebugMode() const {
+	return debugMode;
+}
+
+int HeatMapParams::getDebugUseColors() const {
+	return debugUseColors;
+}
+
 void HeatMapParams::setParams(TConfigurationNode &configurationNode) {
 	// Parse the configuration file for params
 	GetNodeAttributeOrDefault(configurationNode, "tiles_per_meter", tilesPerMeter, tilesPerMeter);

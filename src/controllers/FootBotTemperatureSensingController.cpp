@@ -79,7 +79,7 @@ void FootBotTemperatureSensingController::sense() {
 
 	// Adjust the measured temperature to fit the original temperature value
 	if(fireDetected) {
-		maxTemperature *= dynamic_cast<FireEvacuationLoopFunctions&>(CSimulator::GetInstance().GetLoopFunctions()).getHeatMapParams().maxTemperature;
+		maxTemperature *= dynamic_cast<FireEvacuationLoopFunctions&>(CSimulator::GetInstance().GetLoopFunctions()).getHeatMapParams().getMaxTemperature();
 	}
 
 	// Enable the resource-intensive colored blob omnidirectional camera sensor when a fire is detected and the sensor is not yet enabled
@@ -173,7 +173,7 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 		}
 
 		// Plurality voting (only use a stict winning vote, i.e. don't do anything when there's an ex aequo for the winning vote)
-		if(decisionStrategyParams.mode == "plurality") {
+		if(decisionStrategyParams.getMode() == "plurality") {
 			map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end());
 			map<uint32_t,int>::iterator it = exitVotes.begin();
 			while(it != exitVotes.end() && (it->second != winningVote->second || it->first == winningVote->first)) {
@@ -189,7 +189,7 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 			}
 		}
 		// Majority voting
-		else if(decisionStrategyParams.mode == "majority") {
+		else if(decisionStrategyParams.getMode() == "majority") {
 			map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end());
 			if(winningVote->second/totalVotes > 0.5) {
 				if(preferredExitLightColor != exitColors[winningVote->first]
@@ -201,7 +201,7 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 			}
 		}
 		// Random neighbour
-		else if(decisionStrategyParams.mode == "random") {
+		else if(decisionStrategyParams.getMode() == "random") {
 			int randomNeighbour = rand() % validReadings.size();
 			UInt8 temperature = validReadings[randomNeighbour].Data[RABIndex::TEMPERATURE];
 			UInt8 red = validReadings[randomNeighbour].Data[RABIndex::EXIT_COLOR_CHANNEL_RED];
@@ -217,7 +217,7 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 			}
 		}
 		// Weighted voter model
-		else if(decisionStrategyParams.mode == "weighted") {
+		else if(decisionStrategyParams.getMode() == "weighted") {
 			// TODO
 		}
 	}

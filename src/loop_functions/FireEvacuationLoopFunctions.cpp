@@ -44,8 +44,8 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	physicsEngine = CSimulator::GetInstance().GetPhysicsEngines()[0];
 
 	// Set the size of the heatmap depending on the size of the arena and the resolution depending on the tiles per meter
-	Real resolutionX = arenaSize->GetX() * heatMapParams.tilesPerMeter;
-	Real resolutionY = arenaSize->GetY() * heatMapParams.tilesPerMeter;
+	Real resolutionX = arenaSize->GetX() * heatMapParams.getTilesPerMeter();
+	Real resolutionY = arenaSize->GetY() * heatMapParams.getTilesPerMeter();
 	heatMap = vector<vector<int>>(resolutionX, vector<int>(resolutionY));
 
 	// Initialize the heatmap with temperatures
@@ -79,12 +79,12 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	gateGrippingActions[CColor::BLACK] = 0;
 
 	// Log some of these settings to a file
-	if(!logParams.disable) {
-		logFile.open(logParams.file);
+	if(!logParams.getDisable()) {
+		logFile.open(logParams.getFile());
 		if(logFile.is_open()) {
 			initLogFile();
 		} else {
-			LOGERR << "Unable to open file '" << logParams.file << "'." << endl;
+			LOGERR << "Unable to open file '" << logParams.getFile() << "'." << endl;
 		}
 	}
 }
@@ -102,11 +102,11 @@ void FireEvacuationLoopFunctions::Reset() {
 	}
 
 	// Close and reopen the logfile to erase everything and start from scratch
-	if(!logParams.disable) {
+	if(!logParams.getDisable()) {
 		if(logFile.is_open()) {
 			logFile.close();
 		}
-		logFile.open(logParams.file);
+		logFile.open(logParams.getFile());
 		if(logFile.is_open()) {
 			initLogFile();
 		}
@@ -115,7 +115,7 @@ void FireEvacuationLoopFunctions::Reset() {
 
 void FireEvacuationLoopFunctions::Destroy() {
 	// Close the log file
-	if(!logParams.disable) {
+	if(!logParams.getDisable()) {
 		if(logFile.is_open()) {
 			logFile.close();
 		}
@@ -126,7 +126,7 @@ void FireEvacuationLoopFunctions::PreStep() {
 	// Increase the temperature of the fire
 	// Redrawing the floor is very resource intensive so this shouldn't happen too often
 	// Even though this function is called PRE-step, the simulation clock is already incremented, so there's no problem with the modulo operator leading to an immediate redraw after initialization
-	if(fireParams.isDynamic && space->GetSimulationClock() % fireParams.dynamicIntervalTicks == 0) {
+	if(fireParams.getIsDynamic() && space->GetSimulationClock() % fireParams.getDynamicIntervalTicks() == 0) {
 		bool anyTileChanged = false;
 
 		// for(int source = 0; source < fireParams.sources; source++) {
@@ -198,7 +198,7 @@ void FireEvacuationLoopFunctions::PostStep() {
 	}
 
 	// Log this data to a file
-	if(!logParams.disable) {
+	if(!logParams.getDisable()) {
 		if(logFile.is_open()) {
 			logFile << space->GetSimulationClock()*1000*physicsEngine->GetSimulationClockTick();
 			for(map<uint32_t,int>::iterator it = temperatureSensingPreferences.begin(), end = temperatureSensingPreferences.end(); it != end; it++) {
@@ -223,16 +223,16 @@ void FireEvacuationLoopFunctions::PostStep() {
 CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloor) {
 	// Get the heatmap indices and temperature that belong to this floor position
 	// For an arenaSize of 15 meters along one axis, the positionOnFloor sits in the range [-7.5:7.49] instead of [-7.5:7.5], so we won't have an off-by-one error in the array
-	Real indexX = (positionOnFloor.GetX() + arenaSize->GetX()/2) * heatMapParams.tilesPerMeter;
-	Real indexY = (positionOnFloor.GetY() + arenaSize->GetY()/2) * heatMapParams.tilesPerMeter;
-	int temperature = MAX_POSSIBLE_TEMPERATURE / heatMapParams.maxTemperature * heatMap[indexX][indexY];
+	Real indexX = (positionOnFloor.GetX() + arenaSize->GetX()/2) * heatMapParams.getTilesPerMeter();
+	Real indexY = (positionOnFloor.GetY() + arenaSize->GetY()/2) * heatMapParams.getTilesPerMeter();
+	int temperature = MAX_POSSIBLE_TEMPERATURE / heatMapParams.getMaxTemperature() * heatMap[indexX][indexY];
 
 	// While debugging, calculate the red, green and blue components of the color
-	if(heatMapParams.debugUseColors) {
+	if(heatMapParams.getDebugUseColors()) {
 		int red = 0;
 		int green = 0;
 		int blue = 0;
-		if(heatMapParams.debugMode == "none" && temperature == 0) {
+		if(heatMapParams.getDebugMode() == "none" && temperature == 0) {
 			red = 209;
 			green = 209;
 			blue = 209;
@@ -256,18 +256,18 @@ CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloo
 
 void FireEvacuationLoopFunctions::initHeatMap() {
 	// While debugging, initialize the heatmap with predetermined temperatures
-	if(heatMapParams.debugMode != "none") {
+	if(heatMapParams.getDebugMode() != "none") {
 		// Initialize the heatmap to debug the resolution
-		if(heatMapParams.debugMode == "resolution") {
+		if(heatMapParams.getDebugMode() == "resolution") {
 			for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
 				for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
-					heatMap[x][y] = heatMapParams.maxTemperature * ((x+y)%2);
+					heatMap[x][y] = heatMapParams.getMaxTemperature() * ((x+y)%2);
 				}
 			}
 		}
 		// Initialize the heatmap to debug the gradient
-		else if(heatMapParams.debugMode == "gradient") {
-			Real spacing = heatMapParams.maxTemperature / (arenaSize->GetX()*heatMapParams.tilesPerMeter - 1);
+		else if(heatMapParams.getDebugMode() == "gradient") {
+			Real spacing = heatMapParams.getMaxTemperature() / (arenaSize->GetX()*heatMapParams.getTilesPerMeter() - 1);
 			for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
 				for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
 					heatMap[x][y] = round(spacing * x);
@@ -293,30 +293,30 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 		}
 
 		// Create a circular fire at a random position
-		for(int source = 0; source < fireParams.sources; source++) {
-			Real resolutionX = arenaSize->GetX() * heatMapParams.tilesPerMeter;
-			Real resolutionY = arenaSize->GetY() * heatMapParams.tilesPerMeter;
+		for(int source = 0; source < fireParams.getSources(); source++) {
+			Real resolutionX = arenaSize->GetX() * heatMapParams.getTilesPerMeter();
+			Real resolutionY = arenaSize->GetY() * heatMapParams.getTilesPerMeter();
 			int centerX = random->Uniform(CRange<int>(0, resolutionX-1));
 			int centerY = random->Uniform(CRange<int>(0, resolutionY-1));
 
 			// Create a linear gradient when the fire is static
-			if(!fireParams.isDynamic) {
+			if(!fireParams.getIsDynamic()) {
 				// Copy the heatmap, since the radius and angle loops can access an array element multiple times and thus increase the temperature too much
 				vector<vector<int>> oldHeatMap = heatMap;
 				
-				Real radius = fireParams.circleRadius * heatMapParams.tilesPerMeter;
-				Real spacing = heatMapParams.maxTemperature / radius;
+				Real radius = fireParams.getCircleRadius() * heatMapParams.getTilesPerMeter();
+				Real spacing = heatMapParams.getMaxTemperature() / radius;
 				for(Real r = radius; r >= 0.0; r -= 0.1) {
 					for(Real angle = 0.0; angle < 360.0; angle += 0.1) {
 						Real x = centerX + r * cos(angle);
 						Real y = centerY + r * sin(angle);
 						if(x >= 0 && x < heatMap.size() && y >= 0 && y < heatMap[x].size()) {
-							if(heatMap[x][y] != heatMapParams.maxTemperature) {
-								int temperatureIncrease = round(heatMapParams.maxTemperature - spacing * r);
-								if(oldHeatMap[x][y] + temperatureIncrease < heatMapParams.maxTemperature) {
+							if(heatMap[x][y] != heatMapParams.getMaxTemperature()) {
+								int temperatureIncrease = round(heatMapParams.getMaxTemperature() - spacing * r);
+								if(oldHeatMap[x][y] + temperatureIncrease < heatMapParams.getMaxTemperature()) {
 									heatMap[x][y] = oldHeatMap[x][y] + temperatureIncrease;
 								} else {
-									heatMap[x][y] = heatMapParams.maxTemperature;
+									heatMap[x][y] = heatMapParams.getMaxTemperature();
 								}
 							}
 						}
@@ -325,7 +325,7 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 			}
 			// Otherwise create a single tile where the fire should start to spread from
 			else {
-				heatMap[centerX][centerY] = heatMapParams.maxTemperature;
+				heatMap[centerX][centerY] = heatMapParams.getMaxTemperature();
 			}
 		}
 	}

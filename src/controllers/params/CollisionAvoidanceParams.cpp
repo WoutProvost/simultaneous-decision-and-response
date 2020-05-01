@@ -6,6 +6,14 @@ CollisionAvoidanceParams::CollisionAvoidanceParams() :
 	maxObstacleProximity(0.1) {
 }
 
+const CDegrees& CollisionAvoidanceParams::getMaxAngleBetweenHeadingAndObstacle() const {
+	return maxAngleBetweenHeadingAndObstacle;
+}
+
+Real CollisionAvoidanceParams::getMaxObstacleProximity() const {
+	return maxObstacleProximity;
+}
+
 void CollisionAvoidanceParams::setParams(TConfigurationNode &configurationNode) {
 	// Parse the configuration file for params
 	GetNodeAttributeOrDefault(configurationNode, "max_angle_between_heading_and_obstacle", maxAngleBetweenHeadingAndObstacle, maxAngleBetweenHeadingAndObstacle);

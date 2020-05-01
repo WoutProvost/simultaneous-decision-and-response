@@ -7,6 +7,18 @@ MovementParams::MovementParams() :
 	minHeadingAngleForHardTurn(90.0) {
 }
 
+Real MovementParams::getMaxVelocity() const {
+	return maxVelocity;
+}
+
+const CDegrees& MovementParams::getMaxHeadingAngleForNoTurn() const {
+	return maxHeadingAngleForNoTurn;
+}
+
+const CDegrees& MovementParams::getMinHeadingAngleForHardTurn() const {
+	return minHeadingAngleForHardTurn;
+}
+
 void MovementParams::setParams(TConfigurationNode &configurationNode) {
 	// Parse the configuration file for params
 	GetNodeAttributeOrDefault(configurationNode, "max_velocity", maxVelocity, maxVelocity);

@@ -8,7 +8,7 @@ using namespace argos;
 
 class FireParams {
 
-	public:
+	private:
 		// Params
 		int sources;
 		Real circleRadius;
@@ -17,8 +17,17 @@ class FireParams {
 		int dynamicTemperatureIncrease;
 		CDegrees dynamicSpreadDirection;
 
+	public:
 		// Constructors
 		FireParams();
+
+		// Getters
+		int getSources() const;
+		Real getCircleRadius() const;
+		bool getIsDynamic() const;
+		int getDynamicIntervalTicks() const;
+		int getDynamicTemperatureIncrease() const;
+		const CDegrees& getDynamicSpreadDirection() const;
 
 		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);

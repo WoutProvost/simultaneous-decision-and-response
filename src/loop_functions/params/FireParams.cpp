@@ -10,6 +10,31 @@ FireParams::FireParams() :
 	dynamicSpreadDirection(0.0) {
 }
 
+int FireParams::getSources() const {
+	return sources;
+}
+
+Real FireParams::getCircleRadius() const {
+	return circleRadius;
+}
+
+bool FireParams::getIsDynamic() const {
+	return isDynamic;
+}
+
+int FireParams::getDynamicIntervalTicks() const {
+	return dynamicIntervalTicks;
+}
+
+int FireParams::getDynamicTemperatureIncrease() const {
+	return dynamicTemperatureIncrease;
+}
+
+const CDegrees& FireParams::getDynamicSpreadDirection() const {
+	return dynamicSpreadDirection;
+}
+
+
 void FireParams::setParams(TConfigurationNode &configurationNode) {
 	// Parse the configuration file for params
 	GetNodeAttributeOrDefault(configurationNode, "sources", sources, sources);

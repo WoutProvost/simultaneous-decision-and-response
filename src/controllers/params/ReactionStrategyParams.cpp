@@ -6,6 +6,14 @@ ReactionStrategyParams::ReactionStrategyParams() :
 	minDurationTicks(300) {
 }
 
+Real ReactionStrategyParams::getMinAgreementPercentage() const {
+	return minAgreementPercentage;
+}
+
+int ReactionStrategyParams::getMinDurationTicks() const {
+	return minDurationTicks;
+}
+
 void ReactionStrategyParams::setParams(TConfigurationNode &configurationNode) {
 	// Parse the configuration file for params
 	GetNodeAttributeOrDefault(configurationNode, "min_agreement_percentage", minAgreementPercentage, minAgreementPercentage);

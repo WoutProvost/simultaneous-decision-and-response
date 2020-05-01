@@ -7,13 +7,18 @@ using namespace argos;
 
 class ReactionStrategyParams {
 
-	public:
+	private:
 		// Params
 		Real minAgreementPercentage;
 		int minDurationTicks;
 
+	public:
 		// Constructors
 		ReactionStrategyParams();
+
+		// Getters
+		Real getMinAgreementPercentage() const;
+		int getMinDurationTicks() const;
 
 		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);

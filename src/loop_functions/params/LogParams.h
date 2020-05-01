@@ -8,13 +8,18 @@ using std::string;
 
 class LogParams {
 
-	public:
+	private:
 		// Params
 		string file;
 		bool disable;
 
+	public:
 		// Constructors
 		LogParams();
+
+		// Getters
+		const string& getFile() const;
+		bool getDisable() const;
 
 		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);

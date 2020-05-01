@@ -8,14 +8,20 @@ using namespace argos;
 
 class MovementParams {
 
-	public:
+	private:
 		// Params
 		Real maxVelocity;
 		CDegrees maxHeadingAngleForNoTurn;
 		CDegrees minHeadingAngleForHardTurn;
 
+	public:
 		// Constructors
 		MovementParams();
+
+		// Getters
+		Real getMaxVelocity() const;
+		const CDegrees& getMaxHeadingAngleForNoTurn() const;
+		const CDegrees& getMinHeadingAngleForHardTurn() const;
 
 		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);

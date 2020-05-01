@@ -12,15 +12,22 @@ using std::string;
 
 class HeatMapParams {
 
-	public:
+	private:
 		// Params
 		int tilesPerMeter;
 		int maxTemperature;
 		string debugMode;
 		bool debugUseColors;
 
+	public:
 		// Constructors
 		HeatMapParams();
+
+		// Getters
+		int getTilesPerMeter() const;
+		int getMaxTemperature() const;
+		const string& getDebugMode() const;
+		int getDebugUseColors() const;
 
 		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);

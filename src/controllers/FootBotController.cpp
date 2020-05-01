@@ -83,7 +83,7 @@ void FootBotController::roam() {
 	CVector2 heading = getCollisionAvoidanceVector();
 
 	// Set the velocities of both the left and the right wheels according to the maximum velocity and to where the robot should go
-	setWheelVelocitiesFromVector(movementParams.maxVelocity * heading);
+	setWheelVelocitiesFromVector(movementParams.getMaxVelocity() * heading);
 }
 
 CVector2 FootBotController::getVectorToLight() {
@@ -119,8 +119,8 @@ CVector2 FootBotController::getCollisionAvoidanceVector() {
 	// Ignore the obstacle and go straight if the angle to it is small enough and if it is far enough away
 	// The sensors return a value between 0 (nothing within range) and 1 (obstacle touching sensor), which is why we need to use < instead of > when checking for the proximity of the obstacle
 	CDegrees angle = ToDegrees(vectorToClosestObstacle.Angle());
-	if(angle >= -collisionAvoidanceParams.maxAngleBetweenHeadingAndObstacle && angle <= collisionAvoidanceParams.maxAngleBetweenHeadingAndObstacle
-	&& vectorToClosestObstacle.Length() < collisionAvoidanceParams.maxObstacleProximity) {
+	if(angle >= -collisionAvoidanceParams.getMaxAngleBetweenHeadingAndObstacle() && angle <= collisionAvoidanceParams.getMaxAngleBetweenHeadingAndObstacle()
+	&& vectorToClosestObstacle.Length() < collisionAvoidanceParams.getMaxObstacleProximity()) {
 		return CVector2::X;
 	}
 	// Otherwise return a unit vector that points directly away from the closest obstacle using vector normalization and vector negation
@@ -135,14 +135,14 @@ void FootBotController::setWheelVelocitiesFromVector(const CVector2 &heading) {
 
 	// Limit the velocity to the maximum velocity
 	Real velocity = heading.Length();
-	if(velocity > movementParams.maxVelocity) {
-		velocity = movementParams.maxVelocity;
+	if(velocity > movementParams.getMaxVelocity()) {
+		velocity = movementParams.getMaxVelocity();
 	}
 
 	// Determine which turn mode to use according to where the robot should go
-	if(Abs(angle) >= movementParams.minHeadingAngleForHardTurn) {
+	if(Abs(angle) >= movementParams.getMinHeadingAngleForHardTurn()) {
 		turnMode = TurnMode::HARD;
-	} else if(Abs(angle) <= movementParams.maxHeadingAngleForNoTurn) {
+	} else if(Abs(angle) <= movementParams.getMaxHeadingAngleForNoTurn()) {
 		turnMode = TurnMode::NONE;
 	} else {
 		turnMode = TurnMode::SOFT;
@@ -159,15 +159,15 @@ void FootBotController::setWheelVelocitiesFromVector(const CVector2 &heading) {
 		}
 		// Wheels turn in the same direction with different velocities
 		case TurnMode::SOFT: {
-			Real factor = (movementParams.minHeadingAngleForHardTurn - Abs(angle)) / movementParams.minHeadingAngleForHardTurn;
+			Real factor = (movementParams.getMinHeadingAngleForHardTurn() - Abs(angle)) / movementParams.getMinHeadingAngleForHardTurn();
 			v1 = velocity - velocity * (1.0 - factor);
 			v2 = velocity + velocity * (1.0 - factor);
 			break;
 		}
 		// Wheels turn in opposite directions with the same velocities (turn on the spot)
 		case TurnMode::HARD: {
-			v1 = -movementParams.maxVelocity;
-			v2 = movementParams.maxVelocity;
+			v1 = -movementParams.getMaxVelocity();
+			v2 = movementParams.getMaxVelocity();
 			break;
 		}
 	}

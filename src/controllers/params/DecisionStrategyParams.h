@@ -8,12 +8,16 @@ using std::string;
 
 class DecisionStrategyParams {
 
-	public:
+	private:
 		// Params
 		string mode;
 
+	public:
 		// Constructors
 		DecisionStrategyParams();
+
+		// Getters
+		const string& getMode() const;
 
 		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);
