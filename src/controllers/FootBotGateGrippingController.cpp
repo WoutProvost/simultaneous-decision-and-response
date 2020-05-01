@@ -30,7 +30,7 @@ void FootBotGateGrippingController::ControlStep() {
 	FootBotController::ControlStep();
 
 	// Receive opinions from temperature sensing robots in this robot's neighbourhood
-	receiveOpinions();
+	listenToDecisions();
 }
 
 void FootBotGateGrippingController::Reset() {
@@ -41,7 +41,7 @@ void FootBotGateGrippingController::Reset() {
 	actingExitLightColor = CColor::BLACK;
 }
 
-void FootBotGateGrippingController::receiveOpinions() {
+void FootBotGateGrippingController::listenToDecisions() {
 	// TODO
 }
 
