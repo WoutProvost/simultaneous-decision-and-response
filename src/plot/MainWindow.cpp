@@ -84,7 +84,7 @@ void MainWindow::initPlot() {
 
 	// Title
 	ui->customPlot->plotLayout()->insertRow(0);
-	ui->customPlot->plotLayout()->addElement(0, 0, new QCPTextElement(ui->customPlot, "Collective decision history", QFont("sans", 12, QFont::Bold)));
+	ui->customPlot->plotLayout()->addElement(0, 0, new QCPTextElement(ui->customPlot, "Collective decision and response history", QFont("sans", 12, QFont::Bold)));
 
 	// Legend	
 	ui->customPlot->legend->setVisible(true);
@@ -148,7 +148,7 @@ void MainWindow::initPlot() {
 		QPen pen;
 		pen.setColor(graphColors[graph]);
 		pen.setWidthF(2.0);
-		pen.setStyle(Qt::DashLine);
+		pen.setStyle(Qt::DotLine);
 		ui->customPlot->addGraph();
 		ui->customPlot->graph(availableOptions + graph)->setName("Exit " + QString(QChar(graph + 'A' - 1))); // Subtract 1, so that the second graphs starts from A (see below)
 		ui->customPlot->graph(availableOptions + graph)->setPen(pen);
@@ -196,9 +196,9 @@ void MainWindow::initPlot() {
 	}
 	// Read data from the file in real time
 	else {
-		// Start update timer
+		// Start update timer with an interval of 2 ms
 		connect(&updatePlotTimer, SIGNAL(timeout()), this, SLOT(updatePlot()));
-		updatePlotTimer.start(0);
+		updatePlotTimer.start(2);
 	}
 }
 
