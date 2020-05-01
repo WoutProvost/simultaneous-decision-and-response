@@ -77,10 +77,30 @@ void MainWindow::initPlot() {
 	setWindowTitle(title + " - Collective Decision Plot");
 	QRect screenGeometry = QApplication::desktop()->screenGeometry();
 	setMinimumSize(570, 430);
-	setGeometry(screenGeometry.width() - width(), screenGeometry.height() - height(), 570, 430);
+    setGeometry(screenGeometry.width() - width(), screenGeometry.height() - height(), 570, 430);
 	if(realTime) {
 		setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
 	}
+
+	// Actions
+	QAction *actionShowLegend = new QAction("Show Legend", this);
+	actionShowLegend->setCheckable(true);
+	actionShowLegend->setChecked(true);
+	actionShowLegend->setShortcut(Qt::Key_L);
+	addAction(actionShowLegend);
+	connect(actionShowLegend, SIGNAL(toggled(bool)), this, SLOT(actionShowLegendToggled(bool)));
+	QAction *actionShowTemperatureSensors = new QAction("Show Temperature Sensors", this);
+	actionShowTemperatureSensors->setCheckable(true);
+	actionShowTemperatureSensors->setChecked(true);
+	actionShowTemperatureSensors->setShortcut(Qt::Key_T);
+	addAction(actionShowTemperatureSensors);
+	connect(actionShowTemperatureSensors, SIGNAL(toggled(bool)), this, SLOT(actionShowTemperatureSensorsToggled(bool)));
+	QAction *actionShowGateGrippers = new QAction("Show Gate Grippers", this);
+	actionShowGateGrippers->setCheckable(true);
+	actionShowGateGrippers->setChecked(true);
+	actionShowGateGrippers->setShortcut(Qt::Key_G);
+	addAction(actionShowGateGrippers);
+	connect(actionShowGateGrippers, SIGNAL(toggled(bool)), this, SLOT(actionShowGateGrippersToggled(bool)));
 
 	// Title
 	ui->customPlot->plotLayout()->insertRow(0);
@@ -163,10 +183,12 @@ void MainWindow::initPlot() {
 
 	// Tags
 	for(int tag = 0; tag < availableOptions*2; tag++) {
+		QString text(QString::number(0, 'f', 2) + " %");
 		AxisTag *axisTag = new AxisTag(ui->customPlot->graph(tag)->valueAxis());
 		axisTag->setPen(ui->customPlot->graph(tag)->pen());
-		axisTag->setText(QString::number(0, 'f', 2) + " %");
+		axisTag->setText(text);
 		tags.append(axisTag);
+		lastTagTexts.append(text);
 	}
 	ui->customPlot->axisRect()->axis(QCPAxis::atRight)->setPadding(90);
 
@@ -219,9 +241,13 @@ void MainWindow::updatePlot() {
 
 		// Update graphs and tags
 		for(int graph = 0; graph < availableOptions*2; graph++) {
+			QString text(QString::number(y[graph], 'f', 2) + " %");
 			ui->customPlot->graph(graph)->addData(x, y[graph]);
 			tags[graph]->updatePosition(y[graph]);
-			tags[graph]->setText(QString::number(y[graph], 'f', 2) + " %");
+			if(ui->customPlot->graph(graph)->visible()) {
+				tags[graph]->setText(text);
+			}
+			lastTagTexts[graph] = text;
 		}
 
 		if(!realTime) {
@@ -249,4 +275,37 @@ void MainWindow::onXAxisRangeChanged(const QCPRange &range) {
 	}
 
 	ui->customPlot->xAxis->setRange(boundedRange);
+}
+
+void MainWindow::actionShowLegendToggled(bool toggled) {
+	ui->customPlot->legend->setVisible(toggled);
+	ui->customPlot->replot();
+}
+
+void MainWindow::actionShowTemperatureSensorsToggled(bool toggled) {
+	for(int graph = 0; graph < availableOptions; graph++) {
+		ui->customPlot->graph(graph)->setVisible(toggled);
+		if(!toggled) {
+			tags[graph]->setPen(QPen(QColor("#00000000")));
+			tags[graph]->setText("");
+		} else {
+			tags[graph]->setPen(ui->customPlot->graph(graph)->pen());
+			tags[graph]->setText(lastTagTexts[graph]);
+		}
+	}
+	ui->customPlot->replot();
+}
+
+void MainWindow::actionShowGateGrippersToggled(bool toggled) {
+	for(int graph = 0; graph < availableOptions; graph++) {
+		ui->customPlot->graph(availableOptions + graph)->setVisible(toggled);
+		if(!toggled) {
+			tags[availableOptions + graph]->setPen(QPen(QColor("#00000000")));
+			tags[availableOptions + graph]->setText("");
+		} else {
+			tags[availableOptions + graph]->setPen(ui->customPlot->graph(availableOptions + graph)->pen());
+			tags[availableOptions + graph]->setText(lastTagTexts[availableOptions + graph]);
+		}
+	}
+	ui->customPlot->replot();
 }

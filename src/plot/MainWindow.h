@@ -14,6 +14,7 @@ class MainWindow : public QMainWindow {
 		// General variables and constants
 		Ui::MainWindow *ui;
 		QVector<AxisTag*> tags;
+		QVector<QString> lastTagTexts;
 		QTimer updatePlotTimer;
 		QFile file;
 		QTextStream textStream;
@@ -38,6 +39,10 @@ class MainWindow : public QMainWindow {
 		void onXAxisRangeChanged(const QCPRange &range);
 		void updatePlot();
 
+		// Action methods
+		void actionShowLegendToggled(bool toggled);
+		void actionShowTemperatureSensorsToggled(bool toggled);
+		void actionShowGateGrippersToggled(bool toggled);
 };
 
 #endif
