@@ -176,7 +176,7 @@ void FireEvacuationLoopFunctions::PreStep() {
 	// 	int centerY = random->Uniform(CRange<int>(0, resolutionY-1));
 	
 	// Real radius = fireParams.circleRadius * heatMapParams.tilesPerMeter;
-	// Real spacing = heatMapParams.maxTemperature / radius;
+	// Real spacing = heatMapParams.getMaxTemperature() / radius;
 }
 
 void FireEvacuationLoopFunctions::PostStep() {
@@ -225,7 +225,7 @@ CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloo
 	// For an arenaSize of 15 meters along one axis, the positionOnFloor sits in the range [-7.5:7.49] instead of [-7.5:7.5], so we won't have an off-by-one error in the array
 	Real indexX = (positionOnFloor.GetX() + arenaSize->GetX()/2) * heatMapParams.getTilesPerMeter();
 	Real indexY = (positionOnFloor.GetY() + arenaSize->GetY()/2) * heatMapParams.getTilesPerMeter();
-	int temperature = MAX_POSSIBLE_TEMPERATURE / heatMapParams.getMaxTemperature() * heatMap[indexX][indexY];
+	int temperature = static_cast<Real>(MAX_POSSIBLE_TEMPERATURE) / heatMapParams.getMaxTemperature() * heatMap[indexX][indexY];
 
 	// While debugging, calculate the red, green and blue components of the color
 	if(heatMapParams.getDebugUseColors()) {

@@ -85,7 +85,7 @@ void FootBotGateGrippingController::listenToDecisions() {
 		while(it != exitVotes.end() && (it->second != winningVote->second || it->first == winningVote->first)) {
 			it++;
 		}
-		if(it == exitVotes.end() && winningVote->second/totalVotes >= reactionStrategyParams.getMinAgreementPercentage()) {
+		if(it == exitVotes.end() && static_cast<Real>(winningVote->second)/totalVotes >= reactionStrategyParams.getMinAgreementPercentage()) {
 			if(candidateExitLightColor != exitColors[winningVote->first]) {
 				candidateExitLightColor = exitColors[winningVote->first];
 				candidateExitTicks = 0;

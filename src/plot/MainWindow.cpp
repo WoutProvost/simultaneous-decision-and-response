@@ -211,7 +211,7 @@ void MainWindow::initPlot() {
 		while(!textStream.atEnd()) {
 			updatePlot();
 			line++;
-			cout << "\rPlotting data from file '" << file.fileName().toStdString() << "': " << static_cast<double>(line)/lines*100 << "%" << flush;
+			cout << "\rPlotting data from file '" << file.fileName().toStdString() << "': " << static_cast<qreal>(line)/lines*100 << "%" << flush;
 		}
 		cout << "\r\e[K" << flush;
 
@@ -232,8 +232,8 @@ void MainWindow::updatePlot() {
 		// Extract data and calculate X and Y axis values
 		QTextStream data(&line);
 		char c;
-		double x;
-		QVector<double> y(availableOptions*2, 0.0);
+		qreal x;
+		QVector<qreal> y(availableOptions*2, 0.0);
 		data >> x;
 		x /= 1000.0;
 		for(int graph = 0; graph < availableOptions*2; graph++) {

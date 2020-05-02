@@ -191,7 +191,7 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 		// Majority voting
 		else if(decisionStrategyParams.getMode() == "majority") {
 			map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end());
-			if(winningVote->second/totalVotes > 0.5) {
+			if(static_cast<Real>(winningVote->second)/totalVotes > 0.5) {
 				if(preferredExitLightColor != exitColors[winningVote->first]
 				|| static_cast<Real>(exitDistances[winningVote->first]) * exitTemperatures[winningVote->first] / exitVotes[winningVote->first] > preferredExitDistance * preferredExitTemperature) {
 					preferredExitLightColor = exitColors[winningVote->first];

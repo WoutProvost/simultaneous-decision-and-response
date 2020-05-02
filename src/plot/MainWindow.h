@@ -15,7 +15,7 @@ class MainWindow : public QMainWindow {
 		Ui::MainWindow *ui;
 		QVector<AxisTag*> tags;
 		QVector<QString> lastTagTexts;
-		QVector<double> lastTagPositions;
+		QVector<qreal> lastTagPositions;
 		QTimer updatePlotTimer;
 		QFile file;
 		QTextStream textStream;
