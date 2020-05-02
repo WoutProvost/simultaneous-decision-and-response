@@ -6,6 +6,8 @@
 
 using std::endl;
 using std::hex;
+using std::setw;
+using std::setfill;
 using std::dec;
 using std::next;
 
@@ -71,12 +73,14 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 			CColor color = lightEntity.GetColor();
 			temperatureSensingPreferences[color] = 0;
 			gateGrippingActions[color] = 0;
+			exitColors[color] = color;
 		}
 	}
 
 	// Add one extra color for an undecided preference
 	temperatureSensingPreferences[CColor::BLACK] = 0;
 	gateGrippingActions[CColor::BLACK] = 0;
+	exitColors[CColor::BLACK] = CColor::BLACK;
 
 	// Log some of these settings to a file
 	if(!logParams.getDisable()) {
@@ -335,9 +339,10 @@ void FireEvacuationLoopFunctions::initLogFile() {
 	logFile << "# available-options;graph-colors-in-hex" << endl;
 	logFile << "! " << temperatureSensingPreferences.size();
 	for(map<uint32_t,int>::iterator it = temperatureSensingPreferences.begin(), end = temperatureSensingPreferences.end(); it != end; it++) {
-		logFile << ",#" << hex << it->first;
+		// CColors converted to uint32_t and then printed out in hex will not reflect the actual color, so don't print it->first here, but extract the RGB components manually!
+		logFile << ",#" << hex << setfill('0') << setw(2) << exitColors[it->first].GetRed() << setw(2) << exitColors[it->first].GetGreen() << setw(2) << exitColors[it->first].GetBlue() << dec;
 	}
-	logFile << dec << endl;
+	logFile << endl;
 	logFile << "# milliseconds;data-percentages" << endl;
 	logFile << 0;
 	logFile << "," << 1;

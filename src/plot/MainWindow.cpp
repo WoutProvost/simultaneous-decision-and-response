@@ -54,7 +54,7 @@ void MainWindow::readOptions() {
 			graphColors.fill(Qt::black, availableOptions);
 			for(int color = 0; color < availableOptions; color++) {				
 				options >> c;				
-				graphColors[color] = options.read(9);
+				graphColors[color] = options.read(7);
 			}
 		}
 		lines++;

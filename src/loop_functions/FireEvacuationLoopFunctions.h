@@ -31,6 +31,7 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 		int gateGrippingFootBots;
 		map<uint32_t,int> temperatureSensingPreferences;
 		map<uint32_t,int> gateGrippingActions;
+		map<uint32_t,CColor> exitColors;
 		ofstream logFile;
 
 		// Methods
