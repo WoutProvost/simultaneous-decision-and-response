@@ -25,5 +25,6 @@ include_directories(${LUA_INCLUDE_DIR})
 # Descend into these subdirectories
 add_subdirectory(src/controllers)
 add_subdirectory(src/loop_functions)
+add_subdirectory(src/user_functions)
 add_subdirectory(src/plot)
 add_subdirectory(src/seed)

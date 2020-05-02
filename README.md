@@ -99,6 +99,9 @@ Loop functions **log** params:
 * `file`: Defaults to `../logs/log.csv`.
 * `disable`: Defaults to `false`.
 
+User functions **divider** params:
+* `enable`: Defaults to `true`.
+
 ## Plot application uninstallation:
 ```bash
 sudo rm -rf /usr/local/bin/coldecplot
