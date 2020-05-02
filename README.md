@@ -44,8 +44,8 @@ sudo gzip -f /usr/local/share/man/man1/coldecseed.1
 ## Execution:
 ```bash
 argos3 -c ../experiments/fire_evacuation.argos
-coldecplot -h
-coldecseed -h
+man coldecplot
+man coldecseed
 ```
 
 ## Configuration:

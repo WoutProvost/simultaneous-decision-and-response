@@ -3,18 +3,35 @@
 .\"
 .TH COLDECPLOT 1 "April 2020" Linux "User Commands"
 .SH NAME
-coldecplot \- a graph plotter
+coldecplot \- displays collective decision and response history plots using options and data from a source file
 .SH SYNOPSIS
 .P
 .B coldecplot [options] [file]
 .SH DESCRIPTION
 .P
+.B coldecplot
+stands for Collective Decision Plot.
+.SH OPTIONS
+.P
 Mandatory arguments to long options are mandatory for short options too.
 .TP
-.BR -h ", " --help
+.BR \-h ", " \-\-help
 display this help message
 .TP
-.BR -r ", " --realtime
+.BR \-r ", " \-\-realtime
 read the data in real time
+.TP
+.BR \-t ", " \-\-top
+force the window to stay on top
+.SH KEYS
+.TP
+.BR L
+show or hide the legend
+.TP
+.BR D
+show or hide the decision data
+.TP
+.BR R
+show or hide the response data
 .SH AUTHOR
 Wout Provost

@@ -15,10 +15,12 @@ class MainWindow : public QMainWindow {
 		Ui::MainWindow *ui;
 		QVector<AxisTag*> tags;
 		QVector<QString> lastTagTexts;
+		QVector<double> lastTagPositions;
 		QTimer updatePlotTimer;
 		QFile file;
 		QTextStream textStream;
 		bool realTime;
+		bool top;
 		int lines;
 		int availableOptions;
 		QVector<QColor> graphColors;
@@ -29,7 +31,7 @@ class MainWindow : public QMainWindow {
 
 	public:
 		// Constructors
-		MainWindow(QString fileName, bool realTime);
+		MainWindow(QString fileName, bool realTime, bool top);
 
 		// Destructor
 		~MainWindow();
@@ -41,8 +43,8 @@ class MainWindow : public QMainWindow {
 
 		// Action methods
 		void actionShowLegendToggled(bool toggled);
-		void actionShowTemperatureSensorsToggled(bool toggled);
-		void actionShowGateGrippersToggled(bool toggled);
+		void actionShowDecisionDataToggled(bool toggled);
+		void actionShowResponseDataToggled(bool toggled);
 };
 
 #endif
