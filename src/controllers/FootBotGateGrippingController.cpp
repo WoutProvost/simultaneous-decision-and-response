@@ -40,9 +40,7 @@ void FootBotGateGrippingController::ControlStep() {
 	// If the robot is not undecided, lit up all the LEDs in the ring except the beacon with a color that represents the robot's exit acted upon
 	// The color is slightly different from the exit color so that it won't be detected as an exit
 	if(appearanceParams.getDebugShowPreference() && actingExitLightColor != CColor::BLACK) {
-		CColor exitLedsColor = getExitLightColorForRobotsToUse(actingExitLightColor);
-		ignoredColoredBlobs[exitLedsColor] = true;
-		ledsActuator->SetAllColors(exitLedsColor);
+		ledsActuator->SetAllColors(getExitLightColorForRobotsToUse(actingExitLightColor));
 		ledsActuator->SetSingleColor(12, color);
 }
 }

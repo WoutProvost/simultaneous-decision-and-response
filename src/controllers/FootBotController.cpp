@@ -1,5 +1,8 @@
 #include "FootBotController.h"
 #include "enums/RABIndex.h"
+#include <argos3/core/simulator/simulator.h>
+#include <argos3/core/simulator/space/space.h>
+#include <argos3/plugins/simulator/entities/light_entity.h>
 
 FootBotController::FootBotController() :
 	// Initialize attributes and set default values
@@ -39,6 +42,19 @@ void FootBotController::Init(TConfigurationNode &configurationNode) {
 
 	// Add this LED color to the colored blobs that should be ignored when reading from the colored blob omnidirectional camera sensor
 	ignoredColoredBlobs[color] = true;
+
+	// If the robot is configured to show it's exit preference using the LEDs, also add a slightly altered exit color to this list for each exit
+	// This makes sure that the robot's LEDs won't be detected as the exit itself
+	if(appearanceParams.getDebugShowPreference()) {
+		string prefix("exit_light_");
+		CSpace::TMapPerType &lightEntities = CSimulator::GetInstance().GetSpace().GetEntitiesByType("light");
+		for(CSpace::TMapPerType::iterator it = lightEntities.begin(), end = lightEntities.end(); it != end; it++) {
+			CLightEntity &lightEntity = *any_cast<CLightEntity*>(it->second);
+			if(lightEntity.GetId().compare(0, prefix.length(), prefix) == 0) {
+				ignoredColoredBlobs[getExitLightColorForRobotsToUse(lightEntity.GetColor())] = true;
+			}
+		}
+	}
 }
 
 void FootBotController::ControlStep() {

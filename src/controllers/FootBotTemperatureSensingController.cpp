@@ -1,7 +1,6 @@
 #include "FootBotTemperatureSensingController.h"
 #include "enums/RABIndex.h"
 #include "../loop_functions/FireEvacuationLoopFunctions.h"
-#include <argos3/core/simulator/simulator.h>
 
 using std::max_element;
 
@@ -47,9 +46,7 @@ void FootBotTemperatureSensingController::ControlStep() {
 	// If the robot is not undecided, lit up all the LEDs in the ring except the beacon with a color that represents the robot's preferred exit
 	// The color is slightly different from the exit color so that it won't be detected as an exit
 	if(appearanceParams.getDebugShowPreference() && preferredExitLightColor != CColor::BLACK) {
-		CColor exitLedsColor = getExitLightColorForRobotsToUse(preferredExitLightColor);
-		ignoredColoredBlobs[exitLedsColor] = true;
-		ledsActuator->SetAllColors(exitLedsColor);
+		ledsActuator->SetAllColors(getExitLightColorForRobotsToUse(preferredExitLightColor));
 		ledsActuator->SetSingleColor(12, color);
 	}
 }
