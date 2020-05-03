@@ -43,6 +43,14 @@ void FootBotTemperatureSensingController::ControlStep() {
 
 	// Transmit this robot's opinion to other robots in its neighbourhood
 	transmitOpinion();
+
+	// If the robot is not undecided, lit up all the LEDs in the ring with a color that represents the robot's preferred exit
+	// The color is slightly different from the exit color so that it won't be detected as an exit
+	if(preferredExitLightColor != CColor::BLACK) {
+		CColor exitLedsColor = getExitLightColorForRobotsToUse(preferredExitLightColor);
+		ignoredColoredBlobs[exitLedsColor] = true;
+		ledsActuator->SetAllColors(exitLedsColor);
+	}
 }
 
 void FootBotTemperatureSensingController::Reset() {

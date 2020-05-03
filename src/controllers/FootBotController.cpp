@@ -78,6 +78,27 @@ void FootBotController::Reset() {
 	coloredBlobOmnidirectionalCameraSensorEnabled = false;
 }
 
+CColor FootBotController::getExitLightColorForRobotsToUse(const CColor &color) {
+	// Slightly alter the color so that it won't be detected as an exit
+	CColor exitLedsColor = color;
+	if(exitLedsColor.GetRed() < 128) {
+		exitLedsColor.SetRed(exitLedsColor.GetRed() + 1);
+	} else {
+		exitLedsColor.SetRed(exitLedsColor.GetRed() - 1);
+	}
+	if(exitLedsColor.GetGreen() < 128) {
+		exitLedsColor.SetGreen(exitLedsColor.GetGreen() + 1);
+	} else {
+		exitLedsColor.SetGreen(exitLedsColor.GetGreen() - 1);
+	}
+	if(exitLedsColor.GetBlue() < 128) {
+		exitLedsColor.SetBlue(exitLedsColor.GetBlue() + 1);
+	} else {
+		exitLedsColor.SetBlue(exitLedsColor.GetBlue() - 1);
+	}
+	return exitLedsColor;
+}
+
 void FootBotController::roam() {
 	// Get the vector that points directly away from a potential obstacle to perform collision avoidance
 	CVector2 heading = getCollisionAvoidanceVector();

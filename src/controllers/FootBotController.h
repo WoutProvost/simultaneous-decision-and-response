@@ -53,6 +53,7 @@ class FootBotController : public CCI_Controller {
 		bool coloredBlobOmnidirectionalCameraSensorEnabled;
 
 		// Methods
+		CColor getExitLightColorForRobotsToUse(const CColor &color);
 		void roam();
 
 	public:
