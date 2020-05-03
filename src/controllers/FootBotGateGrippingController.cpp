@@ -6,7 +6,7 @@ using std::max_element;
 
 FootBotGateGrippingController::FootBotGateGrippingController() :
 	// Call base class method and initialize attributes and set default values
-	FootBotController::FootBotController("black"),
+	FootBotController::FootBotController(),
 	actingExitLightColor(CColor::BLACK),
 	candidateExitLightColor(CColor::BLACK),
 	candidateExitTicks(0) {
@@ -36,6 +36,15 @@ void FootBotGateGrippingController::ControlStep() {
 
 	// Receive opinions from temperature sensing robots in this robot's neighbourhood
 	listenToDecisions();
+
+	// If the robot is not undecided, lit up all the LEDs in the ring except the beacon with a color that represents the robot's exit acted upon
+	// The color is slightly different from the exit color so that it won't be detected as an exit
+	if(appearanceParams.getDebugShowPreference() && actingExitLightColor != CColor::BLACK) {
+		CColor exitLedsColor = getExitLightColorForRobotsToUse(actingExitLightColor);
+		ignoredColoredBlobs[exitLedsColor] = true;
+		ledsActuator->SetAllColors(exitLedsColor);
+		ledsActuator->SetSingleColor(12, color);
+}
 }
 
 void FootBotGateGrippingController::Reset() {

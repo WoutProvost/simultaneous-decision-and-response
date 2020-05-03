@@ -9,13 +9,13 @@
 #include <argos3/plugins/robots/generic/control_interface/ci_range_and_bearing_sensor.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_colored_blob_omnidirectional_camera_sensor.h>
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_light_sensor.h>
+#include "params/AppearanceParams.h"
 #include "params/MovementParams.h"
 #include "params/CollisionAvoidanceParams.h"
 #include "enums/TurnMode.h"
 #include "enums/BehaviorState.h"
 
 using namespace argos;
-using std::string;
 using std::map;
 
 class FootBotController : public CCI_Controller {
@@ -39,7 +39,7 @@ class FootBotController : public CCI_Controller {
 		CCI_FootBotLightSensor *footBotLightSensor;
 
 		// Params
-		string ledsColor;
+		AppearanceParams appearanceParams;
 		MovementParams movementParams;
 		CollisionAvoidanceParams collisionAvoidanceParams;
 
@@ -59,7 +59,6 @@ class FootBotController : public CCI_Controller {
 	public:
 		// Constructors
 		FootBotController();
-		FootBotController(string ledsColor);
 
 		// Simulator methods
 		virtual void Init(TConfigurationNode &configurationNode);

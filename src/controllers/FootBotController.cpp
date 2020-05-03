@@ -3,19 +3,10 @@
 
 FootBotController::FootBotController() :
 	// Initialize attributes and set default values
-	ledsColor("black"),
 	color(CColor::BLACK),
 	turnMode(TurnMode::NONE),
 	behaviorState(BehaviorState::ROAMING),
 	coloredBlobOmnidirectionalCameraSensorEnabled(false) {
-}
-
-FootBotController::FootBotController(string ledsColor) :
-	// Call other constructor
-	FootBotController() {
-
-	// Initialize attributes and set default values
-	this->ledsColor = ledsColor;
 }
 
 void FootBotController::Init(TConfigurationNode &configurationNode) {
@@ -29,18 +20,21 @@ void FootBotController::Init(TConfigurationNode &configurationNode) {
 	footBotLightSensor = GetSensor<CCI_FootBotLightSensor>("footbot_light");
 
 	// Parse the configuration file for params
-	GetNodeAttributeOrDefault(configurationNode, "leds_color", ledsColor, ledsColor);
 	try {
-		collisionAvoidanceParams.setParams(GetNode(configurationNode, "collision_avoidance"));
+		appearanceParams.setParams(GetNode(configurationNode, "appearance"));
 	} catch(CARGoSException &ex) {
 	}
 	try {
 		movementParams.setParams(GetNode(configurationNode, "movement"));
 	} catch(CARGoSException &ex) {
 	}
+	try {
+		collisionAvoidanceParams.setParams(GetNode(configurationNode, "collision_avoidance"));
+	} catch(CARGoSException &ex) {
+	}
 
 	// Lit up all the LEDs in the ring with the same color and intensity
-	color.Set(ledsColor);
+	color.Set(appearanceParams.getLedsColor());
 	ledsActuator->SetAllColors(color);
 
 	// Add this LED color to the colored blobs that should be ignored when reading from the colored blob omnidirectional camera sensor

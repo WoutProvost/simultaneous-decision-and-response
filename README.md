@@ -49,10 +49,9 @@ man coldecseed
 ```
 
 ## Configuration:
-Controller **general** params:
-* `leds_color`:
-  * The gate gripping footbot defaults to `black`.
-  * The temperature sensing footbot defaults to `white`.
+Controller **appearance** params:
+* `leds_color`: Defaults to `black`.
+* `debug_show_preference`: Defaults to `false`.
 
 Controller **movement** params:
 * `max_velocity`: Defaults to `10.0`.

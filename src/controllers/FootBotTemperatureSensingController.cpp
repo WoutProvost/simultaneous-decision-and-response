@@ -7,7 +7,7 @@ using std::max_element;
 
 FootBotTemperatureSensingController::FootBotTemperatureSensingController() :
 	// Call base class method and initialize attributes and set default values
-	FootBotController::FootBotController("white"),
+	FootBotController::FootBotController(),
 	preferredExitTemperature(0),
 	preferredExitLightColor(CColor::BLACK),
 	preferredExitDistance(0.0) {
@@ -44,12 +44,13 @@ void FootBotTemperatureSensingController::ControlStep() {
 	// Transmit this robot's opinion to other robots in its neighbourhood
 	transmitOpinion();
 
-	// If the robot is not undecided, lit up all the LEDs in the ring with a color that represents the robot's preferred exit
+	// If the robot is not undecided, lit up all the LEDs in the ring except the beacon with a color that represents the robot's preferred exit
 	// The color is slightly different from the exit color so that it won't be detected as an exit
-	if(preferredExitLightColor != CColor::BLACK) {
+	if(appearanceParams.getDebugShowPreference() && preferredExitLightColor != CColor::BLACK) {
 		CColor exitLedsColor = getExitLightColorForRobotsToUse(preferredExitLightColor);
 		ignoredColoredBlobs[exitLedsColor] = true;
 		ledsActuator->SetAllColors(exitLedsColor);
+		ledsActuator->SetSingleColor(12, color);
 	}
 }
 
