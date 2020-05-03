@@ -42,7 +42,7 @@ void FootBotGateGrippingController::ControlStep() {
 	if(appearanceParams.getDebugShowPreference() && actingExitLightColor != CColor::BLACK) {
 		ledsActuator->SetAllColors(getExitLightColorForRobotsToUse(actingExitLightColor));
 		ledsActuator->SetSingleColor(12, color);
-}
+	}
 }
 
 void FootBotGateGrippingController::Reset() {
@@ -97,7 +97,9 @@ void FootBotGateGrippingController::listenToDecisions() {
 				candidateExitLightColor = exitColors[winningVote->first];
 				candidateExitTicks = 0;
 			} else {
-				candidateExitTicks++;
+				if(candidateExitTicks < reactionStrategyParams.getMinDurationTicks()) {
+					candidateExitTicks++;
+				}
 			}
 		} else {
 			candidateExitTicks = 0;
@@ -105,8 +107,9 @@ void FootBotGateGrippingController::listenToDecisions() {
 	}
 
 	// If an exit is preferred by at least the given percentage of neighbouring temperature sensing robots for the given time duration, start acting upon that exit
-	if(candidateExitTicks >= reactionStrategyParams.getMinDurationTicks()) {
+	if(candidateExitTicks == reactionStrategyParams.getMinDurationTicks()) {
 		actingExitLightColor = candidateExitLightColor;
+		candidateExitTicks++;
 	}
 }
 
