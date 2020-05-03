@@ -148,14 +148,14 @@
 			<camera>
 				<placement idx="0" position="0,0,1" look_at="7.5,0,0" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
 				<placement idx="1" position="0,0,1" look_at="-7.5,0,0" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
-				<placement idx="2" position="0,5,0.5" look_at="0,6,0.25" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
-				<placement idx="3" position="0,8.20123,1.09469" look_at="0,7.26571,0.742411" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
-				<placement idx="4" position="0,-5,0.5" look_at="0,-6,0.25" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
-				<placement idx="5" position="0,-8.20123,1.09469" look_at="0,-7.26571,0.742411" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
-				<placement idx="6" position="0,0,12.25" look_at="0,0,0" up="0,1,0" lens_focal_length="20" frame_diagonal="35" />
-				<placement idx="7" position="0,0,12.25" look_at="0,0,0" up="0,1,0" lens_focal_length="20" frame_diagonal="35" />
-				<placement idx="8" position="0,0,12.25" look_at="0,0,0" up="0,1,0" lens_focal_length="20" frame_diagonal="35" />
-				<placement idx="9" position="0,0,12.25" look_at="0,0,0" up="0,1,0" lens_focal_length="20" frame_diagonal="35" />
+				<placement idx="2" position="0,0,1" look_at="0,7.5,0" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
+				<placement idx="3" position="0,0,1" look_at="0,-7.5,0" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
+				<placement idx="4" position="7.85029,0,0.962539" look_at="6.91444,0,0.610136" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
+				<placement idx="5" position="-7.85029,0,0.962539" look_at="-6.91444,0,0.610136" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
+				<placement idx="6" position="0,8.20123,1.09469" look_at="0,7.26571,0.742411" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
+				<placement idx="7" position="0,-8.20123,1.09469" look_at="0,-7.26571,0.742411" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
+				<placement idx="8" position="0,5,0.5" look_at="0,6,0.25" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
+				<placement idx="9" position="0,-5,0.5" look_at="0,-6,0.25" up="0,0,1" lens_focal_length="20" frame_diagonal="35" />
 				<placement idx="10" position="0,0,12.25" look_at="0,0,0" up="0,1,0" lens_focal_length="20" frame_diagonal="35" />
 				<placement idx="11" position="0,0,12.25" look_at="0,0,0" up="0,1,0" lens_focal_length="20" frame_diagonal="35" />
 			</camera>
