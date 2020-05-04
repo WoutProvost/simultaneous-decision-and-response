@@ -3,8 +3,10 @@
 #include <argos3/plugins/robots/foot-bot/simulator/footbot_entity.h>
 #include "../controllers/TemperatureSensingFootBotController.h"
 #include "../controllers/GateGrippingFootBotController.h"
+#include <cmath>
 
 using std::endl;
+using std::isnan;
 using std::hex;
 using std::setw;
 using std::setfill;
@@ -297,11 +299,25 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 		}
 
 		// Create a circular fire at a random position
+		const vector<CVector2> &positions = fireParams.getPositions();
 		for(int source = 0; source < fireParams.getSources(); source++) {
 			Real resolutionX = arenaSize->GetX() * heatMapParams.getTilesPerMeter();
 			Real resolutionY = arenaSize->GetY() * heatMapParams.getTilesPerMeter();
 			int centerX = random->Uniform(CRange<UInt32>(0, resolutionX-1));
 			int centerY = random->Uniform(CRange<UInt32>(0, resolutionY-1));
+
+			// Use a fixed source position if it is provided and is not outside the range of the heatmap array
+			// For an arenaSize of 15 meters along one axis with 5 tiles per meter, the coordinate range [-7.5:7.49] maps to the index range [0:74]
+			// So the coordinate value 7.5 will result in an off-by-one error in the array
+			const CVector2 &position = positions[source];
+			if(!isnan(position.GetX()) && !isnan(position.GetY())) {
+				int indexX = (position.GetX() + arenaSize->GetX()/2) * heatMapParams.getTilesPerMeter();
+				int indexY = (position.GetY() + arenaSize->GetY()/2) * heatMapParams.getTilesPerMeter();
+				if(indexX >= 0 && indexX < heatMap.size() && indexY >= 0 && indexY < heatMap[0].size()) {
+					centerX = indexX;
+					centerY = indexY;
+				}
+			}
 
 			// Create a linear gradient when the fire is static
 			if(!fireParams.getIsDynamic()) {

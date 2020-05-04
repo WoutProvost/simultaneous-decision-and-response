@@ -101,6 +101,13 @@ Loop functions **heatmap** params:
 
 Loop functions **fire** params:
 * `sources`: Defaults to `1`.
+* `positionX`:
+  * The `X` can be a number from `1` to the amount of `sources`.
+  * Each source can be controlled independently by its own attribute.
+  * The value is a list of 2 arena coordinates separated by a comma.
+  * If the value provided is outside the arena, the source falls back to a random position in the arena.
+  * For an arena size of e.g. 15 meters along one axis, the valid range is `[-7.5:7.49]` and not `[-7.5:7.5]`.
+  * Defaults to a random position in the arena.
 * `circle_radius`: Defaults to `3.0`.
 * `is_dynamic`: Defaults to `false`.
 * `dynamic_interval_ticks`: Defaults to `50`.

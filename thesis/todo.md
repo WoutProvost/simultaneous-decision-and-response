@@ -34,7 +34,6 @@
    Show results.
 => Due to the group forming, over time it actually starts looking like a real flock of birds.
    Demonstration: seed 648, 100 sensors, 100 grippers, no voting model, just let it run for a while.
-- Maybe use separate seeds for fire placement and robot positions?
 
 
 
