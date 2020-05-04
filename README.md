@@ -2,14 +2,18 @@
 Simultaneous decision and response in a collective system using swarm robotics and collective decision making in a fire evacuation scenario.
 
 ## ARGoS installation:
+Download the appropriate ARGoS package for your system [here](https://www.argos-sim.info/core.php) and follow the installation instructions. Afterwards continue with these steps.
 ```bash
-git clone https://github.ugent.be/wprovost/simultaneous-decision-and-response
-cd simultaneous-decision-and-response
-sudo dpkg -i download/argos3_simulator-*.deb
 sudo apt --fix-broken install
 sudo chmod o+w /usr/local/share/applications/argos3.desktop
 echo "Icon=gnome-robots.png" >> /usr/local/share/applications/argos3.desktop
 sudo chmod o-w /usr/local/share/applications/argos3.desktop
+```
+
+## Clone repository:
+```bash
+git clone https://github.ugent.be/wprovost/simultaneous-decision-and-response
+cd simultaneous-decision-and-response
 ```
 
 ## Compilation:
@@ -22,7 +26,7 @@ cmake ..
 make
 ```
 
-## Plot application installation
+## Plot application installation:
 ```bash
 sudo cp src/plot/coldecplot /usr/local/bin
 sudo cp ../src/plot/autocomplete.sh /etc/bash_completion.d/coldecplot
@@ -31,7 +35,7 @@ sudo cp ../src/plot/coldecplot.1 /usr/local/share/man/man1
 sudo gzip -f /usr/local/share/man/man1/coldecplot.1
 ```
 
-## Seed application installation
+## Seed application installation:
 ```bash
 sudo cp src/seed/coldecseed /usr/local/bin
 sudo cp ../src/seed/autocomplete.sh /etc/bash_completion.d/coldecseed
