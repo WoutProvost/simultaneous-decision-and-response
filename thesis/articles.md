@@ -22,7 +22,7 @@ Flexibility: its capability to adapt to different environment conditions. (p.293
 The expression “swarm intelligence”, which is now widely used in the field of swarm robotics, refers to the superior capabilities of a swarm of agents compared to its single individuals.
 
 ### **Disadvantage**: (p.293)
-It is often difficult to design the individual robot behavior so that the global performance is maximized. Robots often have a limited and noisy perception of the environment and of the progression of a global task. The distributed nature of the problem makes it difficult to relate individual behavior to global performance.
+It is often difficult to design the individual robot behaviour so that the global performance is maximized. Robots often have a limited and noisy perception of the environment and of the progression of a global task. The distributed nature of the problem makes it difficult to relate individual behaviour to global performance.
 
 ### **Implementation approaches**: (p.293)
 Simulation: virtual environment in which robot capabilities (sensors and actuators) and interactions are simulated by a computer program, allows assessing the performance of a robot swarm with repeated runs of an experiment and facilitates algorithm optimization with a trial-and-error approach.
@@ -30,11 +30,11 @@ Simulation: virtual environment in which robot capabilities (sensors and actuato
 ### **Aggregation**:
 The task of gathering a number of autonomous individuals in a common place. (p.294)
 
-Artificial physics approach: is a field of research that models the behavior of individual agents using virtual forces.  Attraction forces (through which different agents tend to stay near each other) and repulsion forces (which prevent collisions between individuals). The force exerted on it by each of its neighbors, which depends on the neighbor distance. (p.294)
+Artificial physics approach: is a field of research that models the behaviour of individual agents using virtual forces.  Attraction forces (through which different agents tend to stay near each other) and repulsion forces (which prevent collisions between individuals). The force exerted on it by each of its neighbours, which depends on the neighbour distance. (p.294)
 
-Probabilistic approach: the behavior of each robot is determined partially in a random manner, and partially based on its interactions with the surrounding environment. Switching between states using a finite state machine with at least two states (walk and wait). (p.294)
+Probabilistic approach: the behaviour of each robot is determined partially in a random manner, and partially based on its interactions with the surrounding environment. Switching between states using a finite state machine with at least two states (walk and wait). (p.294)
 
-Environment-mediated aggregation method: the location of a given robot in the environment influences the robot behavior, so that aggregation is achieved with higher probability in some defined “preferential” regions. It starts moving randomly until it collides with another honeybee; when a collision occurs, the honeybee stops, and remains stopped for a time duration. (p.296)
+Environment-mediated aggregation method: the location of a given robot in the environment influences the robot behaviour, so that aggregation is achieved with higher probability in some defined “preferential” regions. It starts moving randomly until it collides with another honeybee; when a collision occurs, the honeybee stops, and remains stopped for a time duration. (p.296)
 
 What is an "aggregate"? A group of robots such that for any pair of robots in the group there is a path connecting them formed by robots within a maximum distance from each other; the value of the maximum distance is usually chosen based on the range of local communication and sensing of robots. In studies where robots are controlled by a finite state machine, aggregates can be identified by robots whose controller is in the “wait” state. (p.297)
 
@@ -48,7 +48,7 @@ Robots could form a grid of interconnected nodes which can guide an agent to an 
 ### **Collaborative Manipulation:**
 In some instances, the task at hand cannot be executed by any single individual, but requires cooperation between multiple individuals. (p.311)
 
-Robots engaging in behaviors seemingly unrelated to the task at hand. For example, in a simple follow behavior in which a robot is attracted by other robots moving in front of it modifies the otherwise random distribution of robots in the arena so that robots are able to cooperatively push a box. In case of a stall where all robots are waiting for other robots, robots can abandon the object they found and restart searching for other objects with a potentially higher number of nearby robots. (p.311)
+Robots engaging in behaviours seemingly unrelated to the task at hand. For example, in a simple follow behaviour in which a robot is attracted by other robots moving in front of it modifies the otherwise random distribution of robots in the arena so that robots are able to cooperatively push a box. In case of a stall where all robots are waiting for other robots, robots can abandon the object they found and restart searching for other objects with a potentially higher number of nearby robots. (p.311)
 
 When a robot encounters an object to be manipulated, it stops near the object and waits for other robots to arrive; if the number of robots required to execute the task arrive within a certain amount of time, then the task can be completed successfully, otherwise the robots near the object time out and restart moving in search of other objects to be manipulated. The rate of successful task execution thus depends on various factors such as robot and object density in the arena, number of required robots for a single manipulation, and the time robots wait before deciding to abandon an object. (p.312)
 
@@ -69,27 +69,27 @@ Collective Decision-making: the swarm dynamics leads to a group of robots to con
 Different implementations:
 - A mechanism for decision-making based on the majority rule opinion formation model, where robots agree on a common decision by applying a local majority rule to small groups; if a latency period is introduced after each robot takes a decision, during which the robot cannot be influenced by other robots, and if the duration of this period depends on the decision being taken (differential latency), then a global consensus is achieved by the swarm on the decision associated with the lowest latency.
 - Global consensus on the fastest action is achieved with robots entering an observation state, where they exchange their current preferred action, after each action execution.
-- Robots that must agree on a site selection transmit their preference to neighboring robots for a time duration proportional to the perceived quality of the site associated to their current preference.
-- The behavior of each robot is a combination of the tendency to reach a specific goal (if the robot is informed about the goal) and the tendency to follow the average behavior of its neighbors. The relative weight given to these two components is changed dynamically based on the local consensus observed from neighboring robots, the swarm can converge to a collective decision even in the presence of informed agents with conflicting goals. (p.316)
+- Robots that must agree on a site selection transmit their preference to neighbouring robots for a time duration proportional to the perceived quality of the site associated to their current preference.
+- The behaviour of each robot is a combination of the tendency to reach a specific goal (if the robot is informed about the goal) and the tendency to follow the average behaviour of its neighbours. The relative weight given to these two components is changed dynamically based on the local consensus observed from neighbouring robots, the swarm can converge to a collective decision even in the presence of informed agents with conflicting goals. (p.316)
 
 # 2. A Review of Probabilistic Macroscopic Models for Swarm Robotic Systems
-The collective behavior of swarms is statistically predictable and has often a simple probabilistic description. Collective (or macroscopic) behavior emerges from individual (or microscopic) decisions robots make. These decisions are based on purely local information that comes from other robots as well as the environment.
+The collective behaviour of swarms is statistically predictable and has often a simple probabilistic description. Collective (or macroscopic) behaviour emerges from individual (or microscopic) decisions robots make. These decisions are based on purely local information that comes from other robots as well as the environment.
 - Scalability: the control architecture can be kept exactly the same from a few units to thousands of units.
 - Flexibility: units can be dynamically added or removed, they can be given the ability to reallocate and redistribute themselves in a self-organized way.
-- Robustness: the resulting collective system is robust not only through unit redundancy but also through unit simplicity and an appropriate balance between exploitative and exploratory behavior. (p.1)
+- Robustness: the resulting collective system is robust not only through unit redundancy but also through unit simplicity and an appropriate balance between exploitative and exploratory behaviour. (p.1)
 
-Understanding the effect individual robot characteristics have on the collective behavior. In the past, few analysis tools have been available to researchers. Though simulations are much faster and much more reliable than experiments, their results are not easily generalizable. Simulations do not scale well with the system size — unless computation is performed in parallel, the greater the number of agents, the longer it takes to obtain results. Macroscopic modeling and mathematical analysis offer an alternative to experiments and simulations. (p.2)
+Understanding the effect individual robot characteristics have on the collective behaviour. In the past, few analysis tools have been available to researchers. Though simulations are much faster and much more reliable than experiments, their results are not easily generalizable. Simulations do not scale well with the system size — unless computation is performed in parallel, the greater the number of agents, the longer it takes to obtain results. Macroscopic modeling and mathematical analysis offer an alternative to experiments and simulations. (p.2)
 
-Reactive control: robots decide about future actions based solely on input from sensors (including communication with other robots) and the action they are currently executing. Such robots can be represented as stochastic Markov processes. An equation, known as the Rate Equation, describes the dynamics of their collective behavior. (p.2)
+Reactive control: robots decide about future actions based solely on input from sensors (including communication with other robots) and the action they are currently executing. Such robots can be represented as stochastic Markov processes. An equation, known as the Rate Equation, describes the dynamics of their collective behaviour. (p.2)
 
 ### **Microscopic model:**
-Microscopic descriptions treat the robot as the fundamental unit of the model. These models describe the robot’s interactions with other robots and the environment. Solving or simulating a system composed of many such agents gives researchers an understanding of the global behavior of the system. The robot’s interactions with other robots and the environment are modeled as a series of stochastic events, with probabilities determined by simple geometric considerations and systematic experiments with one or two real robots. (p.3)
+Microscopic descriptions treat the robot as the fundamental unit of the model. These models describe the robot’s interactions with other robots and the environment. Solving or simulating a system composed of many such agents gives researchers an understanding of the global behaviour of the system. The robot’s interactions with other robots and the environment are modeled as a series of stochastic events, with probabilities determined by simple geometric considerations and systematic experiments with one or two real robots. (p.3)
 
 ### **Macroscopic model:**
-Directly describes the collective behavior of the robotic swarm. It is computationally efficient because it uses fewer variables. Rather than account for the inherent variability of individuals, scientists model the behavior of some average quantity that represents the system they are studying. Such models do not reproduce the results of a single experiment — rather, the behavior of some observable averaged over many experiments or observations. (p.3)
+Directly describes the collective behaviour of the robotic swarm. It is computationally efficient because it uses fewer variables. Rather than account for the inherent variability of individuals, scientists model the behaviour of some average quantity that represents the system they are studying. Such models do not reproduce the results of a single experiment — rather, the behaviour of some observable averaged over many experiments or observations. (p.3)
 
 ### **Stochastic approach:**
-Even if all the forces are known in advance, the robots are still subject to random events: fluctuations in the environment, as well as noise in the robot’s sensors and actuators. A robot will interact with other robots whose exact trajectories are equally complex, making it impossible to know which robots will come in contact with one another. In summary, the behavior of robots in a swarm is so complex, it is best described probabilistically, as a stochastic process. (p.3)
+Even if all the forces are known in advance, the robots are still subject to random events: fluctuations in the environment, as well as noise in the robot’s sensors and actuators. A robot will interact with other robots whose exact trajectories are equally complex, making it impossible to know which robots will come in contact with one another. In summary, the behaviour of robots in a swarm is so complex, it is best described probabilistically, as a stochastic process. (p.3)
 
 Transitions between states are triggered by external stimuli. This robot can be described as a stochastic Markov process and a state diagram as the Finite State Automaton (FSA) of the controller. A Markov process’s future state depends only on its present state and none of the past states. (p.4)
 
@@ -99,9 +99,9 @@ Let `p(n, t)` be the probability robot is in state `n` at time `t`. Change in pr
 The number of robots in state n will increase in time due to transitions to state n from other states, and it will decrease in time due to the transitions from state n to other states. Rate Equations are deterministic. In stochastic systems, however, they describe the dynamics of average quantities. In a small system, the experiment may be repeated many times to average out the effect of fluctuations. (p.5)
 
 ### **Model construction:¨**
-To facilitate the analysis, we begin by drawing the macroscopic state diagram of the system. "The collective behavior of the swarm is captured by an FSA that is functionally identical to the individual robot FSA, except that each state of the automaton now represents the number of robots executing that action". (p.5)
+To facilitate the analysis, we begin by drawing the macroscopic state diagram of the system. "The collective behaviour of the swarm is captured by an FSA that is functionally identical to the individual robot FSA, except that each state of the automaton now represents the number of robots executing that action". (p.5)
 
-Considering several related actions or behaviors as a single state. For example, we may take the searching state of robots to consist of the actions wander in the arena, detect objects and avoid obstacles. We are often interested in the minimal model that captures the important behavior of the system. (p.5)
+Considering several related actions or behaviours as a single state. For example, we may take the searching state of robots to consist of the actions wander in the arena, detect objects and avoid obstacles. We are often interested in the minimal model that captures the important behaviour of the system. (p.5)
 
 Each state in the automaton becomes a dynamic variable `Nn(t)`, with its own Rate Equation. Every transition will be accounted for by a term in the equation: a positive term for the incident `(W(n|n)Nn)` arrows and negative term for the outgoing `(W(n|n)Nn)` arrows.  The transition is triggered by some stimulus — be it another robot in a particular state, an object to be picked up, etc. In order to compute the transition rates, we assume, for simplicity, that robots and stimuli are uniformly distributed. The transition rates then have the following form: `W(n|n) ≈ M`, where M is the environmental stimulus encountered. The transition rates can be calculated from first principles, or left as parameters of the model. (p.5)
 
@@ -111,21 +111,21 @@ Locate sticks scattered around the arena and pull them out of their holes. A sin
 ### **Collective object collection:**
 In the aggregation experiments, the task was to gather small objects in a single cluster starting from a situation where they were all randomly scattered in an arena. (p.6)
 
-Interference is a critical issue in swarm robotics, in particular in foraging experiments where there is a spatial bottleneck at the predefined “home” region where the collected objects must be delivered. When two robots find themselves within sensing distance of one another, they will execute obstacle avoidance maneuvers. Because this behavior takes time, interference decreases robots’ efficiency. (p.7)
+Interference is a critical issue in swarm robotics, in particular in foraging experiments where there is a spatial bottleneck at the predefined “home” region where the collected objects must be delivered. When two robots find themselves within sensing distance of one another, they will execute obstacle avoidance maneuvers. Because this behaviour takes time, interference decreases robots’ efficiency. (p.7)
 
 ### **Discussion:**
-In order to construct a description of the behavior of a swarm, we do not need to know the exact trajectories of every robot; instead, we derive a model that governs the dynamics of the aggregate, or average, swarm behavior. First, we assume that robot’s actions are largely independent of one another (dilute limit), and the transition rates can be represented by aggregate quantities that are spatially uniform and independent of individual robots or their trajectories. Second, up to date we considered exclusively nonspatial metrics for evaluating collective swarm performance. As long as detection areas do not overlap between the objects placed in the arena and the metric does not specifically address spatiality, these assumptions are correct. Third, we assumed that modeled robots have perfectly centered, uniform, and precise range of detection for each object they may encounter in the arena. Fourth, modeled robots are characterized by a set of parameters, each of them representing the mean value of some real robot feature: mean speed, mean duration for performing a certain maneuver, and so on. Fifth, further difficulties may arise due to behavioral granularity captured in the models. Certain controllers can be approximated by a FSA, though certain routines (p.8)
+In order to construct a description of the behaviour of a swarm, we do not need to know the exact trajectories of every robot; instead, we derive a model that governs the dynamics of the aggregate, or average, swarm behaviour. First, we assume that robot’s actions are largely independent of one another (dilute limit), and the transition rates can be represented by aggregate quantities that are spatially uniform and independent of individual robots or their trajectories. Second, up to date we considered exclusively nonspatial metrics for evaluating collective swarm performance. As long as detection areas do not overlap between the objects placed in the arena and the metric does not specifically address spatiality, these assumptions are correct. Third, we assumed that modeled robots have perfectly centered, uniform, and precise range of detection for each object they may encounter in the arena. Fourth, modeled robots are characterized by a set of parameters, each of them representing the mean value of some real robot feature: mean speed, mean duration for performing a certain maneuver, and so on. Fifth, further difficulties may arise due to behavioural granularity captured in the models. Certain controllers can be approximated by a FSA, though certain routines (p.8)
 
 ### **Conclusion:**
-The behavior of each robot is inherently probabilistic in nature and often not completely predictable, and its future state depends only on its present state. Rate Equations describe how the average collective system properties change in time. These equations can be easily written down from the details of the individual robot controller. Analysis yields important insights into the system, such as what are the important parameters that determine the behavior, how to optimize swarm performance, etc. (p.9)
+The behaviour of each robot is inherently probabilistic in nature and often not completely predictable, and its future state depends only on its present state. Rate Equations describe how the average collective system properties change in time. These equations can be easily written down from the details of the individual robot controller. Analysis yields important insights into the system, such as what are the important parameters that determine the behaviour, how to optimize swarm performance, etc. (p.9)
 
 # 3. Swarm robotics: a review from the swarm engineering perspective
 
 ### **What is 'Swarm Robotics'?**
 “A novel approach to the coordination of large numbers of robots.”
-“The study of how large numbers of relatively simple physically embodied agents can be designed such that a desired collective behavior emerges from the local interactions among agents and between the agents and the environment.” - Sahin (p.1)
+“The study of how large numbers of relatively simple physically embodied agents can be designed such that a desired collective behaviour emerges from the local interactions among agents and between the agents and the environment.” - Sahin (p.1)
 
-The behavior of groups of social animals appear to be robust, scalable, and flexible.
+The behaviour of groups of social animals appear to be robust, scalable, and flexible.
 - Robustness: the ability to cope with the loss of individuals. Redundancy and the absence of a leader.
 - Scalability: the ability to perform well with different group sizes. Local sensing and communication instead of global.
 - Flexibility: the ability to cope with a broad spectrum of different environments and tasks. (p.2)
@@ -144,63 +144,63 @@ The behavior of groups of social animals appear to be robust, scalable, and flex
 ## Design
 
 ### **Behaviour-based design method:**
-Still no formal or precise ways to design individual level behaviors that produce the desired collective behavior. The intuition of the human designer is still the main ingredient. In an iterative way, the individual behavior of each robot is implemented, studied, and improved until the desired collective behavior is obtained. In behavior-based design, inspiration is often taken from the observation of the behaviors of social animals. (p.4)
+Still no formal or precise ways to design individual level behaviours that produce the desired collective behaviour. The intuition of the human designer is still the main ingredient. In an iterative way, the individual behaviour of each robot is implemented, studied, and improved until the desired collective behaviour is obtained. In behaviour-based design, inspiration is often taken from the observation of the behaviours of social animals. (p.4)
 
-Usually a trial and error process: individual behaviors are iteratively adjusted and tuned until the resulting collective behavior is obtained. Bottom-up. Two main categories: probabilistic finite state machine design, virtual physics-based design. (p.5)
+Usually a trial and error process: individual behaviours are iteratively adjusted and tuned until the resulting collective behaviour is obtained. Bottom-up. Two main categories: probabilistic finite state machine design, virtual physics-based design. (p.5)
 
 ### **Probabilistic finite state machine design:**
-Does not plan its future actions, but it takes decisions only on the basis of its sensory inputs and/or its internal memory. The transition probability between states is fixed when a single probability value is defined and used throughout the execution of the collective behavior. The transition probability is not fixed when it is defined through a mathematical function (response threshold function) of one or more parameters of the system. (p.5)
+Does not plan its future actions, but it takes decisions only on the basis of its sensory inputs and/or its internal memory. The transition probability between states is fixed when a single probability value is defined and used throughout the execution of the collective behaviour. The transition probability is not fixed when it is defined through a mathematical function (response threshold function) of one or more parameters of the system. (p.5)
 
 ### **Virtual physics-based design:**
-Each robot is considered as a virtual particle that exerts virtual forces on other robots. The robots are able to perceive and distinguish neighboring robots and obstacles, and to estimate their distance and relative position. Each robot computes a virtual force vector (zie formule in artikel). A single mathematical rule smoothly translates the entire sensory inputs space into the actuators output space without the need for multiple rules or behaviors. The obtained behaviors can be combined using vectorial operations. (p.6)
+Each robot is considered as a virtual particle that exerts virtual forces on other robots. The robots are able to perceive and distinguish neighbouring robots and obstacles, and to estimate their distance and relative position. Each robot computes a virtual force vector (zie formule in artikel). A single mathematical rule smoothly translates the entire sensory inputs space into the actuators output space without the need for multiple rules or behaviours. The obtained behaviours can be combined using vectorial operations. (p.6)
 
-### **Other behavior-based design methods:**
+### **Other behaviour-based design methods:**
 Top-down method using logic formulas (properties) which need to hold true in the final system. In the first step, the properties are defined. In the second step, a macroscopic model is produced. A model checker is then used to verify that the properties hold true in the produced model. In the third step, the macroscopic model is used to guide the process of implementing the system using a simulator. Finally, in the fourth the system is tested using real robots. (p.7)
 
 ### **Automatic design method:**
-The automatic generation of behaviors without the explicit intervention of the developer. Two main categories: reinforcement learning and evolutionary robotics. (p.7)
+The automatic generation of behaviours without the explicit intervention of the developer. Two main categories: reinforcement learning and evolutionary robotics. (p.7)
 
 ### **Reinforcement learning:**
-An agent learns a behavior through trial-and-error interactions with an environment and by receiving positive and negative feedback for its actions. The goal of the robot is to learn automatically an optimal policy. The behavior is optimal in the sense that it maximizes the rewards received from the environment. (p.7)
+An agent learns a behaviour through trial-and-error interactions with an environment and by receiving positive and negative feedback for its actions. The goal of the robot is to learn automatically an optimal policy. The behaviour is optimal in the sense that it maximizes the rewards received from the environment. (p.7)
 
 The swarm engineer tackles the task at the collective level, but learning typically takes place at the individual level. The main issue is the decomposition of the global reward into individual rewards. 'Spatial credit assignment'. Other problems are the size of the state space and the incomplete environment perception. (p.8)
 
 ### **Evolutionary robotics:**
-Inspired by the Darwinian principle of natural selection and evolution. At the beginning, a population of individual behaviors is generated at random. In each iteration, a number of experiments for each individual behavior is executed. In each experiment, a fitness function is used to evaluate the collective behavior of the swarm resulting from that individual behavior. At this point, a selection of the highest scoring individual behaviors are modified by genetic operators, such as cross-over and mutation, and used for the subsequent iterations. (p.8)
+Inspired by the Darwinian principle of natural selection and evolution. At the beginning, a population of individual behaviours is generated at random. In each iteration, a number of experiments for each individual behaviour is executed. In each experiment, a fitness function is used to evaluate the collective behaviour of the swarm resulting from that individual behaviour. At this point, a selection of the highest scoring individual behaviours are modified by genetic operators, such as cross-over and mutation, and used for the subsequent iterations. (p.8)
 
-Used to find the parameters of an artificial neural network. The same problems identified by us in the application of RL to swarm robotics apply also to ER. Neural networks are black-box and it is often very difficult to understand their behavior. (p.9)
+Used to find the parameters of an artificial neural network. The same problems identified by us in the application of RL to swarm robotics apply also to ER. Neural networks are black-box and it is often very difficult to understand their behaviour. (p.9)
 
 ## Analysis
 
 ### **Microscopic:**
 **IMPORTANT**
-Take into account each robot individually, analyzing both robot-to-robot and robot-to-environment interactions. These individual behavior models are mainly used for design purposes. As such they have already been presented in the previous section on behaviour-based design. Microscopic models in which the elements composing a system are simulated with the
+Take into account each robot individually, analyzing both robot-to-robot and robot-to-environment interactions. These individual behaviour models are mainly used for design purposes. As such they have already been presented in the previous section on behaviour-based design. Microscopic models in which the elements composing a system are simulated with the
 use of a computer are traditionally called simulations. (p.10)
 
 ### **Macroscopic:**
 The individual elements of the systems are not taken into account in favor of a description of the system at a higher level. At least two main categories. (p.10)
 
 ### **Rate and differential equations:**
-Rate equations describe the time evolution of the proportion of robots in a particular state over the total number of robots. They can be used to derive a macroscopic model of a collective behavior, starting from an individual-level PFSM. First, a set of variables is defined. Usually, one variable is defined for each state and used to track the proportion of the robots in the corresponding states. Second, for each variable, an (rate) equation is defined. The rate equation contains a set of parameters, one for each input and output transition of the corresponding state. The main advantage of the rate equation approach is that it is a systematic method to translate microscopic models into macroscopic models. Its main limit is that, in general, it is difficult to model space and time: robots’ positions in space are not explicitly modeled and discrete time is usually assumed. (p.11)
+Rate equations describe the time evolution of the proportion of robots in a particular state over the total number of robots. They can be used to derive a macroscopic model of a collective behaviour, starting from an individual-level PFSM. First, a set of variables is defined. Usually, one variable is defined for each state and used to track the proportion of the robots in the corresponding states. Second, for each variable, an (rate) equation is defined. The rate equation contains a set of parameters, one for each input and output transition of the corresponding state. The main advantage of the rate equation approach is that it is a systematic method to translate microscopic models into macroscopic models. Its main limit is that, in general, it is difficult to model space and time: robots’ positions in space are not explicitly modeled and discrete time is usually assumed. (p.11)
 
-In the case of a robot, the deterministic component of the Langevin equation models the deterministic motion of the robot influenced by its individual behavior, whereas the stochastic part models the interaction of the robot with the other robots (considered as a flow) and with the environment. (p.12)
+In the case of a robot, the deterministic component of the Langevin equation models the deterministic motion of the robot influenced by its individual behaviour, whereas the stochastic part models the interaction of the robot with the other robots (considered as a flow) and with the environment. (p.12)
 
 ### **Classical control and stability theory:**
 These are used to prove properties of the swarm. (p.12)
 
-Two properties of the system: safety and liveness. The safety property is verified when the robots do not exhibit undesirable behaviors. The liveness property is verified when the swarm dynamics actually do evolve over time. (p.13)
+Two properties of the system: safety and liveness. The safety property is verified when the robots do not exhibit undesirable behaviours. The liveness property is verified when the swarm dynamics actually do evolve over time. (p.13)
 
 ### **Real-robot analysis:**
 It is practically unfeasible to simulate all the aspects of reality using simulations. Experiments with real robots help to test the robustness of swarm robotics systems that have noisy sensors and actuators. The experiments are performed in controlled environments. By controlled environments we mean artificial arenas in which most conditions—e.g., light intensity, radio interference and floor smoothness—can be controlled by the experimenter. This is often very far from the scenarios in which swarm robotics systems are supposed to operate. It would help to clarify possible differences between the model and the real-robot system. (p.14)
 
 ## Spatially-organizing behaviours
-Collective behaviors that focus on how to organize and distribute robots and objects in space. For each of the following tasks, images are available in the artikel. (p.15)
+Collective behaviours that focus on how to organize and distribute robots and objects in space. For each of the following tasks, images are available in the artikel. (p.15)
 
 ### **Aggregation:**
-Group all the robots of a swarm in a region of the environment. It also allows a swarm of robots to get sufficiently close one another so that they can interact. Using PFSMs, the robots explore an environment and, when they find other robots, they decide stochastically whether to join or leave the aggregate. Using artificial evolution, the parameters of a neural network are automatically selected in order to obtain an aggregation behavior. (p.15)
+Group all the robots of a swarm in a region of the environment. It also allows a swarm of robots to get sufficiently close one another so that they can interact. Using PFSMs, the robots explore an environment and, when they find other robots, they decide stochastically whether to join or leave the aggregate. Using artificial evolution, the parameters of a neural network are automatically selected in order to obtain an aggregation behaviour. (p.15)
 
 ### **Pattern information:**
-Deploying robots in a regular and repetitive manner in order to create a desired pattern. The most common way to develop pattern formation behaviors in robot swarms uses virtual physics-based forces to coordinate the movements of robots. (p.16)
+Deploying robots in a regular and repetitive manner in order to create a desired pattern. The most common way to develop pattern formation behaviours in robot swarms uses virtual physics-based forces to coordinate the movements of robots. (p.16)
 
 ### **Chain formation:**
 Robots have to position themselves in order to connect two points. The chain that they form can then be used as a guide for navigation or for surveillance. The most used design approaches are probabilistic finite state machines (PFSMs), virtual physics-based design and artificial evolution. (p.17)
@@ -210,44 +210,44 @@ In the explorer role, the robots are searching for chain members or for the goal
 ### **Self-assembly and morphogenesis:**
 Self-assembly is the process by which robots physically connect to each other. Morphogenesis is the process that leads a swarm of robots to self-assemble following a particular pattern, and can be used by the swarm to self-assemble into a structure that is particularly appropriate for a given task. With ants this taks can be used to float on water. (p.18)
 
-Such robots are able, when connected, to share energy and computational resources with their neighbors. (p.19)
+Such robots are able, when connected, to share energy and computational resources with their neighbours. (p.19)
 
 ### Object clustering and assembling:**
 To group objects close one to the other. The difference between clusters and assembles is that clusters are composed of non-connected objects, whereas assembles are composed of physically linked objects. Using probabilistic finite state machines. The robots explore the environment at random and react in different ways to the discovery of available objects or of part of the cluster/assemble to create. (p.20)
 
 ## Navigation behaviours
-Behaviors that cope with the problem of coordinating the movements of a swarm of robots. (p.21)
+Behaviours that cope with the problem of coordinating the movements of a swarm of robots. (p.21)
 
 ### **Collective exploration:**
-The goal of area coverage is to deploy robots in an environment in order to create a regular or irregular grid of communicating robots. The obtained grid can be employed, for example, to monitor the environment for hazardous leaks or to guide other robots. We call the behavior necessary to guide the navigation of other robots swarm-guided navigation. (p.21)
+The goal of area coverage is to deploy robots in an environment in order to create a regular or irregular grid of communicating robots. The obtained grid can be employed, for example, to monitor the environment for hazardous leaks or to guide other robots. We call the behaviour necessary to guide the navigation of other robots swarm-guided navigation. (p.21)
 
 The most common way to tackle area coverage is to use virtual physics-based design to obtain a grid covering the environment. This approach allows the robots to maximize the area covered and form a connected communication network. (p.22)
 
 Similarly to what happens in packet routing, the robots keep a table of the distance of other robots with respect to the target. A robot can then use the entries in the table and reach the target. (p.23)
 
 ### **Coordinated motion:**
-Also known as flocking, robots move in formation similarly to schools of fish or flocks of birds. Animals gain several advantages, such as a higher survival rate, more precise navigation and reduced energy consumption. Coordinated motion behaviors are usually based on virtual physics-based design. Robots are supposed to keep a constant distance from one another and an uniform alignment while moving. Three simple rules: collision avoidance, velocity matching and flock centering. Collision avoidance keeps the individuals from colliding one with the other. Velocity matching ensures that each individual matches the speed of its neighbors and flocking centering forces each individual to stay close to its neighbors. (p.23)
+Also known as flocking, robots move in formation similarly to schools of fish or flocks of birds. Animals gain several advantages, such as a higher survival rate, more precise navigation and reduced energy consumption. Coordinated motion behaviours are usually based on virtual physics-based design. Robots are supposed to keep a constant distance from one another and an uniform alignment while moving. Three simple rules: collision avoidance, velocity matching and flock centering. Collision avoidance keeps the individuals from colliding one with the other. Velocity matching ensures that each individual matches the speed of its neighbours and flocking centering forces each individual to stay close to its neighbours. (p.23)
 
 ### **Collective transport:**
-Also known as group prey retrieval, is a collective behavior in which a group of robots has to cooperate in order to transport an object. In general, the object is heavy and cannot be moved by a single robot, making cooperation necessary. The robots need to agree on a common direction in order to effectively move the object towards a target. Using probabilistic finite state machines or artificial evolution. Cooperation is obtained either through explicit communication of the desired motion direction, or through indirect communication, that is, by measuring the force applied to the carried object by the other robots. (p.25)
+Also known as group prey retrieval, is a collective behaviour in which a group of robots has to cooperate in order to transport an object. In general, the object is heavy and cannot be moved by a single robot, making cooperation necessary. The robots need to agree on a common direction in order to effectively move the object towards a target. Using probabilistic finite state machines or artificial evolution. Cooperation is obtained either through explicit communication of the desired motion direction, or through indirect communication, that is, by measuring the force applied to the carried object by the other robots. (p.25)
 
 ## Collective decision-making
 **IMPORTANT**
 Deals with how robots influence each other when making choices. It can be used to answer two opposite needs: agreement and specialization. A typical example of agreement in swarm robotics systems is consensus achievement. The desired outcome of consensus achievement is that all the robots of the swarm eventually converge towards a single decision among the possible alternatives. A typical example of specialization, instead, is task allocation. The desired outcome of task allocation is that the robots of the swarm distribute themselves over the different possible tasks in order to maximize the performance of a system. (p.26)
 
 ### **Consensus achievement:**
-A collective behavior used to allow a swarm of robots to reach consensus on one choice among different alternatives. The choice is usually the one that maximize the performance of the system. Consensus is generally difficult to achieve in swarm of robots due to the fact that very often the best choice may change over time or may not be evident to the robots due to their limited sensing capabilities. Ants are able to decide between the shortest of two paths using pheromones. Bees have mechanisms to collectively decide which is the best foraging area or which is the best nest location among several possibilities. In the first category, direct communication is used: each robot is able to communicate its preferred choice or some related information (routing? scalability? local broadcast?). In the second category, instead, indirect communication is used: the decision is performed through some indirect clues, such as the density of the robot population. (p.26)
+A collective behaviour used to allow a swarm of robots to reach consensus on one choice among different alternatives. The choice is usually the one that maximize the performance of the system. Consensus is generally difficult to achieve in swarm of robots due to the fact that very often the best choice may change over time or may not be evident to the robots due to their limited sensing capabilities. Ants are able to decide between the shortest of two paths using pheromones. Bees have mechanisms to collectively decide which is the best foraging area or which is the best nest location among several possibilities. In the first category, direct communication is used: each robot is able to communicate its preferred choice or some related information (routing? scalability? local broadcast?). In the second category, instead, indirect communication is used: the decision is performed through some indirect clues, such as the density of the robot population. (p.26)
 
 In the first, the robots simply follow the robot closest to a target, resulting in a decision based on the spatial distribution of the swarm; in the second, the robots vote, using a majority rule, to decide which target to follow. (p.27)
 
 A strategy for consensus achievement through direct communication in a swarm of robots performing foraging. The robots are able to decide between two foraging areas. When two robots get close, they exchange their measured distances between the nest and the latest visited goal. Each robot performs an average of its measured distance with the one received from the other robots. In this way, the robots are able to agree on which area is the closest to the nest and discard the other one even when the measured distances are noisy. (p.27)
 
-When a robot finds a new alternative, it evaluates its quality and sends recruiting messages to other robots to advertise it. The frequency of these messages is proportional to the perceived quality of the alternative. Thanks to the different message frequencies associated with the different alternatives, over time all robots converge on the best alternative. The behavior is implemented as a probabilistic finite state machine. (p.27)
+When a robot finds a new alternative, it evaluates its quality and sends recruiting messages to other robots to advertise it. The frequency of these messages is proportional to the perceived quality of the alternative. Thanks to the different message frequencies associated with the different alternatives, over time all robots converge on the best alternative. The behaviour is implemented as a probabilistic finite state machine. (p.27)
 
 Each individual robot has a preferred path. When a group of three robots is formed in the nest, the robots choose the path that is preferred by the majority of them. The chosen path becomes the preferred one for all the robots in the group. Since the robots choosing the short path take less time to complete the execution, they are more often in the nest. This results in more groups formed by robots preferring the short path than those preferring the long path. This asymmetry eventually makes the robots use the shortest path. (p.27)
 
 ### **Task allocation:**
-Behavior in which robots distribute themselves over different tasks. The goal is to maximize the performance of the system by letting the robots dynamically choose which task to perform. In ant or bee colonies, part of the swarm can perform foraging while another part looks after the larvae. Task allocation is not fixed but can change over time. Mainly obtained through the use of probabilistic finite state machines. To promote specialization, the probabilities of selecting one of the available tasks are either different among the robots or they can change in response to task execution or messages from other robots. (p.28)
+Behaviour in which robots distribute themselves over different tasks. The goal is to maximize the performance of the system by letting the robots dynamically choose which task to perform. In ant or bee colonies, part of the swarm can perform foraging while another part looks after the larvae. Task allocation is not fixed but can change over time. Mainly obtained through the use of probabilistic finite state machines. To promote specialization, the probabilities of selecting one of the available tasks are either different among the robots or they can change in response to task execution or messages from other robots. (p.28)
 
 Robots have to collect prey that are then converted into energy in the nest. While foraging, the robots consume energy. To replenish this energy, the robots can draw it from a common reservoir. Each robot decides to leave and collect prey or to stay in the nest according to a probability. This probability depends on whether the nest energy is above or below a given threshold. Since this threshold is not homogeneous in the swarm, the number of robots allocated to foraging or to resting is a function of the energy level of the nest. (p.28)
 
@@ -256,13 +256,13 @@ Robots must remove sticks scattered in the environment. To remove a stick, two r
 ## Other collective behaviours
 
 ### Collective fault detection
-Hardware failures are still quite common. Techniques to allow robots to autonomously detect failures and faulty behaviors have been developed by exploiting the natural redundancy of swarm robotic systems. (p.29)
+Hardware failures are still quite common. Techniques to allow robots to autonomously detect failures and faulty behaviours have been developed by exploiting the natural redundancy of swarm robotic systems. (p.29)
 
 ### Group size regulation
 creating or selecting a group of a desired size. An excessive number of robots can reduce the performance of a system. (p.30)
 
 ### Human-swarm interaction
-Since there is neither a leader nor centralized control, the operator does not have a simple way to control the behavior of the system. Human–swarm interaction studies how a human operator can control a swarm and receive feedback information from it. A human operator could use a central computer to select and control a subgroup of robots. The second approach is based on local interactions: the human operator places pre-programmed beacons in the environment. Such beacons are used to communicate a new behavior to the robots which are in their communication range. (p.30)
+Since there is neither a leader nor centralized control, the operator does not have a simple way to control the behaviour of the system. Human–swarm interaction studies how a human operator can control a swarm and receive feedback information from it. A human operator could use a central computer to select and control a subgroup of robots. The second approach is based on local interactions: the human operator places pre-programmed beacons in the environment. Such beacons are used to communicate a new behaviour to the robots which are in their communication range. (p.30)
 
 ## Conclusion: limits and future directions
 Swarm robotics has several possible applications, including: exploration, surveillance, search and rescue, humanitarian demining, intrusion tracking, cleaning, inspection and transportation of large objects. With an increasing use of swarm robotics systems, we envision an increasing need for a swarm engineering. (p.31)
@@ -271,7 +271,7 @@ Swarm robotics has several possible applications, including: exploration, survei
 We foresee an increasing need for well-defined processes to help in requirement gathering and for formal languages to help in requirement specification. (p.32)
 
 **Design and realization:**
-The lack of methods for the top-down design of collective behaviors. A lot of domain knowledge is still required to tackle medium to complex applications. (p.32)
+The lack of methods for the top-down design of collective behaviours. A lot of domain knowledge is still required to tackle medium to complex applications. (p.32)
 
 **Verification and validation:**
 Despite the great number of analysis methods, performing verification and validation of a swarm robotics system and comparing one system with another are still very difficult tasks. The reason behind this is the lack of well-defined metrics and testbed applications. Very often, metrics are too tightly related to a specific solution and thus cannot be reused for other systems or for comparisons. (p.32)

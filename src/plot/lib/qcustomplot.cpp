@@ -3689,7 +3689,7 @@ QList<QCPLayoutElement*> QCPLayout::elements(bool recursive) const
 }
 
 /*!
-  Simplifies the layout by collapsing empty cells. The exact behavior depends on subclasses, the
+  Simplifies the layout by collapsing empty cells. The exact behaviour depends on subclasses, the
   default implementation does nothing.
   
   Not all layouts need simplification. For example, QCPLayoutInset doesn't use explicit
