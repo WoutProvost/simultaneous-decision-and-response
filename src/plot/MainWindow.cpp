@@ -142,7 +142,7 @@ void MainWindow::initPlot() {
 	// X axis
 	ui->customPlot->xAxis->setLabel("Time (mm:ss)");
 	ui->customPlot->xAxis->setLabelFont(QFont("sans", 10, QFont::Bold));
-	ui->customPlot->xAxis->setRange(0, 60);
+	ui->customPlot->xAxis->setRange(0, 300);
 	ui->customPlot->xAxis->setTickLengthIn(0);
 	ui->customPlot->xAxis->setSubTickLength(0);
 	QSharedPointer<QCPAxisTickerTime> xAxisTicker(new QCPAxisTickerTime);
