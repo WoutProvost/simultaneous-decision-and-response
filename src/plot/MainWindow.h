@@ -28,6 +28,7 @@ class MainWindow : public QMainWindow {
 		// Methods
 		void readOptions();
 		void initPlot();
+		void initData();
 
 	public:
 		// Constructors
@@ -45,6 +46,7 @@ class MainWindow : public QMainWindow {
 		void actionShowLegendToggled(bool toggled);
 		void actionShowDecisionDataToggled(bool toggled);
 		void actionShowResponseDataToggled(bool toggled);
+		void actionClearDataTriggered();
 };
 
 #endif

@@ -27,6 +27,9 @@ MainWindow::MainWindow(QString fileName, bool realTime, bool top) :
 
 	// Initialize plot
 	initPlot();
+
+	// Initialize data
+	initData();
 }
 
 MainWindow::~MainWindow() {
@@ -78,7 +81,7 @@ void MainWindow::initPlot() {
 	setWindowTitle(title + " - Collective Decision Plot");
 	QRect screenGeometry = QApplication::desktop()->screenGeometry();
 	setMinimumSize(570, 430);
-    setGeometry(screenGeometry.width() - width(), screenGeometry.height() - height(), 570, 430);
+	setGeometry(screenGeometry.width() - width(), screenGeometry.height() - height(), 570, 430);
 	if(top) {
 		setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
 	}
@@ -102,6 +105,10 @@ void MainWindow::initPlot() {
 	actionShowResponseData->setShortcut(Qt::Key_R);
 	addAction(actionShowResponseData);
 	connect(actionShowResponseData, SIGNAL(toggled(bool)), this, SLOT(actionShowResponseDataToggled(bool)));
+	QAction *actionClearData = new QAction("Clear Data", this);
+	actionClearData->setShortcut(Qt::Key_C);
+	addAction(actionClearData);
+	connect(actionClearData, SIGNAL(triggered()), this, SLOT(actionClearDataTriggered()));
 
 	// Title
 	ui->customPlot->plotLayout()->insertRow(0);
@@ -141,6 +148,7 @@ void MainWindow::initPlot() {
 	QSharedPointer<QCPAxisTickerTime> xAxisTicker(new QCPAxisTickerTime);
 	xAxisTicker->setTimeFormat("%m:%s");
 	ui->customPlot->xAxis->setTicker(xAxisTicker);
+	ui->customPlot->axisRect()->axis(QCPAxis::atRight)->setPadding(90);
 
 	// Y axis
 	ui->customPlot->yAxis->setLabel("Percentage (%)");
@@ -154,6 +162,11 @@ void MainWindow::initPlot() {
 	}
 	ui->customPlot->yAxis->setTicker(yAxisTicker);
 
+	// Prevent dragging and zooming X axis to negative time
+	connect(ui->customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(onXAxisRangeChanged(QCPRange)));
+}
+
+void MainWindow::initData() {
 	// Graphs (decision data)
 	for(int graph = 0; graph < availableOptions; graph++) {
 		QPen pen;
@@ -185,17 +198,15 @@ void MainWindow::initPlot() {
 	// Tags
 	for(int tag = 0; tag < availableOptions*2; tag++) {
 		QString text(QString::number(0, 'f', 2) + " %");
+		qreal position = 0.0;
 		AxisTag *axisTag = new AxisTag(ui->customPlot->graph(tag)->valueAxis());
 		axisTag->setPen(ui->customPlot->graph(tag)->pen());
 		axisTag->setText(text);
+		axisTag->updatePosition(position);
 		tags.append(axisTag);
 		lastTagTexts.append(text);
-		lastTagPositions.append(0.0);
+		lastTagPositions.append(position);
 	}
-	ui->customPlot->axisRect()->axis(QCPAxis::atRight)->setPadding(90);
-
-	// Prevent dragging and zooming X axis to negative time
-	connect(ui->customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(onXAxisRangeChanged(QCPRange)));
 
 	// Open the file and make sure it exists and is allowed to be opened
 	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -315,4 +326,51 @@ void MainWindow::actionShowResponseDataToggled(bool toggled) {
 		}
 	}
 	ui->customPlot->replot();
+}
+
+void MainWindow::actionClearDataTriggered() {
+	// Stop processing
+	updatePlotTimer.stop();
+
+	// Restore reading file to its initial state
+	textStream.seek(0);
+	file.close();
+
+	// Save current data visibility states
+	bool decisionDataVisible = ui->customPlot->graph(0)->visible();
+	bool responseDataVisible = ui->customPlot->graph(availableOptions)->visible();
+
+	// Delete graphs
+	ui->customPlot->clearGraphs();
+
+	// Destroy tags manually, since this doesn't seem to happen automatically
+	for(int tag = 0; tag < availableOptions*2; tag++) {
+		tags[tag]->~AxisTag();
+	}
+
+	// Reset legend column headers to their initial column, since deleting the graphs breaks this
+	ui->customPlot->legend->addElement(0, 1, ui->customPlot->legend->element(1, 0));
+
+	// Reset the X axis left border to 0 but keep the current range
+	ui->customPlot->xAxis->setRange(0.0, ui->customPlot->xAxis->range().size(), Qt::AlignLeft);
+
+	// Reset the attributes to their initial states
+	tags.clear();
+	lastTagTexts.clear();
+	lastTagPositions.clear();
+	lines = 0;
+	availableOptions = 1;
+	graphColors.fill(Qt::black, 1);
+
+	// Reinitialize
+	readOptions();
+	initData();
+
+	// Restore previous data visibility states
+	if(!decisionDataVisible) {
+		actionShowDecisionDataToggled(false);
+	}
+	if(!responseDataVisible) {
+		actionShowResponseDataToggled(false);
+	}
 }
