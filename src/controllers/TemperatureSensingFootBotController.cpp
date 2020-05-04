@@ -1,10 +1,10 @@
-#include "FootBotTemperatureSensingController.h"
+#include "TemperatureSensingFootBotController.h"
 #include "enums/RABIndex.h"
 #include "../loop_functions/FireEvacuationLoopFunctions.h"
 
 using std::max_element;
 
-FootBotTemperatureSensingController::FootBotTemperatureSensingController() :
+TemperatureSensingFootBotController::TemperatureSensingFootBotController() :
 	// Call base class method and initialize attributes and set default values
 	FootBotController::FootBotController(),
 	preferredExitTemperature(0),
@@ -12,11 +12,11 @@ FootBotTemperatureSensingController::FootBotTemperatureSensingController() :
 	preferredExitDistance(0.0) {
 }
 
-const CColor& FootBotTemperatureSensingController::getPreferredExitLightColor() const {
+const CColor& TemperatureSensingFootBotController::getPreferredExitLightColor() const {
 	return preferredExitLightColor;
 }
 
-void FootBotTemperatureSensingController::Init(TConfigurationNode &configurationNode) {
+void TemperatureSensingFootBotController::Init(TConfigurationNode &configurationNode) {
 	// Call base class method
 	FootBotController::Init(configurationNode);
 
@@ -30,7 +30,7 @@ void FootBotTemperatureSensingController::Init(TConfigurationNode &configuration
 	}
 }
 
-void FootBotTemperatureSensingController::ControlStep() {
+void TemperatureSensingFootBotController::ControlStep() {
 	// Call base class method
 	FootBotController::ControlStep();
 
@@ -51,7 +51,7 @@ void FootBotTemperatureSensingController::ControlStep() {
 	}
 }
 
-void FootBotTemperatureSensingController::Reset() {
+void TemperatureSensingFootBotController::Reset() {
 	// Call base class method
 	FootBotController::Reset();
 
@@ -65,7 +65,7 @@ void FootBotTemperatureSensingController::Reset() {
 	preferredExitDistance = 0.0;
 }
 
-void FootBotTemperatureSensingController::sense() {
+void TemperatureSensingFootBotController::sense() {
 	// Get readings from the motor ground sensor
 	const CCI_FootBotMotorGroundSensor::TReadings &readings = footBotMotorGroundSensor->GetReadings();
 
@@ -135,7 +135,7 @@ void FootBotTemperatureSensingController::sense() {
 	}
 }
 
-void FootBotTemperatureSensingController::receiveOpinions() {
+void TemperatureSensingFootBotController::receiveOpinions() {
 	// Get readings from the range and bearing sensor
 	const CCI_RangeAndBearingSensor::TReadings &readings = rangeAndBearingSensor->GetReadings();
 
@@ -211,7 +211,7 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 	}
 }
 
-void FootBotTemperatureSensingController::transmitOpinion() {
+void TemperatureSensingFootBotController::transmitOpinion() {
 	// If the robot is not undecided, send its opinion to other robots in its neighbourhood
 	if(preferredExitLightColor != CColor::BLACK) {
 		rangeAndBearingActuator->SetData(RABIndex::TEMPERATURE, preferredExitTemperature);
@@ -222,7 +222,7 @@ void FootBotTemperatureSensingController::transmitOpinion() {
 	}
 }
 
-void FootBotTemperatureSensingController::updateOpinion(UInt8 temperature, CColor exitColor, UInt8 distance, int votes) {
+void TemperatureSensingFootBotController::updateOpinion(UInt8 temperature, CColor exitColor, UInt8 distance, int votes) {
 	// The exit, distance and temperature resulting form the voting model, will only be copied by the robot if the measured quality is better than its own measured quality
 	if(static_cast<Real>(distance) * temperature / votes > preferredExitDistance * preferredExitTemperature) {
 		preferredExitTemperature = static_cast<Real>(temperature) / votes;
@@ -232,4 +232,4 @@ void FootBotTemperatureSensingController::updateOpinion(UInt8 temperature, CColo
 }
 
 // Macro that binds this class to an XML tag
-REGISTER_CONTROLLER(FootBotTemperatureSensingController, "footbot_temperature_sensing")
+REGISTER_CONTROLLER(TemperatureSensingFootBotController, "temperature_sensing_footbot")

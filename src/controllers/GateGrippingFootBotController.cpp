@@ -1,10 +1,10 @@
-#include "FootBotGateGrippingController.h"
+#include "GateGrippingFootBotController.h"
 #include "enums/RABIndex.h"
 #include <algorithm>
 
 using std::max_element;
 
-FootBotGateGrippingController::FootBotGateGrippingController() :
+GateGrippingFootBotController::GateGrippingFootBotController() :
 	// Call base class method and initialize attributes and set default values
 	FootBotController::FootBotController(),
 	actingExitLightColor(CColor::BLACK),
@@ -12,11 +12,11 @@ FootBotGateGrippingController::FootBotGateGrippingController() :
 	candidateExitTicks(0) {
 }
 
-const CColor& FootBotGateGrippingController::getActingExitLightColor() const {
+const CColor& GateGrippingFootBotController::getActingExitLightColor() const {
 	return actingExitLightColor;
 }
 
-void FootBotGateGrippingController::Init(TConfigurationNode &configurationNode) {
+void GateGrippingFootBotController::Init(TConfigurationNode &configurationNode) {
 	// Call base class method
 	FootBotController::Init(configurationNode);
 
@@ -30,7 +30,7 @@ void FootBotGateGrippingController::Init(TConfigurationNode &configurationNode) 
 	}
 }
 
-void FootBotGateGrippingController::ControlStep() {
+void GateGrippingFootBotController::ControlStep() {
 	// Call base class method
 	FootBotController::ControlStep();
 
@@ -45,7 +45,7 @@ void FootBotGateGrippingController::ControlStep() {
 	}
 }
 
-void FootBotGateGrippingController::Reset() {
+void GateGrippingFootBotController::Reset() {
 	// Call base class method
 	FootBotController::Reset();
 
@@ -59,7 +59,7 @@ void FootBotGateGrippingController::Reset() {
 	candidateExitTicks = 0;
 }
 
-void FootBotGateGrippingController::listenToDecisions() {
+void GateGrippingFootBotController::listenToDecisions() {
 	// Get readings from the range and bearing sensor
 	const CCI_RangeAndBearingSensor::TReadings &readings = rangeAndBearingSensor->GetReadings();
 
@@ -114,4 +114,4 @@ void FootBotGateGrippingController::listenToDecisions() {
 }
 
 // Macro that binds this class to an XML tag
-REGISTER_CONTROLLER(FootBotGateGrippingController, "footbot_gate_gripping")
+REGISTER_CONTROLLER(GateGrippingFootBotController, "gate_gripping_footbot")

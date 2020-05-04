@@ -1,8 +1,8 @@
 #include "FireEvacuationLoopFunctions.h"
 #include <argos3/plugins/simulator/entities/light_entity.h>
 #include <argos3/plugins/robots/foot-bot/simulator/footbot_entity.h>
-#include "../controllers/FootBotTemperatureSensingController.h"
-#include "../controllers/FootBotGateGrippingController.h"
+#include "../controllers/TemperatureSensingFootBotController.h"
+#include "../controllers/GateGrippingFootBotController.h"
 
 using std::endl;
 using std::hex;
@@ -57,7 +57,7 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	CSpace::TMapPerType &footBotEntities = space->GetEntitiesByType("foot-bot");
 	for(CSpace::TMapPerType::iterator it = footBotEntities.begin(), end = footBotEntities.end(); it != end; it++) {
 		CFootBotEntity &footBotEntity = *any_cast<CFootBotEntity*>(it->second);
-		if(dynamic_cast<FootBotTemperatureSensingController*>(&footBotEntity.GetControllableEntity().GetController()) != nullptr) {
+		if(dynamic_cast<TemperatureSensingFootBotController*>(&footBotEntity.GetControllableEntity().GetController()) != nullptr) {
 			temperatureSensingFootBots++;
 		} else {
 			gateGrippingFootBots++;
@@ -189,14 +189,14 @@ void FireEvacuationLoopFunctions::PostStep() {
 	for(CSpace::TMapPerType::iterator it = footBotEntities.begin(), end = footBotEntities.end(); it != end; it++) {
 		CFootBotEntity &footBotEntity = *any_cast<CFootBotEntity*>(it->second);
 		CCI_Controller *controller = &footBotEntity.GetControllableEntity().GetController();
-		FootBotTemperatureSensingController *footBotTemperatureSensingController = dynamic_cast<FootBotTemperatureSensingController*>(controller);
-		if(footBotTemperatureSensingController != nullptr) {
-			CColor color = footBotTemperatureSensingController->getPreferredExitLightColor();
+		TemperatureSensingFootBotController *temperatureSensingFootBotController = dynamic_cast<TemperatureSensingFootBotController*>(controller);
+		if(temperatureSensingFootBotController != nullptr) {
+			CColor color = temperatureSensingFootBotController->getPreferredExitLightColor();
 			temperatureSensingPreferences[color]++;
 		}
-		FootBotGateGrippingController *footBotGateGrippingController = dynamic_cast<FootBotGateGrippingController*>(controller);
-		if(footBotGateGrippingController != nullptr) {
-			CColor color = footBotGateGrippingController->getActingExitLightColor();
+		GateGrippingFootBotController *gateGrippingFootBotController = dynamic_cast<GateGrippingFootBotController*>(controller);
+		if(gateGrippingFootBotController != nullptr) {
+			CColor color = gateGrippingFootBotController->getActingExitLightColor();
 			gateGrippingActions[color]++;
 		}
 	}

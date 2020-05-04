@@ -1,7 +1,7 @@
 # Add these libraries to be built
 add_library(footbot SHARED FootBotController.h FootBotController.cpp)
-add_library(footbot_temperature_sensing MODULE FootBotTemperatureSensingController.h FootBotTemperatureSensingController.cpp)
-add_library(footbot_gate_gripping MODULE FootBotGateGrippingController.h FootBotGateGrippingController.cpp)
+add_library(temperature_sensing_footbot MODULE TemperatureSensingFootBotController.h TemperatureSensingFootBotController.cpp)
+add_library(gate_gripping_footbot MODULE GateGrippingFootBotController.h GateGrippingFootBotController.cpp)
 add_library(appearance SHARED params/AppearanceParams.h params/AppearanceParams.cpp)
 add_library(movement SHARED params/MovementParams.h params/MovementParams.cpp)
 add_library(collision_avoidance SHARED params/CollisionAvoidanceParams.h params/CollisionAvoidanceParams.cpp)
@@ -13,10 +13,10 @@ target_link_libraries(footbot
 	appearance
 	movement
 	collision_avoidance)
-target_link_libraries(footbot_temperature_sensing
+target_link_libraries(temperature_sensing_footbot
 	footbot
 	decision_strategy
 	fire_evacuation_loop_functions)
-target_link_libraries(footbot_gate_gripping
+target_link_libraries(gate_gripping_footbot
 	footbot
 	reaction_strategy)

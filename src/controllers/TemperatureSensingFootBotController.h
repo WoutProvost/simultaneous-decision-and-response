@@ -1,11 +1,11 @@
-#ifndef FOOT_BOT_TEMPERATURE_SENSING_CONTROLLER_H
-#define FOOT_BOT_TEMPERATURE_SENSING_CONTROLLER_H
+#ifndef TEMPERATURE_SENSING_FOOT_BOT_CONTROLLER_H
+#define TEMPERATURE_SENSING_FOOT_BOT_CONTROLLER_H
 
 #include "FootBotController.h"
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_motor_ground_sensor.h>
 #include "params/DecisionStrategyParams.h"
 
-class FootBotTemperatureSensingController : public FootBotController {
+class TemperatureSensingFootBotController : public FootBotController {
 
 	private:
 		// Sensors
@@ -27,7 +27,7 @@ class FootBotTemperatureSensingController : public FootBotController {
 
 	public:
 		// Constructors
-		FootBotTemperatureSensingController();
+		TemperatureSensingFootBotController();
 
 		// Getters
 		const CColor& getPreferredExitLightColor() const;

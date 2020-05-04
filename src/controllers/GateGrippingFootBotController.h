@@ -1,11 +1,11 @@
-#ifndef FOOT_BOT_GATE_GRIPPING_CONTROLLER_H
-#define FOOT_BOT_GATE_GRIPPING_CONTROLLER_H
+#ifndef GATE_GRIPPING_FOOT_BOT_CONTROLLER_H
+#define GATE_GRIPPING_FOOT_BOT_CONTROLLER_H
 
 #include "FootBotController.h"
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_gripper_actuator.h>
 #include "params/ReactionStrategyParams.h"
 
-class FootBotGateGrippingController : public FootBotController {
+class GateGrippingFootBotController : public FootBotController {
 
 	private:
 		// Actuators
@@ -24,7 +24,7 @@ class FootBotGateGrippingController : public FootBotController {
 
 	public:
 		// Constructors
-		FootBotGateGrippingController();
+		GateGrippingFootBotController();
 
 		// Getters
 		const CColor& getActingExitLightColor() const;

@@ -8,7 +8,7 @@
 
 	<controllers>
 		<!-- Gate gripping robots -->
-		<footbot_gate_gripping id="footbot_gate_gripping_controller" library="../build/src/controllers/libfootbot_gate_gripping">
+		<gate_gripping_footbot id="gate_gripping_footbot_controller" library="../build/src/controllers/libgate_gripping_footbot">
 			<actuators>
 				<differential_steering implementation="default" />
 				<leds implementation="default" medium="led_medium" />
@@ -27,10 +27,10 @@
 				<collision_avoidance max_angle_between_heading_and_obstacle="5.0" max_obstacle_proximity="0.1" />
 				<reaction_strategy min_agreement_percentage="0.8" min_duration_ticks="300" />
 			</params>
-		</footbot_gate_gripping>
+		</gate_gripping_footbot>
 
 		<!-- Temperature sensing robots -->
-		<footbot_temperature_sensing id="footbot_temperature_sensing_controller" library="../build/src/controllers/libfootbot_temperature_sensing">
+		<temperature_sensing_footbot id="temperature_sensing_footbot_controller" library="../build/src/controllers/libtemperature_sensing_footbot">
 			<actuators>
 				<differential_steering implementation="default" />
 				<leds implementation="default" medium="led_medium" />
@@ -49,7 +49,7 @@
 				<collision_avoidance max_angle_between_heading_and_obstacle="5.0" max_obstacle_proximity="0.1" />
 				<decision_strategy mode="random" />
 			</params>
-		</footbot_temperature_sensing>
+		</temperature_sensing_footbot>
 	</controllers>
 
 	<arena size="15,15,1" center="0,0,0.5">
@@ -108,7 +108,7 @@
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
 			<entity quantity="100" max_trials="100">
 				<foot-bot id="fb_ts_" rab_range="1" rab_data_size="5" omnidirectional_camera_aperture="89.9">
-					<controller config="footbot_temperature_sensing_controller" />
+					<controller config="temperature_sensing_footbot_controller" />
 					<dynamics2d>
 						<differential_steering max_force="15" max_torque="150" />
 					</dynamics2d>
@@ -123,7 +123,7 @@
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
 			<entity quantity="100" max_trials="100">
 				<foot-bot id="fb_gg_" rab_range="1" rab_data_size="5" omnidirectional_camera_aperture="89.9">
-					<controller config="footbot_gate_gripping_controller" />
+					<controller config="gate_gripping_footbot_controller" />
 					<dynamics2d>
 						<differential_steering max_force="15" max_torque="150" />
 					</dynamics2d>
