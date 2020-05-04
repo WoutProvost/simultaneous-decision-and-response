@@ -193,7 +193,7 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 				updateOpinion(exitTemperatures[winningVote->first], exitColors[winningVote->first], exitDistances[winningVote->first], exitVotes[winningVote->first]);
 			}
 		}
-		// Random neighbour
+		// Random neighbour (the robot's own opinion is not added to the list of valid readings in this model)
 		else if(decisionStrategyParams.getMode() == "random") {
 			int randomNeighbour = rand() % validReadings.size();
 			UInt8 temperature = validReadings[randomNeighbour].Data[RABIndex::TEMPERATURE];
