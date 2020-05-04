@@ -1,12 +1,10 @@
-# swarm-robotics-thesis
-Master's thesis on swarm robotics and collective decision making.
-
-Read-only link to the LaTeX project: https://www.overleaf.com/read/sncpkxbhbqts
+# simultaneous-decision-and-response
+Simultaneous decision and response in a collective system using swarm robotics and collective decision making in a fire evacuation scenario.
 
 ## ARGoS installation:
 ```bash
-git clone https://github.ugent.be/wprovost/swarm-robotics-thesis
-cd swarm-robotics-thesis
+git clone https://github.ugent.be/wprovost/simultaneous-decision-and-response
+cd simultaneous-decision-and-response
 sudo dpkg -i download/argos3_simulator-*.deb
 sudo apt --fix-broken install
 sudo chmod o+w /usr/local/share/applications/argos3.desktop

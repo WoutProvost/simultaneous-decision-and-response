@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
-project(swarm-robotics-thesis
+project(simultaneous-decision-and-response
 	VERSION 1.0.0
-	DESCRIPTION "Swarm robotics and collective decision making in a fire evacuation scenario"
+	DESCRIPTION "Simultaneous decision and response in a collective system using swarm robotics and collective decision making in a fire evacuation scenario"
 	LANGUAGES CXX)
 
 # Find the PkgConfig package, for the pkg_check_modules method
