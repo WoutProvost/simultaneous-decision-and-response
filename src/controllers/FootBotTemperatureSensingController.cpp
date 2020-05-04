@@ -126,9 +126,9 @@ void FootBotTemperatureSensingController::sense() {
 			// Determine whether to change this robot's opinion based on the distance to the furthest exit weighted by the measured temperature
 			if(furthestExitLightColor != CColor::BLACK) {
 				if(furthestExitDistance * maxTemperature > preferredExitDistance * preferredExitTemperature) {
+					preferredExitTemperature = maxTemperature;
 					preferredExitLightColor = furthestExitLightColor;
 					preferredExitDistance = furthestExitDistance;
-					preferredExitTemperature = maxTemperature;
 				}
 			}
 		}
@@ -142,9 +142,9 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 	// Receive opinions from other temperature sensing robots in this robot's neighbourhood
 	int totalVotes = 0;
 	map<uint32_t,int> exitVotes;
+	map<uint32_t,UInt8> exitTemperatures;
 	map<uint32_t,CColor> exitColors;
-	map<uint32_t,int> exitDistances;
-	map<uint32_t,int> exitTemperatures;
+	map<uint32_t,UInt8> exitDistances;
 	CCI_RangeAndBearingSensor::TReadings validReadings;
 	for(size_t reading = 0, size = readings.size(); reading < size; reading++) {
 		UInt8 temperature = readings[reading].Data[RABIndex::TEMPERATURE];
@@ -157,25 +157,22 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 
 			totalVotes++;
 			exitVotes[exitColor]++;
+			exitTemperatures[exitColor] += temperature;
 			exitColors[exitColor] = exitColor;
 			exitDistances[exitColor] += distance;
-			exitTemperatures[exitColor] += temperature;
 			validReadings.emplace_back(readings[reading]);
 		}
 	}
 
 	// If the neighbouring robots actually have opinions
 	// Use the combined data to potentially influence the opinion of the recipient based upon the used voting model
-	// If the voting model results in an exit that is the same as the exit the robot is currently preferring,
-	// then it will only update its distance and temperature if the neighbouring measured quality is better than its own measured quality,
-	// since there's no real benefit of lowering its own quality
 	if(exitVotes.size() != 0) {
 		// If the robot is not undecided, add this robot's opinion to the votes
 		if(preferredExitLightColor != CColor::BLACK) {
 			exitVotes[preferredExitLightColor]++;
+			exitTemperatures[preferredExitLightColor] += preferredExitTemperature;
 			exitColors[preferredExitLightColor] = preferredExitLightColor;
 			exitDistances[preferredExitLightColor] += preferredExitDistance;
-			exitTemperatures[preferredExitLightColor] += preferredExitTemperature;
 		}
 
 		// Plurality voting (only use a strict winning vote, i.e. don't do anything when there's an ex aequo for the winning vote)
@@ -186,24 +183,14 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 				it++;
 			}
 			if(it == exitVotes.end()) {
-				if(preferredExitLightColor != exitColors[winningVote->first]
-				|| static_cast<Real>(exitDistances[winningVote->first]) * exitTemperatures[winningVote->first] / exitVotes[winningVote->first] > preferredExitDistance * preferredExitTemperature) {
-					preferredExitLightColor = exitColors[winningVote->first];
-					preferredExitDistance = static_cast<Real>(exitDistances[winningVote->first]) / exitVotes[winningVote->first];
-					preferredExitTemperature = static_cast<Real>(exitTemperatures[winningVote->first]) / exitVotes[winningVote->first];
-				}
+				updateOpinion(exitTemperatures[winningVote->first], exitColors[winningVote->first], exitDistances[winningVote->first], exitVotes[winningVote->first]);
 			}
 		}
 		// Majority voting
 		else if(decisionStrategyParams.getMode() == "majority") {
 			map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end());
 			if(static_cast<Real>(winningVote->second)/totalVotes > 0.5) {
-				if(preferredExitLightColor != exitColors[winningVote->first]
-				|| static_cast<Real>(exitDistances[winningVote->first]) * exitTemperatures[winningVote->first] / exitVotes[winningVote->first] > preferredExitDistance * preferredExitTemperature) {
-					preferredExitLightColor = exitColors[winningVote->first];
-					preferredExitDistance = static_cast<Real>(exitDistances[winningVote->first]) / exitVotes[winningVote->first];
-					preferredExitTemperature = static_cast<Real>(exitTemperatures[winningVote->first]) / exitVotes[winningVote->first];
-				}
+				updateOpinion(exitTemperatures[winningVote->first], exitColors[winningVote->first], exitDistances[winningVote->first], exitVotes[winningVote->first]);
 			}
 		}
 		// Random neighbour
@@ -215,12 +202,7 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 			UInt8 blue = validReadings[randomNeighbour].Data[RABIndex::EXIT_COLOR_CHANNEL_BLUE];
 			CColor exitColor = CColor(red, green, blue);
 			UInt8 distance = validReadings[randomNeighbour].Data[RABIndex::EXIT_DISTANCE];
-			if(preferredExitLightColor != exitColor
-			|| distance * temperature > preferredExitDistance * preferredExitTemperature) {
-				preferredExitLightColor = exitColor;
-				preferredExitDistance = distance;
-				preferredExitTemperature = temperature;
-			}
+			updateOpinion(temperature, exitColor, distance, 1);
 		}
 		// Weighted voter model
 		else if(decisionStrategyParams.getMode() == "weighted") {
@@ -229,7 +211,7 @@ void FootBotTemperatureSensingController::receiveOpinions() {
 	}
 }
 
-void FootBotTemperatureSensingController::transmitOpinion()  {
+void FootBotTemperatureSensingController::transmitOpinion() {
 	// If the robot is not undecided, send its opinion to other robots in its neighbourhood
 	if(preferredExitLightColor != CColor::BLACK) {
 		rangeAndBearingActuator->SetData(RABIndex::TEMPERATURE, preferredExitTemperature);
@@ -237,6 +219,15 @@ void FootBotTemperatureSensingController::transmitOpinion()  {
 		rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_GREEN, preferredExitLightColor.GetGreen());
 		rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_BLUE, preferredExitLightColor.GetBlue());
 		rangeAndBearingActuator->SetData(RABIndex::EXIT_DISTANCE, preferredExitDistance);
+	}
+}
+
+void FootBotTemperatureSensingController::updateOpinion(UInt8 temperature, CColor exitColor, UInt8 distance, int votes) {
+	// The exit, distance and temperature resulting form the voting model, will only be copied by the robot if the measured quality is better than its own measured quality
+	if(static_cast<Real>(distance) * temperature / votes > preferredExitDistance * preferredExitTemperature) {
+		preferredExitTemperature = static_cast<Real>(temperature) / votes;
+		preferredExitLightColor = exitColor;
+		preferredExitDistance = static_cast<Real>(distance) / votes;
 	}
 }
 
