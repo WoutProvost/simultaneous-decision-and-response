@@ -15,7 +15,8 @@
 - Algorithm works perfect when the fire is on a clear side of the arena.
 - Problems occur when the fire is accross the center line between the 2 exits
 - However, there's actually a great conclusion to this (see the arrows below).
-1. Due to the used collision avoidance code, the bots tend to bunch up in groups.
+1. See pictures.
+   Due to the used collision avoidance code, the bots tend to bunch up in groups.
    This group constantly reassures one exit for all the members in that group, since it has the numbers to overpower any new measurement by a member of that group.
    When a bot not part of that group collides with the group, it takes over the decision of the group, since the group has the numbers to overpower any other bot.
    Demonstration: seed 648, 200 sensors, 0 grippers, show preference color, after tick 1700.
