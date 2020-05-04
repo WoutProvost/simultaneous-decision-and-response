@@ -104,6 +104,10 @@ void GateGrippingFootBotController::listenToDecisions() {
 		} else {
 			candidateExitTicks = 0;
 		}
+	} else {
+		// If the robot has lost all communication and hasn't reached the required time threshold
+		if(candidateExitTicks < reactionStrategyParams.getMinDurationTicks()) {
+		}
 	}
 
 	// If an exit is preferred by at least the given percentage of neighbouring temperature sensing robots for the given time duration, start acting upon that exit
