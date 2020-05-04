@@ -83,7 +83,7 @@
 - max_temperature
 - sensor noise
 - sensor packet drop
-- arena shape
+- arena shape and size
 
 
 
