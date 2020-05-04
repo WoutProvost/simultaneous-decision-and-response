@@ -31,6 +31,7 @@
    In a one-on-one situation there's only one neighbour, thus the probability of that neighbour being picked is 100%.
    Bots on the side of the bulk of the fire will be higher in numbers and thus their probability of being picked is also higher.
    Both effects lead to the correct result.
+   Show random_middle.csv, random_middle.png, random_right.csv and random_right.png.
 => Due to the group forming, over time it actually starts looking like a real flock of birds.
    Demonstration: seed 648, 100 sensors, 100 grippers, no voting model, just let it run for a while.
 
