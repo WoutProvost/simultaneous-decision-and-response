@@ -1,6 +1,8 @@
 # Done
 - Added reaction mechanism + params min_agreement_percentage and min_duration_ticks
 - Added support for response data in logfile and plot app
+- Added support for custom srand and time in seed app (otherwise each run of the app results in the same sequence)
+- Added position params for fixed fire positions
 - Added user functions with divider ray
 - Added debug option to bots to show their preferred exit using their LEDs (slightly altered colors so that the bot won't be detected as an exit)
 - Added random neighbour voting model (robot's own opinion not added to list of valid readings in this model)
