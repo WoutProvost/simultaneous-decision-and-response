@@ -7,6 +7,7 @@ using std::max_element;
 TemperatureSensingFootBotController::TemperatureSensingFootBotController() :
 	// Call base class method and initialize attributes and set default values
 	FootBotController::FootBotController(),
+	random(CRandom::CreateRNG("argos")),
 	preferredExitTemperature(0),
 	preferredExitLightColor(CColor::BLACK),
 	preferredExitDistance(0.0) {
@@ -195,7 +196,7 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 		}
 		// Random neighbour (the robot's own opinion is not added to the list of valid readings in this model)
 		else if(decisionStrategyParams.getMode() == "random") {
-			int randomNeighbour = rand() % validReadings.size();
+			int randomNeighbour = random->Uniform(CRange<UInt32>(0, validReadings.size()-1));
 			UInt8 temperature = validReadings[randomNeighbour].Data[RABIndex::TEMPERATURE];
 			UInt8 red = validReadings[randomNeighbour].Data[RABIndex::EXIT_COLOR_CHANNEL_RED];
 			UInt8 green = validReadings[randomNeighbour].Data[RABIndex::EXIT_COLOR_CHANNEL_GREEN];

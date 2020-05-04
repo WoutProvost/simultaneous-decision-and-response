@@ -176,8 +176,8 @@ void FireEvacuationLoopFunctions::PreStep() {
 
 	// 	Real resolutionX = arenaSize->GetX() * heatMapParams.tilesPerMeter;
 	// 	Real resolutionY = arenaSize->GetY() * heatMapParams.tilesPerMeter;
-	// 	int centerX = random->Uniform(CRange<int>(0, resolutionX-1));
-	// 	int centerY = random->Uniform(CRange<int>(0, resolutionY-1));
+	// 	int centerX = random->Uniform(CRange<UInt32>(0, resolutionX-1));
+	// 	int centerY = random->Uniform(CRange<UInt32>(0, resolutionY-1));
 	
 	// Real radius = fireParams.circleRadius * heatMapParams.tilesPerMeter;
 	// Real spacing = heatMapParams.getMaxTemperature() / radius;
@@ -300,8 +300,8 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 		for(int source = 0; source < fireParams.getSources(); source++) {
 			Real resolutionX = arenaSize->GetX() * heatMapParams.getTilesPerMeter();
 			Real resolutionY = arenaSize->GetY() * heatMapParams.getTilesPerMeter();
-			int centerX = random->Uniform(CRange<int>(0, resolutionX-1));
-			int centerY = random->Uniform(CRange<int>(0, resolutionY-1));
+			int centerX = random->Uniform(CRange<UInt32>(0, resolutionX-1));
+			int centerY = random->Uniform(CRange<UInt32>(0, resolutionY-1));
 
 			// Create a linear gradient when the fire is static
 			if(!fireParams.getIsDynamic()) {
