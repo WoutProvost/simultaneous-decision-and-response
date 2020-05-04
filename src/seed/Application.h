@@ -13,6 +13,7 @@ using namespace std;
 string command;
 string inputFileName;
 int amount = 10;
+unsigned int srandSeed = 1;
 
 // Methods
 int main(int argc, char **argv);
