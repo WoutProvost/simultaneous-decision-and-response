@@ -1,41 +1,12 @@
-# Done
-- Added reaction mechanism + params min_agreement_percentage and min_duration_ticks
-- Added support for response data in logfile and plot app
-- Added support for custom srand and time in seed app (otherwise each run of the app results in the same sequence)
-- Added position params for fixed fire positions
-- Added user functions with divider ray
-- Added debug option to bots to show their preferred exit using their LEDs (slightly altered colors so that the bot won't be detected as an exit)
-- Added random neighbour voting model (robot's own opinion not added to list of valid readings in this model)
-- Always use quality comparisons, regardless of color of neighbours and for all voting models
-- Fix integer division
-- Fix crucial logfile color bug which caused the data to be mapped to the wrong exit
-
 # TODO
-- Read additional article for the weighted voter model
-
-# IMPORTANT!!!!
-- Algorithm works perfect when the fire is on a clear side of the arena.
-- Problems occur when the fire is accross the center line between the 2 exits
-- However, there's actually a great conclusion to this (see the arrows below).
-1. See pictures.
-   Due to the used collision avoidance code, the bots tend to bunch up in groups.
-   This group constantly reassures one exit for all the members in that group, since it has the numbers to overpower any new measurement by a member of that group.
-   When a bot not part of that group collides with the group, it takes over the decision of the group, since the group has the numbers to overpower any other bot.
-   Demonstration: seed 648, 200 sensors, 0 grippers, show preference color, after tick 1700.
-2. Bots that haven't made any measurements of their own get convinced rather quickly by other bots that have made measurements.
-   This has an almost exponential effect.
-   Demonstration: seed 648, 200 sensors, 0 grippers, show preference color.
-3. Bots on the opposite side of the bulk of the fire don't get many chances to make measurements of their own, since the bulk of the fire is on the opposite side.
-   Due to the used collision avoidance code, crossing that center line to get to the bulk of the fire might be difficult.
-=> The closer that the fire is to the center line, the more that the result depends on the initial positions and rotations of the bots and their movement.
-=> No voting model actually has better results, but obviously takes way too long.
-=> Random voting model actually has better results and is very fast.
-   In a one-on-one situation there's only one neighbour, thus the probability of that neighbour being picked is 100%.
-   Bots on the side of the bulk of the fire will be higher in numbers and thus their probability of being picked is also higher.
-   Both effects lead to the correct result.
-   Show results.
-=> Due to the group forming, over time it actually starts looking like a real flock of birds.
-   Demonstration: seed 648, 100 sensors, 100 grippers, no voting model, just let it run for a while.
+- Read additional article for the weighted voter model and implement that TODO
+- Finish gripper TODOs and optionally add the actual ability to open the gates
+- Add a new movement mode: turn in a random direction every x timesteps to break up the grouping and mix the system better
+- Determine the exit probability: how many times you exit with correct solution
+- Test with 6 tiles per meter to position a fire exactly on the divider line
+- Test with changing values of the gripper parameters
+- Test with a runtime of 10 minutes
+- Test with more than 1 fire source
 
 
 
