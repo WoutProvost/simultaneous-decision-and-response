@@ -171,6 +171,7 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 	if(exitVotes.size() != 0) {
 		// If the robot is not undecided, add this robot's opinion to the votes
 		if(preferredExitLightColor != CColor::BLACK) {
+			totalVotes++;
 			exitVotes[preferredExitLightColor]++;
 			exitTemperatures[preferredExitLightColor] += preferredExitTemperature;
 			exitColors[preferredExitLightColor] = preferredExitLightColor;
