@@ -23,6 +23,7 @@ class MainWindow : public QMainWindow {
 		bool top;
 		int lines;
 		int availableOptions;
+		qreal lastXValue;
 		QVector<QColor> graphColors;
 
 		// Methods
@@ -47,6 +48,7 @@ class MainWindow : public QMainWindow {
 		void actionShowDecisionDataToggled(bool toggled);
 		void actionShowResponseDataToggled(bool toggled);
 		void actionClearDataTriggered();
+		void actionXAxisRangeFitDataTriggered();
 };
 
 #endif

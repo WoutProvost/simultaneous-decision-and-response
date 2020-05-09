@@ -17,6 +17,7 @@ MainWindow::MainWindow(QString fileName, bool realTime, bool top) :
 	top(top),
 	lines(0),
 	availableOptions(1),
+	lastXValue(0.0),
 	graphColors(availableOptions, Qt::black) {
 
 	// Configure initial UI according to the generated UI header file
@@ -109,6 +110,10 @@ void MainWindow::initPlot() {
 	actionClearData->setShortcut(Qt::Key_C);
 	addAction(actionClearData);
 	connect(actionClearData, SIGNAL(triggered()), this, SLOT(actionClearDataTriggered()));
+	QAction *actionXAxisRangeFitData = new QAction("Clear Data", this);
+	actionXAxisRangeFitData->setShortcut(Qt::Key_F);
+	addAction(actionXAxisRangeFitData);
+	connect(actionXAxisRangeFitData, SIGNAL(triggered()), this, SLOT(actionXAxisRangeFitDataTriggered()));
 
 	// Title
 	ui->customPlot->plotLayout()->insertRow(0);
@@ -226,8 +231,8 @@ void MainWindow::initData() {
 		}
 		cout << "\r\e[K" << flush;
 
-		// Redraw plot
-		ui->customPlot->replot();
+		// Set X axis range to show whole set of data
+		actionXAxisRangeFitDataTriggered();
 	}
 	// Read data from the file in real time
 	else {
@@ -263,11 +268,9 @@ void MainWindow::updatePlot() {
 			lastTagTexts[graph] = text;
 			lastTagPositions[graph] = y[graph];
 		}
+		lastXValue = x;
 
-		if(!realTime) {
-			// Set X axis range to show whole set of data
-			ui->customPlot->xAxis->setRange(0, x);
-		} else {
+		if(realTime) {
 			// Make the X axis range scroll to the right with the data, but only when the graph is touching the right border
 			if(fabs(ui->customPlot->xAxis->range().upper - x) < 0.3) {
 				ui->customPlot->xAxis->setRange(x, ui->customPlot->xAxis->range().size(), Qt::AlignRight);
@@ -360,6 +363,7 @@ void MainWindow::actionClearDataTriggered() {
 	lastTagPositions.clear();
 	lines = 0;
 	availableOptions = 1;
+	lastXValue = 0.0;
 	graphColors.fill(Qt::black, 1);
 
 	// Reinitialize
@@ -373,4 +377,10 @@ void MainWindow::actionClearDataTriggered() {
 	if(!responseDataVisible) {
 		actionShowResponseDataToggled(false);
 	}
+}
+
+void MainWindow::actionXAxisRangeFitDataTriggered() {
+	// Set X axis range to show whole set of data
+	ui->customPlot->xAxis->setRange(0, lastXValue);
+	ui->customPlot->replot();
 }
