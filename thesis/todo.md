@@ -1,5 +1,4 @@
 # TODO
-- Read additional article for the weighted voter model and implement that TODO
 - Finish gripper TODOs and optionally add the actual ability to open the gates
 - Add a new movement mode: turn in a random direction every x timesteps to break up the grouping and mix the system better
 - Determine the exit probability: how many times you exit with correct solution
@@ -72,7 +71,6 @@
 - Plurality rule
 - Majority rule
 - Random rule
-- Weighted voter model
 
 # Tweakable parameters than can have an influence on the result (! = important)
 - ! amount of bots (and amount of each type)

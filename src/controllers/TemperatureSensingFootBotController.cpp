@@ -205,10 +205,6 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 			UInt8 distance = validReadings[randomNeighbor].Data[RABIndex::EXIT_DISTANCE];
 			updateOpinion(temperature, exitColor, distance, 1);
 		}
-		// Weighted voter model
-		else if(decisionStrategyParams.getMode() == "weighted") {
-			// TODO
-		}
 	}
 }
 
