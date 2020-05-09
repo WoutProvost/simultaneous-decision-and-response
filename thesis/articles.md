@@ -357,3 +357,23 @@ Convergence time `C`: the average time required to reach the quorum computed ove
 
 ### **Multiagent simulations on fully-connected networks:**
 At simulation start, each agent estimates the quality of all available options and on that basis computes its own transition probabilities. In the homogeneous case, these are computed in the same way for each agent according to the desired parameterisation. In the heterogeneous case, each agent draws a random threshold from the random distribution and computes the transition probabilities. The simulation proceeds in discrete time steps. At each time step, every agent updates its state following the PFSM. Interactive transitions depend on the interaction with a randomly selected partner, who shares its own commitment state and probabilities of recruitment and cross-inhibition. The populationdependent probabilities are estimated by randomly choosing a different agent as partner at each time step and checking its state: transitions are activated if the selected partner is committed to some option. The probability of recruitment and of cross-inhibition are received from the selected partner, otherwise they are null. In this way, the agent has complete information to update its commitment state. (p.12)
+
+# 6. Self-Organized Collective Decision Making: The Weighted Voter Model
+
+Artificial self-organized systems achieve high degrees of scalability, flexi-bility, and robustness by relying on limited perception and communication capabilities (e.g., few and noisy sensors, only neighbor-to-neighbor communication). (p.2)
+
+As in the classic voter model [5, 18], agents first poll the opinion of neighboring agents within a limited interaction range, and then, they adopt a randomly picked opinion from this poll. (p.3)
+
+In particular, we consider (as a control parameter) a mean time g for the duration of the waggle dance. This mean time g is then weighted by the quality ρ i of the agent’s opinion. (p.4)
+
+Their motion is determined by a random walk implemented as follows. Agents move straight for a normally distributed amount of time; next, they uni-formly choose a new orientation and they resume a straight motion. A collision with a wall changes the agent’s direction of motion by mirroring the incidence angle. (p.4)
+
+To change opinion, agents firstly pool the opinions of neighboring agents within a given interaction range r. Secondly, they randomly choose one of the opinions within their pool. (p.4)
+
+The weighted voter model requires longer times to discriminate between sites of similar qualities, while easier decision problems are solved with much smaller effort. (p.7)
+
+The accuracy of a decision here is defined by the exit probability which gives the probability of reaching a cor- rect consensus. (p.7)
+
+The accuracy of the weighted voter model depends positively on the size of the swarm: Big-ger swarms are more accurate. (p.7)
+
+The weighted voter model shows high robustness to noisy quality of sites. (p.8)
