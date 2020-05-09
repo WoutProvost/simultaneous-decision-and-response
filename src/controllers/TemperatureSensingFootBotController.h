@@ -25,7 +25,7 @@ class TemperatureSensingFootBotController : public FootBotController {
 		void sense();
 		void receiveOpinions();
 		void transmitOpinion();
-		void updateOpinion(UInt8 temperature, CColor exitColor, UInt8 distance, int votes);
+		void updateOpinion(int temperature, CColor exitColor, Real distance, int votes);
 
 	public:
 		// Constructors

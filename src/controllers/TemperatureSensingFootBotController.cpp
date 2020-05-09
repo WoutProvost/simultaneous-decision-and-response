@@ -221,7 +221,7 @@ void TemperatureSensingFootBotController::transmitOpinion() {
 	}
 }
 
-void TemperatureSensingFootBotController::updateOpinion(UInt8 temperature, CColor exitColor, UInt8 distance, int votes) {
+void TemperatureSensingFootBotController::updateOpinion(int temperature, CColor exitColor, Real distance, int votes) {
 	// The exit, distance and temperature resulting form the voting model, will only be copied by the robot if the measured quality is better than its own measured quality
 	if(static_cast<Real>(distance) * temperature / votes > preferredExitDistance * preferredExitTemperature) {
 		preferredExitTemperature = static_cast<Real>(temperature) / votes;
