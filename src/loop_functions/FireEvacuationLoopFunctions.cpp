@@ -59,9 +59,13 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	CSpace::TMapPerType &footBotEntities = space->GetEntitiesByType("foot-bot");
 	for(CSpace::TMapPerType::iterator it = footBotEntities.begin(), end = footBotEntities.end(); it != end; it++) {
 		CFootBotEntity &footBotEntity = *any_cast<CFootBotEntity*>(it->second);
-		if(dynamic_cast<TemperatureSensingFootBotController*>(&footBotEntity.GetControllableEntity().GetController()) != nullptr) {
+		CCI_Controller *controller = &footBotEntity.GetControllableEntity().GetController();
+		TemperatureSensingFootBotController *temperatureSensingFootBotController = dynamic_cast<TemperatureSensingFootBotController*>(controller);
+		if(temperatureSensingFootBotController != nullptr) {
 			temperatureSensingFootBots++;
-		} else {
+		}
+		GateGrippingFootBotController *gateGrippingFootBotController = dynamic_cast<GateGrippingFootBotController*>(controller);
+		if(gateGrippingFootBotController != nullptr) {
 			gateGrippingFootBots++;
 		}
 	}
@@ -132,17 +136,17 @@ void FireEvacuationLoopFunctions::PreStep() {
 	// Increase the temperature of the fire
 	// Redrawing the floor is very resource intensive so this shouldn't happen too often
 	// Even though this function is called PRE-step, the simulation clock is already incremented, so there's no problem with the modulo operator leading to an immediate redraw after initialization
-	if(fireParams.getIsDynamic() && space->GetSimulationClock() % fireParams.getDynamicIntervalTicks() == 0) {
-		bool anyTileChanged = false;
+	// if(fireParams.getIsDynamic() && space->GetSimulationClock() % fireParams.getDynamicIntervalTicks() == 0) {
+	// 	bool anyTileChanged = false;
 
-		// for(int source = 0; source < fireParams.sources; source++) {
-		// }
+	// 	// for(int source = 0; source < fireParams.sources; source++) {
+	// 	// }
 
-		// Redraw the floor texture if necessary
-		if(anyTileChanged) {
-			floorEntity->SetChanged();
-		}
-	}
+	// 	// Redraw the floor texture if necessary
+	// 	if(anyTileChanged) {
+	// 		floorEntity->SetChanged();
+	// 	}
+	// }
 
 	// // dynamic_spread_direction?
 	// // Max fire size?
