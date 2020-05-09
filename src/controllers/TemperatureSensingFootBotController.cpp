@@ -144,9 +144,9 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 	// Receive opinions from other temperature sensing robots in this robot's neighborhood
 	int totalVotes = 0;
 	map<uint32_t,int> exitVotes;
-	map<uint32_t,UInt8> exitTemperatures;
+	map<uint32_t,int> exitTemperatures;
 	map<uint32_t,CColor> exitColors;
-	map<uint32_t,UInt8> exitDistances;
+	map<uint32_t,Real> exitDistances;
 	CCI_RangeAndBearingSensor::TReadings validReadings;
 	for(size_t reading = 0, size = readings.size(); reading < size; reading++) {
 		UInt8 temperature = readings[reading].Data[RABIndex::TEMPERATURE];
