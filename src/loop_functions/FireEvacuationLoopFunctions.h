@@ -38,7 +38,7 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 		void initHeatMap();
 		void initLogFile();
 
-	public:		
+	public:
 		// Constructors
 		FireEvacuationLoopFunctions();
 

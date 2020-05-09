@@ -107,7 +107,7 @@
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
 			<entity quantity="100" max_trials="100">
-				<foot-bot id="fb_ts_" rab_range="1" rab_data_size="5" omnidirectional_camera_aperture="89.9">
+				<foot-bot id="fb_ts_" rab_range="1" rab_data_size="6" omnidirectional_camera_aperture="89.9">
 					<controller config="temperature_sensing_footbot_controller" />
 					<dynamics2d>
 						<differential_steering max_force="15" max_torque="150" />
@@ -122,7 +122,7 @@
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
 			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
 			<entity quantity="100" max_trials="100">
-				<foot-bot id="fb_gg_" rab_range="1" rab_data_size="5" omnidirectional_camera_aperture="89.9">
+				<foot-bot id="fb_gg_" rab_range="1" rab_data_size="6" omnidirectional_camera_aperture="89.9">
 					<controller config="gate_gripping_footbot_controller" />
 					<dynamics2d>
 						<differential_steering max_force="15" max_torque="150" />

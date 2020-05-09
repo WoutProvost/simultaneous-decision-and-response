@@ -74,7 +74,9 @@ void GateGrippingFootBotController::listenToDecisions() {
 			UInt8 green = readings[reading].Data[RABIndex::EXIT_COLOR_CHANNEL_GREEN];
 			UInt8 blue = readings[reading].Data[RABIndex::EXIT_COLOR_CHANNEL_BLUE];
 			CColor exitColor = CColor(red, green, blue);
-			UInt8 distance = readings[reading].Data[RABIndex::EXIT_DISTANCE];
+			UInt8 distanceIntegralPart = readings[reading].Data[RABIndex::EXIT_DISTANCE_PART_INTEGRAL];
+			UInt8 distanceFractionalPart = readings[reading].Data[RABIndex::EXIT_DISTANCE_PART_FRACTIONAL];
+			Real distance = distanceIntegralPart + static_cast<Real>(distanceFractionalPart)/100;
 
 			totalVotes++;
 			exitVotes[exitColor]++;

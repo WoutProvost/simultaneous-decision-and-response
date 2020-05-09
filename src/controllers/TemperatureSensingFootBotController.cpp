@@ -155,7 +155,9 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 			UInt8 green = readings[reading].Data[RABIndex::EXIT_COLOR_CHANNEL_GREEN];
 			UInt8 blue = readings[reading].Data[RABIndex::EXIT_COLOR_CHANNEL_BLUE];
 			CColor exitColor = CColor(red, green, blue);
-			UInt8 distance = readings[reading].Data[RABIndex::EXIT_DISTANCE];
+			UInt8 distanceIntegralPart = readings[reading].Data[RABIndex::EXIT_DISTANCE_PART_INTEGRAL];
+			UInt8 distanceFractionalPart = readings[reading].Data[RABIndex::EXIT_DISTANCE_PART_FRACTIONAL];
+			Real distance = distanceIntegralPart + static_cast<Real>(distanceFractionalPart)/100;
 
 			totalVotes++;
 			exitVotes[exitColor]++;
@@ -204,7 +206,9 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 			UInt8 green = validReadings[randomNeighbor].Data[RABIndex::EXIT_COLOR_CHANNEL_GREEN];
 			UInt8 blue = validReadings[randomNeighbor].Data[RABIndex::EXIT_COLOR_CHANNEL_BLUE];
 			CColor exitColor = CColor(red, green, blue);
-			UInt8 distance = validReadings[randomNeighbor].Data[RABIndex::EXIT_DISTANCE];
+			UInt8 distanceIntegralPart = validReadings[randomNeighbor].Data[RABIndex::EXIT_DISTANCE_PART_INTEGRAL];
+			UInt8 distanceFractionalPart = validReadings[randomNeighbor].Data[RABIndex::EXIT_DISTANCE_PART_FRACTIONAL];
+			Real distance = distanceIntegralPart + static_cast<Real>(distanceFractionalPart)/100;
 			updateOpinion(temperature, exitColor, distance, 1);
 		}
 	}
@@ -217,7 +221,12 @@ void TemperatureSensingFootBotController::transmitOpinion() {
 		rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_RED, preferredExitLightColor.GetRed());
 		rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_GREEN, preferredExitLightColor.GetGreen());
 		rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_BLUE, preferredExitLightColor.GetBlue());
-		rangeAndBearingActuator->SetData(RABIndex::EXIT_DISTANCE, preferredExitDistance);
+
+		// Divide the distance into an integral and fractional part using only the first 2 decimal digits
+		Real distanceIntegralPart;
+		Real distanceFractionalPart = modf(preferredExitDistance, &distanceIntegralPart) * 100;
+		rangeAndBearingActuator->SetData(RABIndex::EXIT_DISTANCE_PART_INTEGRAL, distanceIntegralPart);
+		rangeAndBearingActuator->SetData(RABIndex::EXIT_DISTANCE_PART_FRACTIONAL, distanceFractionalPart);
 	}
 }
 
