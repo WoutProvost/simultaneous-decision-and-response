@@ -12,7 +12,14 @@ class FireEvacuationUserFunctions : public CQTOpenGLUserFunctions {
 		// Params
 		DividerParams dividerParams;
 
+		// General variables and constants
+		CSpace *space;
+		const CVector3 *arenaSize;
+
 	public:
+		// Constructors
+		FireEvacuationUserFunctions();
+
 		// Simulator methods
 		virtual void Init(TConfigurationNode &configurationNode);
 		virtual void DrawInWorld();

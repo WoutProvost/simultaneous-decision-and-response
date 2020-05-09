@@ -9,14 +9,16 @@ class DividerParams {
 
 	private:
 		// Params
-		bool enable;
+		bool enableHorizontal;
+		bool enableVertical;
 
 	public:
 		// Constructors
 		DividerParams();
 
 		// Getters
-		bool getEnable() const;
+		bool getEnableHorizontal() const;
+		bool getEnableVertical() const;
 
 		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);

@@ -2,14 +2,20 @@
 
 DividerParams::DividerParams() :
 	// Initialize attributes and set default values
-	enable(true) {
+	enableHorizontal(true),
+	enableVertical(false) {
 }
 
-bool DividerParams::getEnable() const {
-	return enable;
+bool DividerParams::getEnableHorizontal() const {
+	return enableHorizontal;
+}
+
+bool DividerParams::getEnableVertical() const {
+	return enableVertical;
 }
 
 void DividerParams::setParams(TConfigurationNode &configurationNode) {
 	// Parse the configuration file for params
-	GetNodeAttributeOrDefault(configurationNode, "enable", enable, enable);
+	GetNodeAttributeOrDefault(configurationNode, "enable_horizontal", enableHorizontal, enableHorizontal);
+	GetNodeAttributeOrDefault(configurationNode, "enable_vertical", enableVertical, enableVertical);
 }

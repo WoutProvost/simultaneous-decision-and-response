@@ -163,7 +163,7 @@
 			</camera>
 			<frame_grabbing directory="../frames" base_name="frame_" format="png" quality="100" headless_grabbing="false" headless_frame_size="1920x1080" headless_frame_rate="1" />
 			<user_functions library="../build/src/user_functions/libfire_evacuation_user_functions" label="fire_evacuation_user_functions">
-				<divider enable="true" />
+				<divider enable_horizontal="true" enable_vertical="false" />
 			</user_functions>
 		</qt-opengl>
 	</visualization>

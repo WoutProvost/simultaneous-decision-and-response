@@ -121,7 +121,8 @@ Loop functions **log** params:
 * `disable`: Defaults to `false`.
 
 User functions **divider** params:
-* `enable`: Defaults to `true`.
+* `enable_horizontal`: Defaults to `true`.
+* `enable_vertical`: Defaults to `false`.
 
 ## Plot application uninstallation:
 ```bash
