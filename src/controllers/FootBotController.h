@@ -13,7 +13,7 @@
 #include "params/MovementParams.h"
 #include "params/CollisionAvoidanceParams.h"
 #include "enums/TurnMode.h"
-#include "enums/BehaviourState.h"
+#include "enums/BehaviorState.h"
 
 using namespace argos;
 using std::map;
@@ -49,7 +49,7 @@ class FootBotController : public CCI_Controller {
 		// General variables and constants
 		CColor color;
 		TurnMode turnMode;
-		BehaviourState behaviourState;
+		BehaviorState behaviorState;
 		bool coloredBlobOmnidirectionalCameraSensorEnabled;
 
 		// Methods

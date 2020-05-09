@@ -8,7 +8,7 @@ FootBotController::FootBotController() :
 	// Initialize attributes and set default values
 	color(CColor::BLACK),
 	turnMode(TurnMode::NONE),
-	behaviourState(BehaviourState::ROAMING),
+	behaviorState(BehaviorState::ROAMING),
 	coloredBlobOmnidirectionalCameraSensorEnabled(false) {
 }
 
@@ -58,12 +58,12 @@ void FootBotController::Init(TConfigurationNode &configurationNode) {
 }
 
 void FootBotController::ControlStep() {
-	// Execute correct behaviour
-	switch(behaviourState) {
-		case BehaviourState::IDLE: {
+	// Execute correct behavior
+	switch(behaviorState) {
+		case BehaviorState::IDLE: {
 			break;
 		}
-		case BehaviourState::ROAMING: {
+		case BehaviorState::ROAMING: {
 			roam();
 			break;
 		}
@@ -80,8 +80,8 @@ void FootBotController::Reset() {
 	// Reset the turn mode to its initial state
 	turnMode = TurnMode::NONE;
 
-	// Reset the behaviour state to its initial state
-	behaviourState = BehaviourState::ROAMING;
+	// Reset the behavior state to its initial state
+	behaviorState = BehaviorState::ROAMING;
 
 	// Disable the colored blob omnidirectional camera sensor
 	coloredBlobOmnidirectionalCameraSensor->Disable();
