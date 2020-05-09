@@ -10,7 +10,7 @@
 - Test with more than 1 fire source
 
 # Tuesday 28-04-2020
-- Add random voting model that just takes the opinion of a random neighbour
+- Add random voting model that just takes the opinion of a random neighbor
 - Read additional article for the weighted voter model
 - Use two parameters for the gripper reaction mechanism: percentage and timesteps
 - The gripper starts acting when a percentage x holds for y amount of time
@@ -23,8 +23,8 @@
 
 # Tuesday 7-04-2020
 - Determine when to start the collective response so that it is most efficient
-- Majority rule: the grippers use the data received from their sensing neighbours
-- When working with data from neighbours, use a quorum to determine what to do
+- Majority rule: the grippers use the data received from their sensing neighbors
+- When working with data from neighbors, use a quorum to determine what to do
 - Weighted balance between distance and temperature, since a fire that's not very hot but very close to one exit, might or might not be that bad
 - Sensor move randomly to detect fires and aggregate
 - Maybe use fire edge detection

@@ -38,10 +38,10 @@ void TemperatureSensingFootBotController::ControlStep() {
 	// Formulate opinion using temperature and distance measurements
 	sense();
 
-	// Receive opinions from other temperature sensing robots in this robot's neighbourhood
+	// Receive opinions from other temperature sensing robots in this robot's neighborhood
 	receiveOpinions();
 
-	// Transmit this robot's opinion to other robots in its neighbourhood
+	// Transmit this robot's opinion to other robots in its neighborhood
 	transmitOpinion();
 
 	// If the robot is not undecided, lit up all the LEDs in the ring except the beacon with a color that represents the robot's preferred exit
@@ -140,7 +140,7 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 	// Get readings from the range and bearing sensor
 	const CCI_RangeAndBearingSensor::TReadings &readings = rangeAndBearingSensor->GetReadings();
 
-	// Receive opinions from other temperature sensing robots in this robot's neighbourhood
+	// Receive opinions from other temperature sensing robots in this robot's neighborhood
 	int totalVotes = 0;
 	map<uint32_t,int> exitVotes;
 	map<uint32_t,UInt8> exitTemperatures;
@@ -165,7 +165,7 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 		}
 	}
 
-	// If the neighbouring robots actually have opinions
+	// If the neighboring robots actually have opinions
 	// Use the combined data to potentially influence the opinion of the recipient based upon the used voting model
 	if(exitVotes.size() != 0) {
 		// If the robot is not undecided, add this robot's opinion to the votes
@@ -194,15 +194,15 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 				updateOpinion(exitTemperatures[winningVote->first], exitColors[winningVote->first], exitDistances[winningVote->first], exitVotes[winningVote->first]);
 			}
 		}
-		// Random neighbour (the robot's own opinion is not added to the list of valid readings in this model)
+		// Random neighbor (the robot's own opinion is not added to the list of valid readings in this model)
 		else if(decisionStrategyParams.getMode() == "random") {
-			int randomNeighbour = random->Uniform(CRange<UInt32>(0, validReadings.size()-1));
-			UInt8 temperature = validReadings[randomNeighbour].Data[RABIndex::TEMPERATURE];
-			UInt8 red = validReadings[randomNeighbour].Data[RABIndex::EXIT_COLOR_CHANNEL_RED];
-			UInt8 green = validReadings[randomNeighbour].Data[RABIndex::EXIT_COLOR_CHANNEL_GREEN];
-			UInt8 blue = validReadings[randomNeighbour].Data[RABIndex::EXIT_COLOR_CHANNEL_BLUE];
+			int randomNeighbor = random->Uniform(CRange<UInt32>(0, validReadings.size()-1));
+			UInt8 temperature = validReadings[randomNeighbor].Data[RABIndex::TEMPERATURE];
+			UInt8 red = validReadings[randomNeighbor].Data[RABIndex::EXIT_COLOR_CHANNEL_RED];
+			UInt8 green = validReadings[randomNeighbor].Data[RABIndex::EXIT_COLOR_CHANNEL_GREEN];
+			UInt8 blue = validReadings[randomNeighbor].Data[RABIndex::EXIT_COLOR_CHANNEL_BLUE];
 			CColor exitColor = CColor(red, green, blue);
-			UInt8 distance = validReadings[randomNeighbour].Data[RABIndex::EXIT_DISTANCE];
+			UInt8 distance = validReadings[randomNeighbor].Data[RABIndex::EXIT_DISTANCE];
 			updateOpinion(temperature, exitColor, distance, 1);
 		}
 		// Weighted voter model
@@ -213,7 +213,7 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 }
 
 void TemperatureSensingFootBotController::transmitOpinion() {
-	// If the robot is not undecided, send its opinion to other robots in its neighbourhood
+	// If the robot is not undecided, send its opinion to other robots in its neighborhood
 	if(preferredExitLightColor != CColor::BLACK) {
 		rangeAndBearingActuator->SetData(RABIndex::TEMPERATURE, preferredExitTemperature);
 		rangeAndBearingActuator->SetData(RABIndex::EXIT_COLOR_CHANNEL_RED, preferredExitLightColor.GetRed());

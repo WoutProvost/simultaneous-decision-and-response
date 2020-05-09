@@ -61,8 +61,8 @@
 
 # Changing decision mechanism
 - Reason: bots should be able to influence the opinion of other bots + bots with the highest temperature are not always reliable due to sensor noise
-- Exchange data with neighbours
-- Use a decision strategy to know when to replace your own data with the neighbouring data and update your decision about the exit to use
+- Exchange data with neighbors
+- Use a decision strategy to know when to replace your own data with the neighboring data and update your decision about the exit to use
 
 # Individual reaction mechanism
 - The grippers will hear the opinions being exchanged
@@ -101,8 +101,8 @@
 - Grippers also move to detect the edges being formed
 
 # Fire spreading method
-- Compute the vector to each neighbour to compute the fire spreading vector (i.e. the direction to where the fire gets hotter)
+- Compute the vector to each neighbor to compute the fire spreading vector (i.e. the direction to where the fire gets hotter)
 - Compute the vector to each exit and compare them to the fire vector
 - Choose the exit that coincides the least with the fire vector (i.e. if the fire is spreading towards the blue exit then pick the red exit and vice versa)
 - See the flocking example (vector of motion => gradient vector of fire)
-- Using the neighbouring data (e.g. 0.1, 0.2, 0.1) you can get direction of the fire
+- Using the neighboring data (e.g. 0.1, 0.2, 0.1) you can get direction of the fire

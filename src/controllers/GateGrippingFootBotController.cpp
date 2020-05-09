@@ -34,7 +34,7 @@ void GateGrippingFootBotController::ControlStep() {
 	// Call base class method
 	FootBotController::ControlStep();
 
-	// Receive opinions from temperature sensing robots in this robot's neighbourhood
+	// Receive opinions from temperature sensing robots in this robot's neighborhood
 	listenToDecisions();
 
 	// If the robot is not undecided, lit up all the LEDs in the ring except the beacon with a color that represents the robot's exit acted upon
@@ -63,7 +63,7 @@ void GateGrippingFootBotController::listenToDecisions() {
 	// Get readings from the range and bearing sensor
 	const CCI_RangeAndBearingSensor::TReadings &readings = rangeAndBearingSensor->GetReadings();
 
-	// Receive decisions from temperature sensing robots in this robot's neighbourhood
+	// Receive decisions from temperature sensing robots in this robot's neighborhood
 	int totalVotes = 0;
 	map<uint32_t,int> exitVotes;
 	map<uint32_t,CColor> exitColors;
@@ -82,7 +82,7 @@ void GateGrippingFootBotController::listenToDecisions() {
 		}
 	}
 
-	// If the neighbouring temperature sensing robots actually have made decisions
+	// If the neighboring temperature sensing robots actually have made decisions
 	// Use the combined data to determine which exit to act upon based upon the used parameters
 	if(exitVotes.size() != 0) {
 		// Combination of plurality and majority models
@@ -110,7 +110,7 @@ void GateGrippingFootBotController::listenToDecisions() {
 		}
 	}
 
-	// If an exit is preferred by at least the given percentage of neighbouring temperature sensing robots for the given time duration, start acting upon that exit
+	// If an exit is preferred by at least the given percentage of neighboring temperature sensing robots for the given time duration, start acting upon that exit
 	if(candidateExitTicks == reactionStrategyParams.getMinDurationTicks()) {
 		actingExitLightColor = candidateExitLightColor;
 		candidateExitTicks++;

@@ -400,7 +400,7 @@ void QCPPainter::setModes(QCPPainter::PainterModes modes)
   Sets the QPainter::NonCosmeticDefaultPen in Qt versions before Qt5 after beginning painting on \a
   device. This is necessary to get cosmetic pen consistency across Qt versions, because since Qt5,
   all pens are non-cosmetic by default, and in Qt4 this render hint must be set to get that
-  behaviour.
+  behavior.
   
   The Constructor \ref QCPPainter(QPaintDevice *device) which directly starts painting also sets
   the render hint as appropriate.
@@ -2755,7 +2755,7 @@ QCPDataSelection QCPDataSelection::inverse(const QCPDataRange &outerRange) const
   
   The appearance of the selection rect can be controlled via \ref setPen and \ref setBrush.
 
-  If you wish to provide custom behaviour, e.g. a different visual representation of the selection
+  If you wish to provide custom behavior, e.g. a different visual representation of the selection
   rect (\ref QCPSelectionRect::draw), you can subclass QCPSelectionRect and pass an instance of
   your subclass to \ref QCustomPlot::setSelectionRect.
 */
@@ -3495,7 +3495,7 @@ QList<QCPLayoutElement*> QCPLayoutElement::elements(bool recursive) const
   See \ref QCPLayerable::selectTest for a general explanation of this virtual method.
   
   QCPLayoutElement subclasses may reimplement this method to provide more specific selection test
-  behaviour.
+  behavior.
 */
 double QCPLayoutElement::selectTest(const QPointF &pos, bool onlySelectable, QVariant *details) const
 {
@@ -4350,7 +4350,7 @@ void QCPLayoutGrid::setWrap(int count)
 }
 
 /*!
-  Sets the filling order and wrapping behaviour that is used when adding new elements with the
+  Sets the filling order and wrapping behavior that is used when adding new elements with the
   method \ref addElement(QCPLayoutElement*).
 
   The specified \a order defines whether rows or columns are filled first. Using \ref setWrap, you
@@ -5587,7 +5587,7 @@ void QCPAxisTicker::generate(const QCPRange &range, const QLocale &locale, QChar
   order to provide readable tick labels as well as a reasonable number of tick counts (see \ref
   setTickCount, \ref setTickStepStrategy).
   
-  If a QCPAxisTicker subclass only wants a different tick step behaviour than the default
+  If a QCPAxisTicker subclass only wants a different tick step behavior than the default
   implementation, it should reimplement this method. See \ref cleanMantissa for a possible helper
   function.
 */
@@ -7864,7 +7864,7 @@ void QCPAxis::setRangeReversed(bool reversed)
   The axis ticker is responsible for generating the tick positions and tick labels. See the
   documentation of QCPAxisTicker for details on how to work with axis tickers.
   
-  You can change the tick positioning/labeling behaviour of this axis by setting a different
+  You can change the tick positioning/labeling behavior of this axis by setting a different
   QCPAxisTicker subclass using this method. If you only wish to modify the currently installed axis
   ticker, access it via \ref ticker.
   
@@ -8000,7 +8000,7 @@ void QCPAxis::setTickLabelSide(LabelSide side)
   cross and 183 (0xB7) for the dot.
   
   Examples for \a formatCode:
-  \li \c g normal format code behaviour. If number is small, fixed format is used, if number is large,
+  \li \c g normal format code behavior. If number is small, fixed format is used, if number is large,
   normal scientific format is used
   \li \c gb If number is small, fixed format is used, if number is large, scientific format is used with
   beautifully typeset decimal powers and a dot as multiplication sign
@@ -11000,7 +11000,7 @@ void QCPAbstractPlottable::rescaleAxes(bool onlyEnlarge) const
 /*!
   Rescales the key axis of the plottable so the whole plottable is visible.
   
-  See \ref rescaleAxes for detailed behaviour.
+  See \ref rescaleAxes for detailed behavior.
 */
 void QCPAbstractPlottable::rescaleKeyAxis(bool onlyEnlarge) const
 {
@@ -11042,7 +11042,7 @@ void QCPAbstractPlottable::rescaleKeyAxis(bool onlyEnlarge) const
   Returns true if the axis was actually scaled. This might not be the case if this plottable has an
   invalid range, e.g. because it has no data points.
 
-  See \ref rescaleAxes for detailed behaviour.
+  See \ref rescaleAxes for detailed behavior.
 */
 void QCPAbstractPlottable::rescaleValueAxis(bool onlyEnlarge, bool inKeyRange) const
 {
@@ -12077,7 +12077,7 @@ void QCPItemPosition::setPixelPosition(const QPointF &pixelPosition)
   "setClipToAxisRect(false)".
 
   On the other hand if you want the item to be clipped to a different axis rect, specify it via
-  \ref setClipAxisRect. This clipAxisRect property of an item is only used for clipping behaviour, and
+  \ref setClipAxisRect. This clipAxisRect property of an item is only used for clipping behavior, and
   in principle is independent of the coordinate axes the item might be tied to via its position
   members (\ref QCPItemPosition::setAxes). However, it is common that the axis rect for clipping
   also contains the axes used for the item positions.
@@ -12592,7 +12592,7 @@ QCP::Interaction QCPAbstractItem::selectionCategory() const
   This signal is emitted when the QCustomPlot receives a mouse press event.
   
   It is emitted before QCustomPlot handles any other mechanism like range dragging. So a slot
-  connected to this signal can still influence the behaviour e.g. with \ref QCPAxisRect::setRangeDrag or \ref
+  connected to this signal can still influence the behavior e.g. with \ref QCPAxisRect::setRangeDrag or \ref
   QCPAxisRect::setRangeDragAxes.
 */
 
@@ -12601,7 +12601,7 @@ QCP::Interaction QCPAbstractItem::selectionCategory() const
   This signal is emitted when the QCustomPlot receives a mouse move event.
   
   It is emitted before QCustomPlot handles any other mechanism like range dragging. So a slot
-  connected to this signal can still influence the behaviour e.g. with \ref QCPAxisRect::setRangeDrag or \ref
+  connected to this signal can still influence the behavior e.g. with \ref QCPAxisRect::setRangeDrag or \ref
   QCPAxisRect::setRangeDragAxes.
   
   \warning It is discouraged to change the drag-axes with \ref QCPAxisRect::setRangeDragAxes here,
@@ -12615,7 +12615,7 @@ QCP::Interaction QCPAbstractItem::selectionCategory() const
   This signal is emitted when the QCustomPlot receives a mouse release event.
   
   It is emitted before QCustomPlot handles any other mechanisms like object selection. So a
-  slot connected to this signal can still influence the behaviour e.g. with \ref setInteractions or
+  slot connected to this signal can still influence the behavior e.g. with \ref setInteractions or
   \ref QCPAbstractPlottable::setSelectable.
 */
 
@@ -12624,7 +12624,7 @@ QCP::Interaction QCPAbstractItem::selectionCategory() const
   This signal is emitted when the QCustomPlot receives a mouse wheel event.
   
   It is emitted before QCustomPlot handles any other mechanisms like range zooming. So a slot
-  connected to this signal can still influence the behaviour e.g. with \ref QCPAxisRect::setRangeZoom, \ref
+  connected to this signal can still influence the behavior e.g. with \ref QCPAxisRect::setRangeZoom, \ref
   QCPAxisRect::setRangeZoomAxes or \ref QCPAxisRect::setRangeZoomFactor.
 */
 
@@ -13234,7 +13234,7 @@ void QCustomPlot::setMultiSelectModifier(Qt::KeyboardModifier modifier)
   
   If a selection rect interaction is currently active, and \a mode is set to \ref QCP::srmNone, the
   interaction is canceled (\ref QCPSelectionRect::cancel). Switching between any of the other modes
-  will keep the selection rect active. Upon completion of the interaction, the behaviour is as
+  will keep the selection rect active. Upon completion of the interaction, the behavior is as
   defined by the currently set \a mode, not the mode that was set when the interaction started.
   
   \see setInteractions, setSelectionRect, QCPSelectionRect
@@ -13268,7 +13268,7 @@ void QCustomPlot::setSelectionRectMode(QCP::SelectionRectMode mode)
   the passed \a selectionRect. It can be accessed later via \ref selectionRect.
   
   This method is useful if you wish to replace the default QCPSelectionRect instance with an
-  instance of a QCPSelectionRect subclass, to introduce custom behaviour of the selection rect.
+  instance of a QCPSelectionRect subclass, to introduce custom behavior of the selection rect.
   
   \see setSelectionRectMode
 */
@@ -16717,7 +16717,7 @@ QPointF QCPSelectionDecoratorBracket::getPixelCoordinates(const QCPPlottableInte
   elements) hovering inside the axis rect.
   
   If an axis rect is clicked and dragged, it processes this by moving certain axis ranges. The
-  behaviour can be controlled with \ref setRangeDrag and \ref setRangeDragAxes. If the mouse wheel
+  behavior can be controlled with \ref setRangeDrag and \ref setRangeDragAxes. If the mouse wheel
   is scrolled while the cursor is on the axis rect, certain axes are scaled. This is controllable
   via \ref setRangeZoom, \ref setRangeZoomAxes and \ref setRangeZoomFactor. These interactions are
   only enabled if \ref QCustomPlot::setInteractions contains \ref QCP::iRangeDrag and \ref
@@ -19044,7 +19044,7 @@ void QCPTextElement::setText(const QString &text)
 }
 
 /*!
-  Sets options for text alignment and wrapping behaviour. \a flags is a bitwise OR-combination of
+  Sets options for text alignment and wrapping behavior. \a flags is a bitwise OR-combination of
   \c Qt::AlignmentFlag and \c Qt::TextFlag enums.
   
   Possible enums are:
@@ -19302,7 +19302,7 @@ QColor QCPTextElement::mainTextColor() const
   setDataRange, \ref setDataScaleType). Multiple color maps may be associated with a single color
   scale, to make them all synchronize these properties.
   
-  To have finer control over the number display and axis behaviour, you can directly access the
+  To have finer control over the number display and axis behavior, you can directly access the
   \ref axis. See the documentation of QCPAxis for details about configuring axes. For example, if
   you want to change the number of automatically generated ticks, call
   \snippet documentation/doc-code-snippets/mainwindow.cpp qcpcolorscale-tickcount
@@ -19329,7 +19329,7 @@ QColor QCPTextElement::mainTextColor() const
 /*! \fn QCPAxis *QCPColorScale::axis() const
   
   Returns the internal \ref QCPAxis instance of this color scale. You can access it to alter the
-  appearance and behaviour of the axis. \ref QCPColorScale duplicates some properties in its
+  appearance and behavior of the axis. \ref QCPColorScale duplicates some properties in its
   interface for convenience. Those are \ref setDataRange (\ref QCPAxis::setRange), \ref
   setDataScaleType (\ref QCPAxis::setScaleType), and the method \ref setLabel (\ref
   QCPAxis::setLabel). As they each are connected, it does not matter whether you use the method on

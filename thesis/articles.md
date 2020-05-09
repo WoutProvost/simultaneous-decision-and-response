@@ -143,7 +143,7 @@ The behavior of groups of social animals appear to be robust, scalable, and flex
 
 ## Design
 
-### **Behaviour-based design method:**
+### **Behavior-based design method:**
 Still no formal or precise ways to design individual level behaviors that produce the desired collective behavior. The intuition of the human designer is still the main ingredient. In an iterative way, the individual behavior of each robot is implemented, studied, and improved until the desired collective behavior is obtained. In behavior-based design, inspiration is often taken from the observation of the behaviors of social animals. (p.4)
 
 Usually a trial and error process: individual behaviors are iteratively adjusted and tuned until the resulting collective behavior is obtained. Bottom-up. Two main categories: probabilistic finite state machine design, virtual physics-based design. (p.5)
@@ -174,7 +174,7 @@ Used to find the parameters of an artificial neural network. The same problems i
 
 ### **Microscopic:**
 **IMPORTANT**
-Take into account each robot individually, analyzing both robot-to-robot and robot-to-environment interactions. These individual behavior models are mainly used for design purposes. As such they have already been presented in the previous section on behaviour-based design. Microscopic models in which the elements composing a system are simulated with the
+Take into account each robot individually, analyzing both robot-to-robot and robot-to-environment interactions. These individual behavior models are mainly used for design purposes. As such they have already been presented in the previous section on behavior-based design. Microscopic models in which the elements composing a system are simulated with the
 use of a computer are traditionally called simulations. (p.10)
 
 ### **Macroscopic:**
@@ -193,7 +193,7 @@ Two properties of the system: safety and liveness. The safety property is verifi
 ### **Real-robot analysis:**
 It is practically unfeasible to simulate all the aspects of reality using simulations. Experiments with real robots help to test the robustness of swarm robotics systems that have noisy sensors and actuators. The experiments are performed in controlled environments. By controlled environments we mean artificial arenas in which most conditions—e.g., light intensity, radio interference and floor smoothness—can be controlled by the experimenter. This is often very far from the scenarios in which swarm robotics systems are supposed to operate. It would help to clarify possible differences between the model and the real-robot system. (p.14)
 
-## Spatially-organizing behaviours
+## Spatially-organizing behaviors
 Collective behaviors that focus on how to organize and distribute robots and objects in space. For each of the following tasks, images are available in the artikel. (p.15)
 
 ### **Aggregation:**
@@ -215,7 +215,7 @@ Such robots are able, when connected, to share energy and computational resource
 ### Object clustering and assembling:**
 To group objects close one to the other. The difference between clusters and assembles is that clusters are composed of non-connected objects, whereas assembles are composed of physically linked objects. Using probabilistic finite state machines. The robots explore the environment at random and react in different ways to the discovery of available objects or of part of the cluster/assemble to create. (p.20)
 
-## Navigation behaviours
+## Navigation behaviors
 Behaviors that cope with the problem of coordinating the movements of a swarm of robots. (p.21)
 
 ### **Collective exploration:**
@@ -253,7 +253,7 @@ Robots have to collect prey that are then converted into energy in the nest. Whi
 
 Robots must remove sticks scattered in the environment. To remove a stick, two robots must cooperate performing two parts of the task: one holds a stick from the top and the other from the bottom. Once a robot finds a stick, it holds its top and waits for another robot to complete the second part of the task. If after a certain waiting time no one helped, the robot leaves the stick and searches for another one. This waiting time is changed dynamically according to how well a robot performed in the past. Although the results were not conclusive, the authors observed that, over time, the robots develop a preference for one of the two parts of the tasks, specializing in robots holding the top part of a stick and robots holding the bottom part. (p.29)
 
-## Other collective behaviours
+## Other collective behaviors
 
 ### Collective fault detection
 Hardware failures are still quite common. Techniques to allow robots to autonomously detect failures and faulty behaviors have been developed by exploiting the natural redundancy of swarm robotic systems. (p.29)
@@ -283,7 +283,7 @@ Require less manual intervention because of their robustness, scalability and fl
 **IMPORTANT**
 
 ### **What is collective decision-making?** (p.30)
-How groups reach decisions without centralised leadership. All individuals seek to agree on the same outcome. Within high-relatedness groups, group members’ behaviour is shaped as part of a group-level decision-making mechanism. Within unrelated groups, individuals’ behaviour should maximise their own expected fitness, within the context of the group.
+How groups reach decisions without centralised leadership. All individuals seek to agree on the same outcome. Within high-relatedness groups, group members’ behavior is shaped as part of a group-level decision-making mechanism. Within unrelated groups, individuals’ behavior should maximise their own expected fitness, within the context of the group.
 
 ### **Decision Accuracy:** (p.30)
 There is an inherent decision-making trade-off between true positive rate and false positive rate; a decision-maker cannot improve the rate at which they detect events of interest, without also increasing the rate at which they incorrectly detect those events when they have not happened. Yet in the group situation, a quorum decision rule, typical of social insect colonies, allows the group to simultaneously improve both rates. Group decisions are always more accurate than individual decisions. This has led to a speed-accuracy tradeoff.
@@ -296,19 +296,19 @@ Value may refer to stimulus intensity, or to reward magnitude. Increasing the ma
 ### **Nutrition and Decision-making:**
 Foraging decisions often aim at balancing the intake of different nutrients rather than maximising the gain in energy. Nutritional deficits may bias or shape decision-making. The nutrient space is an N-dimensional space, which is spanned by N axes each of which represents one nutrient required in the diet. The performance of the animal or social insects can then be evaluated by plotting the deficits in proteins and in carbohydrates on the axes of a two-dimensional Cartesian coordinate plane. (p.31)
 
-Fulfil an ongoing decision task by selecting repeatedly among two alternatives, to bring their internal state as close as possible to their target intake. This behaviour can be tracked in nutrient space. Deficits in one or more nutrients drive the motivations for deciding for or against an action that reduces a deficit. Being central to all social groups, nutritional interactions may have contributed to the evolution of social behaviour. (p.32)
+Fulfil an ongoing decision task by selecting repeatedly among two alternatives, to bring their internal state as close as possible to their target intake. This behavior can be tracked in nutrient space. Deficits in one or more nutrients drive the motivations for deciding for or against an action that reduces a deficit. Being central to all social groups, nutritional interactions may have contributed to the evolution of social behavior. (p.32)
 
-### **Robots and Collective Behaviour:** (p.32)
-Swarm robotics, where a large number of autonomous robots coordinate with each other to perform a common task. Each individual gathers and exchanges information with the environment and peers in a local range. Look at natural processes that display the desired behaviour and adapt such processes to implement multirobot systems. In collective behaviour, the process dynamics are principally determined by how information is acquired, processed and transferred between individuals.
+### **Robots and Collective Behavior:** (p.32)
+Swarm robotics, where a large number of autonomous robots coordinate with each other to perform a common task. Each individual gathers and exchanges information with the environment and peers in a local range. Look at natural processes that display the desired behavior and adapt such processes to implement multirobot systems. In collective behavior, the process dynamics are principally determined by how information is acquired, processed and transferred between individuals.
 
 Working with a physical device imposes constraints that force the designer to consider the limited capabilities of each individual (in terms of sensors and actuators), the effect of noise, and the mechanistic process of information transfer. As a result, a robot implementation reduces the possibility of oversimplifying the model and can provide insights into biological mechanisms.
 
 # 5. A Design Pattern for Decentralised Decision-making
 **IMPORTANT**
-Design patterns provide formal guidelines to deal with recurring problems in a specific field. For distributed systems, design patterns prescribe the individual-level microscopic behaviour required to obtain desired system-level macroscopic properties. In this paper, we propose a design pattern for decentralised decision-making based on the nest-site selection behaviour of honeybee swarms. (p.2)
+Design patterns provide formal guidelines to deal with recurring problems in a specific field. For distributed systems, design patterns prescribe the individual-level microscopic behavior required to obtain desired system-level macroscopic properties. In this paper, we propose a design pattern for decentralised decision-making based on the nest-site selection behavior of honeybee swarms. (p.2)
 
 ### **Cross inhibition:**
-A best-of-n decision problem, that is, the choice of the best option among `n` different alternatives. Each option `i` is characterised by a quality `v_i`. We have a population `A` of `N` agents where each agent `a_g` is either committed to one of the available options `i` and belongs to the sub-population `A_i` of `N_i` agents and thus fraction `W_i = N_i/N` of the entire population, or is uncommitted and belongs to sub-population `U` with `N_U` agents and thus fraction `W_U = N_U/N` of the entire population. Agents can obtain a noisy estimate `^v_i` of the quality associated to option `i`. At the macroscopic level, a decision is taken as soon as the entire population, or a large fraction `W_q` (quorum) is committed to a single option. A macroscopic model that accounts for the system meanfield dynamics, and that describes the decision process at the population level. A microscopic model in the form of a probabilistic finite state machine (PFSM) to describe the behaviour of the individual agent that changes its commitment state in response to probabilistic events. (p.2)
+A best-of-n decision problem, that is, the choice of the best option among `n` different alternatives. Each option `i` is characterised by a quality `v_i`. We have a population `A` of `N` agents where each agent `a_g` is either committed to one of the available options `i` and belongs to the sub-population `A_i` of `N_i` agents and thus fraction `W_i = N_i/N` of the entire population, or is uncommitted and belongs to sub-population `U` with `N_U` agents and thus fraction `W_U = N_U/N` of the entire population. Agents can obtain a noisy estimate `^v_i` of the quality associated to option `i`. At the macroscopic level, a decision is taken as soon as the entire population, or a large fraction `W_q` (quorum) is committed to a single option. A macroscopic model that accounts for the system meanfield dynamics, and that describes the decision process at the population level. A microscopic model in the form of a probabilistic finite state machine (PFSM) to describe the behavior of the individual agent that changes its commitment state in response to probabilistic events. (p.2)
 
 ### **Macroscopic model:**
 We can identify at least 4 processes:
@@ -328,7 +328,7 @@ Here, the variation of `W_i` is determined by the four processes described above
 - `σ_j = f_σ(v_i)`
 
 ### **Microscopic model:**
-The behaviour of individual agents is represented by the probabilistic finite state machine (PFSM) shown in (zie figuur artikel) that describes the commitment dynamics. An agent can be either uncommitted (state `C_U`) or committed to option `i` (state `C_i`), and probabilistically changes state every `τ` seconds according to two types of transitions: spontaneous and interactive. (p.3)
+The behavior of individual agents is represented by the probabilistic finite state machine (PFSM) shown in (zie figuur artikel) that describes the commitment dynamics. An agent can be either uncommitted (state `C_U`) or committed to option `i` (state `C_i`), and probabilistically changes state every `τ` seconds according to two types of transitions: spontaneous and interactive. (p.3)
 
 Spontaneous transitions model the discovery of option `i` with probability `P_γ(v_i)` and the abandonment of commitment to option `i` with probability `P_α(v_i)`. (p.3)
 
@@ -340,7 +340,7 @@ In the homogeneous case, all agents compute their transition probabilities in th
 In the heterogeneous case, each agent computes its own transition probabilities differently from other agents. A simple response threshold scheme, so that agent `a_g` follows a transition with a fixed probability if the (estimated) option quality `^v_i` exceeds a given threshold `δ_g`. `P_λ,g` grows with amount `P_λ_u` and shrinks with amount `P_λ_d` which are tunable parameters. The threshold is drawn for each agent from a probability distribution `D_λ` through the cumulative distribution function `F_D_λ` (zie artikel voor formule). This leads to `P_λ_u = f_λ(v_M)*τ` and `P_λ_d = f_λ(v_m)*τ` for `v_M` being the upper bound of the distribution and `v_m` being the lower bound. Each agent re-samples the threshold from the distribution at every decision step. (p.4)
 
 ### **Latent and interactive agents:**
-Agents might not be able to interact with neighbours every `τ` seconds. For instance, an agent might be busy estimating the quality of a discovered option, or spatial/topological factors might prevent frequent interactions. Agents unable to interact are latent, as opposed to interactive ones (zie opnieuw figuur voor transities tussen deze 2 soorten). An agent becomes latent with probability `P_L`, and returns interactive with probability `P_I`. A fraction of `n_I = P_I/(P_I + P_L)` agents can be found in the interactive state. A fraction of `n_L = P_L/(P_I + P_L)` agents can be found in the latent state. The activity switch is possible for both committed and uncommitted agents, leading to a PFSM description with `2(n + 1)` states (zie figuur). Recruitment and cross-inhibition are available only to interactive agents, while discovery and abandonment are available also to latent agents. Given the microscopic description, it is possible to derive the correspondence between micro and macro parameters by dividing the macroscopic transition rates by `n_I` or `n_L` (zie artikel voor welke formules dit geldt). (p.5)
+Agents might not be able to interact with neighbors every `τ` seconds. For instance, an agent might be busy estimating the quality of a discovered option, or spatial/topological factors might prevent frequent interactions. Agents unable to interact are latent, as opposed to interactive ones (zie opnieuw figuur voor transities tussen deze 2 soorten). An agent becomes latent with probability `P_L`, and returns interactive with probability `P_I`. A fraction of `n_I = P_I/(P_I + P_L)` agents can be found in the interactive state. A fraction of `n_L = P_L/(P_I + P_L)` agents can be found in the latent state. The activity switch is possible for both committed and uncommitted agents, leading to a PFSM description with `2(n + 1)` states (zie figuur). Recruitment and cross-inhibition are available only to interactive agents, while discovery and abandonment are available also to latent agents. Given the microscopic description, it is possible to derive the correspondence between micro and macro parameters by dividing the macroscopic transition rates by `n_I` or `n_L` (zie artikel voor welke formules dit geldt). (p.5)
 
 ### **Metrics:**
 Whenever time is required to gather sufficient information, decision-making gives rise to speed-accuracy tradeoffs.  In collective decision-making, a high coherence of the group is also important, as it can minimise the costs for conflicting choices by individuals. As maintaining coherence is a time-consuming process that requires to spread information widely within the group, speed-cohesion tradeoffs may also appear. (p.6)

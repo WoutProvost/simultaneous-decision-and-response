@@ -265,7 +265,7 @@ enum Interaction { iRangeDrag         = 0x001 ///< <tt>0x001</tt> Axis ranges ar
 Q_DECLARE_FLAGS(Interactions, Interaction)
 
 /*!
-  Defines the behaviour of the selection rect.
+  Defines the behavior of the selection rect.
   
   \see QCustomPlot::setSelectionRectMode, QCustomPlot::selectionRect, QCPSelectionRect
 */
