@@ -182,8 +182,8 @@ void FireEvacuationLoopFunctions::PreStep() {
 
 	// 	Real resolutionX = arenaSize->GetX() * heatMapParams.tilesPerMeter;
 	// 	Real resolutionY = arenaSize->GetY() * heatMapParams.tilesPerMeter;
-	// 	int centerX = random->Uniform(CRange<UInt32>(0, resolutionX-1));
-	// 	int centerY = random->Uniform(CRange<UInt32>(0, resolutionY-1));
+	// 	int centerX = random->Uniform(CRange<UInt32>(0, resolutionX)); // Interval is [min,max) i.e. right-open
+	// 	int centerY = random->Uniform(CRange<UInt32>(0, resolutionY)); // Interval is [min,max) i.e. right-open
 	
 	// Real radius = fireParams.circleRadius * heatMapParams.tilesPerMeter;
 	// Real spacing = heatMapParams.getMaxTemperature() / radius;
@@ -307,8 +307,8 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 		for(int source = 0; source < fireParams.getSources(); source++) {
 			Real resolutionX = arenaSize->GetX() * heatMapParams.getTilesPerMeter();
 			Real resolutionY = arenaSize->GetY() * heatMapParams.getTilesPerMeter();
-			int centerX = random->Uniform(CRange<UInt32>(0, resolutionX-1));
-			int centerY = random->Uniform(CRange<UInt32>(0, resolutionY-1));
+			int centerX = random->Uniform(CRange<UInt32>(0, resolutionX)); // Interval is [min,max) i.e. right-open
+			int centerY = random->Uniform(CRange<UInt32>(0, resolutionY)); // Interval is [min,max) i.e. right-open
 
 			// Use a fixed source position if it is provided and is not outside the range of the heatmap array
 			// For an arenaSize of 15 meters along one axis with 5 tiles per meter, the coordinate range [-7.5:7.49] maps to the index range [0:74]

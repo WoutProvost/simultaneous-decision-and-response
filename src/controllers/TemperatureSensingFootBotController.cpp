@@ -196,7 +196,7 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 		}
 		// Random neighbor (the robot's own opinion is not added to the list of valid readings in this model)
 		else if(decisionStrategyParams.getMode() == "random") {
-			int randomNeighbor = random->Uniform(CRange<UInt32>(0, validReadings.size()-1));
+			int randomNeighbor = random->Uniform(CRange<UInt32>(0, validReadings.size())); // Interval is [min,max) i.e. right-open
 			UInt8 temperature = validReadings[randomNeighbor].Data[RABIndex::TEMPERATURE];
 			UInt8 red = validReadings[randomNeighbor].Data[RABIndex::EXIT_COLOR_CHANNEL_RED];
 			UInt8 green = validReadings[randomNeighbor].Data[RABIndex::EXIT_COLOR_CHANNEL_GREEN];
