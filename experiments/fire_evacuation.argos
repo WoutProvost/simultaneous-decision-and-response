@@ -53,7 +53,7 @@
 	</controllers>
 
 	<arena size="15,15,1" center="0,0,0.5">
-		<!-- Orientation angles are in the Z,Y,X order and uses degrees! -->
+		<!-- Orientation angles are in the Z,Y,X order and use degrees! -->
 
 		<!-- Boundary walls -->
 		<box id="bound_north_left" size="6,0.1,0.5" movable="false" mass="0.0">
@@ -107,7 +107,7 @@
 		<!-- Camera aperture: range on ground = h*tan(aperture) = 0.289m*tan(89.9deg) = 165.58m -->
 		<distribute>
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
-			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
+			<orientation method="uniform" min="0,0,0" max="360,0,0" />
 			<entity quantity="100" max_trials="100">
 				<foot-bot id="fb_ts_" rab_range="1" rab_data_size="6" omnidirectional_camera_aperture="89.9">
 					<controller config="temperature_sensing_footbot_controller" />
@@ -122,7 +122,7 @@
 		<!-- Camera aperture: range on ground = h*tan(aperture) = 0.289m*tan(89.9deg) = 165.58m -->
 		<distribute>
 			<position method="uniform" min="-7.5,-7.5,0" max="7.5,7.5,0" />
-			<orientation method="gaussian" mean="0,0,0" std_dev="360,0,0" />
+			<orientation method="uniform" min="0,0,0" max="360,0,0" />
 			<entity quantity="100" max_trials="100">
 				<foot-bot id="fb_gg_" rab_range="1" rab_data_size="6" omnidirectional_camera_aperture="89.9">
 					<controller config="gate_gripping_footbot_controller" />
