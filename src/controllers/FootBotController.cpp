@@ -11,7 +11,7 @@ FootBotController::FootBotController() :
 	turnMode(TurnMode::NONE),
 	behaviorState(BehaviorState::ROAMING),
 	randomTurnTicks(0),
-	randomTurnVector(CVector2::X),
+	randomTurnVector(CVector2::ZERO),
 	coloredBlobOmnidirectionalCameraSensorEnabled(false) {
 }
 
@@ -91,7 +91,7 @@ void FootBotController::Reset() {
 	randomTurnTicks = 0;
 
 	// Reset the random direction vector the robot last turned to to its initial state
-	randomTurnVector = CVector2::X;
+	randomTurnVector = CVector2::ZERO;
 
 	// Disable the colored blob omnidirectional camera sensor
 	coloredBlobOmnidirectionalCameraSensor->Disable();
@@ -127,6 +127,7 @@ void FootBotController::roam() {
 	bool ignoreNoTurn = false;
 	if(heading == CVector2::X) {
 		// Increase the amount of ticks since the robot last turned in a random direction
+		// Only increase the amount of ticks when not performing collision avoidance, so that over time the robots stop turning all at once
 		randomTurnTicks++;
 
 		// Check if the robot should turn in a random direction
@@ -138,18 +139,24 @@ void FootBotController::roam() {
 			randomTurnTicks = 0;
 		}
 
-		// Get readings from the positioning sensor
-		const CCI_PositioningSensor::SReading &reading = positioningSensor->GetReading();
+		// If the random direction vector the robot last turned to isn't in its initial state
+		if(randomTurnVector != CVector2::ZERO) {
+			// Get readings from the positioning sensor
+			const CCI_PositioningSensor::SReading &reading = positioningSensor->GetReading();
 
-		// Determine the robot orientation		
-		CRadians z; CRadians y; CRadians x;
-		reading.Orientation.ToEulerAngles(z, y, x);
+			// Determine the robot orientation
+			CRadians z; CRadians y; CRadians x;
+			reading.Orientation.ToEulerAngles(z, y, x);
 
-		// Change the heading to use the random direction
-		heading = CVector2(heading.Length(), randomTurnVector.Angle() - z);
+			// Change the heading to use the random direction
+			heading = CVector2(heading.Length(), randomTurnVector.Angle() - z);
 
-		// Make sure to use this new direction angle exactly
-		ignoreNoTurn = true;
+			// Make sure to use this new direction angle exactly
+			ignoreNoTurn = true;
+		}
+	} else {
+		// Reset the random direction vector the robot last turned to to its initial state so that the robot doesn't continually bump into the obstacle after completing the collision avoidance
+		randomTurnVector = CVector2::ZERO;
 	}
 
 	// Set the velocities of both the left and the right wheels according to the maximum velocity and to where the robot should go

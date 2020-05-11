@@ -37,6 +37,7 @@
 - ! fire mode (and mode parameters)
 - ! decision strategy mode
 - ! reaction strategy parameters
+- ! random_turn_ticks
 - max_velocity (important in the dynamic scenario due to how fast the fire spreads)
 - rab_range
 - tiles_per_meter
