@@ -50,7 +50,7 @@ void FootBotController::Init(TConfigurationNode &configurationNode) {
 	if(appearanceParams.getDebugShowPreference()) {
 		string prefix("exit_light_");
 		CSpace::TMapPerType &lightEntities = CSimulator::GetInstance().GetSpace().GetEntitiesByType("light");
-		for(CSpace::TMapPerType::iterator it = lightEntities.begin(), end = lightEntities.end(); it != end; it++) {
+		for(auto it = lightEntities.begin(), end = lightEntities.end(); it != end; it++) {
 			CLightEntity &lightEntity = *any_cast<CLightEntity*>(it->second);
 			if(lightEntity.GetId().compare(0, prefix.length(), prefix) == 0) {
 				ignoredColoredBlobs[getExitLightColorForRobotsToUse(lightEntity.GetColor())] = true;
@@ -91,71 +91,6 @@ void FootBotController::Reset() {
 	// Disable the colored blob omnidirectional camera sensor
 	coloredBlobOmnidirectionalCameraSensor->Disable();
 	coloredBlobOmnidirectionalCameraSensorEnabled = false;
-}
-
-CColor FootBotController::getExitLightColorForRobotsToUse(const CColor &color) {
-	// Slightly alter the color so that it won't be detected as an exit
-	CColor exitLedsColor = color;
-	if(exitLedsColor.GetRed() < 128) {
-		exitLedsColor.SetRed(exitLedsColor.GetRed() + 1);
-	} else {
-		exitLedsColor.SetRed(exitLedsColor.GetRed() - 1);
-	}
-	if(exitLedsColor.GetGreen() < 128) {
-		exitLedsColor.SetGreen(exitLedsColor.GetGreen() + 1);
-	} else {
-		exitLedsColor.SetGreen(exitLedsColor.GetGreen() - 1);
-	}
-	if(exitLedsColor.GetBlue() < 128) {
-		exitLedsColor.SetBlue(exitLedsColor.GetBlue() + 1);
-	} else {
-		exitLedsColor.SetBlue(exitLedsColor.GetBlue() - 1);
-	}
-	return exitLedsColor;
-}
-
-void FootBotController::roam() {
-	// Get the vector that points directly away from a potential obstacle to perform collision avoidance
-	CVector2 heading = getCollisionAvoidanceVector();
-
-	// If the robot isn't currently performing obstacle avoidance, turn in a random direction every configured amount of timesteps to break up the grouping and mix the system better
-	bool ignoreNoTurn = false;
-	if(heading == CVector2::X) {
-		// Increase the amount of ticks since the robot last turned in a random direction
-		// Only increase the amount of ticks when not performing collision avoidance, so that over time the robots stop turning all at once
-		randomTurnTicks++;
-
-		// Check if the robot should turn in a random direction
-		if(randomTurnTicks == movementParams.getRandomTurnTicks()) {
-			// Get a unit vector that uses a random direction
-			randomTurnVector = getRandomTurnDirectionVector();
-
-			// Reset the ticks since the robot last turned in a random direction
-			randomTurnTicks = 0;
-		}
-
-		// If the random direction vector the robot last turned to isn't in its initial state
-		if(randomTurnVector != CVector2::ZERO) {
-			// Get readings from the positioning sensor
-			const CCI_PositioningSensor::SReading &reading = positioningSensor->GetReading();
-
-			// Determine the robot orientation
-			CRadians z; CRadians y; CRadians x;
-			reading.Orientation.ToEulerAngles(z, y, x);
-
-			// Change the heading to use the random direction
-			heading = CVector2(heading.Length(), randomTurnVector.Angle() - z);
-
-			// Make sure to use this new direction angle exactly
-			ignoreNoTurn = true;
-		}
-	} else {
-		// Reset the random direction vector the robot last turned to to its initial state so that the robot doesn't continually bump into the obstacle after completing the collision avoidance
-		randomTurnVector = CVector2::ZERO;
-	}
-
-	// Set the velocities of both the left and the right wheels according to the maximum velocity and to where the robot should go
-	setWheelVelocitiesFromVector(movementParams.getMaxVelocity() * heading, ignoreNoTurn);
 }
 
 CVector2 FootBotController::getVectorToExitLight(CColor exitColor) {
@@ -262,6 +197,71 @@ void FootBotController::setWheelVelocitiesFromVector(const CVector2 &heading, bo
 		// Turn right
 		differentialSteeringActuator->SetLinearVelocity(v2, v1);
 	}
+}
+
+CColor FootBotController::getExitLightColorForRobotsToUse(const CColor &color) {
+	// Slightly alter the color so that it won't be detected as an exit
+	CColor exitLedsColor = color;
+	if(exitLedsColor.GetRed() < 128) {
+		exitLedsColor.SetRed(exitLedsColor.GetRed() + 1);
+	} else {
+		exitLedsColor.SetRed(exitLedsColor.GetRed() - 1);
+	}
+	if(exitLedsColor.GetGreen() < 128) {
+		exitLedsColor.SetGreen(exitLedsColor.GetGreen() + 1);
+	} else {
+		exitLedsColor.SetGreen(exitLedsColor.GetGreen() - 1);
+	}
+	if(exitLedsColor.GetBlue() < 128) {
+		exitLedsColor.SetBlue(exitLedsColor.GetBlue() + 1);
+	} else {
+		exitLedsColor.SetBlue(exitLedsColor.GetBlue() - 1);
+	}
+	return exitLedsColor;
+}
+
+void FootBotController::roam() {
+	// Get the vector that points directly away from a potential obstacle to perform collision avoidance
+	CVector2 heading = getCollisionAvoidanceVector();
+
+	// If the robot isn't currently performing obstacle avoidance, turn in a random direction every configured amount of timesteps to break up the grouping and mix the system better
+	bool ignoreNoTurn = false;
+	if(heading == CVector2::X) {
+		// Increase the amount of ticks since the robot last turned in a random direction
+		// Only increase the amount of ticks when not performing collision avoidance, so that over time the robots stop turning all at once
+		randomTurnTicks++;
+
+		// Check if the robot should turn in a random direction
+		if(randomTurnTicks == movementParams.getRandomTurnTicks()) {
+			// Get a unit vector that uses a random direction
+			randomTurnVector = getRandomTurnDirectionVector();
+
+			// Reset the ticks since the robot last turned in a random direction
+			randomTurnTicks = 0;
+		}
+
+		// If the random direction vector the robot last turned to isn't in its initial state
+		if(randomTurnVector != CVector2::ZERO) {
+			// Get readings from the positioning sensor
+			const CCI_PositioningSensor::SReading &reading = positioningSensor->GetReading();
+
+			// Determine the robot orientation
+			CRadians z; CRadians y; CRadians x;
+			reading.Orientation.ToEulerAngles(z, y, x);
+
+			// Change the heading to use the random direction
+			heading = CVector2(heading.Length(), randomTurnVector.Angle() - z);
+
+			// Make sure to use this new direction angle exactly
+			ignoreNoTurn = true;
+		}
+	} else {
+		// Reset the random direction vector the robot last turned to to its initial state so that the robot doesn't continually bump into the obstacle after completing the collision avoidance
+		randomTurnVector = CVector2::ZERO;
+	}
+
+	// Set the velocities of both the left and the right wheels according to the maximum velocity and to where the robot should go
+	setWheelVelocitiesFromVector(movementParams.getMaxVelocity() * heading, ignoreNoTurn);
 }
 
 // Static variables and constants initialization

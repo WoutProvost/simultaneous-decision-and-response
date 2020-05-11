@@ -185,14 +185,14 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 
 		// Plurality voting
 		if(decisionStrategyParams.getMode() == "plurality") {
-			map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end(), [](const pair<uint32_t,int> &a, const pair<uint32_t,int> &b)->bool{return a.second < b.second;});
+			auto winningVote = max_element(exitVotes.begin(), exitVotes.end(), [](const pair<uint32_t,int> &a, const pair<uint32_t,int> &b)->bool{return a.second < b.second;});
 			if(exitVotes.size() == 1 || static_cast<Real>(winningVote->second)/totalVotes > 1.0/exitVotes.size()) {
 				updateOpinion(exitTemperatures[winningVote->first], exitColors[winningVote->first], exitDistances[winningVote->first], exitVotes[winningVote->first]);
 			}
 		}
 		// Majority voting
 		else if(decisionStrategyParams.getMode() == "majority") {
-			map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end(), [](const pair<uint32_t,int> &a, const pair<uint32_t,int> &b)->bool{return a.second < b.second;});
+			auto winningVote = max_element(exitVotes.begin(), exitVotes.end(), [](const pair<uint32_t,int> &a, const pair<uint32_t,int> &b)->bool{return a.second < b.second;});
 			if(static_cast<Real>(winningVote->second)/totalVotes > 0.5) {
 				updateOpinion(exitTemperatures[winningVote->first], exitColors[winningVote->first], exitDistances[winningVote->first], exitVotes[winningVote->first]);
 			}

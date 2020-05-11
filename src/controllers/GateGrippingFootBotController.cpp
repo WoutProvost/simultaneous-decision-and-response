@@ -89,7 +89,7 @@ void GateGrippingFootBotController::listenToDecisions() {
 	// Use the combined data to determine which exit to act upon based upon the used parameters
 	if(exitVotes.size() != 0) {
 		// Combination of plurality and majority models in case a low minimum agreement percentage is given (i.e. less than 0.5)
-		map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end(), [](const pair<uint32_t,int> &a, const pair<uint32_t,int> &b)->bool{return a.second < b.second;});
+		auto winningVote = max_element(exitVotes.begin(), exitVotes.end(), [](const pair<uint32_t,int> &a, const pair<uint32_t,int> &b)->bool{return a.second < b.second;});
 		Real winningPercentage = static_cast<Real>(winningVote->second)/totalVotes;
 		if(exitVotes.size() == 1 || (winningPercentage > 1.0/exitVotes.size() && winningPercentage >= reactionStrategyParams.getMinAgreementPercentage())) {
 			if(candidateExitLightColor != exitColors[winningVote->first]) {
