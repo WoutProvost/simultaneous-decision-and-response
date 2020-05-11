@@ -19,13 +19,13 @@ void FireEvacuationUserFunctions::DrawInWorld() {
 	// Draw the horizontal divider that visually cuts the arena in half
 	if(dividerParams.getEnableHorizontal()) {
 		Real sizeX = arenaSize->GetX();
-		DrawRay(CRay3(CVector3(-sizeX/2, 0.0, 0.5), CVector3(sizeX/2, 0.0, 0.5)), CColor::RED);
+		DrawRay(CRay3(CVector3(-sizeX/2, 0.0, 0.0001), CVector3(sizeX/2, 0.0, 0.0001)), CColor::RED);
 	}
 
 	// Draw the vertical divider that visually cuts the arena in half
 	if(dividerParams.getEnableVertical()) {
 		Real sizeY = arenaSize->GetY();
-		DrawRay(CRay3(CVector3(0.0, -sizeY/2, 0.5), CVector3(0.0, sizeY/2, 0.5)), CColor::RED);
+		DrawRay(CRay3(CVector3(0.0, -sizeY/2, 0.0001), CVector3(0.0, sizeY/2, 0.0001)), CColor::RED);
 	}
 }
 
