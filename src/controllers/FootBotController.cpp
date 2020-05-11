@@ -24,7 +24,6 @@ void FootBotController::Init(TConfigurationNode &configurationNode) {
 	rangeAndBearingSensor = GetSensor<CCI_RangeAndBearingSensor>("range_and_bearing");
 	coloredBlobOmnidirectionalCameraSensor = GetSensor<CCI_ColoredBlobOmnidirectionalCameraSensor>("colored_blob_omnidirectional_camera");
 	positioningSensor = GetSensor<CCI_PositioningSensor>("positioning");
-	footBotLightSensor = GetSensor<CCI_FootBotLightSensor>("footbot_light");
 
 	// Parse the configuration file for params
 	try {
@@ -163,23 +162,28 @@ void FootBotController::roam() {
 	setWheelVelocitiesFromVector(movementParams.getMaxVelocity() * heading, ignoreNoTurn);
 }
 
-CVector2 FootBotController::getVectorToLight() {
-	// Get readings from the light sensor
-	const CCI_FootBotLightSensor::TReadings &readings = footBotLightSensor->GetReadings();
+CVector2 FootBotController::getVectorToExitLight(CColor exitColor) {
+	// Make sure the resource-intensive colored blob omnidirectional camera sensor is enabled
+	if(coloredBlobOmnidirectionalCameraSensorEnabled) {
+		// Get readings from the colored blob omnidirectional camera sensor
+		const CCI_ColoredBlobOmnidirectionalCameraSensor::SReadings &readings = coloredBlobOmnidirectionalCameraSensor->GetReadings();
 
-	// Get a new vector that points directly to the closest light using vector addition
-	CVector2 vectorToClosestLight;
-	for(size_t reading = 0, size = readings.size(); reading < size; reading++) {
-		vectorToClosestLight += CVector2(readings[reading].Value, readings[reading].Angle);
-	}
+		// Get a new vector that points directly to the exit light
+		CVector2 vectorToExitLight;
+		for(size_t blob = 0, size = readings.BlobList.size(); blob < size; blob++) {
+			if(!ignoredColoredBlobs[readings.BlobList[blob]->Color] && exitColor == readings.BlobList[blob]->Color) {
+				vectorToExitLight = CVector2(readings.BlobList[blob]->Distance/100, readings.BlobList[blob]->Angle);
+			}
+		}
 
-	// Return the zero vector if no light was perceived
-	if(vectorToClosestLight.Length() == 0.0) {
-		return CVector2::ZERO;
-	}
-	// Otherwise return a unit vector to the light using vector normalization
-	else {
-		return vectorToClosestLight.Normalize();
+		// Return the zero vector if no exit light of that color was found
+		if(vectorToExitLight.Length() == 0.0) {
+			return CVector2::ZERO;
+		}
+		// Otherwise return a unit vector to the light using vector normalization
+		else {
+			return vectorToExitLight.Normalize();
+		}
 	}
 }
 

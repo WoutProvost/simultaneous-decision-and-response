@@ -9,7 +9,6 @@
 #include <argos3/plugins/robots/generic/control_interface/ci_range_and_bearing_sensor.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_colored_blob_omnidirectional_camera_sensor.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_positioning_sensor.h>
-#include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_light_sensor.h>
 #include "params/AppearanceParams.h"
 #include "params/MovementParams.h"
 #include "params/CollisionAvoidanceParams.h"
@@ -24,7 +23,7 @@ class FootBotController : public CCI_Controller {
 
 	private:
 		// Methods
-		CVector2 getVectorToLight();
+		CVector2 getVectorToExitLight(CColor exitColor);
 		CVector2 getCollisionAvoidanceVector();
 		CVector2 getRandomTurnDirectionVector();
 		void setWheelVelocitiesFromVector(const CVector2 &heading, bool ignoreNoTurn);
@@ -40,7 +39,6 @@ class FootBotController : public CCI_Controller {
 		CCI_RangeAndBearingSensor *rangeAndBearingSensor;
 		CCI_ColoredBlobOmnidirectionalCameraSensor *coloredBlobOmnidirectionalCameraSensor;
 		CCI_PositioningSensor *positioningSensor;
-		CCI_FootBotLightSensor *footBotLightSensor;
 
 		// Params
 		AppearanceParams appearanceParams;
