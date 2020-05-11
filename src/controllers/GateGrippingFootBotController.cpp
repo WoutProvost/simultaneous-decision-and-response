@@ -3,6 +3,7 @@
 #include <algorithm>
 
 using std::max_element;
+using std::pair;
 
 GateGrippingFootBotController::GateGrippingFootBotController() :
 	// Call base class method and initialize attributes and set default values
@@ -87,13 +88,10 @@ void GateGrippingFootBotController::listenToDecisions() {
 	// If the neighboring temperature sensing robots actually have made decisions
 	// Use the combined data to determine which exit to act upon based upon the used parameters
 	if(exitVotes.size() != 0) {
-		// Combination of plurality and majority models
-		map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end());
-		map<uint32_t,int>::iterator it = exitVotes.begin();
-		while(it != exitVotes.end() && (it->second != winningVote->second || it->first == winningVote->first)) {
-			it++;
-		}
-		if(it == exitVotes.end() && static_cast<Real>(winningVote->second)/totalVotes >= reactionStrategyParams.getMinAgreementPercentage()) {
+		// Combination of plurality and majority models in case a low minimum agreement percentage is given (i.e. less than 0.5)
+		map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end(), [](const pair<uint32_t,int> &a, const pair<uint32_t,int> &b)->bool{return a.second < b.second;});
+		Real winningPercentage = static_cast<Real>(winningVote->second)/totalVotes;
+		if(exitVotes.size() == 1 || (winningPercentage > 1.0/exitVotes.size() && winningPercentage >= reactionStrategyParams.getMinAgreementPercentage())) {
 			if(candidateExitLightColor != exitColors[winningVote->first]) {
 				candidateExitLightColor = exitColors[winningVote->first];
 				candidateExitTicks = 0;
