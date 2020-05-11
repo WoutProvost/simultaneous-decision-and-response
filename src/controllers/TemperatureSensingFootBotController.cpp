@@ -22,6 +22,7 @@ void TemperatureSensingFootBotController::Init(TConfigurationNode &configuration
 	FootBotController::Init(configurationNode);
 
 	// Get actuators and sensors
+	rangeAndBearingActuator = GetActuator<CCI_RangeAndBearingActuator>("range_and_bearing");
 	footBotMotorGroundSensor = GetSensor<CCI_FootBotMotorGroundSensor>("footbot_motor_ground");
 
 	// Parse the configuration file for params
@@ -55,6 +56,9 @@ void TemperatureSensingFootBotController::ControlStep() {
 void TemperatureSensingFootBotController::Reset() {
 	// Call base class method
 	FootBotController::Reset();
+
+	// Clear all data that is still in the buffer
+	rangeAndBearingActuator->ClearData();
 
 	// Reset the temperature to its initial state
 	preferredExitTemperature = 0;

@@ -2,12 +2,16 @@
 #define TEMPERATURE_SENSING_FOOT_BOT_CONTROLLER_H
 
 #include "FootBotController.h"
+#include <argos3/plugins/robots/generic/control_interface/ci_range_and_bearing_actuator.h>
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_motor_ground_sensor.h>
 #include "params/DecisionStrategyParams.h"
 
 class TemperatureSensingFootBotController : public FootBotController {
 
 	private:
+		// Actuators
+		CCI_RangeAndBearingActuator *rangeAndBearingActuator;
+		
 		// Sensors
 		CCI_FootBotMotorGroundSensor *footBotMotorGroundSensor;
 

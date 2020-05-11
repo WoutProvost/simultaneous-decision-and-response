@@ -19,7 +19,6 @@ void FootBotController::Init(TConfigurationNode &configurationNode) {
 	// Get actuators and sensors
 	differentialSteeringActuator = GetActuator<CCI_DifferentialSteeringActuator>("differential_steering");
 	ledsActuator = GetActuator<CCI_LEDsActuator>("leds");
-	rangeAndBearingActuator = GetActuator<CCI_RangeAndBearingActuator>("range_and_bearing");
 	footBotProximitySensor = GetSensor<CCI_FootBotProximitySensor>("footbot_proximity");
 	rangeAndBearingSensor = GetSensor<CCI_RangeAndBearingSensor>("range_and_bearing");
 	coloredBlobOmnidirectionalCameraSensor = GetSensor<CCI_ColoredBlobOmnidirectionalCameraSensor>("colored_blob_omnidirectional_camera");
@@ -76,9 +75,6 @@ void FootBotController::ControlStep() {
 void FootBotController::Reset() {
 	// Reset all the LEDs in the ring to their initial state
 	ledsActuator->SetAllColors(color);
-
-	// Clear all data that is still in the buffer
-	rangeAndBearingActuator->ClearData();
 
 	// Reset the turn mode to its initial state
 	turnMode = TurnMode::NONE;

@@ -12,14 +12,12 @@
 			<actuators>
 				<differential_steering implementation="default" />
 				<leds implementation="default" medium="led_medium" />
-				<range_and_bearing implementation="default" />
 				<footbot_gripper implementation="default" />
 			</actuators>
 			<sensors>
 				<footbot_proximity implementation="default" show_rays="false" />
 				<range_and_bearing implementation="medium" medium="range_and_bearing_medium" show_rays="true" />
 				<colored_blob_omnidirectional_camera implementation="rot_z_only" medium="led_medium" show_rays="false" />
-				<footbot_light implementation="rot_z_only" show_rays="false" />
 				<positioning implementation="default" />
 			</sensors>
 			<params>
@@ -41,7 +39,6 @@
 				<footbot_proximity implementation="default" show_rays="false" />
 				<range_and_bearing implementation="medium" medium="range_and_bearing_medium" show_rays="true" />
 				<colored_blob_omnidirectional_camera implementation="rot_z_only" medium="led_medium" show_rays="false" />
-				<footbot_light implementation="rot_z_only" show_rays="false" />
 				<positioning implementation="default" />
 				<footbot_motor_ground implementation="rot_z_only" />
 			</sensors>
