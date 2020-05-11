@@ -27,7 +27,7 @@ class TemperatureSensingFootBotController : public FootBotController {
 		void sense();
 		void receiveOpinions();
 		void transmitOpinion();
-		void updateOpinion(int temperature, CColor exitColor, Real distance, int votes);
+		void updateOpinion(CColor exitColor, Real quality);
 		bool isQualityPresentAndUnique(const map<uint32_t,Real> *map, Real quality);
 
 	public:

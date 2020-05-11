@@ -130,7 +130,7 @@ void TemperatureSensingFootBotController::sense() {
 
 			// Determine whether to change this robot's opinion based on the distance to the furthest exit weighted by the measured temperature
 			if(furthestExitLightColor != CColor::BLACK) {
-				if(furthestExitDistance * maxTemperature > preferredExitDistance * preferredExitTemperature) {
+				if(maxTemperature * furthestExitDistance > preferredExitTemperature * preferredExitDistance) {
 					preferredExitTemperature = maxTemperature;
 					preferredExitLightColor = furthestExitLightColor;
 					preferredExitDistance = furthestExitDistance;
@@ -147,9 +147,7 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 	// Receive opinions from other temperature sensing robots in this robot's neighborhood
 	int totalVotes = 0;
 	map<uint32_t,int> exitVotes;
-	map<uint32_t,int> exitTemperatures;
 	map<uint32_t,CColor> exitColors;
-	map<uint32_t,Real> exitDistances;
 	map<uint32_t,Real> exitQualities;
 	CCI_RangeAndBearingSensor::TReadings validReadings;
 	for(size_t reading = 0, size = readings.size(); reading < size; reading++) {
@@ -165,9 +163,7 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 
 			totalVotes++;
 			exitVotes[exitColor]++;
-			exitTemperatures[exitColor] += temperature;
 			exitColors[exitColor] = exitColor;
-			exitDistances[exitColor] += distance;
 			exitQualities[exitColor] += temperature * distance;
 			validReadings.emplace_back(readings[reading]);
 		}
@@ -180,36 +176,34 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 		if(preferredExitLightColor != CColor::BLACK) {
 			totalVotes++;
 			exitVotes[preferredExitLightColor]++;
-			exitTemperatures[preferredExitLightColor] += preferredExitTemperature;
 			exitColors[preferredExitLightColor] = preferredExitLightColor;
-			exitDistances[preferredExitLightColor] += preferredExitDistance;
 			exitQualities[preferredExitLightColor] += preferredExitTemperature * preferredExitDistance;
+		}
+
+		// Calculate average qualities
+		for(auto it = exitQualities.begin(), end = exitQualities.end(); it != end; it++) {
+			exitQualities[it->first] /= exitVotes[it->first];
 		}
 
 		// Plurality voting
 		if(decisionStrategyParams.getMode() == "plurality") {
 			auto winningVote = max_element(exitVotes.begin(), exitVotes.end(), [](const pair<uint32_t,int> &a, const pair<uint32_t,int> &b)->bool{return a.second < b.second;});
 			if(exitVotes.size() == 1 || static_cast<Real>(winningVote->second)/totalVotes > 1.0/exitVotes.size()) {
-				updateOpinion(exitTemperatures[winningVote->first], exitColors[winningVote->first], exitDistances[winningVote->first], exitVotes[winningVote->first]);
+				updateOpinion(exitColors[winningVote->first], exitQualities[winningVote->first]);
 			}
 		}
 		// Majority voting
 		else if(decisionStrategyParams.getMode() == "majority") {
 			auto winningVote = max_element(exitVotes.begin(), exitVotes.end(), [](const pair<uint32_t,int> &a, const pair<uint32_t,int> &b)->bool{return a.second < b.second;});
 			if(static_cast<Real>(winningVote->second)/totalVotes > 0.5) {
-				updateOpinion(exitTemperatures[winningVote->first], exitColors[winningVote->first], exitDistances[winningVote->first], exitVotes[winningVote->first]);
+				updateOpinion(exitColors[winningVote->first], exitQualities[winningVote->first]);
 			}
 		}
 		// Best average quality
 		else if(decisionStrategyParams.getMode() == "quality") {
-			// Calculate average qualities
-			for(auto it = exitQualities.begin(), end = exitQualities.end(); it != end; it++) {
-				exitQualities[it->first] /= exitVotes[it->first];
-			}
-
 			auto winningVote = max_element(exitQualities.begin(), exitQualities.end(), [](const pair<uint32_t,Real> &a, const pair<uint32_t,Real> &b)->bool{return a.second < b.second;});
 			if(isQualityPresentAndUnique(&exitQualities, winningVote->second)) {
-				updateOpinion(exitTemperatures[winningVote->first], exitColors[winningVote->first], exitDistances[winningVote->first], exitVotes[winningVote->first]);
+				updateOpinion(exitColors[winningVote->first], exitQualities[winningVote->first]);
 			}
 		}
 		// Random neighbor (the robot's own opinion is not added to the list of valid readings in this model)
@@ -223,7 +217,7 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 			UInt8 distanceIntegralPart = validReadings[randomNeighbor].Data[RABIndex::EXIT_DISTANCE_PART_INTEGRAL];
 			UInt8 distanceFractionalPart = validReadings[randomNeighbor].Data[RABIndex::EXIT_DISTANCE_PART_FRACTIONAL];
 			Real distance = distanceIntegralPart + static_cast<Real>(distanceFractionalPart)/100;
-			updateOpinion(temperature, exitColor, distance, 1);
+			updateOpinion(exitColor, temperature * distance);
 		}
 	}
 }
@@ -244,12 +238,19 @@ void TemperatureSensingFootBotController::transmitOpinion() {
 	}
 }
 
-void TemperatureSensingFootBotController::updateOpinion(int temperature, CColor exitColor, Real distance, int votes) {
+void TemperatureSensingFootBotController::updateOpinion(CColor exitColor, Real quality) {
 	// The exit, distance and temperature resulting form the voting model, will only be copied by the robot if the measured quality is better than its own measured quality
-	if(distance * temperature / votes > preferredExitDistance * preferredExitTemperature) {
-		preferredExitTemperature = static_cast<Real>(temperature) / votes;
+	if(quality > preferredExitTemperature * preferredExitDistance) {
+		// The actual individual values of the temperature and distance don't really matter, since they're only used multiplied together as the quality
+		// As long as these 2 variables multiplied together represent the actual quality, their individual values don't matter
+		// The transformation below makes sure both variables fit into individual UInt8 variables, which is necessary for communication
+		if(quality <= 255) {
+			preferredExitTemperature = 1;
+		} else {
+			preferredExitTemperature = 255;		
+		}
 		preferredExitLightColor = exitColor;
-		preferredExitDistance = distance / votes;
+		preferredExitDistance = quality / preferredExitTemperature;
 	}
 }
 
