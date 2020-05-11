@@ -24,6 +24,9 @@
 - Solid gates disappear when gripped, because the manouvering of the bots doesn't have much to do with the thesis novelty
 - The cylinders can be fitted with LEDs
 
+# Sensors
+- While exiting the arena, the colored blob camera sensor should not be disabled by the subclass
+
 # Ending
 - time limit or large enough percentage has left nest
 
