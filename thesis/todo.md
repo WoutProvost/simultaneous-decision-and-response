@@ -1,9 +1,9 @@
 # TODO
-- Finish gripper TODOs and optionally add the actual ability to open the gates
-- Determine the exit probability: how many times you exit with correct solution
+- Determine the exit probability: how many times you exit with correct solution (definitely test with edge cases)
 - Test with changing values of the gripper parameters
 - Test with a runtime of 10 minutes
 - Test with more than 1 fire source
+- Algorithm doesn't work for multiple sources: position1="-7,-1.2" position2="0,1.2". Due to the left fire being further away in general from any exit, it will overpower the other fire that's actually more important.
 
 
 
