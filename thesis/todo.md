@@ -1,9 +1,22 @@
+# Done
+- Bugfix: random range right-open interval
+- Bugfix: select max. value in map
+- Bugfix: fix totalVots increment when adding robot's own opinion
+- Bugfix: fix UInt8 overflow
+- Bugfix: transmit distance in 2 bytes (integral and fractional parts)
+- Bugfix: fix quality assignment after selecting executing voting model
+- Added 2 optional extra choices for a total of 4
+- Added support for random walk with configurable random_turn_ticks (defaults to no random walk)
+- Added new decision strategy: best average quality
+- All experiments use 6 tiles per meter
+- Logic flowcharts
+
 # TODO
 - Determine the exit probability: how many times you exit with correct solution (definitely test with edge cases)
 - Test with changing values of the gripper parameters
 - Test with a runtime of 10 minutes
 - Test with more than 1 fire source
-- Algorithm doesn't work for multiple sources: position1="-7,-1.2" position2="0,1.2". Due to the left fire being further away in general from any exit, it will overpower the other fire that's actually more important.
+- Algorithm doesn't work for multiple sources: position1="-7,-1.2" position2="0,1.2". Due to the left fire being further away in general from any exit, it will overpower the other fire that's actually more important. Need a way of assigning more quality to the central fire, or decrease the quality of the left fire in some way ...
 
 
 
