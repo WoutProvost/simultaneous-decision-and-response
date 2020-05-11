@@ -212,7 +212,7 @@ CVector2 FootBotController::getCollisionAvoidanceVector() {
 
 CVector2 FootBotController::getRandomTurnDirectionVector() {
 	// Return a unit vector with a random angle	
-	return CVector2(1.0, ToRadians(CDegrees(random->Uniform(CRange<Real>(0.0, 360.0)))));
+	return CVector2(1.0, ToRadians(CDegrees(random->Uniform(CRange<Real>(0.0, 360.0))))); // Interval is [min,max) i.e. right-open
 }
 
 void FootBotController::setWheelVelocitiesFromVector(const CVector2 &heading, bool ignoreNoTurn) {
