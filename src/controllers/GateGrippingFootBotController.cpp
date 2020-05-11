@@ -88,7 +88,6 @@ void GateGrippingFootBotController::listenToDecisions() {
 	// Use the combined data to determine which exit to act upon based upon the used parameters
 	if(exitVotes.size() != 0) {
 		// Combination of plurality and majority models
-		// Only use a strict winning vote, i.e. don't do anything when there's an ex aequo for the winning vote
 		map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end());
 		map<uint32_t,int>::iterator it = exitVotes.begin();
 		while(it != exitVotes.end() && (it->second != winningVote->second || it->first == winningVote->first)) {

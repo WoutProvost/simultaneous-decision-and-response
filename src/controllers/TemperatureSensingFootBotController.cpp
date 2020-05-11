@@ -179,14 +179,10 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 			exitDistances[preferredExitLightColor] += preferredExitDistance;
 		}
 
-		// Plurality voting (only use a strict winning vote, i.e. don't do anything when there's an ex aequo for the winning vote)
+		// Plurality voting
 		if(decisionStrategyParams.getMode() == "plurality") {
 			map<uint32_t,int>::iterator winningVote = max_element(exitVotes.begin(), exitVotes.end(), [](const pair<uint32_t,int> &a, const pair<uint32_t,int> &b)->bool{return a.second < b.second;});
-			map<uint32_t,int>::iterator it = exitVotes.begin();
-			while(it != exitVotes.end() && (it->second != winningVote->second || it->first == winningVote->first)) {
-				it++;
-			}
-			if(it == exitVotes.end()) {
+			if(exitVotes.size() == 1 || static_cast<Real>(winningVote->second)/totalVotes > 1.0/exitVotes.size()) {
 				updateOpinion(exitTemperatures[winningVote->first], exitColors[winningVote->first], exitDistances[winningVote->first], exitVotes[winningVote->first]);
 			}
 		}
