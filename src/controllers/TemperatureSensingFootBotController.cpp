@@ -150,6 +150,7 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 	map<uint32_t,int> exitTemperatures;
 	map<uint32_t,CColor> exitColors;
 	map<uint32_t,Real> exitDistances;
+	map<uint32_t,Real> exitQualities;
 	CCI_RangeAndBearingSensor::TReadings validReadings;
 	for(size_t reading = 0, size = readings.size(); reading < size; reading++) {
 		UInt8 temperature = readings[reading].Data[RABIndex::TEMPERATURE];
@@ -167,6 +168,7 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 			exitTemperatures[exitColor] += temperature;
 			exitColors[exitColor] = exitColor;
 			exitDistances[exitColor] += distance;
+			exitQualities[exitColor] += temperature * distance;
 			validReadings.emplace_back(readings[reading]);
 		}
 	}
@@ -181,6 +183,7 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 			exitTemperatures[preferredExitLightColor] += preferredExitTemperature;
 			exitColors[preferredExitLightColor] = preferredExitLightColor;
 			exitDistances[preferredExitLightColor] += preferredExitDistance;
+			exitQualities[preferredExitLightColor] += preferredExitTemperature * preferredExitDistance;
 		}
 
 		// Plurality voting
@@ -194,6 +197,18 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 		else if(decisionStrategyParams.getMode() == "majority") {
 			auto winningVote = max_element(exitVotes.begin(), exitVotes.end(), [](const pair<uint32_t,int> &a, const pair<uint32_t,int> &b)->bool{return a.second < b.second;});
 			if(static_cast<Real>(winningVote->second)/totalVotes > 0.5) {
+				updateOpinion(exitTemperatures[winningVote->first], exitColors[winningVote->first], exitDistances[winningVote->first], exitVotes[winningVote->first]);
+			}
+		}
+		// Best average quality
+		else if(decisionStrategyParams.getMode() == "quality") {
+			// Calculate average qualities
+			for(auto it = exitQualities.begin(), end = exitQualities.end(); it != end; it++) {
+				exitQualities[it->first] /= exitVotes[it->first];
+			}
+
+			auto winningVote = max_element(exitQualities.begin(), exitQualities.end(), [](const pair<uint32_t,Real> &a, const pair<uint32_t,Real> &b)->bool{return a.second < b.second;});
+			if(isQualityPresentAndUnique(&exitQualities, winningVote->second)) {
 				updateOpinion(exitTemperatures[winningVote->first], exitColors[winningVote->first], exitDistances[winningVote->first], exitVotes[winningVote->first]);
 			}
 		}
@@ -236,6 +251,18 @@ void TemperatureSensingFootBotController::updateOpinion(int temperature, CColor 
 		preferredExitLightColor = exitColor;
 		preferredExitDistance = distance / votes;
 	}
+}
+
+bool TemperatureSensingFootBotController::isQualityPresentAndUnique(const map<uint32_t,Real> *map, Real quality) {
+	int count = 0;
+
+	for(auto it = map->begin(), end = map->end(); it != end; it++) {
+		if(it->second == quality) {
+			count++;
+		}
+	}
+
+	return count == 1;
 }
 
 // Macro that binds this class to an XML tag

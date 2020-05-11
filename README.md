@@ -84,6 +84,7 @@ Temperature sensing controller **decision strategy** params:
 * `mode`:
   * Mode `plurality` uses the exit with the most votes as long as there is no ex aequo.
   * Mode `majority` uses the exit with more than 50% of the votes.
+  * Mode `quality` uses the exit with the best average quality as long as there is no ex aequo.
   * Mode `random` uses the exit of a random neighbor.
   * Defaults to `none`.
 
