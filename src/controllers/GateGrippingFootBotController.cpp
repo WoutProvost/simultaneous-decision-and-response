@@ -85,31 +85,37 @@ void GateGrippingFootBotController::listenToDecisions() {
 		}
 	}
 
-	// If the neighboring temperature sensing robots actually have made decisions
+	// If there are any neighboring temperature sensing robots in the neighborhood and if these robots have actually made decisions
 	// Use the combined data to determine which exit to act upon based upon the used parameters
 	if(exitVotes.size() != 0) {
 		// Combination of plurality and majority models in case a low minimum agreement percentage is given (i.e. less than 0.5)
 		auto winningVote = max_element(exitVotes.begin(), exitVotes.end(), [](const pair<uint32_t,int> &a, const pair<uint32_t,int> &b)->bool{return a.second < b.second;});
 		Real winningPercentage = static_cast<Real>(winningVote->second)/totalVotes;
+
+		// If the percentage threshold has been reached
 		if(exitVotes.size() == 1 || (winningPercentage > 1.0/exitVotes.size() && winningPercentage >= reactionStrategyParams.getMinAgreementPercentage())) {
+			// If the exit preferred by the neighbors changes, update the candidate exit and reset the ticks since the candidate exit was last updated
 			if(candidateExitLightColor != exitColors[winningVote->first]) {
 				candidateExitLightColor = exitColors[winningVote->first];
 				candidateExitTicks = 0;
-			} else {
+			}
+			// If the exit preferred has remained the same since the last control step, increase the ticks since the candidate exit was last updated if the time threshold wasn't reached already
+			else {
 				if(candidateExitTicks < reactionStrategyParams.getMinDurationTicks()) {
 					candidateExitTicks++;
 				}
 			}
-		} else {
-			candidateExitTicks = 0;
 		}
-	} else {
-		// If the robot has lost all communication and hasn't reached the required time threshold
-		if(candidateExitTicks < reactionStrategyParams.getMinDurationTicks()) {
+		// If the percentage threshold wasn't reached, reset the ticks since the candidate exit was last updated if it wasn't reset already
+		else {
+			if(candidateExitTicks != 0) {
+				candidateExitTicks = 0;
+			}
 		}
 	}
 
 	// If an exit is preferred by at least the given percentage of neighboring temperature sensing robots for the given time duration, start acting upon that exit
+	// The ticks since the candidate exit was last updated is incremented one last time to prevent this block being executed each control step
 	if(candidateExitTicks == reactionStrategyParams.getMinDurationTicks()) {
 		actingExitLightColor = candidateExitLightColor;
 		candidateExitTicks++;
