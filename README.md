@@ -72,6 +72,9 @@ Controller **movement** params:
 * `max_velocity`: Defaults to `10.0`.
 * `max_heading_angle_for_no_turn`: Defaults to `10.0`.
 * `min_heading_angle_for_hard_turn`: Defaults to `90.0`.
+* `random_turn_ticks`:
+  * A value of `0` disables turning to a random direction after a configured amount of ticks.
+  * Defaults to `0`;
 
 Controller **collision avoidance** params:
 * `max_angle_between_heading_and_obstacle`: Defaults to `5.0`.

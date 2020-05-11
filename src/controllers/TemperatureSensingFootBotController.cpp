@@ -8,7 +8,6 @@ using std::pair;
 TemperatureSensingFootBotController::TemperatureSensingFootBotController() :
 	// Call base class method and initialize attributes and set default values
 	FootBotController::FootBotController(),
-	random(CRandom::CreateRNG("argos")),
 	preferredExitTemperature(0),
 	preferredExitLightColor(CColor::BLACK),
 	preferredExitDistance(0.0) {

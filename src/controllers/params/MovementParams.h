@@ -13,6 +13,7 @@ class MovementParams {
 		Real maxVelocity;
 		CDegrees maxHeadingAngleForNoTurn;
 		CDegrees minHeadingAngleForHardTurn;
+		int randomTurnTicks;
 
 	public:
 		// Constructors
@@ -22,6 +23,7 @@ class MovementParams {
 		Real getMaxVelocity() const;
 		const CDegrees& getMaxHeadingAngleForNoTurn() const;
 		const CDegrees& getMinHeadingAngleForHardTurn() const;
+		int getRandomTurnTicks() const;
 
 		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);

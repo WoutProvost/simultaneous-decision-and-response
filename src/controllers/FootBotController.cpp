@@ -6,9 +6,12 @@
 
 FootBotController::FootBotController() :
 	// Initialize attributes and set default values
+	random(CRandom::CreateRNG("argos")),
 	color(CColor::BLACK),
 	turnMode(TurnMode::NONE),
 	behaviorState(BehaviorState::ROAMING),
+	randomTurnTicks(0),
+	randomTurnVector(CVector2::X),
 	coloredBlobOmnidirectionalCameraSensorEnabled(false) {
 }
 
@@ -20,6 +23,7 @@ void FootBotController::Init(TConfigurationNode &configurationNode) {
 	footBotProximitySensor = GetSensor<CCI_FootBotProximitySensor>("footbot_proximity");
 	rangeAndBearingSensor = GetSensor<CCI_RangeAndBearingSensor>("range_and_bearing");
 	coloredBlobOmnidirectionalCameraSensor = GetSensor<CCI_ColoredBlobOmnidirectionalCameraSensor>("colored_blob_omnidirectional_camera");
+	positioningSensor = GetSensor<CCI_PositioningSensor>("positioning");
 	footBotLightSensor = GetSensor<CCI_FootBotLightSensor>("footbot_light");
 
 	// Parse the configuration file for params
@@ -83,6 +87,12 @@ void FootBotController::Reset() {
 	// Reset the behavior state to its initial state
 	behaviorState = BehaviorState::ROAMING;
 
+	// Reset the ticks since the robot last turned in a random direction to its initial state
+	randomTurnTicks = 0;
+
+	// Reset the random direction vector the robot last turned to to its initial state
+	randomTurnVector = CVector2::X;
+
 	// Disable the colored blob omnidirectional camera sensor
 	coloredBlobOmnidirectionalCameraSensor->Disable();
 	coloredBlobOmnidirectionalCameraSensorEnabled = false;
@@ -113,8 +123,37 @@ void FootBotController::roam() {
 	// Get the vector that points directly away from a potential obstacle to perform collision avoidance
 	CVector2 heading = getCollisionAvoidanceVector();
 
+	// If the robot isn't currently performing obstacle avoidance, turn in a random direction every configured amount of timesteps to break up the grouping and mix the system better
+	bool ignoreNoTurn = false;
+	if(heading == CVector2::X) {
+		// Increase the amount of ticks since the robot last turned in a random direction
+		randomTurnTicks++;
+
+		// Check if the robot should turn in a random direction
+		if(randomTurnTicks == movementParams.getRandomTurnTicks()) {
+			// Get a unit vector that uses a random direction
+			randomTurnVector = getRandomTurnDirectionVector();
+
+			// Reset the ticks since the robot last turned in a random direction
+			randomTurnTicks = 0;
+		}
+
+		// Get readings from the positioning sensor
+		const CCI_PositioningSensor::SReading &reading = positioningSensor->GetReading();
+
+		// Determine the robot orientation		
+		CRadians z; CRadians y; CRadians x;
+		reading.Orientation.ToEulerAngles(z, y, x);
+
+		// Change the heading to use the random direction
+		heading = CVector2(heading.Length(), randomTurnVector.Angle() - z);
+
+		// Make sure to use this new direction angle exactly
+		ignoreNoTurn = true;
+	}
+
 	// Set the velocities of both the left and the right wheels according to the maximum velocity and to where the robot should go
-	setWheelVelocitiesFromVector(movementParams.getMaxVelocity() * heading);
+	setWheelVelocitiesFromVector(movementParams.getMaxVelocity() * heading, ignoreNoTurn);
 }
 
 CVector2 FootBotController::getVectorToLight() {
@@ -160,7 +199,12 @@ CVector2 FootBotController::getCollisionAvoidanceVector() {
 	}
 }
 
-void FootBotController::setWheelVelocitiesFromVector(const CVector2 &heading) {
+CVector2 FootBotController::getRandomTurnDirectionVector() {
+	// Return a unit vector with a random angle	
+	return CVector2(1.0, ToRadians(CDegrees(random->Uniform(CRange<Real>(0.0, 360.0)))));
+}
+
+void FootBotController::setWheelVelocitiesFromVector(const CVector2 &heading, bool ignoreNoTurn) {
 	// Get the angle of the heading as a value in the range [-180:180]
 	CDegrees angle = ToDegrees(heading.Angle().SignedNormalize());
 
@@ -173,7 +217,7 @@ void FootBotController::setWheelVelocitiesFromVector(const CVector2 &heading) {
 	// Determine which turn mode to use according to where the robot should go
 	if(Abs(angle) >= movementParams.getMinHeadingAngleForHardTurn()) {
 		turnMode = TurnMode::HARD;
-	} else if(Abs(angle) <= movementParams.getMaxHeadingAngleForNoTurn()) {
+	} else if(!ignoreNoTurn && Abs(angle) <= movementParams.getMaxHeadingAngleForNoTurn()) {
 		turnMode = TurnMode::NONE;
 	} else {
 		turnMode = TurnMode::SOFT;

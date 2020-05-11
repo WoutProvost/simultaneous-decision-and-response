@@ -4,7 +4,6 @@
 #include "FootBotController.h"
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_motor_ground_sensor.h>
 #include "params/DecisionStrategyParams.h"
-#include <argos3/core/utility/math/rng.h>
 
 class TemperatureSensingFootBotController : public FootBotController {
 
@@ -16,7 +15,6 @@ class TemperatureSensingFootBotController : public FootBotController {
 		DecisionStrategyParams decisionStrategyParams;
 
 		// General variables and constants
-		CRandom::CRNG *random;
 		int preferredExitTemperature;
 		CColor preferredExitLightColor;
 		Real preferredExitDistance;

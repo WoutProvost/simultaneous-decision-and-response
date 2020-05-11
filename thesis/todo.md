@@ -1,8 +1,6 @@
 # TODO
 - Finish gripper TODOs and optionally add the actual ability to open the gates
-- Add a new movement mode: turn in a random direction every x timesteps to break up the grouping and mix the system better
 - Determine the exit probability: how many times you exit with correct solution
-- Test with 6 tiles per meter to position a fire exactly on the divider line
 - Test with changing values of the gripper parameters
 - Test with a runtime of 10 minutes
 - Test with more than 1 fire source

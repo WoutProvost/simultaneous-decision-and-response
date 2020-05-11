@@ -8,10 +8,12 @@
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_proximity_sensor.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_range_and_bearing_sensor.h>
 #include <argos3/plugins/robots/generic/control_interface/ci_colored_blob_omnidirectional_camera_sensor.h>
+#include <argos3/plugins/robots/generic/control_interface/ci_positioning_sensor.h>
 #include <argos3/plugins/robots/foot-bot/control_interface/ci_footbot_light_sensor.h>
 #include "params/AppearanceParams.h"
 #include "params/MovementParams.h"
 #include "params/CollisionAvoidanceParams.h"
+#include <argos3/core/utility/math/rng.h>
 #include "enums/TurnMode.h"
 #include "enums/BehaviorState.h"
 
@@ -24,7 +26,8 @@ class FootBotController : public CCI_Controller {
 		// Methods
 		CVector2 getVectorToLight();
 		CVector2 getCollisionAvoidanceVector();
-		void setWheelVelocitiesFromVector(const CVector2 &heading);
+		CVector2 getRandomTurnDirectionVector();
+		void setWheelVelocitiesFromVector(const CVector2 &heading, bool ignoreNoTurn);
 
 	protected:
 		// Actuators
@@ -36,6 +39,7 @@ class FootBotController : public CCI_Controller {
 		CCI_FootBotProximitySensor *footBotProximitySensor;
 		CCI_RangeAndBearingSensor *rangeAndBearingSensor;
 		CCI_ColoredBlobOmnidirectionalCameraSensor *coloredBlobOmnidirectionalCameraSensor;
+		CCI_PositioningSensor *positioningSensor;
 		CCI_FootBotLightSensor *footBotLightSensor;
 
 		// Params
@@ -47,9 +51,12 @@ class FootBotController : public CCI_Controller {
 		static map<uint32_t,bool> ignoredColoredBlobs;
 
 		// General variables and constants
+		CRandom::CRNG *random;
 		CColor color;
 		TurnMode turnMode;
 		BehaviorState behaviorState;
+		int randomTurnTicks;
+		CVector2 randomTurnVector;
 		bool coloredBlobOmnidirectionalCameraSensorEnabled;
 
 		// Methods
