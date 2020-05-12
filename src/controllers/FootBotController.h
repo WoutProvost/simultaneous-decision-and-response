@@ -25,6 +25,7 @@ class FootBotController : public CCI_Controller {
 		CVector2 getVectorToExitLight(CColor exitColor);
 		CVector2 getCollisionAvoidanceVector();
 		CVector2 getRandomTurnDirectionVector();
+		bool adjustHeadingWithRandomTurnDirection(CVector2 &heading);
 		void setWheelVelocitiesFromVector(const CVector2 &heading, bool ignoreNoTurn);
 
 	protected:
