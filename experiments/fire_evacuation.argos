@@ -51,26 +51,40 @@
 		</temperature_sensing_footbot>
 	</controllers>
 
-	<arena size="15,15,1" center="0,0,0.5">
+	<arena size="30,30,1" center="0,0,0.5">
 		<!-- Orientation angles are in the Z,Y,X order and use degrees! -->
 
-		<!-- Boundary walls -->
-		<box id="bound_north_left" size="6,0.1,0.5" movable="false" mass="0.0">
+		<!-- Arena boundary walls -->
+		<box id="arena_bound_north" size="30,0.1,0.5" movable="false" mass="0.0">
+			<body position="0,15,0" orientation="0,0,0" />
+		</box>
+		<box id="arena_bound_south" size="30,0.1,0.5" movable="false" mass="0.0">
+			<body position="0,-15,0" orientation="0,0,0" />
+		</box>
+		<box id="arena_bound_east" size="0.1,30,0.5" movable="false" mass="0.0">
+			<body position="15,0,0" orientation="0,0,0" />
+		</box>
+		<box id="arena_bound_west" size="0.1,30,0.5" movable="false" mass="0.0">
+			<body position="-15,0,0" orientation="0,0,0" />
+		</box>
+
+		<!-- Nest boundary walls -->
+		<box id="nest_bound_north_left" size="6,0.1,0.5" movable="false" mass="0.0">
 			<body position="-4.5,7.5,0" orientation="0,0,0" />
 		</box>
-		<box id="bound_north_right" size="6,0.1,0.5" movable="false" mass="0.0">
+		<box id="nest_bound_north_right" size="6,0.1,0.5" movable="false" mass="0.0">
 			<body position="4.5,7.5,0" orientation="0,0,0" />
 		</box>
-		<box id="bound_south_left" size="6,0.1,0.5" movable="false" mass="0.0">
+		<box id="nest_bound_south_left" size="6,0.1,0.5" movable="false" mass="0.0">
 			<body position="-4.5,-7.5,0" orientation="0,0,0" />
 		</box>
-		<box id="bound_south_right" size="6,0.1,0.5" movable="false" mass="0.0">
+		<box id="nest_bound_south_right" size="6,0.1,0.5" movable="false" mass="0.0">
 			<body position="4.5,-7.5,0" orientation="0,0,0" />
 		</box>
-		<box id="bound_east" size="0.1,15,0.5" movable="false" mass="0.0">
+		<box id="nest_bound_east" size="0.1,15,0.5" movable="false" mass="0.0">
 			<body position="7.5,0,0" orientation="0,0,0" />
 		</box>
-		<box id="bound_west" size="0.1,15,0.5" movable="false" mass="0.0">
+		<box id="nest_bound_west" size="0.1,15,0.5" movable="false" mass="0.0">
 			<body position="-7.5,0,0" orientation="0,0,0" />
 		</box>
 
@@ -168,6 +182,7 @@
 	</visualization>
 
 	<loop_functions library="../build/src/loop_functions/libfire_evacuation_loop_functions" label="fire_evacuation_loop_functions">
+		<nest size="15,15" />
 		<heatmap tiles_per_meter="6" max_temperature="255" debug_mode="none" debug_use_colors="false" />
 		<fire sources="1" position1="-7,-1.2" circle_radius="3.0" is_dynamic="false" dynamic_interval_ticks="50" dynamic_temperature_increase="5" dynamic_spread_direction="0.0" />
 		<log file="../logs/log.csv" disable="false" />

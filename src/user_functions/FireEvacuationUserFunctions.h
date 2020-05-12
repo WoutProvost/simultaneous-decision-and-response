@@ -13,8 +13,7 @@ class FireEvacuationUserFunctions : public CQTOpenGLUserFunctions {
 		DividerParams dividerParams;
 
 		// General variables and constants
-		CSpace *space;
-		const CVector3 *arenaSize;
+		const CVector2 *nestSize;
 
 	public:
 		// Constructors

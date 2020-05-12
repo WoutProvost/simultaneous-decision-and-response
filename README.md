@@ -92,6 +92,11 @@ Gate gripping controller **reaction strategy** params:
 * `min_agreement_percentage`: Defaults to `0.8`.
 * `min_duration_ticks`: Defaults to `300`.
 
+Loop functions **nest** params:
+* `size`:
+  * The value is a list of 2 widths, one for each dimension, separated by a comma.
+  * Defaults to `15,15`.
+
 Loop functions **heatmap** params:
 * `tiles_per_meter`: Defaults to `10`.
 * `max_temperature`:
@@ -110,10 +115,10 @@ Loop functions **fire** params:
 * `positionX`:
   * The `X` can be a number from `1` to the amount of `sources`.
   * Each source can be controlled independently by its own attribute.
-  * The value is a list of 2 arena coordinates separated by a comma.
-  * If the value provided is outside the arena, the source falls back to a random position in the arena.
-  * For an arena size of e.g. 15 meters along one axis, the valid range is `[-7.5:7.49]` and not `[-7.5:7.5]`.
-  * Defaults to a random position in the arena.
+  * The value is a list of 2 nest coordinates separated by a comma.
+  * If the value provided is outside the nest, the source falls back to a random position in the nest.
+  * For a nest size of e.g. 15 meters along one axis, the valid range is `[-7.5:7.49]` and not `[-7.5:7.5]`.
+  * Defaults to a random position in the nest.
 * `circle_radius`: Defaults to `3.0`.
 * `is_dynamic`: Defaults to `false`.
 * `dynamic_interval_ticks`: Defaults to `50`.

@@ -16,10 +16,13 @@ using std::next;
 FireEvacuationLoopFunctions::FireEvacuationLoopFunctions() :
 	// Initialize attributes and set default values
 	space(&GetSpace()),
-	arenaSize(&space->GetArenaSize()),
 	random(CRandom::CreateRNG("argos")),
 	temperatureSensingFootBots(0),
 	gateGrippingFootBots(0) {
+}
+
+const NestParams& FireEvacuationLoopFunctions::getNestParams() const {
+	return nestParams;
 }
 
 const HeatMapParams& FireEvacuationLoopFunctions::getHeatMapParams() const {
@@ -28,6 +31,10 @@ const HeatMapParams& FireEvacuationLoopFunctions::getHeatMapParams() const {
 
 void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	// Parse the configuration file for params
+	try {
+		nestParams.setParams(GetNode(configurationNode, "nest"));
+	} catch(CARGoSException &ex) {
+	}
 	try {
 		heatMapParams.setParams(GetNode(configurationNode, "heatmap"));
 	} catch(CARGoSException &ex) {
@@ -47,9 +54,9 @@ void FireEvacuationLoopFunctions::Init(TConfigurationNode &configurationNode) {
 	// Initialize the physics engine
 	physicsEngine = CSimulator::GetInstance().GetPhysicsEngines()[0];
 
-	// Set the size of the heatmap depending on the size of the arena and the resolution depending on the tiles per meter
-	Real resolutionX = arenaSize->GetX() * heatMapParams.getTilesPerMeter();
-	Real resolutionY = arenaSize->GetY() * heatMapParams.getTilesPerMeter();
+	// Set the size of the heatmap depending on the size of the nest and the resolution depending on the tiles per meter
+	Real resolutionX = nestParams.getSize().GetX() * heatMapParams.getTilesPerMeter();
+	Real resolutionY = nestParams.getSize().GetY() * heatMapParams.getTilesPerMeter();
 	heatMap = vector<vector<int>>(resolutionX, vector<int>(resolutionY));
 
 	// Initialize the heatmap with temperatures
@@ -180,8 +187,8 @@ void FireEvacuationLoopFunctions::PreStep() {
 
 
 
-	// 	Real resolutionX = arenaSize->GetX() * heatMapParams.tilesPerMeter;
-	// 	Real resolutionY = arenaSize->GetY() * heatMapParams.tilesPerMeter;
+	// 	Real resolutionX = nestParams.getSize().GetX() * heatMapParams.tilesPerMeter;
+	// 	Real resolutionY = nestParams.getSize().GetY() * heatMapParams.tilesPerMeter;
 	// 	int centerX = random->Uniform(CRange<UInt32>(0, resolutionX)); // Interval is [min,max) i.e. right-open
 	// 	int centerY = random->Uniform(CRange<UInt32>(0, resolutionY)); // Interval is [min,max) i.e. right-open
 	
@@ -231,36 +238,45 @@ void FireEvacuationLoopFunctions::PostStep() {
 }
 
 CColor FireEvacuationLoopFunctions::GetFloorColor(const CVector2 &positionOnFloor) {
-	// Get the heatmap indices and temperature that belong to this floor position
-	// For an arenaSize of 15 meters along one axis, the positionOnFloor sits in the range [-7.5:7.49] instead of [-7.5:7.5], so we won't have an off-by-one error in the array
-	Real indexX = (positionOnFloor.GetX() + arenaSize->GetX()/2) * heatMapParams.getTilesPerMeter();
-	Real indexY = (positionOnFloor.GetY() + arenaSize->GetY()/2) * heatMapParams.getTilesPerMeter();
-	int temperature = static_cast<Real>(MAX_POSSIBLE_TEMPERATURE) / heatMapParams.getMaxTemperature() * heatMap[indexX][indexY];
+	// If the floor position coordinates are within the nest
+	Real nestBoundX = nestParams.getSize().GetX()/2;
+	Real nestBoundY = nestParams.getSize().GetY()/2;
+	if(positionOnFloor.GetX() >= -nestBoundX && positionOnFloor.GetX() < nestBoundX && positionOnFloor.GetY() >= -nestBoundY && positionOnFloor.GetY() < nestBoundY) {
+		// Get the heatmap indices and temperature that belong to this floor position
+		// For a nest size of 15 meters along one axis, the positionOnFloor sits in the range [-7.5:7.49] instead of [-7.5:7.5], so we won't have an off-by-one error in the array
+		Real indexX = (positionOnFloor.GetX() + nestParams.getSize().GetX()/2) * heatMapParams.getTilesPerMeter();
+		Real indexY = (positionOnFloor.GetY() + nestParams.getSize().GetY()/2) * heatMapParams.getTilesPerMeter();
+		int temperature = static_cast<Real>(MAX_POSSIBLE_TEMPERATURE) / heatMapParams.getMaxTemperature() * heatMap[indexX][indexY];
 
-	// While debugging, calculate the red, green and blue components of the color
-	if(heatMapParams.getDebugUseColors()) {
-		int red = 0;
-		int green = 0;
-		int blue = 0;
-		if(heatMapParams.getDebugMode() == "none" && temperature == 0) {
-			red = 209;
-			green = 209;
-			blue = 209;
-		} else {
-			if(temperature < 128) {
-				green = 255;
-				red = temperature*2;
+		// While debugging, calculate the red, green and blue components of the color
+		if(heatMapParams.getDebugUseColors()) {
+			int red = 0;
+			int green = 0;
+			int blue = 0;
+			if(heatMapParams.getDebugMode() == "none" && temperature == 0) {
+				red = 209;
+				green = 209;
+				blue = 209;
 			} else {
-				red = 255;
-				green = 255 - (temperature*2 - 255);
+				if(temperature < 128) {
+					green = 255;
+					red = temperature*2;
+				} else {
+					red = 255;
+					green = 255 - (temperature*2 - 255);
+				}
 			}
+			return CColor(red, green, blue);
 		}
-		return CColor(red, green, blue);
+		// Otherwise invert the temperature to make white = no temperature and black = max temperature and return a grayscale color depending on the temperature
+		else {
+			temperature = MAX_POSSIBLE_TEMPERATURE - temperature;
+			return CColor(temperature, temperature, temperature);
+		}
 	}
-	// Otherwise invert the temperature to make white = no temperature and black = max temperature and return a grayscale color depending on the temperature
+	// Otherwise return a gray color
 	else {
-		temperature = MAX_POSSIBLE_TEMPERATURE - temperature;
-		return CColor(temperature, temperature, temperature);
+		return CColor(209, 209, 209);
 	}
 }
 
@@ -277,7 +293,7 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 		}
 		// Initialize the heatmap to debug the gradient
 		else if(heatMapParams.getDebugMode() == "gradient") {
-			Real spacing = heatMapParams.getMaxTemperature() / (arenaSize->GetX()*heatMapParams.getTilesPerMeter() - 1);
+			Real spacing = heatMapParams.getMaxTemperature() / (nestParams.getSize().GetX()*heatMapParams.getTilesPerMeter() - 1);
 			for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
 				for(size_t y = 0, sizeY = heatMap[x].size(); y < sizeY; y++) {
 					heatMap[x][y] = round(spacing * x);
@@ -305,18 +321,18 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 		// Create a circular fire at a random position
 		const vector<CVector2> &positions = fireParams.getPositions();
 		for(int source = 0; source < fireParams.getSources(); source++) {
-			Real resolutionX = arenaSize->GetX() * heatMapParams.getTilesPerMeter();
-			Real resolutionY = arenaSize->GetY() * heatMapParams.getTilesPerMeter();
+			Real resolutionX = nestParams.getSize().GetX() * heatMapParams.getTilesPerMeter();
+			Real resolutionY = nestParams.getSize().GetY() * heatMapParams.getTilesPerMeter();
 			int centerX = random->Uniform(CRange<UInt32>(0, resolutionX)); // Interval is [min,max) i.e. right-open
 			int centerY = random->Uniform(CRange<UInt32>(0, resolutionY)); // Interval is [min,max) i.e. right-open
 
 			// Use a fixed source position if it is provided and is not outside the range of the heatmap array
-			// For an arenaSize of 15 meters along one axis with 5 tiles per meter, the coordinate range [-7.5:7.49] maps to the index range [0:74]
+			// For a nest size of 15 meters along one axis with 5 tiles per meter, the coordinate range [-7.5:7.49] maps to the index range [0:74]
 			// So the coordinate value 7.5 will result in an off-by-one error in the array
 			const CVector2 &position = positions[source];
 			if(!isnan(position.GetX()) && !isnan(position.GetY())) {
-				int indexX = (position.GetX() + arenaSize->GetX()/2) * heatMapParams.getTilesPerMeter();
-				int indexY = (position.GetY() + arenaSize->GetY()/2) * heatMapParams.getTilesPerMeter();
+				int indexX = (position.GetX() + nestParams.getSize().GetX()/2) * heatMapParams.getTilesPerMeter();
+				int indexY = (position.GetY() + nestParams.getSize().GetY()/2) * heatMapParams.getTilesPerMeter();
 				if(indexX >= 0 && indexX < heatMap.size() && indexY >= 0 && indexY < heatMap[0].size()) {
 					centerX = indexX;
 					centerY = indexY;

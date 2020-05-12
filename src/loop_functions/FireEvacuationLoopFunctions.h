@@ -2,6 +2,7 @@
 #define FIRE_EVACUATION_LOOP_FUNCTIONS_H
 
 #include <argos3/core/simulator/loop_functions.h>
+#include "params/NestParams.h"
 #include "params/HeatMapParams.h"
 #include "params/FireParams.h"
 #include "params/LogParams.h"
@@ -16,13 +17,13 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 
 	private:
 		// Params
+		NestParams nestParams;
 		HeatMapParams heatMapParams;
 		FireParams fireParams;
 		LogParams logParams;
 
 		// General variables and constants
 		CSpace *space;
-		const CVector3 *arenaSize;
 		CRandom::CRNG *random;
 		CFloorEntity *floorEntity;
 		CPhysicsEngine *physicsEngine;
@@ -43,6 +44,7 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 		FireEvacuationLoopFunctions();
 
 		// Getters
+		const NestParams& getNestParams() const;
 		const HeatMapParams& getHeatMapParams() const;
 
 		// Simulator methods
