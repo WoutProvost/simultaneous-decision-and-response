@@ -38,7 +38,7 @@
 - The cylinders can be fitted with LEDs
 
 # Sensors
-- While exiting the arena, the colored blob camera sensor should not be disabled by the subclass
+- While exiting the nest, the colored blob camera sensor should not be disabled by the subclass
 
 # Ending
 - time limit or large enough percentage has left nest
@@ -60,4 +60,4 @@
 - max_temperature
 - sensor noise
 - sensor packet drop
-- arena shape and size
+- nest shape, size and obstacles
