@@ -2,7 +2,7 @@
 
 HeatMapParams::HeatMapParams() :
 	// Initialize attributes and set default values
-	tilesPerMeter(10),
+	tilesPerMeter(6),
 	maxTemperature(MAX_POSSIBLE_TEMPERATURE),
 	debugMode("none"),
 	debugUseColors(false) {

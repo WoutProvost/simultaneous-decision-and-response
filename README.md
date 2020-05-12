@@ -74,7 +74,7 @@ Controller **movement** params:
 * `min_heading_angle_for_hard_turn`: Defaults to `90.0`.
 * `random_turn_ticks`:
   * A value of `0` disables turning to a random direction after a configured amount of ticks.
-  * Defaults to `100`;
+  * Defaults to `100`.
 
 Controller **collision avoidance** params:
 * `max_angle_between_heading_and_obstacle`: Defaults to `5.0`.
@@ -98,9 +98,9 @@ Loop functions **nest** params:
   * Defaults to `15,15`.
 
 Loop functions **heatmap** params:
-* `tiles_per_meter`: Defaults to `10`.
+* `tiles_per_meter`: Defaults to `6`.
 * `max_temperature`:
-  * Maximum of `255`, since the grayscale color range is [0, 255];
+  * Maximum of `255`, since the grayscale color range and UInt8 range is [0, 255].
   * Defaults to `255`.
 * `debug_mode`:
   * Mode `gradient` is useful to show the whole temperature range in terms of steps.
