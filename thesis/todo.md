@@ -6,11 +6,13 @@
 - Bugfix: transmit distance in 2 bytes (integral and fractional parts)
 - Bugfix: fix quality assignment after selecting executing voting model
 - Added 2 optional extra choices for a total of 4
-- Added support for random walk with configurable random_turn_ticks (defaults to no random walk) (ask what good value is, maybe this should be analysed)
+- Added support for random walk with configurable random_turn_ticks (defaults to no random walk, currently 100) (what is good value, maybe this should be analysed)
 - Added new decision strategy: best average quality
 - All experiments use 6 tiles per meter
 - Logic flowcharts
 - Some work on the evacuation itself (less important)
+- Look at tweakable parameters
+- Ask for guidlines of how to analyse the experiments and write the paper
 
 # TODO
 - Determine the exit probability: how many times you exit with correct solution (definitely test with edge cases)
