@@ -10,6 +10,7 @@
 - Added new decision strategy: best average quality
 - All experiments use 6 tiles per meter
 - Logic flowcharts
+- Some work on the evacuation itself (less important)
 
 # TODO
 - Determine the exit probability: how many times you exit with correct solution (definitely test with edge cases)
