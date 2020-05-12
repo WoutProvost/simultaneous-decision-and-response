@@ -6,7 +6,7 @@
 - Bugfix: transmit distance in 2 bytes (integral and fractional parts)
 - Bugfix: fix quality assignment after selecting executing voting model
 - Added 2 optional extra choices for a total of 4
-- Added support for random walk with configurable random_turn_ticks (defaults to no random walk)
+- Added support for random walk with configurable random_turn_ticks (defaults to no random walk) (ask what good value is, maybe this should be analysed)
 - Added new decision strategy: best average quality
 - All experiments use 6 tiles per meter
 - Logic flowcharts
