@@ -5,7 +5,7 @@ MovementParams::MovementParams() :
 	maxVelocity(10.0),
 	maxHeadingAngleForNoTurn(10.0),
 	minHeadingAngleForHardTurn(90.0),
-	randomTurnTicks(0) {
+	randomTurnTicks(100) {
 }
 
 Real MovementParams::getMaxVelocity() const {
