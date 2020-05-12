@@ -99,7 +99,7 @@ void GateGrippingFootBotController::listenToDecisions() {
 				candidateExitLightColor = exitColors[winningVote->first];
 				candidateExitTicks = 0;
 			}
-			// If the exit preferred has remained the same since the last control step, increase the ticks since the candidate exit was last updated if the time threshold wasn't reached already
+			// If the exit preferred by the neighbors has remained the same since the last control step, increase the ticks since the candidate exit was last updated if the time threshold wasn't reached already
 			else {
 				if(candidateExitTicks < reactionStrategyParams.getMinDurationTicks()) {
 					candidateExitTicks++;
