@@ -9,7 +9,7 @@
 - Added support for random walk with configurable random_turn_ticks (defaults to no random walk, currently 100) (what is good value, maybe this should be analysed)
 - Added new decision strategy: best average quality
 - All experiments use 6 tiles per meter
-- Logic flowcharts
+- Logic flowcharts (mention why use quality comparison after voting model, see picture)
 - Some work on the evacuation itself (less important)
 - Look at tweakable parameters
 - Ask for guidlines of how to analyse the experiments and write the paper
