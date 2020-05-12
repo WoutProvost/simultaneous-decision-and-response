@@ -31,12 +31,6 @@
 - Grippers: remove the gates and leave the nest (go as far away as possible)
 - Sensors: locate the correct exit and leave the nest (go as far away as possible)
 
-# Grippers
-- Movable gates enkel movable door grippers, nu kunnen de andere bots de gates ook pushen (force/torque/friction van sensors verlagen, of mass van objects verhogen en enkel de gripper genoeg force/torque geven) (wat met de proximity sensors van de grippers, diffusion uitzetten, of logica met als de afstand tot het licht boven de gate gelijk is aan de max proximitysensor rijkwijdte, dan niet uitwijken, op voorwaarde dat die gate werd beslist in de swarm)
-- Gates vervangen door gound blobs die alleen door de grippers opgepakt kunnen worden?
-- Solid gates disappear when gripped, because the manouvering of the bots doesn't have much to do with the thesis novelty
-- The cylinders can be fitted with LEDs
-
 # Sensors
 - While exiting the nest, the colored blob camera sensor should not be disabled by the subclass
 

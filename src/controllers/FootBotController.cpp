@@ -93,28 +93,51 @@ void FootBotController::Reset() {
 	coloredBlobOmnidirectionalCameraSensorEnabled = false;
 }
 
+CVector2 FootBotController::getRandomTurnDirectionVector() {
+	// Return a unit vector with a random angle	
+	return CVector2(1.0, ToRadians(CDegrees(random->Uniform(CRange<Real>(0.0, 360.0))))); // Interval is [min,max) i.e. right-open
+}
+
+CColor FootBotController::getExitLightColorForRobotsToUse(const CColor &color) {
+	// Slightly alter the color so that it won't be detected as an exit
+	CColor exitLedsColor = color;
+	if(exitLedsColor.GetRed() < 128) {
+		exitLedsColor.SetRed(exitLedsColor.GetRed() + 1);
+	} else {
+		exitLedsColor.SetRed(exitLedsColor.GetRed() - 1);
+	}
+	if(exitLedsColor.GetGreen() < 128) {
+		exitLedsColor.SetGreen(exitLedsColor.GetGreen() + 1);
+	} else {
+		exitLedsColor.SetGreen(exitLedsColor.GetGreen() - 1);
+	}
+	if(exitLedsColor.GetBlue() < 128) {
+		exitLedsColor.SetBlue(exitLedsColor.GetBlue() + 1);
+	} else {
+		exitLedsColor.SetBlue(exitLedsColor.GetBlue() - 1);
+	}
+	return exitLedsColor;
+}
+
 CVector2 FootBotController::getVectorToExitLight(CColor exitColor) {
-	// Make sure the resource-intensive colored blob omnidirectional camera sensor is enabled
-	if(coloredBlobOmnidirectionalCameraSensorEnabled) {
-		// Get readings from the colored blob omnidirectional camera sensor
-		const CCI_ColoredBlobOmnidirectionalCameraSensor::SReadings &readings = coloredBlobOmnidirectionalCameraSensor->GetReadings();
+	// Get readings from the colored blob omnidirectional camera sensor
+	const CCI_ColoredBlobOmnidirectionalCameraSensor::SReadings &readings = coloredBlobOmnidirectionalCameraSensor->GetReadings();
 
-		// Get a new vector that points directly to the exit light
-		CVector2 vectorToExitLight;
-		for(size_t blob = 0, size = readings.BlobList.size(); blob < size; blob++) {
-			if(!ignoredColoredBlobs[readings.BlobList[blob]->Color] && exitColor == readings.BlobList[blob]->Color) {
-				vectorToExitLight = CVector2(readings.BlobList[blob]->Distance/100, readings.BlobList[blob]->Angle);
-			}
+	// Get a new vector that points directly to the exit light
+	CVector2 vectorToExitLight;
+	for(size_t blob = 0, size = readings.BlobList.size(); blob < size; blob++) {
+		if(!ignoredColoredBlobs[readings.BlobList[blob]->Color] && exitColor == readings.BlobList[blob]->Color) {
+			vectorToExitLight = CVector2(readings.BlobList[blob]->Distance/100, readings.BlobList[blob]->Angle);
 		}
+	}
 
-		// Return the zero vector if no exit light of that color was found
-		if(vectorToExitLight.Length() == 0.0) {
-			return CVector2::ZERO;
-		}
-		// Otherwise return a unit vector to the light using vector normalization
-		else {
-			return vectorToExitLight.Normalize();
-		}
+	// Return the zero vector if no exit light of that color was found
+	if(vectorToExitLight.Length() == 0.0) {
+		return CVector2::ZERO;
+	}
+	// Otherwise return the vector to the light
+	else {
+		return vectorToExitLight;
 	}
 }
 
@@ -139,11 +162,6 @@ CVector2 FootBotController::getCollisionAvoidanceVector() {
 	else {
 		return -vectorToClosestObstacle.Normalize();
 	}
-}
-
-CVector2 FootBotController::getRandomTurnDirectionVector() {
-	// Return a unit vector with a random angle	
-	return CVector2(1.0, ToRadians(CDegrees(random->Uniform(CRange<Real>(0.0, 360.0))))); // Interval is [min,max) i.e. right-open
 }
 
 void FootBotController::setWheelVelocitiesFromVector(const CVector2 &heading, bool ignoreNoTurn) {
@@ -197,27 +215,6 @@ void FootBotController::setWheelVelocitiesFromVector(const CVector2 &heading, bo
 		// Turn right
 		differentialSteeringActuator->SetLinearVelocity(v2, v1);
 	}
-}
-
-CColor FootBotController::getExitLightColorForRobotsToUse(const CColor &color) {
-	// Slightly alter the color so that it won't be detected as an exit
-	CColor exitLedsColor = color;
-	if(exitLedsColor.GetRed() < 128) {
-		exitLedsColor.SetRed(exitLedsColor.GetRed() + 1);
-	} else {
-		exitLedsColor.SetRed(exitLedsColor.GetRed() - 1);
-	}
-	if(exitLedsColor.GetGreen() < 128) {
-		exitLedsColor.SetGreen(exitLedsColor.GetGreen() + 1);
-	} else {
-		exitLedsColor.SetGreen(exitLedsColor.GetGreen() - 1);
-	}
-	if(exitLedsColor.GetBlue() < 128) {
-		exitLedsColor.SetBlue(exitLedsColor.GetBlue() + 1);
-	} else {
-		exitLedsColor.SetBlue(exitLedsColor.GetBlue() - 1);
-	}
-	return exitLedsColor;
 }
 
 void FootBotController::roam() {
