@@ -2,14 +2,13 @@
 - Bugfix: random range right-open interval
 - Bugfix: select max. value in map
 - Bugfix: fix totalVots increment when adding robot's own opinion
-- Bugfix: fix UInt8 overflow
 - Bugfix: transmit distance in 2 bytes (integral and fractional parts)
 - Bugfix: fix quality assignment after selecting executing voting model
 - Added 2 optional extra choices for a total of 4
 - Added support for random walk with configurable random_turn_ticks (defaults to no random walk, currently 100, affects outcome a lot!) (what is good value, maybe this should be analysed)
-- Added new decision strategy: best average quality
+- Added new decision strategy: best average quality (weights higher the single errors of robots)
 - All experiments use 6 tiles per meter
-- Logic flowcharts (mention why use quality comparison after voting model, see picture)
+- Logic flowcharts (mention why use quality comparison after voting model, see picture) ==> run longer (by using quality comparision, it increases speed of conversion, but it won't work with errors... + flowchart)
 - Some work on the evacuation itself (less important)
 - Look at tweakable parameters
 - Ask for guidlines of how to analyse the experiments and write the paper
@@ -23,10 +22,10 @@
 
 # Tweakable parameters than can have an influence on the result (! = important)
 - ! amount of bots (and amount of each type)
-- ! fire mode (and mode parameters)
+- ! fire mode (and mode parameters) (selection location from easy to difficult solution)
 - ! decision strategy mode
 - ! reaction strategy parameters
-- ! random_turn_ticks
+- ! random_turn_ticks (less priority)
 - max_velocity (important in the dynamic scenario due to how fast the fire spreads)
 - rab_range
 - tiles_per_meter
