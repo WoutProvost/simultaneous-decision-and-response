@@ -1,5 +1,8 @@
 # Tuesday 12-05-2020
-- 
+- The new decision strategy is more dependent on sensor noise
+- Don't use a quality comparison after the voting model
+- When testing, use fixed fire positions from easy to difficult for the swarm to solve
+- The random_turn_ticks param has less priority then the others
 
 # Tuesday 5-05-2020
 - Add a new movement mode: turn in a random direction every x timesteps to break up the grouping and mix the system better
