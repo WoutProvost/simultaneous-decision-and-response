@@ -239,19 +239,16 @@ void TemperatureSensingFootBotController::transmitOpinion() {
 }
 
 void TemperatureSensingFootBotController::updateOpinion(CColor exitColor, Real quality) {
-	// The exit, distance and temperature resulting form the voting model, will only be copied by the robot if the measured quality is better than its own measured quality
-	if(quality > preferredExitTemperature * preferredExitDistance) {
-		// The actual individual values of the temperature and distance don't really matter, since they're only used multiplied together as the quality
-		// As long as these 2 variables multiplied together represent the actual quality, their individual values don't matter
-		// The transformation below makes sure both variables fit into individual UInt8 variables, which is necessary for communication
-		if(quality <= 255) {
-			preferredExitTemperature = 1;
-		} else {
-			preferredExitTemperature = 255;		
-		}
-		preferredExitLightColor = exitColor;
-		preferredExitDistance = quality / preferredExitTemperature;
+	// The actual individual values of the temperature and distance don't really matter, since they're only used multiplied together as the quality
+	// As long as these 2 variables multiplied together represent the actual quality, their individual values don't matter
+	// The transformation below makes sure both variables fit into individual UInt8 variables, which is necessary for communication
+	if(quality <= 255) {
+		preferredExitTemperature = 1;
+	} else {
+		preferredExitTemperature = 255;		
 	}
+	preferredExitLightColor = exitColor;
+	preferredExitDistance = quality / preferredExitTemperature;
 }
 
 bool TemperatureSensingFootBotController::isQualityPresentAndUnique(const map<uint32_t,Real> *map, Real quality) {
