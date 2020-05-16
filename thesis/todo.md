@@ -1,5 +1,5 @@
 # Done
-- Each experiment uses a fixed length of 10 minutes, unless it was clear that the experiment needed more time
+- Each experiment uses a fixed length of 60 minutes, unless it was clear that the experiment needed more time
 
 # TODO
 - Determine the exit probability: how many times you exit with correct solution (definitely test with edge cases)
