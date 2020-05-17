@@ -220,7 +220,7 @@ void MainWindow::initData() {
 
 	// Read all data from the file immediately
 	if(!realTime) {
-		// Update the plot with the data included in the file and show a progress precentage in the console
+		// Update the plot with the data included in the file and show a progress percentage in the console
 		int line = 0;
 		cout.setf(std::ios::fixed);
 		cout.precision(2);
