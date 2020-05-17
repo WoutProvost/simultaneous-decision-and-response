@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 	}
 	
 	for(int i = 0; i < amount; i++) {
-		string outputFileName(inputFileName.substr(0, pos) + to_string(i+1) + ".argos");
+		string outputFileName(inputFileName.substr(0, pos) + "_" + to_string(i+1) + ".argos");
 		ifstream input(inputFileName);
 		ofstream output(outputFileName);
 
@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
 				if(pos3 != string::npos) {
 					logFilePrefix = logFileMatch.str(1).substr(0, pos3 + 1);
 				}
-				line = regex_replace(line, logFileRegex, string("file=\"") + logFilePrefix + logFileName + to_string(i+1) + ".csv" + "\"");
+				line = regex_replace(line, logFileRegex, string("file=\"") + logFilePrefix + logFileName + "_" + to_string(i+1) + ".csv" + "\"");
 			}
 			output << line << endl;
 		}

@@ -54,7 +54,7 @@ man coldecseed
 ```bash
 cd ../experiments
 coldecseed -n 30 fire_evacuation.argos
-parallel --delay 0.5 argos3 -c fire_evacuation{1}.argos ::: `seq 1 30`
+parallel --delay 0.5 argos3 -c fire_evacuation_{1}.argos ::: `seq 1 30`
 ```
 
 ## Show results in bulk:
