@@ -82,7 +82,11 @@ void MainWindow::initPlot() {
 	setWindowTitle(title + " - Collective Decision Plot");
 	QRect screenGeometry = QApplication::desktop()->screenGeometry();
 	setMinimumSize(570, 430);
-	setGeometry(screenGeometry.width() - width(), screenGeometry.height() - height(), 570, 430);
+	if(realTime) {
+		setGeometry(screenGeometry.width() - width(), screenGeometry.height() - height(), 570, 430);
+	} else {
+		setWindowState(windowState() | Qt::WindowMaximized);
+	}
 	if(top) {
 		setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
 	}
