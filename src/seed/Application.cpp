@@ -76,7 +76,7 @@ void parseOptions(int argc, char **argv) {
 				<< "Options:" << endl
 				<< "  Mandatory arguments to long options are mandatory for short options too." << endl
 				<< "  -h,  --help                              display this help message" << endl
-				<< "  -n,  --amount=NUM                        the amount of files to generate" << endl
+				<< "  -n,  --amount=NUM                        the amount of files to generate (10 = default)" << endl
 				<< "  -s,  --srand=NUM                         the value passed to srand (0 = time, 1 = default)" << endl
 				<< endl
 				<< "File:" << endl
