@@ -372,14 +372,14 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 }
 
 void FireEvacuationLoopFunctions::initLogFile() {
-	logFile << "# available-options;graph-colors-in-hex" << endl;
+	logFile << "# available-options,graph-colors-in-hex" << endl;
 	logFile << "! " << temperatureSensingPreferences.size();
 	for(auto it = temperatureSensingPreferences.begin(), end = temperatureSensingPreferences.end(); it != end; it++) {
 		// CColors converted to uint32_t and then printed out in hex will not reflect the actual color, so don't print it->first here, but extract the RGB components manually!
 		logFile << ",#" << hex << setfill('0') << setw(2) << exitColors[it->first].GetRed() << setw(2) << exitColors[it->first].GetGreen() << setw(2) << exitColors[it->first].GetBlue() << dec;
 	}
 	logFile << endl;
-	logFile << "# milliseconds;data-percentages" << endl;
+	logFile << "# milliseconds,data-percentages" << endl;
 	logFile << 0;
 	logFile << "," << 1;
 	for(auto it = next(temperatureSensingPreferences.begin(),1), end = temperatureSensingPreferences.end(); it != end; it++) { // Start the iterator 1 element further
