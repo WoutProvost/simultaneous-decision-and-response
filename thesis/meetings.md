@@ -1,3 +1,6 @@
+# Tuesday 19-05-2020
+- 
+
 # Tuesday 12-05-2020
 - The new decision strategy is more dependent on sensor noise
 - Don't use a quality comparison after the voting model

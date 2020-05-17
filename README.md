@@ -76,11 +76,11 @@ Controller **movement** params:
   * A value of `0` disables turning to a random direction after a configured amount of ticks.
   * Defaults to `100`.
 
-Controller **collision avoidance** params:
+Controller **collision_avoidance** params:
 * `max_angle_between_heading_and_obstacle`: Defaults to `5.0`.
 * `max_obstacle_proximity`: Defaults to `0.1`.
 
-Temperature sensing controller **decision strategy** params:
+Temperature sensing controller **decision_strategy** params:
 * `mode`:
   * Mode `plurality` uses the exit with the most votes as long as there is no ex aequo.
   * Mode `majority` uses the exit with more than 50% of the votes.
@@ -88,7 +88,7 @@ Temperature sensing controller **decision strategy** params:
   * Mode `random` uses the exit of a random neighbor.
   * Defaults to `none`.
 
-Gate gripping controller **reaction strategy** params:
+Gate gripping controller **reaction_strategy** params:
 * `min_agreement_percentage`: Defaults to `0.8`.
 * `min_duration_ticks`: Defaults to `300`.
 
