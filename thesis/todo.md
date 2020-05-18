@@ -2,6 +2,7 @@
 - Each experiment uses a fixed length of 60 minutes, unless it was clear that the experiment needed more time
 - Each experiment uses a single fire source with a fixed position along the Y axis and a fixed radius of 3.0 meters
 - Each experiment uses 100 temperature sensors and 100 gate grippers
+- See Experiments.ods for table of experiments run.
 
 # TODO
 - Determine the exit probability: how many times you exit with correct solution
@@ -69,8 +70,3 @@ cmake ..
 make
 mkdir ../logs
 cd ../experiments
-
-# Run files in bulk
-for f in *; do coldecseed -n 5 "$f"; done
-nohup parallel --delay 0.5 argos3 -c {1} ::: * &
-ls *.csv | while read -r file; do coldecplot "$file"; done

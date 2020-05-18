@@ -53,14 +53,14 @@ man coldecseed
 ## Run experiments in bulk:
 ```bash
 cd ../experiments
-coldecseed -n 30 fire_evacuation.argos
-parallel --delay 0.5 argos3 -c fire_evacuation_{1}.argos ::: `seq 1 30`
+for f in *; do coldecseed -n 30 "$f"; done
+nohup parallel --delay 0.5 argos3 -c {1} ::: * &
 ```
 
 ## Show results in bulk:
 ```bash
 cd ../logs
-ls fire_evacuation*.csv | while read -r file; do coldecplot "$file"; done
+ls *.csv | while read -r file; do coldecplot "$file"; done
 ```
 
 ## Configuration:
