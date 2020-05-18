@@ -72,5 +72,5 @@ cd ../experiments
 
 # Run files in bulk
 for f in *; do coldecseed -n 5 "$f"; done
-parallel --delay 0.5 argos3 -c {1} ::: *
+nohup parallel --delay 0.5 argos3 -c {1} ::: * &
 ls fire_evacuation*.csv | while read -r file; do coldecplot "$file"; done
