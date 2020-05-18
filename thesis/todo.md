@@ -1,12 +1,14 @@
 # Done
-- Each experiment uses a fixed length of 60 minutes, unless it was clear that the experiment needed more time
-- Each experiment uses a single fire source with a fixed position along the Y axis and a fixed radius of 3.0 meters
-- Each experiment uses 100 temperature sensors and 100 gate grippers
-- See Experiments.ods for table of experiments run.
+- Each experiment uses a fixed simulation length of 60 minutes.
+- Each experiment uses a single fire source with a fixed position along the Y axis and a fixed radius of 3.0 meters.
+- Each experiment uses 100 temperature sensors and 100 gate grippers.
+- Since the arena is symmetric, we need to test fewer cases.
+- The fire positions are manually selected from easy to difficult to solve (see pictures for fire positions).
+- Ran 650 experiments (see Experiments.ods for table).
+- Discuss the other parameters to test (see reaction_ratios.png).
 
 # TODO
 - Determine the exit probability: how many times you exit with correct solution
-- Test with manually selecting fire source locations, from easy to difficult for the swarm to solve
 - Algorithm doesn't work for multiple sources: position1="-7,-1.2" position2="0,1.2"
 
 # Tweakable parameters than can have an influence on the result
