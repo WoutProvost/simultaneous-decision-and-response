@@ -1,5 +1,5 @@
 # Done
-- Each experiment uses a fixed simulation length of 60 minutes.
+- Each experiment uses a fixed amount of simulation timesteps which comes down to a length of 60 simulated minutes.
 - Each experiment uses a single fire source with a fixed position along the Y axis and a fixed radius of 3.0 meters.
 - Each experiment uses 100 temperature sensors and 100 gate grippers.
 - Since the arena is symmetric, we need to test fewer cases.
@@ -8,16 +8,15 @@
 - Discuss the other parameters to test (see reaction_ratios.png).
 
 # TODO
-- Determine the exit probability: how many times you exit with correct solution
-- Algorithm doesn't work for multiple sources: position1="-7,-1.2" position2="0,1.2"
+- Try at least 3 values for each reaction strategy parameter (see which values are the most interesting)
+- Try at least 3 population ratios, while keeping the total population size the same (see which values are the most interesting)
+- When there's still some time left, try to change the random walk parameter
+- When there's still some time left, try to change the random walk parameter, try to change the total population to 400
 
-# Tweakable parameters than can have an influence on the result
-- amount of bots (and amount of each type)
-- fire parameters
-- decision strategy mode
-- reaction strategy parameters
-- random_turn_ticks (less priority than others above)
-
+# Multiple sources
+- position1="-7,-1.2" position2="0,1.2"
+- The two distances from different sources to the same exit combined have a smaller difference than the two distances from different sources to the other exit combined
+- Set of points A = fires, set of points B = exits. Determine which point in B is furthest/closest from the combination of points in A
 
 
 

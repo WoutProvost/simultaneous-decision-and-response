@@ -1,5 +1,11 @@
 # Tuesday 19-05-2020
-- 
+- The individual mode should be teste with 30 seeds as well
+- Try at least 3 values for each reaction strategy parameter (see which values are the most interesting)
+- Try at least 3 population ratios, while keeping the total population size the same (see which values are the most interesting)
+- When there's still some time left, try to change the random walk parameter
+- When there's still some time left, try to change the random walk parameter, try to change the total population to 400
+- The two distances from different sources to the same exit combined have a smaller difference than the two distances from different sources to the other exit combined
+- Set of points A = fires, set of points B = exits. Determine which point in B is furthest/closest from the combination of points in A
 
 # Tuesday 12-05-2020
 - The new decision strategy is more dependent on sensor noise
