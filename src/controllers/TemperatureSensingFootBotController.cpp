@@ -2,6 +2,7 @@
 #include "enums/RABIndex.h"
 #include "../loop_functions/FireEvacuationLoopFunctions.h"
 
+using std::numeric_limits;
 using std::max_element;
 using std::pair;
 
@@ -10,7 +11,8 @@ TemperatureSensingFootBotController::TemperatureSensingFootBotController() :
 	FootBotController::FootBotController(),
 	preferredExitTemperature(0),
 	preferredExitLightColor(CColor::BLACK),
-	preferredExitDistance(0.0) {
+	// preferredExitDistance(0.0),
+	preferredExitDistance(numeric_limits<Real>::infinity()) {
 }
 
 const CColor& TemperatureSensingFootBotController::getPreferredExitLightColor() const {
@@ -67,7 +69,8 @@ void TemperatureSensingFootBotController::Reset() {
 	preferredExitLightColor = CColor::BLACK;
 
 	// Reset the distance to this exit to its initial state
-	preferredExitDistance = 0.0;
+	// preferredExitDistance = 0.0;
+	preferredExitDistance = numeric_limits<Real>::infinity();
 }
 
 void TemperatureSensingFootBotController::sense() {
@@ -89,8 +92,10 @@ void TemperatureSensingFootBotController::sense() {
 	}
 
 	// Adjust the measured temperature to fit the original temperature value
+	// Truncate any digits after the decimal point to enforce a fair comparison with the preferredExitTemperature integer
 	if(fireDetected) {
 		maxTemperature *= dynamic_cast<FireEvacuationLoopFunctions&>(CSimulator::GetInstance().GetLoopFunctions()).getHeatMapParams().getMaxTemperature();
+		maxTemperature = trunc(maxTemperature);
 	}
 
 	// Enable the resource-intensive colored blob omnidirectional camera sensor when a fire is detected and the sensor is not yet enabled
@@ -118,6 +123,7 @@ void TemperatureSensingFootBotController::sense() {
 		if(readings.BlobList.size() != 0) {
 			CColor furthestExitLightColor = CColor::BLACK;
 			Real furthestExitDistance = -1.0;
+			Real closestExitDistance = numeric_limits<Real>::infinity();
 			for(size_t blob = 0, size = readings.BlobList.size(); blob < size; blob++) {
 				if(!ignoredColoredBlobs[readings.BlobList[blob]->Color]) {
 					Real distance = readings.BlobList[blob]->Distance/100;
@@ -125,17 +131,29 @@ void TemperatureSensingFootBotController::sense() {
 						furthestExitLightColor = readings.BlobList[blob]->Color;
 						furthestExitDistance = distance;
 					}
+					if(distance < closestExitDistance) {
+						closestExitDistance = distance;
+					}
 				}
 			}
 
-			// Determine whether to change this robot's opinion based on the distance to the furthest exit weighted by the measured temperature
+			// Determine whether to change this robot's opinion based on the distance to the furthest/closest exit weighted by the measured temperature
 			if(furthestExitLightColor != CColor::BLACK) {
-				if(maxTemperature * furthestExitDistance > preferredExitTemperature * preferredExitDistance) {
+				// if(maxTemperature * furthestExitDistance > preferredExitTemperature * preferredExitDistance) {
+				if(maxTemperature / closestExitDistance > static_cast<Real>(preferredExitTemperature) / preferredExitDistance) {
 					preferredExitTemperature = maxTemperature;
 					preferredExitLightColor = furthestExitLightColor;
-					preferredExitDistance = furthestExitDistance;
+					// preferredExitDistance = furthestExitDistance;
+					preferredExitDistance = closestExitDistance;
 				}
 			}
+
+			// RLOG
+			// << "Pref:" << preferredExitTemperature * preferredExitDistance << "(" << preferredExitLightColor << "), "
+			// << "CurPref:" << maxTemperature * furthestExitDistance << "(" << furthestExitLightColor << "), "
+			// << "Min:" << static_cast<Real>(preferredExitTemperature) / preferredExitDistance << "(" << preferredExitLightColor << "), "
+			// << "CurMin:" << maxTemperature / closestExitDistance << "(" << furthestExitLightColor << ")"
+			// << std::endl;
 		}
 	}
 }
@@ -164,7 +182,8 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 			totalVotes++;
 			exitVotes[exitColor]++;
 			exitColors[exitColor] = exitColor;
-			exitQualities[exitColor] += temperature * distance;
+			// exitQualities[exitColor] += temperature * distance;
+			exitQualities[exitColor] += static_cast<Real>(temperature) / distance;
 			validReadings.emplace_back(readings[reading]);
 		}
 	}
@@ -177,7 +196,8 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 			totalVotes++;
 			exitVotes[preferredExitLightColor]++;
 			exitColors[preferredExitLightColor] = preferredExitLightColor;
-			exitQualities[preferredExitLightColor] += preferredExitTemperature * preferredExitDistance;
+			// exitQualities[preferredExitLightColor] += preferredExitTemperature * preferredExitDistance;
+			exitQualities[preferredExitLightColor] += static_cast<Real>(preferredExitTemperature) / preferredExitDistance;
 		}
 
 		// Calculate average qualities
@@ -217,7 +237,8 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 			UInt8 distanceIntegralPart = validReadings[randomNeighbor].Data[RABIndex::EXIT_DISTANCE_PART_INTEGRAL];
 			UInt8 distanceFractionalPart = validReadings[randomNeighbor].Data[RABIndex::EXIT_DISTANCE_PART_FRACTIONAL];
 			Real distance = distanceIntegralPart + static_cast<Real>(distanceFractionalPart)/100;
-			updateOpinion(exitColor, temperature * distance);
+			// updateOpinion(exitColor, temperature * distance);
+			updateOpinion(exitColor, static_cast<Real>(temperature) / distance);
 		}
 	}
 }
