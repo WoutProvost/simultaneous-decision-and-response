@@ -11,8 +11,7 @@ TemperatureSensingFootBotController::TemperatureSensingFootBotController() :
 	FootBotController::FootBotController(),
 	preferredExitTemperature(0),
 	preferredExitLightColor(CColor::BLACK),
-	// preferredExitDistance(0.0),
-	preferredExitDistance(numeric_limits<Real>::infinity()) {
+	preferredExitDistance(0.0) {
 }
 
 const CColor& TemperatureSensingFootBotController::getPreferredExitLightColor() const {
@@ -31,6 +30,11 @@ void TemperatureSensingFootBotController::Init(TConfigurationNode &configuration
 	try {
 		decisionStrategyParams.setParams(GetNode(configurationNode, "decision_strategy"));
 	} catch(CARGoSException &ex) {
+	}
+
+	// Reinitialize the preferred exit distance to the value needed by the used multiple fire sources support version
+	if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 2) {
+		preferredExitDistance = numeric_limits<Real>::infinity();
 	}
 }
 
@@ -69,8 +73,11 @@ void TemperatureSensingFootBotController::Reset() {
 	preferredExitLightColor = CColor::BLACK;
 
 	// Reset the distance to this exit to its initial state
-	// preferredExitDistance = 0.0;
-	preferredExitDistance = numeric_limits<Real>::infinity();
+	if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 1) {
+		preferredExitDistance = 0.0;
+	} else if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 2) {
+		preferredExitDistance = numeric_limits<Real>::infinity();
+	}
 }
 
 void TemperatureSensingFootBotController::sense() {
@@ -139,12 +146,18 @@ void TemperatureSensingFootBotController::sense() {
 
 			// Determine whether to change this robot's opinion based on the distance to the furthest/closest exit weighted by the measured temperature
 			if(furthestExitLightColor != CColor::BLACK) {
-				// if(maxTemperature * furthestExitDistance > preferredExitTemperature * preferredExitDistance) {
-				if(maxTemperature / closestExitDistance > static_cast<Real>(preferredExitTemperature) / preferredExitDistance) {
-					preferredExitTemperature = maxTemperature;
-					preferredExitLightColor = furthestExitLightColor;
-					// preferredExitDistance = furthestExitDistance;
-					preferredExitDistance = closestExitDistance;
+				if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 1) {
+					if(maxTemperature * furthestExitDistance > preferredExitTemperature * preferredExitDistance) {
+						preferredExitTemperature = maxTemperature;
+						preferredExitLightColor = furthestExitLightColor;
+						preferredExitDistance = furthestExitDistance;
+					}
+				} else if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 2) {
+					if(maxTemperature / closestExitDistance > static_cast<Real>(preferredExitTemperature) / preferredExitDistance) {
+						preferredExitTemperature = maxTemperature;
+						preferredExitLightColor = furthestExitLightColor;
+						preferredExitDistance = closestExitDistance;
+					}
 				}
 			}
 
@@ -182,8 +195,11 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 			totalVotes++;
 			exitVotes[exitColor]++;
 			exitColors[exitColor] = exitColor;
-			// exitQualities[exitColor] += temperature * distance;
-			exitQualities[exitColor] += static_cast<Real>(temperature) / distance;
+			if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 1) {
+				exitQualities[exitColor] += temperature * distance;
+			} else if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 2) {
+				exitQualities[exitColor] += static_cast<Real>(temperature) / distance;
+			}
 			validReadings.emplace_back(readings[reading]);
 		}
 	}
@@ -196,8 +212,11 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 			totalVotes++;
 			exitVotes[preferredExitLightColor]++;
 			exitColors[preferredExitLightColor] = preferredExitLightColor;
-			// exitQualities[preferredExitLightColor] += preferredExitTemperature * preferredExitDistance;
-			exitQualities[preferredExitLightColor] += static_cast<Real>(preferredExitTemperature) / preferredExitDistance;
+			if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 1) {
+				exitQualities[preferredExitLightColor] += preferredExitTemperature * preferredExitDistance;
+			} else if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 2) {
+				exitQualities[preferredExitLightColor] += static_cast<Real>(preferredExitTemperature) / preferredExitDistance;
+			}
 		}
 
 		// Calculate average qualities
@@ -237,8 +256,11 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 			UInt8 distanceIntegralPart = validReadings[randomNeighbor].Data[RABIndex::EXIT_DISTANCE_PART_INTEGRAL];
 			UInt8 distanceFractionalPart = validReadings[randomNeighbor].Data[RABIndex::EXIT_DISTANCE_PART_FRACTIONAL];
 			Real distance = distanceIntegralPart + static_cast<Real>(distanceFractionalPart)/100;
-			// updateOpinion(exitColor, temperature * distance);
-			updateOpinion(exitColor, static_cast<Real>(temperature) / distance);
+			if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 1) {
+				updateOpinion(exitColor, temperature * distance);
+			} else if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 2) {
+				updateOpinion(exitColor, static_cast<Real>(temperature) / distance);
+			}
 		}
 	}
 }

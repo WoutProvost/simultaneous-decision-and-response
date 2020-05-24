@@ -87,6 +87,10 @@ Temperature sensing controller **decision_strategy** params:
   * Mode `quality` uses the exit with the best average quality as long as there is no ex aequo.
   * Mode `random` uses the exit of a random neighbor.
   * Defaults to `none`.
+* `multiple_fire_sources_support_version`:
+  * Version `1` uses a method based on the exit with a distance furthest away from the current position of the robot. Doesn't support multiple fire sources.
+  * Version `2` uses a method based on the exit with a distance closest to the current position of the robot. Supports multiple fire sources.
+  * Defaults to `1`.
 
 Gate gripping controller **reaction_strategy** params:
 * `min_agreement_percentage`: Defaults to `0.8`.

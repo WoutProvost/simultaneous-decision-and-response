@@ -46,7 +46,7 @@
 				<appearance leds_color="white" debug_show_preference="false" />
 				<movement max_velocity="10.0" max_heading_angle_for_no_turn="10.0" min_heading_angle_for_hard_turn="90.0" random_turn_ticks="100" />
 				<collision_avoidance max_angle_between_heading_and_obstacle="5.0" max_obstacle_proximity="0.1" />
-				<decision_strategy mode="quality" />
+				<decision_strategy mode="quality" multiple_fire_sources_support_version="1" />
 			</params>
 		</temperature_sensing_footbot>
 	</controllers>
