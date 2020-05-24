@@ -54,7 +54,7 @@ void FireParams::setParams(TConfigurationNode &configurationNode) {
 	GetNodeAttributeOrDefault(configurationNode, "dynamic_spread_direction", dynamicSpreadDirection, dynamicSpreadDirection);
 
 	// Get the positions of the sources
-	positions = vector<CVector2>(sources, CVector2(numeric_limits<double>::quiet_NaN(), numeric_limits<double>::quiet_NaN()));
+	positions = vector<CVector2>(sources, CVector2(numeric_limits<Real>::quiet_NaN(), numeric_limits<Real>::quiet_NaN()));
 	for(int source = 0; source < sources; source++) {
 		GetNodeAttributeOrDefault(configurationNode, "position" + to_string(source+1), positions[source], positions[source]);
 	}
