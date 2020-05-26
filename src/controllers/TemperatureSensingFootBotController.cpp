@@ -160,13 +160,6 @@ void TemperatureSensingFootBotController::sense() {
 					}
 				}
 			}
-
-			// RLOG
-			// << "Pref:" << preferredExitTemperature * preferredExitDistance << "(" << preferredExitLightColor << "), "
-			// << "CurPref:" << maxTemperature * furthestExitDistance << "(" << furthestExitLightColor << "), "
-			// << "Min:" << static_cast<Real>(preferredExitTemperature) / preferredExitDistance << "(" << preferredExitLightColor << "), "
-			// << "CurMin:" << maxTemperature / closestExitDistance << "(" << furthestExitLightColor << ")"
-			// << std::endl;
 		}
 	}
 }

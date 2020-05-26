@@ -1,30 +1,9 @@
-# Done
-- Decision strategy: majority, quality, random
-- Reaction strategy time threshold: 1s, 30s, 3m
-- Reaction strategy percentage threshold: 80%, largely ineffective
-- Population ratios, same total population: 0.5/0.5, 0.75/0.25, 0.25/0.75
-- Random walk parameter: 10s, 30s, 60s
-- Total population: 200
-- Does paper need to be printed out?
-
 # TODO:
 - Random walk parameter: 60s
-- Reaction strategy percentage threshold ineffectivity (only verify this on baseline should be enough)
+- Reaction strategy percentage threshold: 100%, 60%
 - Multiple fires
 
-# Remarks:
-- Dynamic: will add future research chapter in LaTeX
-- Individual: baseline, uninteresting, always logarithmic, except for 0.0 which flattens out around 50%
-- Reaction strategy percentage threshold: largely ineffective due to most standoffs being fully for one color (NEEDS MORE TESTING)
-- Problem with trying to analyse the influence of the amount of gripper robots while keeping the amount of sensor robots the same, is that this different amount of gripper robots influences the result of the sensor robots as well due to the increase/decrease in collision avoidance.
-=> One possible solution to this is to keep the amount of grippers the same, but disable the logging of the ones you don't want to test. However this has its own problem since the choice of which grippers to enable can influence the result as well.
-=> Similar for when the total population remains the same, but the ratio is changed.
-=> Similar for the random walk parameter or the total amount of robots.
-=> Conclusion: all 1620 tests have to be run again.
-
 # Multiple fires
-- Suggestion with minimal difference too hard to implement + might not work with a larger arena with the left fire much further left, then the two values won't be close together anymore.
-- Found a better and much much simpler solution after some brainstorming.
 - Remember what you mentioned: our brain applies some kind of heuristic to determine which fire should be prioritized.
 - That heuristic is: which of the fire sources is CLOSEST to ANY of the exits?
 ==> Instead of basing the quality on the furthest distance to the exit, base it on the closest distance to the exit.
@@ -50,8 +29,6 @@
 	   Choose exit with distance closest to current position for quality comparison (Red)
 	   Choose exit with distance furthest away from current position to update preferred exit (Blue)
 	3) Fire 2 wins over fire 1, because it has higher fractional quality
-	   255° / 9.3m = 27.42 > 255° / 6.2 = 41.13
-- Verified this method using 4 scenarios (see pictures): sources="2" position1="-7,-1.2" position2="0,1.2"
+	   255° / 9.3m = 27.42 < 255° / 6.2 = 41.13
 - Due to the change, results using the previous algorithm aren't perfectly up to date anymore, but the results are still valid for that old algorithm, which is described in the paper.
 - New param multiple_fire_sources_support_version.
-- Needs experiments to verify this algorithm (see logs).
