@@ -1,3 +1,6 @@
+# Tuesday 26-05-2020
+- 
+
 # Tuesday 19-05-2020
 - The individual mode should be tested with 30 seeds as well
 - Try at least 3 values for each reaction strategy parameter (see which values are the most interesting)
