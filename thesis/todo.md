@@ -5,6 +5,7 @@
 - Population ratios, same total population: 0.5/0.5, 0.75/0.25, 0.25/0.75
 - Random walk parameter: 10s, 30s, 60s
 - Total population: 200
+- Does paper need to be printed out?
 
 # TODO:
 - Random walk parameter: 60s
