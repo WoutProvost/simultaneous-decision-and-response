@@ -21,7 +21,6 @@ class GateGrippingFootBotController : public FootBotController {
 
 		// Methods
 		void listenToDecisions();
-		void executeResponse();
 
 	public:
 		// Constructors

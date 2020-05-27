@@ -124,10 +124,6 @@ Loop functions **fire** params:
   * For a nest size of e.g. 15 meters along one axis, the valid range is `[-7.5:7.49]` and not `[-7.5:7.5]`.
   * Defaults to a random position in the nest.
 * `circle_radius`: Defaults to `3.0`.
-* `is_dynamic`: Defaults to `false`.
-* `dynamic_interval_ticks`: Defaults to `50`.
-* `dynamic_temperature_increase`: Defaults to `5`.
-* `dynamic_spread_direction`: Defaults to `0.0`.
 
 Loop functions **log** params:
 * `file`: Defaults to `../logs/log.csv`.

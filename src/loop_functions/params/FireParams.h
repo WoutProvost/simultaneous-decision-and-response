@@ -15,10 +15,6 @@ class FireParams {
 		int sources;
 		vector<CVector2> positions;
 		Real circleRadius;
-		bool isDynamic;
-		int dynamicIntervalTicks;
-		int dynamicTemperatureIncrease;
-		CDegrees dynamicSpreadDirection;
 
 	public:
 		// Constructors
@@ -28,10 +24,6 @@ class FireParams {
 		int getSources() const;
 		const vector<CVector2>& getPositions() const;
 		Real getCircleRadius() const;
-		bool getIsDynamic() const;
-		int getDynamicIntervalTicks() const;
-		int getDynamicTemperatureIncrease() const;
-		const CDegrees& getDynamicSpreadDirection() const;
 
 		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);

@@ -139,63 +139,6 @@ void FireEvacuationLoopFunctions::Destroy() {
 	}
 }
 
-void FireEvacuationLoopFunctions::PreStep() {
-	// Increase the temperature of the fire
-	// Redrawing the floor is very resource intensive so this shouldn't happen too often
-	// Even though this function is called PRE-step, the simulation clock is already incremented, so there's no problem with the modulo operator leading to an immediate redraw after initialization
-	// if(fireParams.getIsDynamic() && space->GetSimulationClock() % fireParams.getDynamicIntervalTicks() == 0) {
-	// 	bool anyTileChanged = false;
-
-	// 	// for(int source = 0; source < fireParams.sources; source++) {
-	// 	// }
-
-	// 	// Redraw the floor texture if necessary
-	// 	if(anyTileChanged) {
-	// 		floorEntity->SetChanged();
-	// 	}
-	// }
-
-	// // dynamic_spread_direction?
-	// // Max fire size?
-
-	// static Real radius = 0;
-	// if(radius != fireParams.circleRadius * heatMapParams.tilesPerMeter + 1) {	
-	// 	radius++;
-	// }
-
-	// // Copy the heatmap, since the radius and angle loops can access an array element multiple times and thus increase the temperature too much
-	// vector<vector<int>> oldHeatMap = heatMap;
-
-	// for(Real r = radius; r >= 0.0; r -= 0.1) {
-	// 	for(Real angle = 0.0; angle < 360.0; angle += 0.1) {
-	// 		Real x = centerX + r * cos(angle);
-	// 		Real y = centerY + r * sin(angle);
-
-	// 		// Spread the fire and increase the temperature
-	// 		if(x >= 0 && x < heatMap.size() && y >= 0 && y < heatMap[x].size()) {
-	// 			if(heatMap[x][y] != heatMapParams.maxTemperature) {
-	// 				if(oldHeatMap[x][y] + fireParams.dynamicTemperatureIncrease < heatMapParams.maxTemperature) {
-	// 					heatMap[x][y] = oldHeatMap[x][y] + fireParams.dynamicTemperatureIncrease;
-	// 				} else {
-	// 					heatMap[x][y] = heatMapParams.maxTemperature;
-	// 				}
-	// 				anyTileChanged = true;
-	// 			}
-	// 		}
-	// 	}
-	// }
-
-
-
-	// 	Real resolutionX = nestParams.getSize().GetX() * heatMapParams.tilesPerMeter;
-	// 	Real resolutionY = nestParams.getSize().GetY() * heatMapParams.tilesPerMeter;
-	// 	int centerX = random->Uniform(CRange<UInt32>(0, resolutionX)); // Interval is [min,max) i.e. right-open
-	// 	int centerY = random->Uniform(CRange<UInt32>(0, resolutionY)); // Interval is [min,max) i.e. right-open
-	
-	// Real radius = fireParams.circleRadius * heatMapParams.tilesPerMeter;
-	// Real spacing = heatMapParams.getMaxTemperature() / radius;
-}
-
 void FireEvacuationLoopFunctions::PostStep() {
 	// Gather the preference data
 	CSpace::TMapPerType &footBotEntities = space->GetEntitiesByType("foot-bot");
@@ -309,7 +252,7 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 			}
 		}
 	}
-	// Otherwise create a fire according to the fire parameters and according to whether it is dynamic
+	// Otherwise create a fire according to the fire parameters
 	else {
 		// Initialize the heatmap to have no temperature
 		for(size_t x = 0, sizeX = heatMap.size(); x < sizeX; x++) {
@@ -339,33 +282,27 @@ void FireEvacuationLoopFunctions::initHeatMap() {
 				}
 			}
 
-			// Create a linear gradient when the fire is static
-			if(!fireParams.getIsDynamic()) {
-				// Copy the heatmap, since the radius and angle loops can access an array element multiple times and thus increase the temperature too much
-				vector<vector<int>> oldHeatMap = heatMap;
-				
-				Real radius = fireParams.getCircleRadius() * heatMapParams.getTilesPerMeter();
-				Real spacing = heatMapParams.getMaxTemperature() / radius;
-				for(Real r = radius; r >= 0.0; r -= 0.1) {
-					for(Real angle = 0.0; angle < 360.0; angle += 0.1) {
-						Real x = centerX + r * cos(angle);
-						Real y = centerY + r * sin(angle);
-						if(x >= 0 && x < heatMap.size() && y >= 0 && y < heatMap[x].size()) {
-							if(heatMap[x][y] != heatMapParams.getMaxTemperature()) {
-								int temperatureIncrease = round(heatMapParams.getMaxTemperature() - spacing * r);
-								if(oldHeatMap[x][y] + temperatureIncrease < heatMapParams.getMaxTemperature()) {
-									heatMap[x][y] = oldHeatMap[x][y] + temperatureIncrease;
-								} else {
-									heatMap[x][y] = heatMapParams.getMaxTemperature();
-								}
+			// Copy the heatmap, since the radius and angle loops can access an array element multiple times and thus increase the temperature too much
+			vector<vector<int>> oldHeatMap = heatMap;
+			
+			// Create a fire circle in which the temperature increases from the outside to the center using a linear gradient
+			Real radius = fireParams.getCircleRadius() * heatMapParams.getTilesPerMeter();
+			Real spacing = heatMapParams.getMaxTemperature() / radius;
+			for(Real r = radius; r >= 0.0; r -= 0.1) {
+				for(Real angle = 0.0; angle < 360.0; angle += 0.1) {
+					Real x = centerX + r * cos(angle);
+					Real y = centerY + r * sin(angle);
+					if(x >= 0 && x < heatMap.size() && y >= 0 && y < heatMap[x].size()) {
+						if(heatMap[x][y] != heatMapParams.getMaxTemperature()) {
+							int temperatureIncrease = round(heatMapParams.getMaxTemperature() - spacing * r);
+							if(oldHeatMap[x][y] + temperatureIncrease < heatMapParams.getMaxTemperature()) {
+								heatMap[x][y] = oldHeatMap[x][y] + temperatureIncrease;
+							} else {
+								heatMap[x][y] = heatMapParams.getMaxTemperature();
 							}
 						}
 					}
 				}
-			}
-			// Otherwise create a single tile where the fire should start to spread from
-			else {
-				heatMap[centerX][centerY] = heatMapParams.getMaxTemperature();
 			}
 		}
 	}

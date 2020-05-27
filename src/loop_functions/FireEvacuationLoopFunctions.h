@@ -51,7 +51,6 @@ class FireEvacuationLoopFunctions : public CLoopFunctions {
 		virtual void Init(TConfigurationNode &configurationNode);
 		virtual void Reset();
 		virtual void Destroy();
-		virtual void PreStep();
 		virtual void PostStep();
 		virtual CColor GetFloorColor(const CVector2 &positionOnFloor);
 

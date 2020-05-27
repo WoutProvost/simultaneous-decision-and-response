@@ -38,9 +38,6 @@ void GateGrippingFootBotController::ControlStep() {
 	// Receive opinions from temperature sensing robots in this robot's neighborhood
 	listenToDecisions();
 
-	// Act upon the acting exit
-	executeResponse();
-
 	// If the robot is not undecided, lit up all the LEDs in the ring except the beacon with a color that represents the robot's exit acted upon
 	// The color is slightly different from the exit color so that it won't be detected as an exit
 	if(appearanceParams.getDebugShowPreference() && actingExitLightColor != CColor::BLACK) {
@@ -123,83 +120,6 @@ void GateGrippingFootBotController::listenToDecisions() {
 		actingExitLightColor = candidateExitLightColor;
 		candidateExitTicks++;
 	}
-}
-
-void GateGrippingFootBotController::executeResponse() {
-	// // If the robot is not undecided, act upon the acting exit
-	// if(actingExitLightColor != CColor::BLACK) {
-	// 	// Enable the resource-intensive colored blob omnidirectional camera sensor when a measurement has to be made and the sensor is not yet enabled
-	// 	if(actingExitLightPosition == CVector2::ZERO && !coloredBlobOmnidirectionalCameraSensorEnabled) {
-	// 		coloredBlobOmnidirectionalCameraSensor->Enable();
-	// 		coloredBlobOmnidirectionalCameraSensorEnabled = true;
-	// 	}
-	// 	// Disable the resource-intensive colored blob omnidirectional camera sensor when no measurement has to be made and the sensor is not yet disabled
-	// 	else if(actingExitLightPosition != CVector2::ZERO && coloredBlobOmnidirectionalCameraSensorEnabled) {
-	// 		coloredBlobOmnidirectionalCameraSensor->Disable();
-	// 		coloredBlobOmnidirectionalCameraSensorEnabled = false;
-	// 	}
-
-	// 	// Get readings from the positioning sensor
-	// 	const CCI_PositioningSensor::SReading &reading = positioningSensor->GetReading();
-
-	// 	// Determine the robot orientation
-	// 	CRadians z; CRadians y; CRadians x;
-	// 	reading.Orientation.ToEulerAngles(z, y, x);
-
-	// 	// Determine the absolute position of the acting exit
-	// 	// The same delay from the temperature sensors applies here as well
-	// 	if(coloredBlobOmnidirectionalCameraSensorEnabled) {
-	// 		// Get the relative position of the acting exit to the robot
-	// 		actingExitLightPosition = getVectorToExitLight(actingExitLightColor);
-
-	// 		// If a succesful measurement was made, adjust this relative position to the absolute position in the nest
-	// 		if(actingExitLightPosition != CVector2::ZERO) {
-	// 			// TODO width params voor elke exit, dus zoals met positionX voor sources
-	// 			// TODO exit orientation, don't just assume you need to change the X value
-
-	// 			// Take into account the current orientation and position of the robot
-	// 			actingExitLightPosition.Rotate(z);
-	// 			actingExitLightPosition += CVector2(reading.Position.GetX(), reading.Position.GetY());
-
-	// 			// Pick a random position along the exit width
-	// 			Real exitWidth = 3.0;
-	// 			actingExitLightPosition.SetX(random->Uniform(CRange<Real>(actingExitLightPosition.GetX() - (exitWidth/2 - 0.1), actingExitLightPosition.GetX() + (exitWidth/2 - 0.1)))); // Interval is [min,max) i.e. right-open
-	// 		}
-	// 	}
-
-	// 	// If the position of the acting exit is known
-	// 	if(actingExitLightPosition != CVector2::ZERO) {
-	// 		// Get the vector that points directly away from a potential obstacle to perform collision avoidance
-	// 		CVector2 heading = getCollisionAvoidanceVector();
-
-	// 		// If the robot isn't currently performing obstacle avoidance, or is very close to the exit
-	// 		bool ignoreNoTurn = false;
-	// 		if(heading == CVector2::X || (actingExitLightPosition.GetX() - reading.Position.GetX() <= 0.2 && actingExitLightPosition.GetY() - reading.Position.GetY() <= 0.2)) {
-	// 			// // If the robot is beyond the exit, continue straight ahead
-	// 			// if(actingExitLightPosition.GetX() - reading.Position.GetX() < 0.0 || actingExitLightPosition.GetY() - reading.Position.GetY() < 0.0) {
-	// 			// 	heading = CVector2::X;
-
-	// 			// 	// TODO this condition depends on the orientation of the exit
-	// 			// 	// TODO test for negative values
-	// 			// 	// TODO test if the condition outside this one is still valid (maybe use abs)
-	// 			// }
-	// 			// // Otherwise, go to the exit
-	// 			// else {
-	// 				// Get the vector between the robot and the exit
-	// 				CVector2 vectorBetweenRobotAndExit(actingExitLightPosition.GetX() - reading.Position.GetX(), actingExitLightPosition.GetY() - reading.Position.GetY());
-
-	// 				// Change the heading to go to the exit
-	// 				heading = CVector2(heading.Length(), vectorBetweenRobotAndExit.Angle() - z);
-	// 			// }
-
-	// 			// Make sure to use this new direction angle exactly
-	// 			ignoreNoTurn = true;
-	// 		}
-
-	// 		// Set the velocities of both the left and the right wheels according to the maximum velocity and to where the robot should go
-	// 		setWheelVelocitiesFromVector(movementParams.getMaxVelocity() * heading, ignoreNoTurn);
-	// 	}
-	// }
 }
 
 // Macro that binds this class to an XML tag
