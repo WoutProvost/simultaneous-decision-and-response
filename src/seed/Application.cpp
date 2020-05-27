@@ -16,14 +16,13 @@ int main(int argc, char *argv[]) {
 	}
 	
 	for(int i = 0; i < amount; i++) {
-		string outputFileName(inputFileName.substr(0, pos) + "_" + to_string(i+1) + ".argos");
 		ifstream input(inputFileName);
-		ofstream output(outputFileName);
-
 		if(!input.is_open()) {
 			printError("Error opening file '" + inputFileName + "'.");
 		}
 
+		string outputFileName(inputFileName.substr(0, pos) + "_" + to_string(i+1) + ".argos");
+		ofstream output(outputFileName);
 		if(!output.is_open()) {
 			printError("Error opening file '" + outputFileName + "'.");
 		}
