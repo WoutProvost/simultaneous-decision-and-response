@@ -1,6 +1,5 @@
 # TODO:
-- Random walk parameter: 60s
-- Reaction strategy percentage threshold: 100%, 60%
+- Reaction strategy percentage threshold: 100%, 60% (only test for baseline)
 - Multiple fires
 
 # Multiple fires
