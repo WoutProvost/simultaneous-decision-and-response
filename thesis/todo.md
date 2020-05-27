@@ -1,6 +1,5 @@
 # TODO:
 - Reaction strategy percentage threshold: 100%, 60% (only test for baseline)
-- Multiple fires
 
 # Multiple fires
 - Remember what you mentioned: our brain applies some kind of heuristic to determine which fire should be prioritized.
