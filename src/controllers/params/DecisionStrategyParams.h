@@ -11,7 +11,7 @@ class DecisionStrategyParams {
 	private:
 		// Params
 		string mode;
-		int multipleFireSourcesSupportVersion;
+		bool checkForFireCriticality;
 
 	public:
 		// Constructors
@@ -19,7 +19,7 @@ class DecisionStrategyParams {
 
 		// Getters
 		const string& getMode() const;
-		int getMultipleFireSourcesSupportVersion() const;
+		bool getCheckForFireCriticality() const;
 
 		// Simulator methods
 		void setParams(TConfigurationNode &configurationNode);

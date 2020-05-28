@@ -32,8 +32,8 @@ void TemperatureSensingFootBotController::Init(TConfigurationNode &configuration
 	} catch(CARGoSException &ex) {
 	}
 
-	// Reinitialize the preferred exit distance to the value needed by the used multiple fire sources support version
-	if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 2) {
+	// Reinitialize the preferred exit distance to the value needed when checking for fire criticality is enabled
+	if(decisionStrategyParams.getCheckForFireCriticality()) {
 		preferredExitDistance = numeric_limits<Real>::infinity();
 	}
 }
@@ -73,9 +73,9 @@ void TemperatureSensingFootBotController::Reset() {
 	preferredExitLightColor = CColor::BLACK;
 
 	// Reset the distance to this exit to its initial state
-	if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 1) {
+	if(!decisionStrategyParams.getCheckForFireCriticality()) {
 		preferredExitDistance = 0.0;
-	} else if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 2) {
+	} else {
 		preferredExitDistance = numeric_limits<Real>::infinity();
 	}
 }
@@ -144,15 +144,15 @@ void TemperatureSensingFootBotController::sense() {
 				}
 			}
 
-			// Determine whether to change this robot's opinion based on the distance to the furthest/closest exit weighted by the measured temperature
+			// Determine whether to change this robot's opinion based on the criticality of the fire and distance to the exit weighted by the measured temperature
 			if(furthestExitLightColor != CColor::BLACK) {
-				if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 1) {
+				if(!decisionStrategyParams.getCheckForFireCriticality()) {
 					if(maxTemperature * furthestExitDistance > preferredExitTemperature * preferredExitDistance) {
 						preferredExitTemperature = maxTemperature;
 						preferredExitLightColor = furthestExitLightColor;
 						preferredExitDistance = furthestExitDistance;
 					}
-				} else if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 2) {
+				} else {
 					if(maxTemperature / closestExitDistance > static_cast<Real>(preferredExitTemperature) / preferredExitDistance) {
 						preferredExitTemperature = maxTemperature;
 						preferredExitLightColor = furthestExitLightColor;
@@ -188,9 +188,9 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 			totalVotes++;
 			exitVotes[exitColor]++;
 			exitColors[exitColor] = exitColor;
-			if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 1) {
+			if(!decisionStrategyParams.getCheckForFireCriticality()) {
 				exitQualities[exitColor] += temperature * distance;
-			} else if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 2) {
+			} else {
 				exitQualities[exitColor] += static_cast<Real>(temperature) / distance;
 			}
 			validReadings.emplace_back(readings[reading]);
@@ -205,9 +205,9 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 			totalVotes++;
 			exitVotes[preferredExitLightColor]++;
 			exitColors[preferredExitLightColor] = preferredExitLightColor;
-			if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 1) {
+			if(!decisionStrategyParams.getCheckForFireCriticality()) {
 				exitQualities[preferredExitLightColor] += preferredExitTemperature * preferredExitDistance;
-			} else if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 2) {
+			} else {
 				exitQualities[preferredExitLightColor] += static_cast<Real>(preferredExitTemperature) / preferredExitDistance;
 			}
 		}
@@ -249,9 +249,9 @@ void TemperatureSensingFootBotController::receiveOpinions() {
 			UInt8 distanceIntegralPart = validReadings[randomNeighbor].Data[RABIndex::EXIT_DISTANCE_PART_INTEGRAL];
 			UInt8 distanceFractionalPart = validReadings[randomNeighbor].Data[RABIndex::EXIT_DISTANCE_PART_FRACTIONAL];
 			Real distance = distanceIntegralPart + static_cast<Real>(distanceFractionalPart)/100;
-			if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 1) {
+			if(!decisionStrategyParams.getCheckForFireCriticality()) {
 				updateOpinion(exitColor, temperature * distance);
-			} else if(decisionStrategyParams.getMultipleFireSourcesSupportVersion() == 2) {
+			} else {
 				updateOpinion(exitColor, static_cast<Real>(temperature) / distance);
 			}
 		}

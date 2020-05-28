@@ -3,19 +3,19 @@
 DecisionStrategyParams::DecisionStrategyParams() :
 	// Initialize attributes and set default values	
 	mode("none"),
-	multipleFireSourcesSupportVersion(1) {
+	checkForFireCriticality(true) {
 }
 
 const string& DecisionStrategyParams::getMode() const {
 	return mode;
 }
 
-int DecisionStrategyParams::getMultipleFireSourcesSupportVersion() const {
-	return multipleFireSourcesSupportVersion;
+bool DecisionStrategyParams::getCheckForFireCriticality() const {
+	return checkForFireCriticality;
 }
 
 void DecisionStrategyParams::setParams(TConfigurationNode &configurationNode) {
 	// Parse the configuration file for params
 	GetNodeAttributeOrDefault(configurationNode, "mode", mode, mode);
-	GetNodeAttributeOrDefault(configurationNode, "multiple_fire_sources_support_version", multipleFireSourcesSupportVersion, multipleFireSourcesSupportVersion);
+	GetNodeAttributeOrDefault(configurationNode, "check_for_fire_criticality", checkForFireCriticality, checkForFireCriticality);
 }
