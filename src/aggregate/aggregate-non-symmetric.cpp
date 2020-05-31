@@ -11,8 +11,8 @@ int main(int argc, char *argv[]) {
 	int finishedExperiments = 0;
 	int finalDecisions[3] = {0, 0, 0}; // Inconclusive, correct result, incorrect result
 	int finalResponses[3] = {0, 0, 0}; // Inconclusive, correct result, incorrect result
-	int earliestDecisions = 0;
-	int earliestResponses = 0;
+	int earliestDecisions[3] = {0, 0, 0}; // Inconclusive, correct result, incorrect result
+	int earliestResponses[3] = {0, 0, 0}; // Inconclusive, correct result, incorrect result
 
 	for(int arg = 1; arg < argc; arg++) {
 		ifstream input(argv[arg]);
@@ -61,10 +61,10 @@ int main(int argc, char *argv[]) {
 					// Decision
 					if(decisionData[1] >= THRESHOLD) {
 						finalDecisions[1]++;
-						earliestDecisions += earliestDecisionTime[1];
+						earliestDecisions[1] += earliestDecisionTime[1];
 					} else if(decisionData[2] >= THRESHOLD) {
 						finalDecisions[2]++;
-						earliestDecisions += earliestDecisionTime[2];
+						earliestDecisions[2] += earliestDecisionTime[2];
 					} else {
 						finalDecisions[0]++;
 					}
@@ -72,10 +72,10 @@ int main(int argc, char *argv[]) {
 					// Response
 					if(responseData[1] >= THRESHOLD) {
 						finalResponses[1]++;
-						earliestResponses += earliestResponseTime[1];
+						earliestResponses[1] += earliestResponseTime[1];
 					} else if(responseData[2] >= THRESHOLD) {
 						finalResponses[2]++;
-						earliestResponses += earliestResponseTime[2];
+						earliestResponses[2] += earliestResponseTime[2];
 					} else {
 						finalResponses[0]++;
 					}
@@ -87,27 +87,24 @@ int main(int argc, char *argv[]) {
 
 	double finalDecisionProbabilities[3] = {0.0, 0.0, 0.0};
 	double finalResponseProbabilities[3] = {0.0, 0.0, 0.0};
+	double earliestDecisionTimesteps[3] = {0.0, 0.0, 0.0};
+	double earliestResponseTimesteps[3] = {0.0, 0.0, 0.0};
 	for(int i = 0; i < 3; i++) {
 		finalDecisionProbabilities[i] = static_cast<double>(finalDecisions[i])/finishedExperiments*100;
 		finalResponseProbabilities[i] = static_cast<double>(finalResponses[i])/finishedExperiments*100;
+		earliestDecisionTimesteps[i] = static_cast<double>(earliestDecisions[i])/finalDecisions[i];
+		earliestResponseTimesteps[i] = static_cast<double>(earliestResponses[i])/finalResponses[i];
 	}
-
-	double earliestDecisionTimesteps = static_cast<double>(earliestDecisions)/(finalDecisions[1] + finalDecisions[2]);
-	double earliestResponseTimesteps = static_cast<double>(earliestResponses)/(finalResponses[1] + finalResponses[2]);
 
 	if(finishedExperiments == argc - 1) {
 		cout.setf(std::ios::fixed);
 		cout.precision(2);
 		
-		cout << finishedExperiments << " results aggregated (threshold=" << THRESHOLD*100 << "%): " << endl
-		<< "- Decision: T=" << finalDecisionProbabilities[1] << "%, F=" << finalDecisionProbabilities[2] << "%, I=" << finalDecisionProbabilities[0] << "%, t=" << earliestDecisionTimesteps << " timesteps" << endl
-		<< "- Response: T=" << finalResponseProbabilities[1] << "%, F=" << finalResponseProbabilities[2] << "%, I=" << finalResponseProbabilities[0] << "%, t=" << earliestResponseTimesteps << " timesteps" << endl;
-		
-		// cout << finalDecisionProbabilities[1] << "%\t" << finalDecisionProbabilities[2] << "%\t" << finalDecisionProbabilities[0] << "%" << endl;
-		// cout << finalResponseProbabilities[1] << "%\t" << finalResponseProbabilities[2] << "%\t" << finalResponseProbabilities[0] << "%" << endl;
+		cout << finalDecisionProbabilities[1] << "%\t" << finalDecisionProbabilities[2] << "%\t" << finalDecisionProbabilities[0] << "%" << endl;
+		cout << finalResponseProbabilities[1] << "%\t" << finalResponseProbabilities[2] << "%\t" << finalResponseProbabilities[0] << "%" << endl;
 
-		// cout << earliestDecisionTimesteps << endl;
-		// cout << earliestResponseTimesteps << endl;
+		// cout << earliestDecisionTimesteps[1] << "%\t" << earliestDecisionTimesteps[2] << "%\t" << earliestDecisionTimesteps[0] << "%" << endl;
+		// cout << earliestResponseTimesteps[1] << "%\t" << earliestResponseTimesteps[2] << "%\t" << earliestResponseTimesteps[0] << "%" << endl;
 	}
 	return 0;
 }
