@@ -5,7 +5,8 @@
 
 using namespace std;
 
-#define THRESHOLD	0.8
+#define THRESHOLD			0.8
+#define THRESHOLD_MARGIN	0.05
 
 int main(int argc, char *argv[]) {
 	int finishedExperiments = 0;
@@ -36,22 +37,30 @@ int main(int argc, char *argv[]) {
 				double decisionData[3];
 				double responseData[3];
 
-				// Decision (only use first occurence)
+				// Decision
 				data >> c >> decisionData[0] >> c >> decisionData[1] >> c >> decisionData[2];
 				if(earliestDecisionTime[1] == 0 && decisionData[1] >= THRESHOLD) {
 					earliestDecisionTime[1] = lineCount;
+				} else if(earliestDecisionTime[1] != 0 && decisionData[1] < THRESHOLD - THRESHOLD_MARGIN) {
+					earliestDecisionTime[1] = 0;
 				}
 				if(earliestDecisionTime[2] == 0 && decisionData[2] >= THRESHOLD) {
 					earliestDecisionTime[2] = lineCount;
+				} else if(earliestDecisionTime[2] != 0 && decisionData[2] < THRESHOLD - THRESHOLD_MARGIN) {
+					earliestDecisionTime[2] = 0;
 				}
 
-				// Response (only use first occurence)
+				// Response
 				data >> c >> responseData[0] >> c >> responseData[1] >> c >> responseData[2];
 				if(earliestResponseTime[1] == 0 && responseData[1] >= THRESHOLD) {
 					earliestResponseTime[1] = lineCount;
+				} else if(earliestResponseTime[1] != 0 && responseData[1] < THRESHOLD - THRESHOLD_MARGIN) {
+					earliestResponseTime[1] = 0;
 				}
 				if(earliestResponseTime[2] == 0 && responseData[2] >= THRESHOLD) {
 					earliestResponseTime[2] = lineCount;
+				} else if(earliestResponseTime[2] != 0 && responseData[2] < THRESHOLD - THRESHOLD_MARGIN) {
+					earliestResponseTime[2] = 0;
 				}
 
 				// Final result
@@ -100,11 +109,11 @@ int main(int argc, char *argv[]) {
 		cout.setf(std::ios::fixed);
 		cout.precision(2);
 		
-		cout << finalDecisionProbabilities[1] << "%\t" << finalDecisionProbabilities[2] << "%\t" << finalDecisionProbabilities[0] << "%" << endl;
-		cout << finalResponseProbabilities[1] << "%\t" << finalResponseProbabilities[2] << "%\t" << finalResponseProbabilities[0] << "%" << endl;
+		// cout << finalDecisionProbabilities[1] << "%\t" << finalDecisionProbabilities[2] << "%\t" << finalDecisionProbabilities[0] << "%" << endl;
+		// cout << finalResponseProbabilities[1] << "%\t" << finalResponseProbabilities[2] << "%\t" << finalResponseProbabilities[0] << "%" << endl;
 
-		// cout << earliestDecisionTimesteps[1] << "%\t" << earliestDecisionTimesteps[2] << "%\t" << earliestDecisionTimesteps[0] << "%" << endl;
-		// cout << earliestResponseTimesteps[1] << "%\t" << earliestResponseTimesteps[2] << "%\t" << earliestResponseTimesteps[0] << "%" << endl;
+		cout << earliestDecisionTimesteps[1] << "\t" << earliestDecisionTimesteps[2] << "\t" << earliestDecisionTimesteps[0] << endl;
+		cout << earliestResponseTimesteps[1] << "\t" << earliestResponseTimesteps[2] << "\t" << earliestResponseTimesteps[0] << endl;
 	}
 	return 0;
 }
