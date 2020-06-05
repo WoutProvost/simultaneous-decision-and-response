@@ -1,3 +1,15 @@
+# Tuesday 9-06-2020
+- 
+
+# Monday 1-06-2020
+- Time to convergence: needs to reach that threshold and remain above that (allow difference of 5%)
+- Don't group all non-symmetric cases together because some are more difficult than others
+- Non-symmetric baseline only show correct bar for time to convergence
+- Additional experiments: reaction percentage with different random walk
+- Group charts more so they are more easily comparable
+- Remove chart titles
+- Add related work chapter
+
 # Tuesday 26-05-2020
 - Use timesteps in thesis, not seconds. Mention the amount of timesteps per second.
 - First the most critical fire is selected. Second the furthest exit is used from the selected fire. Both phases can be combined implicitely.
