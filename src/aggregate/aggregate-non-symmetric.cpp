@@ -109,11 +109,11 @@ int main(int argc, char *argv[]) {
 		cout.setf(std::ios::fixed);
 		cout.precision(2);
 		
-		// cout << finalDecisionProbabilities[1] << "%\t" << finalDecisionProbabilities[2] << "%\t" << finalDecisionProbabilities[0] << "%" << endl;
-		// cout << finalResponseProbabilities[1] << "%\t" << finalResponseProbabilities[2] << "%\t" << finalResponseProbabilities[0] << "%" << endl;
+		cout << finalDecisionProbabilities[1] << "%\t" << finalDecisionProbabilities[2] << "%\t" << finalDecisionProbabilities[0] << "%" << endl;
+		cout << finalResponseProbabilities[1] << "%\t" << finalResponseProbabilities[2] << "%\t" << finalResponseProbabilities[0] << "%" << endl;
 
-		cout << earliestDecisionTimesteps[1] << "\t" << earliestDecisionTimesteps[2] << "\t" << earliestDecisionTimesteps[0] << endl;
-		cout << earliestResponseTimesteps[1] << "\t" << earliestResponseTimesteps[2] << "\t" << earliestResponseTimesteps[0] << endl;
+		// cout << earliestDecisionTimesteps[1] << "\t" << earliestDecisionTimesteps[2] << "\t" << earliestDecisionTimesteps[0] << endl;
+		// cout << earliestResponseTimesteps[1] << "\t" << earliestResponseTimesteps[2] << "\t" << earliestResponseTimesteps[0] << endl;
 	}
 	return 0;
 }
