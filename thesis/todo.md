@@ -15,3 +15,15 @@
 - https://lib.ugent.be/fulltxt/RUG01/002/495/017/RUG01-002495017_2018_0001_AC.pdf
 - https://lib.ugent.be/fulltxt/RUG01/002/495/054/RUG01-002495054_2018_0001_AC.pdf
 - https://lib.ugent.be/fulltxt/RUG01/002/300/970/RUG01-002300970_2016_0001_AC.pdf
+
+
+
+
+
+Consensus = 100%
+High coherence level = 80%
+Time to convergence =  time to reach a stable state
+Use 2.5% margin (below and above)
+Test random walk for multiple fires (300, 600)
+Maybe 70% threshold for multiple fires
+Organize logs,configs,experiments better + upload logs,configs,experiments
