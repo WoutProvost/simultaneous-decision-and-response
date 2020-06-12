@@ -108,9 +108,11 @@ int main(int argc, char *argv[]) {
 		cout.setf(std::ios::fixed);
 		cout.precision(2);
 		
-		cout << finalDecisionProbabilities[1] << "%\t" << finalDecisionProbabilities[2] << "%\t" << finalDecisionProbabilities[0] << "%" << endl;
-		cout << finalResponseProbabilities[1] << "%\t" << finalResponseProbabilities[2] << "%\t" << finalResponseProbabilities[0] << "%" << endl;
+		// Exit probability conclusive results
+		cout << (finalDecisionProbabilities[1] + finalDecisionProbabilities[2]) << "%" << endl;
+		cout << (finalResponseProbabilities[1] + finalResponseProbabilities[2]) << "%" << endl;
 
+		// Time to convergence conclusive results
 		// cout << earliestDecisionTimesteps << endl;
 		// cout << earliestResponseTimesteps << endl;
 	}
