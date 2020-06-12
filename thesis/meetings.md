@@ -1,5 +1,8 @@
 # Tuesday 9-06-2020
-- 
+- Change time to convergence calculation to use a 2.5% margin below and above, and for the swarm to be considered converged the plot can not go beyond those margins.
+- Additional experiments: multiple fires with different random walk.
+- Maybe use ad 70% cohesion threshold for the multiple fires.
+- Organize configurations, experiments and logs better and make them available somewhere.
 
 # Monday 1-06-2020
 - Time to convergence: needs to reach that threshold and remain above that (allow difference of 5%)
