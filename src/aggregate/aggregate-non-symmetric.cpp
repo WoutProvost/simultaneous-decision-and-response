@@ -5,7 +5,7 @@
 
 using namespace std;
 
-#define THRESHOLD			0.8
+#define THRESHOLD			0.8		// Use 0.7 for multiple fires
 #define CONVERGENCE_MARGIN	0.05
 
 int main(int argc, char *argv[]) {
