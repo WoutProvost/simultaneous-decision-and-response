@@ -6,7 +6,7 @@
 using namespace std;
 
 #define THRESHOLD			0.8
-#define CONVERGENCE_MARGIN	0.025
+#define CONVERGENCE_MARGIN	0.05
 
 int main(int argc, char *argv[]) {
 	int finishedExperiments = 0;
