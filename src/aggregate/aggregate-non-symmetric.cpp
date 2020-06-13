@@ -6,132 +6,148 @@
 using namespace std;
 
 #define THRESHOLD			0.8
-#define THRESHOLD_MARGIN	0.025
+#define CONVERGENCE_MARGIN	0.025
 
 int main(int argc, char *argv[]) {
 	int finishedExperiments = 0;
-	int finalDecisions[3] = {0, 0, 0}; // Inconclusive, correct result, incorrect result
-	int finalResponses[3] = {0, 0, 0}; // Inconclusive, correct result, incorrect result
-	int earliestDecisions[3] = {0, 0, 0}; // Inconclusive, correct result, incorrect result
-	int earliestResponses[3] = {0, 0, 0}; // Inconclusive, correct result, incorrect result
+	int decisionOutcomes[3] = {0, 0, 0};
+	int responseOutcomes[3] = {0, 0, 0};
+	int decisionConvergenceTimeOutcome = 0;
+	int responseConvergenceTimeOutcome = 0;
 
 	for(int arg = 1; arg < argc; arg++) {
-		ifstream input(argv[arg]);
-		if(!input.is_open()) {
-			cerr << "Error opening file '" << argv[arg] << "'." << endl;
-			exit(EXIT_FAILURE);
-		}
+		double finalDecisionData[3] = {0.0, 0.0, 0.0};
+		double finalResponseData[3] = {0.0, 0.0, 0.0};
 
-		int lineCount = 0;
-		int earliestDecisionTime[3] = {0, 0, 0}; // Inconclusive, correct result, incorrect result
-		int earliestResponseTime[3] = {0, 0, 0}; // Inconclusive, correct result, incorrect result
-		string line;
-		while(getline(input, line)) {
-			if(!line.empty() && line.rfind("#", 0) != 0 && line.rfind("!", 0) != 0 && line.rfind("0", 0)) {
-				lineCount++;
-				size_t pos = line.find_first_of(',');
-				string prefix = line.substr(0, pos);
-				line = line.erase(0, pos);
-				stringstream data(line);
-				char c;
-				double decisionData[3];
-				double responseData[3];
+		// Exit probability
+		{
+			ifstream input(argv[arg]);
+			if(!input.is_open()) {
+				cerr << "Error opening file '" << argv[arg] << "'." << endl;
+				exit(EXIT_FAILURE);
+			}
 
-				// Decision
-				data >> c >> decisionData[0] >> c >> decisionData[1] >> c >> decisionData[2];
-				if(earliestDecisionTime[1] == 0) {
-					if(decisionData[1] >= THRESHOLD) {
-						earliestDecisionTime[1] = lineCount;
-					}
-				} else {
-					if(decisionData[1] < THRESHOLD - THRESHOLD_MARGIN || decisionData[1] > THRESHOLD + THRESHOLD_MARGIN) {
-						earliestDecisionTime[1] = 0;
-					}
-				}
-				if(earliestDecisionTime[2] == 0) {
-					if(decisionData[2] >= THRESHOLD) {
-						earliestDecisionTime[2] = lineCount;
-					}
-				} else {
-					if(decisionData[2] < THRESHOLD - THRESHOLD_MARGIN || decisionData[2] > THRESHOLD + THRESHOLD_MARGIN) {
-						earliestDecisionTime[2] = 0;
-					}
-				}
+			string line;
+			while(getline(input, line)) {
+				if(!line.empty() && line.rfind("#", 0) != 0 && line.rfind("!", 0) != 0 && line.rfind("0", 0) != 0) {
+					size_t pos = line.find_first_of(',');
+					string prefix = line.substr(0, pos);
 
-				// Response
-				data >> c >> responseData[0] >> c >> responseData[1] >> c >> responseData[2];
-				if(earliestResponseTime[1] == 0) {
-					if(responseData[1] >= THRESHOLD) {
-						earliestResponseTime[1] = lineCount;
-					}
-				} else {
-					if(responseData[1] < THRESHOLD - THRESHOLD_MARGIN || responseData[1] > THRESHOLD + THRESHOLD_MARGIN) {
-						earliestResponseTime[1] = 0;
-					}
-				}
-				if(earliestResponseTime[2] == 0) {
-					if(responseData[2] >= THRESHOLD) {
-						earliestResponseTime[2] = lineCount;
-					}
-				} else {
-					if(responseData[2] < THRESHOLD - THRESHOLD_MARGIN || responseData[2] > THRESHOLD + THRESHOLD_MARGIN) {
-						earliestResponseTime[2] = 0;
-					}
-				}
+					if(prefix == "3.6e+06") {
+						line = line.erase(0, pos);
+						stringstream data(line);
+						char c;
+						finishedExperiments++;
 
-				// Final result
-				if(prefix == "3.6e+06") {
-					finishedExperiments++;
+						// Decision
+						data >> c >> finalDecisionData[0] >> c >> finalDecisionData[1] >> c >> finalDecisionData[2];
+						if(finalDecisionData[1] >= THRESHOLD) {
+							decisionOutcomes[1]++;
+						} else if(finalDecisionData[2] >= THRESHOLD) {
+							decisionOutcomes[2]++;
+						} else {
+							decisionOutcomes[0]++;
+						}
 
-					// Decision
-					if(decisionData[1] >= THRESHOLD) {
-						finalDecisions[1]++;
-						earliestDecisions[1] += earliestDecisionTime[1];
-					} else if(decisionData[2] >= THRESHOLD) {
-						finalDecisions[2]++;
-						earliestDecisions[2] += earliestDecisionTime[2];
-					} else {
-						finalDecisions[0]++;
-					}
-
-					// Response
-					if(responseData[1] >= THRESHOLD) {
-						finalResponses[1]++;
-						earliestResponses[1] += earliestResponseTime[1];
-					} else if(responseData[2] >= THRESHOLD) {
-						finalResponses[2]++;
-						earliestResponses[2] += earliestResponseTime[2];
-					} else {
-						finalResponses[0]++;
+						// Response
+						data >> c >> finalResponseData[0] >> c >> finalResponseData[1] >> c >> finalResponseData[2];
+						if(finalResponseData[1] >= THRESHOLD) {
+							responseOutcomes[1]++;
+						} else if(finalResponseData[2] >= THRESHOLD) {
+							responseOutcomes[2]++;
+						} else {
+							responseOutcomes[0]++;
+						}
 					}
 				}
 			}
+
+			input.close();
 		}
-		input.close();
+
+		// Time to convergence
+		if(finalDecisionData[1] >= THRESHOLD || finalResponseData[1] >= THRESHOLD) {
+			ifstream input(argv[arg]);
+			if(!input.is_open()) {
+				cerr << "Error opening file '" << argv[arg] << "'." << endl;
+				exit(EXIT_FAILURE);
+			}
+
+			int lineCount = 0;
+			int decisionConvergenceTime = 0;
+			int responseConvergenceTime = 0;
+
+			string line;
+			while(getline(input, line)) {
+				if(!line.empty() && line.rfind("#", 0) != 0 && line.rfind("!", 0) != 0 && line.rfind("0", 0) != 0) {
+					size_t pos = line.find_first_of(',');
+					string prefix = line.substr(0, pos);
+					line = line.erase(0, pos);
+					stringstream data(line);
+					char c;
+					lineCount++;
+
+					// Decision
+					double decisionData[3];
+					data >> c >> decisionData[0] >> c >> decisionData[1] >> c >> decisionData[2];
+					if(decisionData[1] >= finalDecisionData[1] - CONVERGENCE_MARGIN && decisionData[1] <= finalDecisionData[1] + CONVERGENCE_MARGIN) {
+						if(decisionConvergenceTime == 0) {
+							decisionConvergenceTime = lineCount;							
+						}
+					} else {
+						if(decisionConvergenceTime != 0) {
+							decisionConvergenceTime = 0;
+						}
+					}
+
+					// Response
+					double responseData[3];
+					data >> c >> responseData[0] >> c >> responseData[1] >> c >> responseData[2];
+					if(responseData[1] >= finalResponseData[1] - CONVERGENCE_MARGIN && responseData[1] <= finalResponseData[1] + CONVERGENCE_MARGIN) {
+						if(responseConvergenceTime == 0) {
+							responseConvergenceTime = lineCount;
+						}
+					} else {						
+						if(responseConvergenceTime != 0) {
+							responseConvergenceTime = 0;
+						}
+					}
+				}
+			}
+
+			if(finalDecisionData[1] >= THRESHOLD) {
+				decisionConvergenceTimeOutcome += decisionConvergenceTime;
+			}
+
+			if(finalResponseData[1] >= THRESHOLD) {
+				responseConvergenceTimeOutcome += responseConvergenceTime;
+			}
+
+			input.close();
+		}
 	}
 
-	double finalDecisionProbabilities[3] = {0.0, 0.0, 0.0};
-	double finalResponseProbabilities[3] = {0.0, 0.0, 0.0};
-	double earliestDecisionTimesteps[3] = {0.0, 0.0, 0.0};
-	double earliestResponseTimesteps[3] = {0.0, 0.0, 0.0};
+	double decisionExitProbabilities[3] = {0.0, 0.0, 0.0};
+	double responseExitProbabilities[3] = {0.0, 0.0, 0.0};
 	for(int i = 0; i < 3; i++) {
-		finalDecisionProbabilities[i] = static_cast<double>(finalDecisions[i])/finishedExperiments*100;
-		finalResponseProbabilities[i] = static_cast<double>(finalResponses[i])/finishedExperiments*100;
-		earliestDecisionTimesteps[i] = static_cast<double>(earliestDecisions[i])/finalDecisions[i];
-		earliestResponseTimesteps[i] = static_cast<double>(earliestResponses[i])/finalResponses[i];
+		decisionExitProbabilities[i] = static_cast<double>(decisionOutcomes[i])/finishedExperiments*100;
+		responseExitProbabilities[i] = static_cast<double>(responseOutcomes[i])/finishedExperiments*100;
 	}
+
+	double averageDecisionConvergenceTime = static_cast<double>(decisionConvergenceTimeOutcome)/decisionOutcomes[1];
+	double averageResponseConvergenceTime = static_cast<double>(responseConvergenceTimeOutcome)/responseOutcomes[1];
 
 	if(finishedExperiments == argc - 1) {
 		cout.setf(std::ios::fixed);
 		cout.precision(2);
 		
 		// Exit probability correct results
-		cout << finalDecisionProbabilities[1] << "%" << endl;
-		cout << finalResponseProbabilities[1] << "%" << endl;
+		// cout << decisionExitProbabilities[1] << "%" << endl;
+		// cout << responseExitProbabilities[1] << "%" << endl;
 
 		// Time to convergence correct results
-		// cout << earliestDecisionTimesteps[1] << endl;
-		// cout << earliestResponseTimesteps[1] << endl;
+		cout << averageDecisionConvergenceTime << endl;
+		cout << averageResponseConvergenceTime << endl;
 	}
 	return 0;
 }
