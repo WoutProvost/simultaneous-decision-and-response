@@ -6,7 +6,7 @@
 using namespace std;
 
 #define THRESHOLD			0.8
-#define THRESHOLD_MARGIN	0.05
+#define THRESHOLD_MARGIN	0.025
 
 int main(int argc, char *argv[]) {
 	int finishedExperiments = 0;
@@ -39,28 +39,44 @@ int main(int argc, char *argv[]) {
 
 				// Decision
 				data >> c >> decisionData[0] >> c >> decisionData[1] >> c >> decisionData[2];
-				if(earliestDecisionTime[1] == 0 && decisionData[1] >= THRESHOLD) {
-					earliestDecisionTime[1] = lineCount;
-				} else if(earliestDecisionTime[1] != 0 && decisionData[1] < THRESHOLD - THRESHOLD_MARGIN) {
-					earliestDecisionTime[1] = 0;
+				if(earliestDecisionTime[1] == 0) {
+					if(decisionData[1] >= THRESHOLD) {
+						earliestDecisionTime[1] = lineCount;
+					}
+				} else {
+					if(decisionData[1] < THRESHOLD - THRESHOLD_MARGIN || decisionData[1] > THRESHOLD + THRESHOLD_MARGIN) {
+						earliestDecisionTime[1] = 0;
+					}
 				}
-				if(earliestDecisionTime[2] == 0 && decisionData[2] >= THRESHOLD) {
-					earliestDecisionTime[2] = lineCount;
-				} else if(earliestDecisionTime[2] != 0 && decisionData[2] < THRESHOLD - THRESHOLD_MARGIN) {
-					earliestDecisionTime[2] = 0;
+				if(earliestDecisionTime[2] == 0) {
+					if(decisionData[2] >= THRESHOLD) {
+						earliestDecisionTime[2] = lineCount;
+					}
+				} else {
+					if(decisionData[2] < THRESHOLD - THRESHOLD_MARGIN || decisionData[2] > THRESHOLD + THRESHOLD_MARGIN) {
+						earliestDecisionTime[2] = 0;
+					}
 				}
 
 				// Response
 				data >> c >> responseData[0] >> c >> responseData[1] >> c >> responseData[2];
-				if(earliestResponseTime[1] == 0 && responseData[1] >= THRESHOLD) {
-					earliestResponseTime[1] = lineCount;
-				} else if(earliestResponseTime[1] != 0 && responseData[1] < THRESHOLD - THRESHOLD_MARGIN) {
-					earliestResponseTime[1] = 0;
+				if(earliestResponseTime[1] == 0) {
+					if(responseData[1] >= THRESHOLD) {
+						earliestResponseTime[1] = lineCount;
+					}
+				} else {
+					if(responseData[1] < THRESHOLD - THRESHOLD_MARGIN || responseData[1] > THRESHOLD + THRESHOLD_MARGIN) {
+						earliestResponseTime[1] = 0;
+					}
 				}
-				if(earliestResponseTime[2] == 0 && responseData[2] >= THRESHOLD) {
-					earliestResponseTime[2] = lineCount;
-				} else if(earliestResponseTime[2] != 0 && responseData[2] < THRESHOLD - THRESHOLD_MARGIN) {
-					earliestResponseTime[2] = 0;
+				if(earliestResponseTime[2] == 0) {
+					if(responseData[2] >= THRESHOLD) {
+						earliestResponseTime[2] = lineCount;
+					}
+				} else {
+					if(responseData[2] < THRESHOLD - THRESHOLD_MARGIN || responseData[2] > THRESHOLD + THRESHOLD_MARGIN) {
+						earliestResponseTime[2] = 0;
+					}
 				}
 
 				// Final result
