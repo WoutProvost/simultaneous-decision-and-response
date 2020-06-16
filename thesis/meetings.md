@@ -1,3 +1,6 @@
+# Friday 19-06-2020
+- 
+
 # Tuesday 9-06-2020
 - Change time to convergence calculation to use a 2.5% margin below and above, and for the swarm to be considered converged the plot can not go beyond those margins.
 - Additional experiments: multiple fires with different random walk.
