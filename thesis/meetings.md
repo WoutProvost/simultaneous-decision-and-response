@@ -1,5 +1,13 @@
 # Friday 19-06-2020
-- 
+- porblem formulation, why it's a nice application, fires usually cover large scale areas, therefore swarm is better than humans. Define problem symbolically, best of n.
+- quality changing, value-sensitive assume different qualities for available options, but the position of the indiviudals doesn't affect the quality of the site, but in this thesis it changes with space/position, for future dyanmic it changes in space and time. Fot the individual it is not really clear. VERY IMPORTANT)
+- 5-6 minutes for these 2
+- Thesis was more modelling the different aspects, agent behavior. 2 types of robots => small points on one slide. First describe abstract => Agent behavior, interaction, voting model. For each model describe what they mean. To remind the jury that thesis title, that one of them is needed for the collective decision that is a response to the collective decision of the other group. Explain we used ARGoS (10 secs) + tools.
+=> 5 minutes
+- Then analysis. => 7-8 minutes (about half of the time)
+- 1 minute for future research (dynamic, population size, amount of exits)
+- Video of example + realtime tracking (maybe one or two interesting ones)
+- Pick and chose interesting charts
 
 # Tuesday 9-06-2020
 - Change time to convergence calculation to use a 2.5% margin below and above, and for the swarm to be considered converged the plot can not go beyond those margins.
