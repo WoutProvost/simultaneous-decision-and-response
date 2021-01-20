@@ -12,7 +12,7 @@ sudo chmod o-w /usr/local/share/applications/argos3.desktop
 
 ## Clone repository:
 ```bash
-git clone https://github.ugent.be/wprovost/simultaneous-decision-and-response
+git clone https://github.com/WoutProvost/simultaneous-decision-and-response
 cd simultaneous-decision-and-response
 ```
 
