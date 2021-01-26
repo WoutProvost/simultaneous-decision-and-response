@@ -1,10 +1,16 @@
 # simultaneous-decision-and-response
 Simultaneous decision and response in a collective system using swarm robotics and collective decision making in a fire evacuation scenario.
 
-## ARGoS installation:
-Download the appropriate ARGoS package for your system [here](https://www.argos-sim.info/core.php) and follow the installation instructions. Afterwards continue with these steps.
+## Dependencies:
 ```bash
-sudo apt --fix-broken install
+sudo apt install cmake libfreeimage-dev libfreeimageplus-dev \
+qt5-default freeglut3-dev libxi-dev libxmu-dev liblua5.3-dev \
+lua5.3
+```
+
+## ARGoS installation:
+Download the appropriate ARGoS package for your system [here](https://www.argos-sim.info/core.php) and follow the installation instructions. Afterwards continue with these steps. You can optionally execute the following 3 commands, to give the simulator GUI a proper desktop desktop icon:
+```bash
 sudo chmod o+w /usr/local/share/applications/argos3.desktop
 echo "Icon=gnome-robots.png" >> /usr/local/share/applications/argos3.desktop
 sudo chmod o-w /usr/local/share/applications/argos3.desktop
@@ -18,9 +24,7 @@ cd simultaneous-decision-and-response
 
 ## Compilation:
 ```bash
-mkdir frames
-mkdir logs
-mkdir build
+mkdir frames logs build
 cd build
 cmake ..
 make
