@@ -114,7 +114,7 @@ void MainWindow::initPlot() {
 	actionClearData->setShortcut(Qt::Key_C);
 	addAction(actionClearData);
 	connect(actionClearData, SIGNAL(triggered()), this, SLOT(actionClearDataTriggered()));
-	QAction *actionXAxisRangeFitData = new QAction("Clear X Axis Range Fit Data", this);
+	QAction *actionXAxisRangeFitData = new QAction("X Axis Range Fit Data", this);
 	actionXAxisRangeFitData->setShortcut(Qt::Key_F);
 	addAction(actionXAxisRangeFitData);
 	connect(actionXAxisRangeFitData, SIGNAL(triggered()), this, SLOT(actionXAxisRangeFitDataTriggered()));
